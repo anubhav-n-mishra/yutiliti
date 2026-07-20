@@ -273,7 +273,7 @@ export default function App() {
               <Pocket className="w-4 h-4" />
             </div>
             <div>
-              <span className="font-display font-bold text-base text-zinc-950 dark:text-zinc-50 tracking-tight">Yutiliti</span>
+              <span className="font-display font-bold text-base text-zinc-950 dark:text-zinc-50 tracking-tight">yutility</span>
             </div>
           </div>
 
@@ -297,7 +297,7 @@ export default function App() {
               {darkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </button>
             <button
-              onClick={() => handleShare("Yutiliti Library", "#/")}
+              onClick={() => handleShare("yutility Library", "#/")}
               className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-blue-600 to-teal-500 text-white shadow-sm hover:shadow-md dark:shadow-blue-500/10 text-xs font-bold rounded-xl hover:scale-105 transition-all"
             >
               Share <Sparkles className="w-3 h-3" />
@@ -580,7 +580,7 @@ export default function App() {
               )}
             </div>
 
-            {/* Why Choose Yutiliti Section (Bento Grid) */}
+            {/* Why Choose yutility Section (Bento Grid) */}
             <div id="why-choose" className="pt-20">
               <div className="text-center max-w-2xl mx-auto space-y-4 mb-12">
                 <h2 className="text-3xl md:text-4xl font-display font-bold text-zinc-950 dark:text-zinc-50 tracking-tight">The Architectural Standard</h2>
@@ -620,7 +620,7 @@ export default function App() {
                   <div className="space-y-2 text-center md:text-left">
                     <h3 className="text-2xl font-display font-bold text-zinc-900 dark:text-zinc-50">Clean Commercial Design</h3>
                     <p className="text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-2xl">
-                      Say goodbye to endless banner ads, cookie walls, and bloated page weight. Yutiliti serves clean layout geometry designed specifically for modern workflows.
+                      Say goodbye to endless banner ads, cookie walls, and bloated page weight. yutility serves clean layout geometry designed specifically for modern workflows.
                     </p>
                   </div>
                 </div>
@@ -664,7 +664,7 @@ export default function App() {
                 <div className="p-2.5 bg-gradient-to-br from-blue-600 to-cyan-500 text-white rounded-xl shadow-lg shadow-blue-500/20">
                   <Pocket className="w-6 h-6" />
                 </div>
-                <span className="text-2xl font-bold text-zinc-900 dark:text-zinc-50 font-display tracking-tight">Yutiliti</span>
+                <span className="text-2xl font-bold text-zinc-900 dark:text-zinc-50 font-display tracking-tight">yutility</span>
               </div>
               <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-sm">
                 A premium suite of client-side developer utilities and creator tools. 
@@ -702,7 +702,7 @@ export default function App() {
 
           <div className="pt-8 border-t border-zinc-200 dark:border-zinc-800 flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-sm text-zinc-500 font-medium">
-              © {new Date().getFullYear()} Yutiliti. Owned by amvelt.com and the Yutiliti team. Built with Next.js and Tailwind CSS.
+              © {new Date().getFullYear()} yutility. Owned by amvelt.com and the yutility team.
             </p>
             <p className="text-xs text-zinc-400 font-medium text-center md:text-right">
               No data is collected. Privacy by design.
