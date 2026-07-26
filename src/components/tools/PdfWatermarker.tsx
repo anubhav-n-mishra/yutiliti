@@ -74,7 +74,7 @@ export default function PdfWatermarker({ onCopy, onShare }: PdfWatermarkerProps)
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `Yutiliti_Watermarked_${Date.now()}.pdf`;
+      a.download = `Yuitility_Watermarked_${Date.now()}.pdf`;
       a.click();
       window.URL.revokeObjectURL(url);
     } catch (err) {

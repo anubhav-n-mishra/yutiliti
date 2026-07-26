@@ -20,7 +20,7 @@ export default function OgImageGenerator({ onCopy, onShare }: OgImageGeneratorPr
   const [title, setTitle] = useState('How to build a next-generation web application');
   const [subtitle, setSubtitle] = useState('A comprehensive guide to modern development tools and practices.');
   const [author, setAuthor] = useState('John Doe');
-  const [website, setWebsite] = useState('yutiliti.app');
+  const [website, setWebsite] = useState('yuitility.app');
   const [gradient, setGradient] = useState(GRADIENTS[0]);
   const [isProcessing, setIsProcessing] = useState(false);
   
@@ -59,7 +59,7 @@ export default function OgImageGenerator({ onCopy, onShare }: OgImageGeneratorPr
     setTitle('How to build a next-generation web application');
     setSubtitle('A comprehensive guide to modern development tools and practices.');
     setAuthor('John Doe');
-    setWebsite('yutiliti.app');
+    setWebsite('yuitility.app');
     setGradient(GRADIENTS[0]);
   };
 

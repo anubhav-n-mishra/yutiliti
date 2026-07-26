@@ -92,7 +92,7 @@ function JsonTreeNode({ name, val, isLast }: TreeNodeProps) {
 
 export default function JsonFormatter({ onCopy, onShare }: JsonFormatterProps) {
   const [inputJson, setInputJson] = useState<string>(
-     `{\n  "app": "Yutiliti",\n  "version": 1.2,\n  "premium": true,\n  "tools_list": [\n    "EMI Calculator",\n    "SIP Calculator",\n    "Password Generator",\n    "QR Generator"\n  ],\n  "author": {\n    "name": "Yutiliti Team",\n    "email": "hello@yutiliti.app"\n  }\n}`
+     `{\n  "app": "Yuitility",\n  "version": 1.2,\n  "premium": true,\n  "tools_list": [\n    "EMI Calculator",\n    "SIP Calculator",\n    "Password Generator",\n    "QR Generator"\n  ],\n  "author": {\n    "name": "Yuitility Team",\n    "email": "hello@yuitility.app"\n  }\n}`
   );
   const [parsedObj, setParsedObj] = useState<any | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -151,7 +151,7 @@ export default function JsonFormatter({ onCopy, onShare }: JsonFormatterProps) {
   };
 
   const handleLoadSample = () => {
-    setInputJson(`{\n  "product": "Yutiliti Bundle",\n  "active": true,\n  "stats": {\n    "total_tools": 10,\n    "framework": "React 19"\n  }\n}`);
+    setInputJson(`{\n  "product": "Yuitility Bundle",\n  "active": true,\n  "stats": {\n    "total_tools": 10,\n    "framework": "React 19"\n  }\n}`);
     setErrorMsg(null);
     setSuccessMsg(null);
     setParsedObj(null);

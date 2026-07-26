@@ -18,7 +18,6 @@ import {
   Moon,
   ChevronRight,
   Sparkles,
-  Pocket,
   ArrowRight,
   ShieldCheck,
   Zap,
@@ -205,17 +204,14 @@ export default function App() {
   };
 
   const handleShare = (title: string, path: string) => {
-    const fullUrl = `${window.location.origin}${window.location.pathname}${path}`;
+    const canonicalPath = path === '#/' ? '/' : path.startsWith('#/') ? `/tools/${path.slice(2)}` : path;
+    const fullUrl = `${window.location.origin}${canonicalPath}`;
     navigator.clipboard.writeText(fullUrl);
     showToastMessage(`Copied direct share link for ${title}!`);
   };
 
   const navigateTo = (toolId: string | null) => {
-    if (toolId) {
-      window.location.hash = `#/${toolId}`;
-    } else {
-      window.location.hash = '#/';
-    }
+    window.location.assign(toolId ? `/tools/${toolId}` : '/');
   };
 
   // Filter main grid ONLY based on active category (search no longer filters main grid)
@@ -246,11 +242,11 @@ export default function App() {
   const generalFAQs = [
     {
       question: "Are my input files or calculations processed on your servers?",
-      answer: "Absolutely not. Yutiliti is architected entirely on 100% serverless, client-side execution. Your spreadsheets, keys, configurations, and uploaded images are fully compressed or derived in-memory inside your private browser sandbox."
+      answer: "No. Yuitility processes your inputs in your browser and does not use a Yuitility file-processing server. Some tools may download public code or models required to run locally."
     },
     {
-      question: "Does Yutiliti require any cookies or trace personal logs?",
-      answer: "None. We prioritize premium commercial privacy. There are zero cookies, tracker scripts, ads, or telemetry parameters integrated into our workspace."
+      question: "Does Yuitility use tracking cookies?",
+      answer: "No. Yuitility does not include advertising trackers or analytics scripts. Your theme preference is stored only in your browser's local storage."
     },
     {
       question: "Can I deep-link and share calculations directly with peers?",
@@ -269,11 +265,9 @@ export default function App() {
       }`}>
         <div className={`flex items-center justify-between transition-all duration-500 ${scrolled ? 'px-4 h-12' : 'px-4 h-14'}`}>
           <div className="flex items-center gap-2.5 cursor-pointer group" onClick={() => navigateTo(null)}>
-            <div className="p-1.5 bg-gradient-to-br from-blue-600 to-cyan-500 text-white rounded-lg shadow-sm group-hover:scale-105 transition-transform">
-              <Pocket className="w-4 h-4" />
-            </div>
+            <img src="/brand/yuitility-logo.png" alt="" className="h-8 w-8 object-contain transition-transform group-hover:scale-105" />
             <div>
-              <span className="font-display font-bold text-base text-zinc-950 dark:text-zinc-50 tracking-tight">yutility</span>
+              <span className="font-display font-bold text-base text-zinc-950 dark:text-zinc-50 tracking-tight">Yuitility</span>
             </div>
           </div>
 
@@ -297,7 +291,7 @@ export default function App() {
               {darkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </button>
             <button
-              onClick={() => handleShare("yutility Library", "#/")}
+              onClick={() => handleShare("Yuitility Library", "#/")}
               className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-blue-600 to-teal-500 text-white shadow-sm hover:shadow-md dark:shadow-blue-500/10 text-xs font-bold rounded-xl hover:scale-105 transition-all"
             >
               Share <Sparkles className="w-3 h-3" />
@@ -349,6 +343,7 @@ export default function App() {
               {activeTool.id === 'image-to-pdf' && <ImageToPdf onCopy={handleCopy} onShare={handleShare} />}
               {activeTool.id === 'pdf-watermark' && <PdfWatermarker onCopy={handleCopy} onShare={handleShare} />}
               {activeTool.id === 'pdf-metadata' && <PdfMetadata onCopy={handleCopy} onShare={handleShare} />}
+              {activeTool.id === 'background-remover' && <BackgroundRemover onCopy={handleCopy} onShare={handleShare} />}
               {activeTool.id === 'image-resizer' && <ImageResizer onCopy={handleCopy} onShare={handleShare} />}
               {activeTool.id === 'format-converter' && <FormatConverter onCopy={handleCopy} onShare={handleShare} />}
               {activeTool.id === 'pdf-compressor' && <PdfCompressor onCopy={handleCopy} onShare={handleShare} />}
@@ -496,11 +491,9 @@ export default function App() {
                   {filteredTools.map((t) => {
                     const CardIcon = IconMap[t.icon] || Calculator;
                     return (
-                      <div
+                      <a
                         key={t.id}
-                          onClick={() => {
-                            if (!t.disabled) navigateTo(t.id);
-                          }}
+                          href={t.disabled ? undefined : `/tools/${t.id}`}
                           className={`group relative bg-white/60 dark:bg-zinc-900/40 backdrop-blur-md border border-zinc-200/50 dark:border-zinc-800/50 overflow-hidden ${
                             t.disabled 
                               ? 'opacity-60 cursor-not-allowed grayscale pointer-events-none' 
@@ -573,14 +566,14 @@ export default function App() {
                             </div>
                           </>
                         )}
-                      </div>
+                      </a>
                     );
                   })}
                 </div>
               )}
             </div>
 
-            {/* Why Choose yutility Section (Bento Grid) */}
+            {/* Why Choose Yuitility Section (Bento Grid) */}
             <div id="why-choose" className="pt-20">
               <div className="text-center max-w-2xl mx-auto space-y-4 mb-12">
                 <h2 className="text-3xl md:text-4xl font-display font-bold text-zinc-950 dark:text-zinc-50 tracking-tight">The Architectural Standard</h2>
@@ -620,7 +613,7 @@ export default function App() {
                   <div className="space-y-2 text-center md:text-left">
                     <h3 className="text-2xl font-display font-bold text-zinc-900 dark:text-zinc-50">Clean Commercial Design</h3>
                     <p className="text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-2xl">
-                      Say goodbye to endless banner ads, cookie walls, and bloated page weight. yutility serves clean layout geometry designed specifically for modern workflows.
+                      Say goodbye to endless banner ads, cookie walls, and bloated page weight. Yuitility serves clean layout geometry designed specifically for modern workflows.
                     </p>
                   </div>
                 </div>
@@ -661,10 +654,8 @@ export default function App() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8 mb-12">
             <div className="col-span-1 md:col-span-2 space-y-6">
               <div className="flex items-center gap-3">
-                <div className="p-2.5 bg-gradient-to-br from-blue-600 to-cyan-500 text-white rounded-xl shadow-lg shadow-blue-500/20">
-                  <Pocket className="w-6 h-6" />
-                </div>
-                <span className="text-2xl font-bold text-zinc-900 dark:text-zinc-50 font-display tracking-tight">yutility</span>
+                <img src="/brand/yuitility-logo.png" alt="Yuitility logo" className="h-12 w-12 object-contain" />
+                <span className="text-2xl font-bold text-zinc-900 dark:text-zinc-50 font-display tracking-tight">Yuitility</span>
               </div>
               <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-sm">
                 A premium suite of client-side developer utilities and creator tools. 
@@ -695,14 +686,14 @@ export default function App() {
               <ul className="space-y-4 text-sm font-medium text-zinc-500 dark:text-zinc-400">
                 <li><a href="/privacy" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Privacy Policy</a></li>
                 <li><a href="/terms" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Terms & Conditions</a></li>
-                <li><a href="https://github.com" target="_blank" rel="noreferrer" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-2">GitHub Repository</a></li>
+                <li><a href="/tools/password-generator" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-2">Password Generator</a></li>
               </ul>
             </div>
           </div>
 
           <div className="pt-8 border-t border-zinc-200 dark:border-zinc-800 flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-sm text-zinc-500 font-medium">
-              © {new Date().getFullYear()} yutility. Owned by amvelt.com and the yutility team.
+              © {new Date().getFullYear()} Yuitility. Practical tools built for the web.
             </p>
             <p className="text-xs text-zinc-400 font-medium text-center md:text-right">
               No data is collected. Privacy by design.

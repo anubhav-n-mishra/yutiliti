@@ -13,10 +13,10 @@ export default function QrCodeGenerator({ onCopy, onShare }: QrCodeGeneratorProp
   const [activeType, setActiveType] = useState<QrType>('url');
   
   // Specific data states
-  const [rawText, setRawText] = useState<string>('Welcome to Yutiliti!');
-  const [url, setUrl] = useState<string>('https://yutiliti.app');
-  const [emailTo, setEmailTo] = useState<string>('hello@yutiliti.app');
-  const [emailSubject, setEmailSubject] = useState<string>('Hello from Yutiliti');
+  const [rawText, setRawText] = useState<string>('Welcome to Yuitility!');
+  const [url, setUrl] = useState<string>('https://yuitility.app');
+  const [emailTo, setEmailTo] = useState<string>('hello@yuitility.app');
+  const [emailSubject, setEmailSubject] = useState<string>('Hello from Yuitility');
   const [emailBody, setEmailBody] = useState<string>('This QR Code works perfectly!');
   const [phoneNo, setPhoneNo] = useState<string>('+919876543210');
   const [wifiSsid, setWifiSsid] = useState<string>('NestWifi_5G');
@@ -45,7 +45,7 @@ export default function QrCodeGenerator({ onCopy, onShare }: QrCodeGeneratorProp
       case 'wifi':
         return `WIFI:S:${wifiSsid};T:${wifiSecurity};P:${wifiPass};;`;
       default:
-        return 'Yutiliti';
+        return 'Yuitility';
     }
   };
 
@@ -81,7 +81,7 @@ export default function QrCodeGenerator({ onCopy, onShare }: QrCodeGeneratorProp
     const url = canvasRef.current.toDataURL('image/png');
     const a = document.createElement('a');
     a.href = url;
-    a.download = `Yutiliti_QRCode_${activeType}_${Date.now()}.png`;
+    a.download = `Yuitility_QRCode_${activeType}_${Date.now()}.png`;
     a.click();
   };
 
@@ -101,7 +101,7 @@ export default function QrCodeGenerator({ onCopy, onShare }: QrCodeGeneratorProp
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `Yutiliti_QRCode_${activeType}_${Date.now()}.svg`;
+      a.download = `Yuitility_QRCode_${activeType}_${Date.now()}.svg`;
       a.click();
       window.URL.revokeObjectURL(url);
     } catch (err) {
@@ -111,10 +111,10 @@ export default function QrCodeGenerator({ onCopy, onShare }: QrCodeGeneratorProp
 
   const handleReset = () => {
     setActiveType('url');
-    setRawText('Welcome to Yutiliti!');
-    setUrl('https://yutiliti.app');
-    setEmailTo('hello@yutiliti.app');
-    setEmailSubject('Hello from Yutiliti');
+    setRawText('Welcome to Yuitility!');
+    setUrl('https://yuitility.app');
+    setEmailTo('hello@yuitility.app');
+    setEmailSubject('Hello from Yuitility');
     setEmailBody('This QR Code works perfectly!');
     setPhoneNo('+919876543210');
     setWifiSsid('NestWifi_5G');

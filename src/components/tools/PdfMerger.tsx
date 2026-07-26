@@ -84,7 +84,7 @@ export default function PdfMerger({ onCopy, onShare }: PdfMergerProps) {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `Yutiliti_Merged_${Date.now()}.pdf`;
+      a.download = `Yuitility_Merged_${Date.now()}.pdf`;
       a.click();
       window.URL.revokeObjectURL(url);
     } catch (err) {

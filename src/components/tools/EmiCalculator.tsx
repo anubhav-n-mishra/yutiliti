@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Download, RefreshCw, Share2, Info, ChevronDown, ChevronUp } from 'lucide-react';
 
 interface EmiCalculatorProps {
@@ -12,6 +12,11 @@ export default function EmiCalculator({ onCopy, onShare }: EmiCalculatorProps) {
   const [tenure, setTenure] = useState<number>(5);
   const [tenureUnit, setTenureUnit] = useState<'years' | 'months'>('years');
   const [showAmortization, setShowAmortization] = useState<boolean>(true);
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    setIsDark(document.documentElement.classList.contains('dark'));
+  }, []);
 
   // Perform EMI calculation
   const calculations = useMemo(() => {
@@ -299,7 +304,7 @@ export default function EmiCalculator({ onCopy, onShare }: EmiCalculatorProps) {
                 cy="21"
                 r="15.91549430918954"
                 fill="transparent"
-                stroke={document.documentElement.classList.contains('dark') ? '#f4f4f5' : '#27272a'}
+                stroke={isDark ? '#f4f4f5' : '#27272a'}
                 strokeWidth="4"
                 strokeDasharray={`${principalPercentage} ${100 - principalPercentage}`}
                 strokeDashoffset="0"

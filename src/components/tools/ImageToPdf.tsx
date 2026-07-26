@@ -98,7 +98,7 @@ export default function ImageToPdf({ onCopy, onShare }: ImageToPdfProps) {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `Yutiliti_Images_${Date.now()}.pdf`;
+      a.download = `Yuitility_Images_${Date.now()}.pdf`;
       a.click();
       window.URL.revokeObjectURL(url);
     } catch (err) {

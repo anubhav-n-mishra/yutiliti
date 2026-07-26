@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { UploadCloud, Image as ImageIcon, Trash2, Share2, Download, RefreshCw, Wand2 } from 'lucide-react';
 import { removeBackground } from '@imgly/background-removal';
 
@@ -9,12 +9,30 @@ interface BackgroundRemoverProps {
 
 export default function BackgroundRemover({ onCopy, onShare }: BackgroundRemoverProps) {
   const [file, setFile] = useState<File | null>(null);
+  const [originalUrl, setOriginalUrl] = useState<string | null>(null);
   const [processedUrl, setProcessedUrl] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [progress, setProgress] = useState<number>(0);
   const [progressMessage, setProgressMessage] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (!file) {
+      setOriginalUrl(null);
+      return;
+    }
+
+    const nextUrl = URL.createObjectURL(file);
+    setOriginalUrl(nextUrl);
+    return () => URL.revokeObjectURL(nextUrl);
+  }, [file]);
+
+  useEffect(() => {
+    return () => {
+      if (processedUrl) URL.revokeObjectURL(processedUrl);
+    };
+  }, [processedUrl]);
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
@@ -56,8 +74,6 @@ export default function BackgroundRemover({ onCopy, onShare }: BackgroundRemover
     setProgressMessage('Initializing AI models...');
     
     try {
-      const blobUrl = URL.createObjectURL(file);
-      
       const config = {
         publicPath: 'https://unpkg.com/@imgly/background-removal/dist/',
         progress: (key: string, current: number, total: number) => {
@@ -71,7 +87,7 @@ export default function BackgroundRemover({ onCopy, onShare }: BackgroundRemover
         }
       };
 
-      const imageBlob = await removeBackground(blobUrl, config);
+      const imageBlob = await removeBackground(file, config);
       
       const newUrl = URL.createObjectURL(imageBlob);
       setProcessedUrl(newUrl);
@@ -169,7 +185,7 @@ export default function BackgroundRemover({ onCopy, onShare }: BackgroundRemover
                 <div className="relative rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 flex flex-col items-center justify-center min-h-[300px]">
                   <p className="absolute top-2 left-2 text-[10px] font-bold px-2 py-1 bg-black/50 text-white rounded uppercase backdrop-blur-sm z-10">Original</p>
                   <img 
-                    src={URL.createObjectURL(file)} 
+                    src={originalUrl ?? undefined}
                     alt="Original" 
                     className="w-full h-full object-contain"
                   />

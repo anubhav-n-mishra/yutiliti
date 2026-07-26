@@ -13,7 +13,7 @@ export default function PrivacyPolicy() {
             <ArrowLeft className="w-4 h-4" />
             Back to Home
           </Link>
-          <span className="font-display font-bold text-sm tracking-tight text-zinc-900 dark:text-zinc-100">yutility Legal</span>
+          <span className="font-display font-bold text-sm tracking-tight text-zinc-900 dark:text-zinc-100">Yuitility Legal</span>
         </div>
       </div>
 
@@ -25,7 +25,7 @@ export default function PrivacyPolicy() {
             Privacy Policy
           </h1>
           <p className="text-lg md:text-xl text-zinc-500 dark:text-zinc-400 leading-relaxed font-medium">
-            Your data is your property. We have built yutility on a foundation of absolute privacy, ensuring your files never leave your device.
+            Your data is your property. We have built Yuitility around local browser processing so that the tools can work without a Yuitility file-processing server.
           </p>
           <div className="mt-10 inline-block px-4 py-1.5 rounded-md bg-zinc-200/50 dark:bg-zinc-800/50 text-xs font-bold uppercase tracking-widest text-zinc-600 dark:text-zinc-400">
             Effective Date: {new Date().toLocaleDateString()}
@@ -57,7 +57,7 @@ export default function PrivacyPolicy() {
                 1. 100% Client-Side Processing
               </h2>
               <p className="text-base md:text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                Every tool on yutility executes its calculations and modifications locally within your web browser. We do not own any backend servers for processing your files. 
+                Every Yuitility tool executes its calculations and modifications locally within your web browser. We do not operate a backend server for processing your files. 
                 Whether you are removing a background, converting a PDF, or generating JSON data, all operations occur directly in your device's memory.
               </p>
             </section>
@@ -89,7 +89,7 @@ export default function PrivacyPolicy() {
                 3. Zero Tracking & Cookies
               </h2>
               <p className="text-base md:text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                yutility is designed to be distraction-free and respects your anonymity. We do not use third-party analytics (like Google Analytics) or advertising trackers. 
+                Yuitility is designed to be distraction-free and respects your anonymity. We do not use third-party analytics (like Google Analytics) or advertising trackers. 
                 The only data saved is your UI preferences (like your choice between light and dark mode), which is stored safely in your browser's local storage and never transmitted to our servers.
               </p>
             </section>
@@ -122,7 +122,7 @@ export default function PrivacyPolicy() {
       
       {/* Footer */}
       <footer className="border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 py-12 text-center text-sm font-semibold text-zinc-400 dark:text-zinc-500">
-        © {new Date().getFullYear()} yutility. Owned by amvelt.com and the yutility team. Built for developers.
+        © {new Date().getFullYear()} Yuitility. Private, practical browser tools.
       </footer>
     </div>
   );

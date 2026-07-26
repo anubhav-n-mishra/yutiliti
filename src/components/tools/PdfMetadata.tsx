@@ -90,7 +90,7 @@ export default function PdfMetadata({ onCopy, onShare }: PdfMetadataProps) {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `Yutiliti_Metadata_${Date.now()}.pdf`;
+      a.download = `Yuitility_Metadata_${Date.now()}.pdf`;
       a.click();
       window.URL.revokeObjectURL(url);
     } catch (err) {

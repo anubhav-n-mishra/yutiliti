@@ -185,14 +185,13 @@ export const TOOLS: Tool[] = [
   {
     id: "background-remover",
     title: "AI Background Remover",
-    description: "Temporarily disabled for maintenance.",
+    description: "Remove image backgrounds in your browser with a local AI model.",
     longDescription: "A powerful, 100% privacy-focused background removal tool that uses local machine learning models to perfectly isolate subjects without uploading your photos to any server.",
     category: "media",
     icon: "ImageOff",
     popular: true,
     recentlyAdded: true,
-    cta: "Maintenance",
-    disabled: true
+    cta: "Remove Background"
   },
   {
     id: "image-resizer",

@@ -1,8 +1,8 @@
-# yutility
+# yuitility
 
-yutility is a premium, high performance client side utility toolkit designed for developers, creators, and professionals. It provides a comprehensive suite of instant use tools that run entirely in your web browser. 
+yuitility is a premium, high performance client side utility toolkit designed for developers, creators, and professionals. It provides a comprehensive suite of instant use tools that run entirely in your web browser. 
 
-By operating 100 percent locally on the client side, yutility ensures zero latency and maximum privacy. No files or data are ever uploaded to an external server.
+By operating 100 percent locally on the client side, yuitility ensures zero latency and maximum privacy. No files or data are ever uploaded to an external server.
 
 ## Features and Architecture
 
@@ -13,7 +13,7 @@ By operating 100 percent locally on the client side, yutility ensures zero laten
 
 ## Available Tools
 
-yutility currently features a massive library of 27 tools categorized into distinct workflows:
+yuitility currently features a massive library of 27 tools categorized into distinct workflows:
 
 ### Developer and Design Tools
 * **Password Generator**: Create cryptographically secure keys.
@@ -52,7 +52,7 @@ yutility currently features a massive library of 27 tools categorized into disti
 
 ## Technical Stack
 
-yutility is built upon modern web technologies to guarantee speed and reliability:
+yuitility is built upon modern web technologies to guarantee speed and reliability:
 * Framework: Next.js and React
 * Styling: Tailwind CSS
 * Icons: Lucide React
@@ -60,7 +60,7 @@ yutility is built upon modern web technologies to guarantee speed and reliabilit
 
 ## Local Development Setup
 
-To run yutility on your local machine, follow these steps:
+To run yuitility on your local machine, follow these steps:
 
 1. Clone the repository to your local system.
 2. Ensure you have Node installed.
@@ -81,4 +81,4 @@ Contributions are welcome. If you have an idea for a new client side tool or an 
 
 ## License
 
-This project is proprietary. All rights reserved by yutility, owned by amvelt.com and the yutility team.
+This project is proprietary. All rights reserved by Yuitility.

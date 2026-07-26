@@ -8,7 +8,7 @@ interface WordCounterProps {
 
 export default function WordCounter({ onCopy, onShare }: WordCounterProps) {
   const [text, setText] = useState<string>(
-    `Yutiliti is an absolute masterpiece of minimalist utility design! Explore beautiful financial, media, and development utilities crafted to run instantly in the client browser with 100% privacy.`
+    `Yuitility is an absolute masterpiece of minimalist utility design! Explore beautiful financial, media, and development utilities crafted to run instantly in the client browser with 100% privacy.`
   );
   const [excludeStopWords, setExcludeStopWords] = useState<boolean>(true);
   const [showDensity, setShowDensity] = useState<boolean>(true);

@@ -13,7 +13,7 @@ export default function TermsAndConditions() {
             <ArrowLeft className="w-4 h-4" />
             Back to Home
           </Link>
-          <span className="font-display font-bold text-sm tracking-tight text-zinc-900 dark:text-zinc-100">yutility Legal</span>
+          <span className="font-display font-bold text-sm tracking-tight text-zinc-900 dark:text-zinc-100">Yuitility Legal</span>
         </div>
       </div>
 
@@ -57,7 +57,7 @@ export default function TermsAndConditions() {
                 1. Acceptance & Provision of Services
               </h2>
               <p className="text-base md:text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                yutility provides a suite of advanced developer and media utilities provided "as is" and "as available". We do not guarantee uninterrupted, secure, or error-free tools. 
+                Yuitility provides a suite of advanced developer and media utilities provided "as is" and "as available". We do not guarantee uninterrupted, secure, or error-free tools. 
                 Because our application logic runs entirely in your local browser environment, performance is strictly tied to your device's hardware constraints and browser capabilities.
               </p>
             </section>
@@ -69,8 +69,8 @@ export default function TermsAndConditions() {
                 2. User Responsibilities & Rights
               </h2>
               <p className="text-base md:text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed mb-6">
-                You are solely responsible for the files, images, and raw data you process using yutility. 
-                While yutility guarantees data privacy by avoiding external servers, you must ensure you have the legal right and copyright permissions to modify, share, or reproduce the documents and images processed through our toolkit.
+                You are solely responsible for the files, images, and raw data you process using Yuitility. 
+                While Yuitility processes tool inputs in your browser instead of using a Yuitility file-processing server, you must ensure you have the legal right and copyright permissions to modify, share, or reproduce the documents and images processed through our toolkit.
               </p>
               <p className="text-base md:text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed">
                 We do not monitor the content passing through our application because we simply do not have the technical capability to view files that remain on your local device.
@@ -84,8 +84,8 @@ export default function TermsAndConditions() {
                 3. Proprietary Rights
               </h2>
               <p className="text-base md:text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                The original interface, aesthetic layout, structural design, and specific combination of local technologies that formulate yutility are our exclusive property. 
-                You may not blindly copy, scrape, or reverse-engineer the visual branding of yutility without express written authorization.
+                The original interface, aesthetic layout, structural design, and specific combination of local technologies that formulate Yuitility are our exclusive property. 
+                You may not blindly copy, scrape, or reverse-engineer the visual branding of Yuitility without express written authorization.
               </p>
             </section>
 
@@ -96,7 +96,7 @@ export default function TermsAndConditions() {
                 4. Disclaimer of Warranties
               </h2>
               <p className="text-base md:text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                yutility is utilized entirely at your own risk. The toolsets are provided without any warranties, express or implied. 
+                Yuitility is utilized entirely at your own risk. The toolsets are provided without any warranties, express or implied. 
                 We specifically disclaim implied warranties of merchantability, fitness for a specific purpose, and non-infringement. We cannot be held responsible for corrupted files resulting from in-browser memory exhaustion.
               </p>
             </section>
@@ -108,7 +108,7 @@ export default function TermsAndConditions() {
                 5. Limitation of Liability
               </h2>
               <p className="text-base md:text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                In no absolute event shall yutility, nor its developers, be held liable for any indirect, incidental, consequential, or punitive damages arising out of your access to our utility suite. 
+                In no absolute event shall Yuitility, nor its developers, be held liable for any indirect, incidental, consequential, or punitive damages arising out of your access to our utility suite. 
                 This includes, but is not limited to, data loss, business disruption, or hardware failure resulting from intensive local processing.
               </p>
             </section>
@@ -119,7 +119,7 @@ export default function TermsAndConditions() {
       
       {/* Footer */}
       <footer className="border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 py-12 text-center text-sm font-semibold text-zinc-400 dark:text-zinc-500">
-        © {new Date().getFullYear()} yutility. Owned by amvelt.com and the yutility team. Built for developers.
+        © {new Date().getFullYear()} Yuitility. Private, practical browser tools.
       </footer>
     </div>
   );
