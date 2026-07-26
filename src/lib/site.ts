@@ -68,3 +68,14 @@ export function getToolFaqs(tool: Tool) {
     },
   ];
 }
+
+export function getCategoryName(category: string) {
+  const categories: Record<string, string> = {
+    finance: "Finance & Wealth",
+    utility: "Utilities & Media",
+    developer: "Developer & Design Tools",
+    pdf: "PDF Tools",
+    media: "Image & Media Tools",
+  };
+  return categories[category] || category;
+}
