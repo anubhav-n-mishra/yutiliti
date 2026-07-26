@@ -17,7 +17,7 @@
   }
   
   body {
-    @apply transition-colors duration-300;
+    @apply transition-colors duration-300 bg-white dark:bg-zinc-950;
   }
 
   /* Custom subtle scrollbar */
@@ -26,7 +26,7 @@
     height: 8px;
   }
   ::-webkit-scrollbar-track {
-    @apply bg-zinc-50 dark:bg-zinc-950;
+    @apply bg-zinc-100 dark:bg-zinc-900;
   }
   ::-webkit-scrollbar-thumb {
     @apply bg-zinc-200 dark:bg-zinc-800 rounded-full hover:bg-zinc-300 dark:hover:bg-zinc-700 transition-colors;

@@ -7,7 +7,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/api/", "/_next/", "/static/", "/private/", "/*.json$"],
+        disallow: ["/api/", "/_next/", "/static/", "/private/"],
       },
       {
         userAgent: "Googlebot",
@@ -19,9 +19,16 @@ export default function robots(): MetadataRoute.Robots {
         allow: "/",
         disallow: ["/api/", "/_next/", "/static/", "/private/"],
       },
+      {
+        userAgent: "Googlebot-Image",
+        allow: "/",
+      },
+      {
+        userAgent: "Googlebot-Video",
+        allow: "/",
+      },
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,
     host: SITE_URL,
-    crawlDelay: 5,
   };
 }

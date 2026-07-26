@@ -255,7 +255,7 @@ export default function App() {
   ];
 
   return (
-    <div className={darkMode ? 'dark text-zinc-100 bg-zinc-950 min-h-screen font-sans antialiased' : 'text-zinc-800 bg-zinc-50/50 min-h-screen font-sans antialiased'}>
+    <div className={darkMode ? 'dark text-zinc-100 bg-zinc-950 min-h-screen font-sans antialiased' : 'text-zinc-800 bg-white min-h-screen font-sans antialiased'}>
       
       {/* Header section */}
       <header className={`fixed left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ease-out ${
