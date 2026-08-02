@@ -1,0 +1,549 @@
+# Yuitility 500 SEO Tools Roadmap Checklist
+
+This document tracks the progress of expanding Yuitility to **500+ free online browser tools**.
+
+---
+
+## 1. Finance & Banking (1–60)
+- [x] EMI Calculator (`/tools/emi-calculator`)
+- [x] Loan Calculator (`/tools/loan-calculator`)
+- [x] Home Loan EMI (`/tools/home-loan-emi-calculator`)
+- [x] Car Loan EMI (`/tools/car-loan-emi-calculator`)
+- [x] Bike Loan EMI (`/tools/bike-loan-emi-calculator`)
+- [x] Personal Loan EMI (`/tools/personal-loan-emi-calculator`)
+- [x] Education Loan EMI (`/tools/education-loan-emi-calculator`)
+- [x] Gold Loan EMI (`/tools/gold-loan-emi-calculator`)
+- [x] Business Loan EMI (`/tools/business-loan-emi-calculator`)
+- [x] Mortgage Calculator (`/tools/mortgage-calculator`)
+- [x] Interest Calculator (`/tools/interest-calculator`)
+- [x] Compound Interest Calculator (`/tools/compound-interest-calculator`)
+- [x] Simple Interest Calculator (`/tools/simple-interest-calculator`)
+- [x] SIP Calculator (`/tools/sip-calculator`)
+- [x] SWP Calculator (`/tools/swp-calculator`)
+- [x] FD Calculator (`/tools/fd-calculator`)
+- [x] RD Calculator (`/tools/rd-calculator`)
+- [x] PPF Calculator (`/tools/ppf-calculator`)
+- [x] EPF Calculator (`/tools/epf-calculator`)
+- [x] NPS Calculator (`/tools/nps-calculator`)
+- [x] Gratuity Calculator (`/tools/gratuity-calculator`)
+- [x] HRA Calculator (`/tools/hra-calculator`)
+- [x] Income Tax Calculator (`/tools/income-tax-calculator`)
+- [x] GST Calculator (`/tools/gst-calculator`)
+- [x] Salary Calculator (`/tools/salary-calculator`)
+- [x] Retirement Calculator (`/tools/retirement-calculator`)
+- [x] Net Worth Calculator (`/tools/net-worth-calculator`)
+- [x] Emergency Fund Calculator (`/tools/emergency-fund-calculator`)
+- [x] Credit Card EMI Calculator (`/tools/credit-card-emi-calculator`)
+- [x] ROI Calculator (`/tools/roi-calculator`)
+- [x] CAGR Calculator (`/tools/cagr-calculator`)
+- [x] IRR Calculator (`/tools/irr-calculator`)
+- [x] Break-even Calculator (`/tools/break-even-calculator`)
+- [x] Profit Margin Calculator (`/tools/profit-margin-calculator`)
+- [x] Discount Calculator (`/tools/discount-calculator`)
+- [x] Commission Calculator (`/tools/commission-calculator`)
+- [x] Currency Converter (`/tools/currency-converter`)
+- [x] Mutual Fund Return Calculator (`/tools/mutual-fund-return-calculator`)
+- [x] Dividend Calculator (`/tools/dividend-calculator`)
+- [x] Stock Average Calculator (`/tools/stock-average-calculator`)
+- [ ] Inflation Calculator
+- [ ] Real Estate Return Estimator
+- [ ] Rental Yield Calculator
+- [ ] Debt-to-Income (DTI) Ratio Calculator
+- [ ] Down Payment Savings Calculator
+- [ ] Refinance Savings Calculator
+- [ ] Paycheck Deductions Estimator
+- [ ] Freelance Rate & Tax Calculator
+- [ ] Crypto Profit & Loss Calculator
+- [ ] Crypto Staking Yield Calculator
+- [ ] Forex Pip Value Calculator
+- [ ] Position Size Risk Calculator
+- [ ] Lease vs Buy Vehicle Calculator
+- [ ] Car Operating Cost Estimator
+- [ ] College Tuition Savings Calculator
+- [ ] Term Insurance Coverage Estimator
+- [ ] Health Insurance Premium Calculator
+- [ ] Subscription Budget & Audit Calculator
+- [ ] Household Monthly Budget Planner
+- [ ] Daily Expense Tracker & Calculator
+
+---
+
+## 2. Health & Fitness (61–120)
+- [x] BMI Calculator (`/tools/bmi-calculator`)
+- [x] BMR Calculator (`/tools/bmr-calculator`)
+- [x] Body Fat Percentage (`/tools/body-fat-calculator`)
+- [x] Dog Age Calculator (`/tools/dog-age-calculator`)
+- [x] Death Calculator / Life Expectancy (`/tools/death-calculator`)
+- [x] Pregnancy Due Date (`/tools/pregnancy-due-date-calculator`)
+- [ ] Lean Body Mass Calculator
+- [ ] Ideal Body Weight Calculator
+- [ ] Daily Calorie Intake Calculator
+- [ ] Water Intake Calculator
+- [ ] Macronutrient Ratio Calculator
+- [ ] Protein Intake Calculator
+- [ ] TDEE (Total Daily Energy Expenditure) Calculator
+- [ ] One Rep Max (1RM) Bench/Squat/Deadlift Calculator
+- [ ] Ovulation & Fertility Window Calculator
+- [ ] Target Heart Rate Zone Calculator
+- [ ] Waist-to-Hip Ratio Calculator
+- [ ] Sleep Cycle & Bedtime Calculator
+- [ ] Smoking Lifetime Cost Calculator
+- [ ] Alcohol Expense & Habit Calculator
+- [ ] Biological Age Estimator
+- [ ] Intermittent Fasting Window Planner
+- [ ] Running Pace & Finish Time Calculator
+- [ ] Cycling Speed & Power Output Calculator
+- [ ] Swimming Pace Calculator
+- [ ] Step Count to Calorie Converter
+- [ ] Body Surface Area (BSA) Calculator
+- [ ] Blood Alcohol Concentration (BAC) Estimator
+- [ ] Meal Prep Macro Allocator
+- [ ] Ergometer Rowing Split Calculator
+- [ ] Workout Rest Interval Timer
+- [ ] Keto Diet Macro Estimator
+- [ ] Hydration Loss & Electrolyte Calculator
+- [ ] Carbohydrate Loading Planner
+- [ ] VO2 Max Fitness Estimator
+- [ ] Calisthenics Progression Tracker
+- [ ] Body Shape & Proportion Index
+- [ ] Vitamin D Exposure Time Estimator
+- [ ] Caffeine Half-Life & Sleep Cutoff Calculator
+- [ ] Blood Pressure Category Checker
+- [ ] Cholesterol Ratio Analyzer
+- [ ] Diabetes Risk Index Calculator
+- [ ] Posture & Ergonomics Break Interval Calculator
+- [ ] Stride Length & Distance Estimator
+- [ ] Metabolic Equivalent (MET) Calorie Burner
+- [ ] Weight Loss Timeline Estimator
+- [ ] Weight Gain & Surplus Calculator
+- [ ] Satiety & Hunger Index Calculator
+- [ ] Recommended Dietary Allowance (RDA) Checker
+- [ ] Screen Time & Eye Strain Rest Estimator
+- [ ] Circadian Rhythm Reset Planner
+- [ ] Active Recovery Heart Rate Calculator
+- [ ] Fitness Plateau Diagnostics Tool
+- [ ] Maximum Heart Rate (MHR) Calculator
+- [ ] Heart Rate Variability (HRV) Stress Analyzer
+- [ ] Sweat Rate Hydration Planner
+- [ ] Body Recomposition Rate Calculator
+
+---
+
+## 3. Education & Mathematics (121–170)
+- [x] Age Calculator (`/tools/age-calculator`)
+- [x] Age in Months (`/tools/age-calculator-in-months`)
+- [x] Zodiac Age Calculator (`/tools/zodiac-age-calculator`)
+- [x] School Age Eligibility (`/tools/school-age-eligibility-calculator`)
+- [x] Median Calculator (`/tools/median-calculator`)
+- [x] Mean Calculator (`/tools/mean-calculator`)
+- [x] Modulo Calculator (`/tools/mod-calculator`)
+- [x] Zodiac Sun & Moon Sign (`/tools/zodiac-sun-moon-calculator`)
+- [ ] Percentage Calculator
+- [ ] CGPA Calculator
+- [ ] CGPA to Percentage Converter
+- [ ] GPA Calculator (4.0 & 5.0 Scale)
+- [ ] Class Attendance Requirement Calculator
+- [ ] Date Difference & Days Count Calculator
+- [ ] Advanced Scientific Calculator
+- [ ] Mode & Frequency Calculator
+- [ ] Standard Deviation & Variance Calculator
+- [ ] Probability & Event Chance Calculator
+- [ ] Permutation & Combination Calculator
+- [ ] Factorial & Large Number Calculator
+- [ ] Matrix Arithmetic & Determinant Calculator
+- [ ] Algebraic Equation Solver
+- [ ] Quadratic Formula Solver
+- [ ] Fraction to Decimal & Mixed Number Converter
+- [ ] Ratio & Proportion Calculator
+- [ ] Geometry Area & Perimeter Calculator
+- [ ] 3D Geometry Volume & Surface Area Calculator
+- [ ] Pythagorean Theorem & Angle Calculator
+- [ ] Trigonometry Sin/Cos/Tan Calculator
+- [ ] Logarithm & Antilogarithm Calculator
+- [ ] Exponent & Power Calculator
+- [ ] Prime Number Factorization Calculator
+- [ ] Greatest Common Divisor (GCD/HCF) Calculator
+- [ ] Least Common Multiple (LCM) Calculator
+- [ ] Binary, Hexadecimal, Octal Base Converter
+- [ ] Unit Circle Angle Converter
+- [ ] Polynomial Root Finder
+- [ ] Calculus Derivative Step Calculator
+- [ ] Calculus Definite Integral Calculator
+- [ ] Vector Cross & Dot Product Calculator
+- [ ] Complex Number Calculator
+- [ ] Arithmetic Sequence Term Calculator
+- [ ] Geometric Sequence Sum Calculator
+- [ ] Weighted Average Grade Calculator
+- [ ] Exam Target Score Needed Calculator
+- [ ] College Credit Hours Estimator
+- [ ] Study Hour Break Pomodoro Planner
+- [ ] Reading Speed WPM Tester
+- [ ] Memory Retention Forgetting Curve Calculator
+- [ ] Citation APA/MLA Format Generator
+
+---
+
+## 4. Home & Construction (171–220)
+- [ ] Wall Paint Volume & Coats Calculator
+- [ ] Cement Bag & Mortar Mix Calculator
+- [ ] Concrete Volume & Slab Calculator
+- [ ] Brick Count & Mortar Calculator
+- [ ] Sand & Aggregate Tonnage Calculator
+- [ ] Tile Count & Grout Quantity Calculator
+- [ ] Roofing Sheet & Shingle Estimator
+- [ ] Flooring Laminate & Hardwood Calculator
+- [ ] Room Square Footage & Perimeter Calculator
+- [ ] Solar Panel Capacity & Battery Calculator
+- [ ] Home Electricity Appliance Cost Calculator
+- [ ] Water Tank Capacity & Dimensions Estimator
+- [ ] Air Conditioning BTU Cooling Calculator
+- [ ] Room Heating Wattage Calculator
+- [ ] Drywall Sheet & Screw Estimator
+- [ ] Insulation R-Value Thickness Calculator
+- [ ] Fence Post & Picket Spacing Estimator
+- [ ] Decking Timber Board Calculator
+- [ ] Lawn Grass Seed & Fertilizer Calculator
+- [ ] Mulch Yardage & Topsoil Estimator
+- [ ] Wallpaper Roll Count Calculator
+- [ ] Staircase Riser & Tread Calculator
+- [ ] Concrete Footing Volume Calculator
+- [ ] Rebar Weight & Spacing Estimator
+- [ ] Excavation Dirt Volume Calculator
+- [ ] Gravel Driveway Tonnage Estimator
+- [ ] Swimming Pool Gallons & Chemical Calculator
+- [ ] Kitchen Countertop Square Footage Calculator
+- [ ] Cabinet Door & Shelf Dimension Calculator
+- [ ] Window Blinds & Shade Size Estimator
+- [ ] Home Theater Viewing Distance Calculator
+- [ ] LED Ceiling Recessed Light Count Calculator
+- [ ] Plumbing Pipe Length & Flow Estimator
+- [ ] Rainwater Harvesting Collection Calculator
+- [ ] Septic Tank Size Capacity Estimator
+- [ ] Attic Ventilation CFM Calculator
+- [ ] Gutter Guard Length Estimator
+- [ ] Paver Patio Block Count Calculator
+- [ ] Retaining Wall Block Estimator
+- [ ] Pipe Insulation Wrap Calculator
+- [ ] Water Softener Salt Usage Calculator
+- [ ] Generator Wattage Capacity Planner
+- [ ] Sump Pump Flow Capacity Calculator
+- [ ] Ceiling Fan Size Room Matcher
+- [ ] Firewood Cord Volume Calculator
+- [ ] Appliance Energy Consumption kWh Estimator
+- [ ] Solar Water Heater Collector Size Calculator
+- [ ] Foundation Moisture Barrier Square Footage
+- [ ] Plywood Sheet Layout Optimizer
+- [ ] Interior Door Rough Opening Estimator
+
+---
+
+## 5. Automobile & Transport (221–250)
+- [ ] Vehicle Mileage & Fuel Economy (MPG / km/L)
+- [ ] Road Trip Fuel Cost Calculator
+- [ ] Route Distance & Travel Time Estimator
+- [ ] EV Charging Time & Kilowatt Cost Calculator
+- [ ] Vehicle Depreciation & Resale Value Calculator
+- [ ] Car Insurance Premium Estimator
+- [ ] Vehicle Speed, Distance & Time Calculator
+- [ ] Tire Size Ratio & Speedometer Error Calculator
+- [ ] Engine Horsepower & Torque Converter
+- [ ] Fuel Expense Monthly Budget Calculator
+- [ ] Car Loan Payoff Acceleration Calculator
+- [ ] Vehicle Trade-in Equity Estimator
+- [ ] Car Lease Mileage Limit & Overage Calculator
+- [ ] Towing Capacity & Payload Weight Calculator
+- [ ] Brake Stopping Distance Calculator
+- [ ] Engine Displacement cc/L Converter
+- [ ] Vehicle Power-to-Weight Ratio Calculator
+- [ ] Fleet Fuel Cost & Efficiency Estimator
+- [ ] EV Battery Degradation Estimator
+- [ ] Alternate Fuel Cost Savings Comparison
+- [ ] Car Resale Ownership Cost Calculator
+- [ ] Motor Oil Change Interval Estimator
+- [ ] Transmission Gear Ratio Speed Calculator
+- [ ] Vehicle Registration Tax Estimator
+- [ ] Parking Meter Expense Calculator
+- [ ] Toll Booth Expense Estimator
+- [ ] Commute Time Annual Lost Hours Calculator
+- [ ] Vehicle Maintenance Reserve Fund Estimator
+- [ ] Rideshare Driving Profitability Calculator
+- [ ] Auto Transport Shipping Cost Estimator
+
+---
+
+## 6. Business & Startups (251–310)
+- [ ] Online Invoice Generator
+- [ ] Professional Quotation / Estimate Generator
+- [ ] Business Net Profit & Loss Calculator
+- [ ] Employee Payroll Tax Deductions Estimator
+- [ ] Business Valuation Multiple Calculator
+- [ ] Startup Cash Runway Estimator
+- [ ] Monthly Burn Rate Calculator
+- [ ] Customer Acquisition Cost (CAC) Calculator
+- [ ] Customer Lifetime Value (LTV) Calculator
+- [ ] LTV to CAC Ratio Calculator
+- [ ] Monthly Recurring Revenue (MRR) Calculator
+- [ ] Annual Recurring Revenue (ARR) Calculator
+- [ ] SaaS Churn Rate & Retention Calculator
+- [ ] SaaS Net Revenue Retention (NRR) Calculator
+- [ ] E-Commerce Product Pricing & Markup Tool
+- [ ] Inventory Turnover Ratio Calculator
+- [ ] Working Capital Ratio Calculator
+- [ ] Debt Service Coverage Ratio (DSCR)
+- [ ] Operating Cash Flow Calculator
+- [ ] Cost of Goods Sold (COGS) Calculator
+- [ ] Accounts Receivable Turnover Calculator
+- [ ] Days Sales Outstanding (DSO) Calculator
+- [ ] Return on Assets (ROA) Calculator
+- [ ] Return on Equity (ROE) Calculator
+- [ ] Commercial Rent per Square Foot Calculator
+- [ ] Office Lease Cost Estimator
+- [ ] Employee Turnover Cost Calculator
+- [ ] Freelance Hourly Billable Rate Calculator
+- [ ] Project Time & Cost Estimator
+- [ ] Consultant Retainer Fee Calculator
+- [ ] Vendor Contract Discount Penalty Estimator
+- [ ] Subcontractor Profit Share Calculator
+- [ ] Enterprise Software License Cost Calculator
+- [ ] Digital Ad Campaign Budget Calculator
+- [ ] Click-Through Rate (CTR) Calculator
+- [ ] Cost Per Click (CPC) & CPM Calculator
+- [ ] Conversion Rate Optimization (CRO) Calculator
+- [ ] E-Commerce Cart Abandonment Rate Calculator
+- [ ] E-Commerce Average Order Value (AOV)
+- [ ] Affiliate Commission Payout Calculator
+- [ ] Email Marketing Campaign ROI Calculator
+- [ ] Lead Magnet Conversion Rate Calculator
+- [ ] Trade Show Booth ROI Calculator
+- [ ] Sponsorship Package Valuation Calculator
+- [ ] Franchise Royalty & Fee Calculator
+- [ ] Patent Filing & Maintenance Cost Estimator
+- [ ] Trademark Registration Fee Calculator
+- [ ] Business Interruption Loss Estimator
+- [ ] Equipment Finance Lease vs Buy Calculator
+- [ ] Corporate Tax Liability Estimator
+- [ ] Business Partnership Equity Splitter
+- [ ] Founder Stock Option Pool Calculator
+- [ ] SAFE Note Conversion Calculator
+- [ ] Convertible Note Interest Calculator
+- [ ] Pre-Money vs Post-Money Valuation Tool
+- [ ] Angel Investor Yield Return Estimator
+- [ ] Venture Capital Dilution Calculator
+- [ ] Startup Cap Table Calculator
+- [ ] Exit Proceeds Distribution Waterfall
+- [ ] IPO Valuation Multiple Estimator
+
+---
+
+## 7. Developer & Design Tools (311–380)
+- [x] Password Generator (`/tools/password-generator`)
+- [x] QR Code Generator (`/tools/qr-code-generator`)
+- [x] JSON Formatter (`/tools/json-formatter`)
+- [x] Color Palette Generator (`/tools/color-palette`)
+- [x] Favicon Generator (`/tools/favicon-generator`)
+- [x] OG Image Generator (`/tools/og-image-generator`)
+- [x] Fake Data Generator (`/tools/fake-data-generator`)
+- [ ] JSON Syntax Validator
+- [ ] XML Formatter & Beautifier
+- [ ] HTML Formatter & Minifier
+- [ ] CSS Minifier & Unminifier
+- [ ] JS / TS Code Minifier
+- [ ] SQL Query Formatter & Validator
+- [ ] Markdown Live Editor & Preview
+- [ ] Base64 Encode & Decode Converter
+- [ ] JWT Token Decoder & Debugger
+- [ ] UUID / GUID Version 4 Generator
+- [ ] SHA-256 / MD5 Hash Generator
+- [ ] Regular Expression (Regex) Tester
+- [ ] Unix Epoch Timestamp Converter
+- [ ] Color Picker & HEX-RGB-HSL Converter
+- [ ] DNS Lookup & Record Checker
+- [ ] WHOIS Domain Lookup Tool
+- [ ] SSL Certificate Expiry Checker
+- [ ] HTTP Header Inspection Tool
+- [ ] User Agent String Parser
+- [ ] URL Encoder & Decoder
+- [ ] HTML Entity Encoder & Decoder
+- [ ] IP Address Subnet Mask CIDR Calculator
+- [ ] IPv6 Address Compression Tool
+- [ ] Cron Expression Generator & Explainer
+- [ ] Chmod Linux File Permission Calculator
+- [ ] String Case Converter (camelCase, snake_case, kebab-case)
+- [ ] Diff Checker & Text Comparison Tool
+- [ ] CSV to JSON Converter
+- [ ] JSON to CSV Converter
+- [ ] YAML to JSON Converter
+- [ ] JSON to YAML Converter
+- [ ] Curl to Code Snippet Converter
+- [ ] GraphQL Query Syntax Beautifier
+- [ ] CSS Flexbox Layout Generator
+- [ ] CSS Grid Layout Generator
+- [ ] CSS Box Shadow Generator
+- [ ] CSS Border Radius Previewer
+- [ ] CSS Gradient Code Generator
+- [ ] CSS Glassmorphism Code Generator
+- [ ] SVG Path Optimizer & Cleaner
+- [ ] Data URL Image Encoder
+- [ ] Keycode JavaScript Event Listener Tester
+- [ ] Lorem Ipsum Dummy Text Generator
+- [ ] Hash HMAC Authentication Generator
+- [ ] RSA Public/Private Keypair Generator
+- [ ] Password Entropy Bits Calculator
+- [ ] HTTP Status Code Reference Guide
+- [ ] MIME Type File Extension Lookup
+- [ ] Port Number Protocol Reference
+- [ ] Git Command Syntax Helper
+- [ ] Dockerfile Syntax Linter Tool
+- [ ] Nginx Server Block Configuration Generator
+- [ ] Apache .htaccess Rewrite Rule Generator
+- [ ] Webhook URL Payload Receiver Tester
+- [ ] REST API JSON Endpoint Mock Server
+- [ ] Code Minification Size Reduction Calculator
+- [ ] Font Format WOFF2/TTF Converter
+- [ ] Aspect Ratio Calculator (16:9, 4:3, 1:1)
+- [ ] Screen Resolution DPI/PPI Calculator
+- [ ] Favicon Package ZIP Generator
+- [ ] HTML Table Generator & Exporter
+- [ ] CSS Clamp() Fluid Typography Calculator
+- [ ] Tailwind CSS Class Color & Spacing Search
+
+---
+
+## 8. Content, Media & SEO (381–430)
+- [x] Word Counter (`/tools/word-counter`)
+- [x] Image Compressor (`/tools/image-compressor`)
+- [x] PDF Merger (`/tools/pdf-merger`)
+- [x] PDF Splitter (`/tools/pdf-splitter`)
+- [x] Image to PDF Converter (`/tools/image-to-pdf`)
+- [x] PDF Watermark Tool (`/tools/pdf-watermark`)
+- [x] PDF Metadata Editor (`/tools/pdf-metadata`)
+- [x] Background Remover (`/tools/background-remover`)
+- [x] Image Resizer (`/tools/image-resizer`)
+- [x] Image Format Converter (`/tools/format-converter`)
+- [x] PDF Compressor (`/tools/pdf-compressor`)
+- [x] ZIP Extractor (`/tools/zip-extractor`)
+- [x] Meme Maker (`/tools/meme-maker`)
+- [x] Social Media Resizer (`/tools/social-media-resizer`)
+- [x] Photo Collage Maker (`/tools/photo-collage-maker`)
+- [ ] Character & Sentence Counter
+- [ ] Estimated Reading & Speaking Time
+- [ ] Keyword Density & Frequency Analyzer
+- [ ] SEO Meta Title & Description Previewer
+- [ ] Robots.txt Generator & Validator
+- [ ] XML Sitemap Generator Tool
+- [ ] Open Graph & Twitter Card Meta Tag Generator
+- [ ] Google Analytics UTM URL Builder
+- [ ] URL Slug Generator & Sanitizer
+- [ ] Plagiarism & Text Similarity Checker
+- [ ] Headlines Analyzer & Emotional Score
+- [ ] Flesch-Kincaid Reading Ease Score
+- [ ] Passive Voice Sentence Finder
+- [ ] Typography Line Height & Font Scale Calculator
+- [ ] Image Aspect Ratio Crop Calculator
+- [ ] Image Color Histogram Viewer
+- [ ] Image EXIF Metadata Inspector
+- [ ] PDF Page Rotate & Reorder Tool
+- [ ] PDF Password Protect & Encrypt
+- [ ] PDF Unlock & Password Remover
+- [ ] PDF Page Number Adder
+- [ ] PDF Text & Image Extractor
+- [ ] Audio File Duration & Bitrate Calculator
+- [ ] Video File Resolution & Bitrate Calculator
+- [ ] GIF Speed & Loop Controller
+- [ ] Podcast Episode Length & File Size Estimator
+- [ ] Video File Size Compression Estimator
+- [ ] Subtitle SRT File Time Shift Adjuster
+- [ ] Subtitle VTT to SRT File Converter
+- [ ] Blog Post Outline & Subheading Generator
+- [ ] Social Media Post Character Limits Checker
+- [ ] Email Subject Line Previewer (Mobile/Desktop)
+- [ ] Call to Action (CTA) Button Generator
+- [ ] Brand Logo Vector Color Palette Extractor
+- [ ] Screen Recording File Size Calculator
+- [ ] Audio File Format MP3/WAV/AAC Converter
+- [ ] Video Thumbnail Image Capture Tool
+- [ ] Image Blur & Pixelator Tool
+- [ ] Image Watermark Overlay Generator
+
+---
+
+## 9. Social Media & Creator Economy (431–460)
+- [ ] Instagram Engagement Rate Calculator
+- [ ] YouTube Channel Earnings Estimator
+- [ ] YouTube Video Thumbnail Downloader
+- [ ] TikTok Creator Fund Earnings Estimator
+- [ ] Hashtag Popularity & Reach Analyzer
+- [ ] Instagram Bio Font Styles Generator
+- [ ] Instagram Grid Splitter (3x1, 3x3)
+- [ ] YouTube Channel Subscriber Milestone Countdown
+- [ ] YouTube Video Tag Extractor
+- [ ] TikTok Video Caption Length Checker
+- [ ] Twitter (X) Thread Character Splitter
+- [ ] LinkedIn Post Formatting & Spacing Tool
+- [ ] Pinterest Pin Aspect Ratio Generator
+- [ ] Twitch Streamer Bit & Sub Earnings Calculator
+- [ ] Discord Embed Message Generator
+- [ ] Telegram Channel Broadcast Post Formatter
+- [ ] Social Media Post Ideal Posting Time Finder
+- [ ] Influencer Sponsored Post Rate Calculator
+- [ ] Podcast Listener Retention Estimator
+- [ ] Patreon Subscriptions Monthly Income Calculator
+- [ ] OnlyFans Earnings Potential Calculator
+- [ ] Substack Newsletter Revenue Calculator
+- [ ] Medium Partner Program Earnings Estimator
+- [ ] Social Media Bio Link Landing Page Builder
+- [ ] Social Media Profile Photo Circular Crop Tool
+- [ ] Social Media Banner Size Checker
+- [ ] Viral Tweet / Post Formatting Simulator
+- [ ] Community Forum Engagement Score Calculator
+- [ ] Creator Merchandise Profit Margin Estimator
+- [ ] Live Stream Viewer Conversion Rate Calculator
+
+---
+
+## 10. Travel & Global Utilities (461–480)
+- [x] Unit Converter (`/tools/unit-converter`)
+- [ ] World Time Zone Converter & Clock
+- [ ] Jet Lag Recovery Schedule Calculator
+- [ ] Schengen Visa 90/180 Days Rule Calculator
+- [ ] Travel Budget & Daily Expense Allocator
+- [ ] Global Cities Flight Distance Calculator
+- [ ] Flight CO2 Carbon Footprint Calculator
+- [ ] Travel Packing List Checklist Generator
+- [ ] Hotel Tip & Currency Service Calculator
+- [ ] International Driving Permit Validity Checker
+- [ ] Passport Expiry 6-Month Validity Checker
+- [ ] Foreign Exchange Duty & Tax Calculator
+- [ ] Travel Insurance Coverage Need Estimator
+- [ ] Baggage Allowance Weight & Dimension Converter
+- [ ] Country Plug Adapter & Voltage Checker
+- [ ] Altitude Sickness Pressure Estimator
+- [ ] Sun Rise & Sunset Golden Hour Calculator
+- [ ] Tipping Customs by Country Guide & Calculator
+- [ ] International Roaming Data Usage Estimator
+- [ ] Hostel vs Hotel Accommodations Cost Comparison
+- [ ] Travel Emergency Contacts Finder
+
+---
+
+## 11. Miscellaneous & Casual (481–500)
+- [ ] Love Compatibility Percentage Calculator
+- [ ] Live Birthday Countdown Timer
+- [ ] Interactive Decision Wheel Spinner
+- [ ] Random Coin Flip Simulator (3D)
+- [ ] Dice Roller Simulator (D6, D20)
+- [ ] Morse Code Translator (Encode/Decode)
+- [ ] Roman Numerals Converter
+- [ ] Text to Speech Audio Player
+- [ ] Speech to Text Voice Transcriber
+- [ ] Lucky Number & Lottery Number Generator
+- [ ] Random Name Picker & Raffle Drawer
+- [ ] Age Difference Calculator Between 2 Dates
+- [ ] Days Until Christmas / New Year Countdown
+- [ ] Secret Message Substitution Cipher (ROT13)
+- [ ] Binary Code Text Translator
+- [ ] Text Reverse & Mirror Tool
+- [ ] Word Anagram Generator & Solver
+- [ ] Random Passphrase Word List Generator
+- [ ] Daily Habit Streak Counter
+- [ ] Mindful Breathing Interval Circle Timer

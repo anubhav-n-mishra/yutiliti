@@ -60,6 +60,56 @@ const CUSTOM_HOW_IT_WORKS: Record<string, string> = {
     "Upload a PDF and specify the page range(s) you want to extract, or split into individual pages. The tool outputs the selected pages as a new PDF.",
   "image-to-pdf":
     "Upload one or more images (JPG, PNG, WebP) and the tool converts them into a single PDF document, with each image becoming a page.",
+  "gold-loan-emi-calculator":
+    "Enter your gold loan amount, interest rate, and tenure in months. The calculator computes your monthly EMI, total interest, and full loan repayment amount using standard reducing-balance math processed 100% locally.",
+  "business-loan-emi-calculator":
+    "Enter your commercial loan amount, interest rate, and tenure in years. The calculator computes your monthly business EMI and total borrowing overhead locally in your browser with zero data uploads.",
+  "swp-calculator":
+    "Enter your initial mutual fund corpus, monthly withdrawal amount, expected return rate, and tenure. The calculator projects total cash payouts received and remaining balance using client-side compound interest math.",
+  "epf-calculator":
+    "Enter your basic monthly salary, current age, retirement age, and EPF interest rate. The calculator projects your total accumulated retirement provident fund wealth and annual interest growth locally.",
+  "nps-calculator":
+    "Enter your monthly contribution, current age, and expected return rate. The calculator projects total retirement wealth at age 60, along with the 60% tax-free lump sum payout and 40% annuity balance.",
+  "gratuity-calculator":
+    "Enter your last drawn basic salary and completed years of service (minimum 5 years). The calculator computes your lump sum gratuity benefit under the Payment of Gratuity Act 1972.",
+  "hra-calculator":
+    "Enter your basic salary, HRA received, annual rent paid, and city type (metro vs non-metro). The calculator applies Section 10(13A) rules to find your exact tax-exempt HRA and taxable portion.",
+  "income-tax-calculator":
+    "Enter your gross annual income and total tax deductions. The calculator estimates your progressive tax liability, effective tax rate, and net annual take-home pay instantly in your browser.",
+  "gst-calculator":
+    "Enter your transaction amount, GST rate (5%, 12%, 18%, 28%), and toggle inclusive vs exclusive tax calculation. The tool computes net price, total GST, CGST, and SGST breakdowns.",
+  "credit-card-emi-calculator":
+    "Enter your credit card balance, annual interest rate, tenure in months, and processing fee. The calculator computes your monthly card EMI and total borrowing cost.",
+  "net-worth-calculator":
+    "Enter all your cash, investments, real estate assets, and subtract mortgages, auto loans, and credit card liabilities. The calculator computes your true personal net worth instantly.",
+  "emergency-fund-calculator":
+    "Enter your monthly essential living expenses, target buffer (3-12 months), and current savings. The calculator shows your required safety net fund size and savings progress percentage.",
+  "roi-calculator":
+    "Enter your initial capital investment and final returned value. The calculator computes net profit or loss and percentage Return on Investment (ROI) instantly in browser.",
+  "cagr-calculator":
+    "Enter your starting investment value, final value, and number of years. The calculator computes the geometric mean Compound Annual Growth Rate (CAGR) and total percentage return.",
+  "irr-calculator":
+    "Enter your initial investment outflow and 4 years of expected cash inflows. The calculator calculates the Internal Rate of Return (IRR) using iterative Newton-Raphson approximation.",
+  "break-even-calculator":
+    "Enter your fixed overhead costs, variable cost per unit, and selling price per unit. The calculator computes the exact sales unit volume and revenue required to break even.",
+  "profit-margin-calculator":
+    "Enter your product cost price and selling price. The calculator computes gross profit, gross margin percentage, and markup percentage on cost instantly in browser.",
+  "discount-calculator":
+    "Enter the original item price and percentage discount off. The tool computes your final discounted sale price and total money saved with client-side calculations.",
+  "commission-calculator":
+    "Enter your total sales revenue and commission percentage rate. The calculator computes total commission earnings payout and net proceeds for the seller.",
+  "currency-converter":
+    "Enter the amount and select source and target currencies (USD, EUR, GBP, INR, AUD, CAD, JPY, AED, SGD). The converter calculates live foreign exchange values locally.",
+  "mutual-fund-return-calculator":
+    "Choose lump sum or monthly SIP mode, enter your investment amount, return rate, and tenure. The calculator projects total invested principal, wealth gain, and final maturity corpus.",
+  "dividend-calculator":
+    "Enter share price, number of shares owned, and annual dividend per share. The calculator computes total annual dividend income, monthly average payout, and dividend yield percentage.",
+  "stock-average-calculator":
+    "Enter the share quantity and buy price for your 1st and 2nd stock purchases. The calculator computes your weighted average cost per share and total capital invested.",
+  "bmr-calculator":
+    "Enter your sex, age, height, and weight. The calculator applies the Mifflin-St Jeor formula to compute your Basal Metabolic Rate (BMR) and daily TDEE maintenance calories.",
+  "body-fat-calculator":
+    "Enter your sex, height, weight, waist, neck, and hip measurements. The calculator uses US Navy formulas to estimate body fat percentage, fat mass, and lean body mass.",
   "color-palette":
     "Generate harmonious color schemes, extract palettes from images, or test contrast ratios. Copy HEX, RGB, and HSL values instantly for web design and frontend projects.",
   "pdf-watermark":
