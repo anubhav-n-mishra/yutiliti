@@ -1,5 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { RefreshCw, Share2, Coins, Info, HelpCircle } from 'lucide-react';
+import CurrencySelector from '@/src/components/CurrencySelector';
+import { formatCurrency as formatCurr, getCurrency } from '@/src/lib/currency';
 
 interface SalaryCalculatorProps {
   onCopy: (text: string) => void;
@@ -7,6 +9,7 @@ interface SalaryCalculatorProps {
 }
 
 export default function SalaryCalculator({ onCopy, onShare }: SalaryCalculatorProps) {
+  const [currency, setCurrency] = useState<string>('USD');
   const [annualCtc, setAnnualCtc] = useState<number>(1200000);
   const [basicPercentage, setBasicPercentage] = useState<number>(50);
   const [annualBonus, setAnnualBonus] = useState<number>(100000);
@@ -115,13 +118,7 @@ export default function SalaryCalculator({ onCopy, onShare }: SalaryCalculatorPr
     monthlyBonusShare
   } = calculations;
 
-  const formatCurrency = (val: number) => {
-    return new Intl.NumberFormat('en-IN', {
-      style: 'currency',
-      currency: 'INR',
-      maximumFractionDigits: 0
-    }).format(val);
-  };
+  const formatCurrency = (val: number) => formatCurr(val, currency);
 
   const handleCopyResults = () => {
     const text = `Salary Breakdown Forecast (India):\nAnnual CTC: ${formatCurrency(annualCtc)}\nEstimated Monthly Take-Home: ${formatCurrency(monthlyInHand)}\nEstimated Monthly Gross: ${formatCurrency(monthlyGross)}\nPF Deduction: ${formatCurrency(monthlyEmployeePF)}/mo\nIncome Tax estimate: ${formatCurrency(monthlyTax)}/mo`;
@@ -178,6 +175,8 @@ export default function SalaryCalculator({ onCopy, onShare }: SalaryCalculatorPr
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left Inputs Pane */}
         <div className="lg:col-span-7 space-y-6">
+          <CurrencySelector value={currency} onChange={setCurrency} />
+
           {/* Annual CTC */}
           <div className="space-y-2">
             <div className="flex justify-between items-center">

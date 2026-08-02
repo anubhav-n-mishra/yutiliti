@@ -1,5 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { PiggyBank, Calendar, Percent } from 'lucide-react';
+import CurrencySelector from '@/src/components/CurrencySelector';
+import { formatCurrency as formatCurr, getCurrency } from '@/src/lib/currency';
 
 interface RdCalculatorProps {
   onCopy: (text: string) => void;
@@ -7,9 +9,12 @@ interface RdCalculatorProps {
 }
 
 export default function RdCalculator({ onCopy }: RdCalculatorProps) {
+  const [currency, setCurrency] = useState<string>('USD');
   const [monthlyDeposit, setMonthlyDeposit] = useState<number>(5000);
   const [interestRate, setInterestRate] = useState<number>(7.0);
   const [tenureMonths, setTenureMonths] = useState<number>(36); // 3 Years
+
+  const currObj = getCurrency(currency);
 
   const calc = useMemo(() => {
     const P = monthlyDeposit;
@@ -18,12 +23,8 @@ export default function RdCalculator({ onCopy }: RdCalculatorProps) {
 
     if (P <= 0 || rate <= 0 || N <= 0) return null;
 
-    // Standard Indian Bank RD compounding formula:
-    // Compound quarterly formula: M = P * ((1 + r/4)^(4*t) - 1) / (1 - (1 + r/4)^(-1/3))
-    // Or month-by-month compound summation
     let maturityValue = 0;
     for (let i = 1; i <= N; i++) {
-      // Remaining quarters for installment i
       const monthsRemaining = N - i + 1;
       const quarters = monthsRemaining / 3;
       maturityValue += P * Math.pow(1 + rate / 4, quarters);
@@ -32,27 +33,28 @@ export default function RdCalculator({ onCopy }: RdCalculatorProps) {
     const totalInvested = P * N;
     const interestEarned = maturityValue - totalInvested;
 
-    const fmt = (val: number) =>
-      new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val);
+    const fmt = (val: number) => formatCurr(val, currency);
 
     return {
       totalInvestedFormatted: fmt(totalInvested),
       interestEarnedFormatted: fmt(interestEarned),
       maturityValueFormatted: fmt(maturityValue),
     };
-  }, [monthlyDeposit, interestRate, tenureMonths]);
+  }, [monthlyDeposit, interestRate, tenureMonths, currency]);
 
   return (
     <div className="space-y-6">
       <div className="grid gap-6 md:grid-cols-2">
         <div className="space-y-4 rounded-2xl border border-zinc-200 bg-zinc-50/50 p-5 dark:border-zinc-800 dark:bg-zinc-900/50">
+          <CurrencySelector value={currency} onChange={setCurrency} />
+
           <h3 className="flex items-center gap-2 font-display text-lg font-semibold text-zinc-900 dark:text-white">
             <PiggyBank className="h-5 w-5 text-blue-600 dark:text-cyan-400" />
             Recurring Deposit Details
           </h3>
 
           <div>
-            <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300">Monthly Installment (₹)</label>
+            <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300">Monthly Installment ({currObj.symbol})</label>
             <input
               type="number"
               value={monthlyDeposit}

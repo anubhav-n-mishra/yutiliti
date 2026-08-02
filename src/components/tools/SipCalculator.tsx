@@ -1,12 +1,16 @@
 import React, { useState, useMemo } from 'react';
 import { Download, RefreshCw, Share2, Info, ChevronDown, ChevronUp } from 'lucide-react';
 
+import CurrencySelector from '@/src/components/CurrencySelector';
+import { formatCurrency as formatCurr } from '@/src/lib/currency';
+
 interface SipCalculatorProps {
   onCopy: (text: string) => void;
   onShare: (title: string, path: string) => void;
 }
 
 export default function SipCalculator({ onCopy, onShare }: SipCalculatorProps) {
+  const [currency, setCurrency] = useState<string>('USD');
   const [monthlyInvestment, setMonthlyInvestment] = useState<number>(10000);
   const [expectedReturn, setExpectedReturn] = useState<number>(12);
   const [duration, setDuration] = useState<number>(10);
@@ -53,13 +57,7 @@ export default function SipCalculator({ onCopy, onShare }: SipCalculatorProps) {
 
   const { totalInvested, estimatedReturns, maturityAmount, yearlyData } = calculations;
 
-  const formatCurrency = (val: number) => {
-    return new Intl.NumberFormat('en-IN', {
-      style: 'currency',
-      currency: 'INR',
-      maximumFractionDigits: 0
-    }).format(val);
-  };
+  const formatCurrency = (val: number) => formatCurr(val, currency);
 
   const handleReset = () => {
     setMonthlyInvestment(10000);
@@ -149,6 +147,8 @@ export default function SipCalculator({ onCopy, onShare }: SipCalculatorProps) {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left Inputs Pane */}
         <div className="lg:col-span-7 space-y-6">
+          <CurrencySelector value={currency} onChange={setCurrency} />
+
           {/* Monthly Investment */}
           <div className="space-y-2">
             <div className="flex justify-between items-center">

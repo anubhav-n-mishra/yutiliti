@@ -1,5 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Calculator, Percent, TrendingUp, RefreshCw } from 'lucide-react';
+import CurrencySelector from '@/src/components/CurrencySelector';
+import { formatCurrency as formatCurr, getCurrency } from '@/src/lib/currency';
 
 interface InterestCalculatorProps {
   onCopy: (text: string) => void;
@@ -7,10 +9,13 @@ interface InterestCalculatorProps {
 }
 
 export default function InterestCalculator({ onCopy }: InterestCalculatorProps) {
+  const [currency, setCurrency] = useState<string>('USD');
   const [principal, setPrincipal] = useState<number>(100000);
   const [rate, setRate] = useState<number>(8.0);
   const [timeYears, setTimeYears] = useState<number>(5);
   const [compounding, setCompounding] = useState<number>(12); // 12 = monthly, 4 = quarterly, 365 = daily, 1 = annual
+
+  const currObj = getCurrency(currency);
 
   const calc = useMemo(() => {
     const P = principal;
@@ -20,18 +25,15 @@ export default function InterestCalculator({ onCopy }: InterestCalculatorProps) 
 
     if (P <= 0 || rate <= 0 || timeYears <= 0) return null;
 
-    // Simple interest
     const simpleInterest = P * r * t;
     const simpleTotal = P + simpleInterest;
 
-    // Compound interest
     const compoundTotal = P * Math.pow(1 + r / n, n * t);
     const compoundInterest = compoundTotal - P;
 
     const diff = compoundInterest - simpleInterest;
 
-    const fmt = (val: number) =>
-      new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val);
+    const fmt = (val: number) => formatCurr(val, currency);
 
     return {
       simpleInterestFormatted: fmt(simpleInterest),
@@ -40,19 +42,21 @@ export default function InterestCalculator({ onCopy }: InterestCalculatorProps) 
       compoundTotalFormatted: fmt(compoundTotal),
       diffFormatted: fmt(diff),
     };
-  }, [principal, rate, timeYears, compounding]);
+  }, [principal, rate, timeYears, compounding, currency]);
 
   return (
     <div className="space-y-6">
       <div className="grid gap-6 md:grid-cols-2">
         <div className="space-y-4 rounded-2xl border border-zinc-200 bg-zinc-50/50 p-5 dark:border-zinc-800 dark:bg-zinc-900/50">
+          <CurrencySelector value={currency} onChange={setCurrency} />
+
           <h3 className="flex items-center gap-2 font-display text-lg font-semibold text-zinc-900 dark:text-white">
             <Calculator className="h-5 w-5 text-blue-600 dark:text-cyan-400" />
             Interest Parameters
           </h3>
 
           <div>
-            <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300">Principal Amount (₹)</label>
+            <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300">Principal Amount ({currObj.symbol})</label>
             <input
               type="number"
               value={principal}

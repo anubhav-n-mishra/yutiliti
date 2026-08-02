@@ -1,5 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Landmark, ShieldCheck, TrendingUp, Info } from 'lucide-react';
+import CurrencySelector from '@/src/components/CurrencySelector';
+import { formatCurrency as formatCurr, getCurrency } from '@/src/lib/currency';
 
 interface PpfCalculatorProps {
   onCopy: (text: string) => void;
@@ -7,9 +9,12 @@ interface PpfCalculatorProps {
 }
 
 export default function PpfCalculator({ onCopy }: PpfCalculatorProps) {
+  const [currency, setCurrency] = useState<string>('INR');
   const [annualDeposit, setAnnualDeposit] = useState<number>(150000); // Max 1.5L per year
   const [interestRate, setInterestRate] = useState<number>(7.1); // Current Govt rate
   const [tenureYears, setTenureYears] = useState<number>(15); // Standard 15 years
+
+  const currObj = getCurrency(currency);
 
   const calc = useMemo(() => {
     const P = Math.min(150000, Math.max(500, annualDeposit));
@@ -24,15 +29,13 @@ export default function PpfCalculator({ onCopy }: PpfCalculatorProps) {
     for (let yr = 1; yr <= t; yr++) {
       totalInvested += P;
       balance += P;
-      // PPF interest calculated annually on end balance
       const interestForYear = balance * r;
       balance += interestForYear;
     }
 
     const totalInterest = balance - totalInvested;
 
-    const fmt = (val: number) =>
-      new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val);
+    const fmt = (val: number) => formatCurr(val, currency);
 
     return {
       depositFormatted: fmt(P),
@@ -40,12 +43,14 @@ export default function PpfCalculator({ onCopy }: PpfCalculatorProps) {
       totalInterestFormatted: fmt(totalInterest),
       maturityBalanceFormatted: fmt(balance),
     };
-  }, [annualDeposit, interestRate, tenureYears]);
+  }, [annualDeposit, interestRate, tenureYears, currency]);
 
   return (
     <div className="space-y-6">
       <div className="grid gap-6 md:grid-cols-2">
         <div className="space-y-4 rounded-2xl border border-zinc-200 bg-zinc-50/50 p-5 dark:border-zinc-800 dark:bg-zinc-900/50">
+          <CurrencySelector value={currency} onChange={setCurrency} />
+
           <h3 className="flex items-center gap-2 font-display text-lg font-semibold text-zinc-900 dark:text-white">
             <Landmark className="h-5 w-5 text-blue-600 dark:text-cyan-400" />
             PPF Investment Parameters
@@ -53,7 +58,7 @@ export default function PpfCalculator({ onCopy }: PpfCalculatorProps) {
 
           <div>
             <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-              Annual Investment Amount (Max ₹1,50,000)
+              Annual Investment Amount ({currObj.symbol})
             </label>
             <input
               type="number"

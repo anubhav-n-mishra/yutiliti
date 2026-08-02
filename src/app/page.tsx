@@ -265,7 +265,7 @@ export default function App() {
       }`}>
         <div className={`flex items-center justify-between transition-all duration-500 ${scrolled ? 'px-4 h-12' : 'px-4 h-14'}`}>
           <div className="flex items-center gap-2.5 cursor-pointer group" onClick={() => navigateTo(null)}>
-            <img src="/brand/yuitility-logo.png" alt="" className="h-8 w-8 object-contain transition-transform group-hover:scale-105" />
+            <img src="/brand/yuitility-logo.png" alt="Yuitility logo" className="h-8 w-8 object-contain transition-transform group-hover:scale-105" />
             <div>
               <span className="font-display font-bold text-base text-zinc-950 dark:text-zinc-50 tracking-tight">Yuitility</span>
             </div>
@@ -673,7 +673,7 @@ export default function App() {
             </div>
             
             <div className="space-y-6">
-              <h4 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 uppercase tracking-wider">Product</h4>
+              <h2 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 uppercase tracking-wider">Product</h2>
               <ul className="space-y-4 text-sm font-medium text-zinc-500 dark:text-zinc-400">
                 <li><button onClick={() => navigateTo(null)} className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">All Utilities</button></li>
                 <li><a href="#why-choose" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Features</a></li>
@@ -682,7 +682,7 @@ export default function App() {
             </div>
 
             <div className="space-y-6">
-              <h4 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 uppercase tracking-wider">Legal & Open Source</h4>
+              <h2 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 uppercase tracking-wider">Legal & Open Source</h2>
               <ul className="space-y-4 text-sm font-medium text-zinc-500 dark:text-zinc-400">
                 <li><a href="/privacy" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Privacy Policy</a></li>
                 <li><a href="/terms" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Terms & Conditions</a></li>

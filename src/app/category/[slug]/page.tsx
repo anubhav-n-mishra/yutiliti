@@ -17,12 +17,20 @@ const categoryIcons: Record<string, React.ComponentType<{ className?: string }>>
   media: ImageIcon,
 };
 
+const categoryTitles: Record<string, string> = {
+  finance: "Finance Tools – Free Online Finance Suite | Yuitility",
+  utility: "Utility Tools – Free Online Utility Suite | Yuitility",
+  developer: "Developer Tools – Free Online Dev Suite | Yuitility",
+  pdf: "PDF Tools – Free Online PDF Utility Suite | Yuitility",
+  media: "Media Tools – Free Online Media Suite | Yuitility",
+};
+
 const categoryDescriptions: Record<string, string> = {
-  finance: "Free financial calculators for loans, investments, and wealth planning. All calculations run locally in your browser for complete privacy.",
-  utility: "Essential browser utilities for everyday tasks — file conversion, text processing, QR codes, and more. No uploads, no tracking.",
-  developer: "Developer and designer tools for JSON formatting, color palettes, code generation, and debugging. Works offline, zero setup.",
-  pdf: "Complete PDF toolkit: merge, split, compress, watermark, extract metadata, convert images to PDF. 100% client-side processing.",
-  media: "Image tools for compression, resizing, format conversion, background removal, collages, and social media optimization.",
+  finance: "Explore free financial calculators for loans, investments, and wealth planning. Calculate returns instantly in browser with total privacy — no signup required.",
+  utility: "Use free online browser utilities for daily file conversion, text analysis, and calculations. Get instant results with 100% privacy and zero server uploads.",
+  developer: "Access free developer and designer tools for JSON formatting, color palettes, and code generation. Debug and format code instantly online with total privacy.",
+  pdf: "Merge, split, compress, and edit PDF documents online for free with our PDF toolkit. Process files 100% in your browser with zero data uploads required.",
+  media: "Compress, resize, convert, and edit images online for free with our media tools suite. Optimize photos instantly in your browser with zero server uploads.",
 };
 
 function getCategoryTools(category: string) {
@@ -39,7 +47,7 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
   if (!category) return {};
 
   const tools = getCategoryTools(slug);
-  const title = `${category.label} — Free Online Tools | ${SITE_NAME}`;
+  const title = categoryTitles[slug] || `${category.label} Tools – Free Online Tools | ${SITE_NAME}`;
   const description = categoryDescriptions[slug] || `Free ${category.label.toLowerCase()} tools that run entirely in your browser. No signup, no data upload, complete privacy.`;
 
   return {
@@ -204,9 +212,9 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
           <section className="mt-16 rounded-3xl border border-zinc-200 bg-white p-8 dark:border-zinc-800 dark:bg-zinc-900">
             <div className="mx-auto max-w-3xl text-center">
               <ShieldCheck className="mx-auto h-10 w-10 text-blue-600 dark:text-cyan-300" />
-              <h3 className="mt-4 font-display text-2xl font-bold text-zinc-950 dark:text-white">
+              <h2 className="mt-4 font-display text-2xl font-bold text-zinc-950 dark:text-white">
                 Local-first by design
-              </h3>
+              </h2>
               <p className="mt-3 text-lg leading-relaxed text-zinc-600 dark:text-zinc-300">
                 Every tool on this page runs entirely in your browser. Your files and data never leave your device — no
                 uploads, no server processing, no tracking. Works offline after first load.

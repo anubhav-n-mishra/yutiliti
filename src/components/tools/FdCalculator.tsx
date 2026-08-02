@@ -1,5 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Landmark, Percent, Award, ShieldCheck } from 'lucide-react';
+import CurrencySelector from '@/src/components/CurrencySelector';
+import { formatCurrency as formatCurr, getCurrency } from '@/src/lib/currency';
 
 interface FdCalculatorProps {
   onCopy: (text: string) => void;
@@ -7,25 +9,27 @@ interface FdCalculatorProps {
 }
 
 export default function FdCalculator({ onCopy }: FdCalculatorProps) {
+  const [currency, setCurrency] = useState<string>('USD');
   const [depositAmount, setDepositAmount] = useState<number>(200000);
   const [interestRate, setInterestRate] = useState<number>(7.25);
   const [tenureYears, setTenureYears] = useState<number>(3);
   const [isSeniorCitizen, setIsSeniorCitizen] = useState<boolean>(false);
+
+  const currObj = getCurrency(currency);
 
   const calc = useMemo(() => {
     const P = depositAmount;
     const effectiveRate = isSeniorCitizen ? interestRate + 0.5 : interestRate;
     const r = effectiveRate / 100;
     const t = tenureYears;
-    const n = 4; // Quarterly compounding for Indian FDs
+    const n = 4; // Quarterly compounding
 
     if (P <= 0 || effectiveRate <= 0 || tenureYears <= 0) return null;
 
     const maturityAmount = P * Math.pow(1 + r / n, n * t);
     const interestEarned = maturityAmount - P;
 
-    const fmt = (val: number) =>
-      new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val);
+    const fmt = (val: number) => formatCurr(val, currency);
 
     return {
       effectiveRate,
@@ -33,19 +37,21 @@ export default function FdCalculator({ onCopy }: FdCalculatorProps) {
       interestEarnedFormatted: fmt(interestEarned),
       principalFormatted: fmt(P),
     };
-  }, [depositAmount, interestRate, tenureYears, isSeniorCitizen]);
+  }, [depositAmount, interestRate, tenureYears, isSeniorCitizen, currency]);
 
   return (
     <div className="space-y-6">
       <div className="grid gap-6 md:grid-cols-2">
         <div className="space-y-4 rounded-2xl border border-zinc-200 bg-zinc-50/50 p-5 dark:border-zinc-800 dark:bg-zinc-900/50">
+          <CurrencySelector value={currency} onChange={setCurrency} />
+
           <h3 className="flex items-center gap-2 font-display text-lg font-semibold text-zinc-900 dark:text-white">
             <Landmark className="h-5 w-5 text-blue-600 dark:text-cyan-400" />
             Fixed Deposit Details
           </h3>
 
           <div>
-            <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300">Deposit Amount (₹)</label>
+            <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300">Deposit Amount ({currObj.symbol})</label>
             <input
               type="number"
               value={depositAmount}

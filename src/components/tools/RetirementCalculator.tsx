@@ -1,5 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { PiggyBank, TrendingUp, RefreshCw, Info, DollarSign } from 'lucide-react';
+import CurrencySelector from '@/src/components/CurrencySelector';
+import { formatCurrency as formatCurr, getCurrency } from '@/src/lib/currency';
 
 interface RetirementCalculatorProps {
   onCopy: (text: string) => void;
@@ -7,6 +9,7 @@ interface RetirementCalculatorProps {
 }
 
 export default function RetirementCalculator({ onCopy }: RetirementCalculatorProps) {
+  const [currency, setCurrency] = useState<string>('USD');
   const [currentAge, setCurrentAge] = useState<number>(30);
   const [retirementAge, setRetirementAge] = useState<number>(60);
   const [lifeExpectancy, setLifeExpectancy] = useState<number>(85);
@@ -15,29 +18,25 @@ export default function RetirementCalculator({ onCopy }: RetirementCalculatorPro
   const [expectedReturn, setExpectedReturn] = useState<number>(10);
   const [inflationRate, setInflationRate] = useState<number>(6);
 
+  const currObj = getCurrency(currency);
+
   const calc = useMemo(() => {
     const yearsToRetire = Math.max(1, retirementAge - currentAge);
     const yearsInRetirement = Math.max(1, lifeExpectancy - retirementAge);
 
-    // Monthly expense adjusted for inflation at retirement
     const monthlyExpAtRetirement = monthlyExpenses * Math.pow(1 + inflationRate / 100, yearsToRetire);
     const annualExpAtRetirement = monthlyExpAtRetirement * 12;
 
-    // Real rate of return in retirement (assuming conservative 7% return - 6% inflation = 1% real return)
     const realReturnInRetirement = Math.max(0.005, (expectedReturn * 0.7 - inflationRate) / 100);
 
-    // Target corpus required at retirement age using annuity formula
     const r = realReturnInRetirement;
     const n = yearsInRetirement;
     const targetCorpus = annualExpAtRetirement * ((1 - Math.pow(1 + r, -n)) / r);
 
-    // Future value of current savings
     const fvCurrentSavings = currentSavings * Math.pow(1 + expectedReturn / 100, yearsToRetire);
 
-    // Shortfall
     const shortfall = Math.max(0, targetCorpus - fvCurrentSavings);
 
-    // Monthly savings required to bridge the shortfall
     const monthlyRate = expectedReturn / 12 / 100;
     const totalMonths = yearsToRetire * 12;
 
@@ -45,26 +44,27 @@ export default function RetirementCalculator({ onCopy }: RetirementCalculatorPro
       ? 0
       : (shortfall * monthlyRate) / (Math.pow(1 + monthlyRate, totalMonths) - 1);
 
-    const formatCurr = (val: number) =>
-      new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val);
+    const formatVal = (val: number) => formatCurr(val, currency);
 
     return {
       yearsToRetire,
       yearsInRetirement,
-      monthlyExpAtRetirement: formatCurr(monthlyExpAtRetirement),
-      targetCorpus: formatCurr(targetCorpus),
-      fvCurrentSavings: formatCurr(fvCurrentSavings),
-      shortfall: formatCurr(shortfall),
-      monthlySavingsNeeded: formatCurr(monthlySavingsNeeded),
+      monthlyExpAtRetirement: formatVal(monthlyExpAtRetirement),
+      targetCorpus: formatVal(targetCorpus),
+      fvCurrentSavings: formatVal(fvCurrentSavings),
+      shortfall: formatVal(shortfall),
+      monthlySavingsNeeded: formatVal(monthlySavingsNeeded),
       rawTargetCorpus: targetCorpus,
       rawMonthlySavings: monthlySavingsNeeded,
     };
-  }, [currentAge, retirementAge, lifeExpectancy, currentSavings, monthlyExpenses, expectedReturn, inflationRate]);
+  }, [currentAge, retirementAge, lifeExpectancy, currentSavings, monthlyExpenses, expectedReturn, inflationRate, currency]);
 
   return (
     <div className="space-y-6">
       <div className="grid gap-6 md:grid-cols-2">
         <div className="space-y-4 rounded-2xl border border-zinc-200 bg-zinc-50/50 p-5 dark:border-zinc-800 dark:bg-zinc-900/50">
+          <CurrencySelector value={currency} onChange={setCurrency} />
+
           <h3 className="flex items-center gap-2 font-display text-lg font-semibold text-zinc-900 dark:text-white">
             <PiggyBank className="h-5 w-5 text-blue-600 dark:text-cyan-400" />
             Financial & Age Parameters

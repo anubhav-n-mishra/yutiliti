@@ -1,5 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Home, Percent, DollarSign, ShieldCheck } from 'lucide-react';
+import CurrencySelector from '@/src/components/CurrencySelector';
+import { formatCurrency as formatCurr, getCurrency } from '@/src/lib/currency';
 
 interface HomeLoanEmiCalculatorProps {
   onCopy: (text: string) => void;
@@ -7,10 +9,13 @@ interface HomeLoanEmiCalculatorProps {
 }
 
 export default function HomeLoanEmiCalculator({ onCopy }: HomeLoanEmiCalculatorProps) {
+  const [currency, setCurrency] = useState<string>('USD');
   const [propertyPrice, setPropertyPrice] = useState<number>(5000000); // 50 Lakhs
   const [downPaymentPercent, setDownPaymentPercent] = useState<number>(20);
   const [interestRate, setInterestRate] = useState<number>(8.5);
   const [tenureYears, setTenureYears] = useState<number>(20);
+
+  const currObj = getCurrency(currency);
 
   const calc = useMemo(() => {
     const downPayment = (propertyPrice * downPaymentPercent) / 100;
@@ -25,13 +30,11 @@ export default function HomeLoanEmiCalculator({ onCopy }: HomeLoanEmiCalculatorP
     const totalPayment = emi * n;
     const totalInterest = totalPayment - loanAmount;
 
-    // Annual interest deduction limit under Sec 24 is up to 2 Lakhs; Sec 80C principal deduction up to 1.5 Lakhs.
     const avgYearlyInterest = Math.min(200000, totalInterest / tenureYears);
     const avgYearlyPrincipal = Math.min(150000, loanAmount / tenureYears);
-    const estimatedTaxSavingAnnual = (avgYearlyInterest + avgYearlyPrincipal) * 0.30; // 30% slab
+    const estimatedTaxSavingAnnual = (avgYearlyInterest + avgYearlyPrincipal) * 0.30;
 
-    const fmt = (val: number) =>
-      new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val);
+    const fmt = (val: number) => formatCurr(val, currency);
 
     return {
       downPaymentFormatted: fmt(downPayment),
@@ -41,19 +44,21 @@ export default function HomeLoanEmiCalculator({ onCopy }: HomeLoanEmiCalculatorP
       totalPaymentFormatted: fmt(totalPayment),
       estimatedTaxSavingAnnualFormatted: fmt(estimatedTaxSavingAnnual),
     };
-  }, [propertyPrice, downPaymentPercent, interestRate, tenureYears]);
+  }, [propertyPrice, downPaymentPercent, interestRate, tenureYears, currency]);
 
   return (
     <div className="space-y-6">
       <div className="grid gap-6 md:grid-cols-2">
         <div className="space-y-4 rounded-2xl border border-zinc-200 bg-zinc-50/50 p-5 dark:border-zinc-800 dark:bg-zinc-900/50">
+          <CurrencySelector value={currency} onChange={setCurrency} />
+
           <h3 className="flex items-center gap-2 font-display text-lg font-semibold text-zinc-900 dark:text-white">
             <Home className="h-5 w-5 text-blue-600 dark:text-cyan-400" />
             Home Loan Parameters
           </h3>
 
           <div>
-            <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300">Property Price (₹)</label>
+            <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300">Property Price ({currObj.symbol})</label>
             <input
               type="number"
               value={propertyPrice}

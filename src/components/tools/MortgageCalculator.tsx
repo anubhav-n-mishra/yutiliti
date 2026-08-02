@@ -1,5 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Building, DollarSign, Percent, ShieldCheck } from 'lucide-react';
+import CurrencySelector from '@/src/components/CurrencySelector';
+import { formatCurrency as formatCurr, getCurrency } from '@/src/lib/currency';
 
 interface MortgageCalculatorProps {
   onCopy: (text: string) => void;
@@ -7,6 +9,7 @@ interface MortgageCalculatorProps {
 }
 
 export default function MortgageCalculator({ onCopy }: MortgageCalculatorProps) {
+  const [currency, setCurrency] = useState<string>('USD');
   const [homePrice, setHomePrice] = useState<number>(400000);
   const [downPaymentPercent, setDownPaymentPercent] = useState<number>(20);
   const [interestRate, setInterestRate] = useState<number>(6.5);
@@ -14,6 +17,8 @@ export default function MortgageCalculator({ onCopy }: MortgageCalculatorProps) 
   const [propertyTaxAnnual, setPropertyTaxAnnual] = useState<number>(4800);
   const [homeInsuranceAnnual, setHomeInsuranceAnnual] = useState<number>(1400);
   const [hoaFeesMonthly, setHoaFeesMonthly] = useState<number>(150);
+
+  const currObj = getCurrency(currency);
 
   const calc = useMemo(() => {
     const downPayment = (homePrice * downPaymentPercent) / 100;
@@ -24,21 +29,13 @@ export default function MortgageCalculator({ onCopy }: MortgageCalculatorProps) 
 
     if (loanAmount <= 0 || interestRate <= 0 || loanTermYears <= 0) return null;
 
-    // Principal & Interest (P&I)
     const piMonthly = (loanAmount * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
-
-    // Property tax & insurance monthly
     const taxMonthly = propertyTaxAnnual / 12;
     const insuranceMonthly = homeInsuranceAnnual / 12;
-
-    // PMI (Required if down payment < 20%, ~0.75% of loan amount annually)
     const pmiMonthly = downPaymentPercent < 20 ? (loanAmount * 0.0075) / 12 : 0;
-
-    // Total PITI + HOA
     const totalMonthlyPayment = piMonthly + taxMonthly + insuranceMonthly + pmiMonthly + hoaFeesMonthly;
 
-    const fmt = (val: number) =>
-      new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(val);
+    const fmt = (val: number) => formatCurr(val, currency);
 
     return {
       loanAmountFormatted: fmt(loanAmount),
@@ -50,12 +47,14 @@ export default function MortgageCalculator({ onCopy }: MortgageCalculatorProps) 
       hoaMonthlyFormatted: fmt(hoaFeesMonthly),
       totalMonthlyPaymentFormatted: fmt(totalMonthlyPayment),
     };
-  }, [homePrice, downPaymentPercent, interestRate, loanTermYears, propertyTaxAnnual, homeInsuranceAnnual, hoaFeesMonthly]);
+  }, [homePrice, downPaymentPercent, interestRate, loanTermYears, propertyTaxAnnual, homeInsuranceAnnual, hoaFeesMonthly, currency]);
 
   return (
     <div className="space-y-6">
       <div className="grid gap-6 md:grid-cols-2">
         <div className="space-y-4 rounded-2xl border border-zinc-200 bg-zinc-50/50 p-5 dark:border-zinc-800 dark:bg-zinc-900/50">
+          <CurrencySelector value={currency} onChange={setCurrency} />
+
           <h3 className="flex items-center gap-2 font-display text-lg font-semibold text-zinc-900 dark:text-white">
             <Building className="h-5 w-5 text-blue-600 dark:text-cyan-400" />
             Mortgage Parameters

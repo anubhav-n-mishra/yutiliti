@@ -1,6 +1,23 @@
 import React from 'react';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
+import { absoluteUrl, SITE_NAME } from '@/src/lib/site';
+
+export const metadata: Metadata = {
+  title: `Terms & Conditions – Free Online Tools Suite | ${SITE_NAME}`,
+  description: "Read the Yuitility Terms & Conditions governing the use of our free, browser-based online tools suite and local client-side application services.",
+  alternates: {
+    canonical: "/terms",
+  },
+  openGraph: {
+    type: "website",
+    url: absoluteUrl("/terms"),
+    siteName: SITE_NAME,
+    title: `Terms & Conditions – Free Online Tools Suite | ${SITE_NAME}`,
+    description: "Read the Yuitility Terms & Conditions governing the use of our free, browser-based online tools suite and local client-side application services.",
+  },
+};
 
 export default function TermsAndConditions() {
   return (
@@ -38,7 +55,7 @@ export default function TermsAndConditions() {
           {/* Sticky Sidebar */}
           <aside className="hidden md:block w-64 shrink-0">
             <div className="sticky top-32">
-              <h4 className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-6">Contents</h4>
+              <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-6">Contents</h2>
               <ul className="space-y-4 text-sm font-semibold text-zinc-500 dark:text-zinc-400">
                 <li><a href="#services" className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors block">1. Provision of Services</a></li>
                 <li><a href="#responsibilities" className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors block">2. User Responsibilities</a></li>

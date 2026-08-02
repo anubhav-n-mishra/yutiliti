@@ -1,5 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { TrendingUp, RefreshCw, DollarSign } from 'lucide-react';
+import CurrencySelector from '@/src/components/CurrencySelector';
+import { formatCurrency as formatCurr, getCurrency } from '@/src/lib/currency';
 
 interface CompoundInterestCalculatorProps {
   onCopy: (text: string) => void;
@@ -7,11 +9,14 @@ interface CompoundInterestCalculatorProps {
 }
 
 export default function CompoundInterestCalculator({ onCopy }: CompoundInterestCalculatorProps) {
+  const [currency, setCurrency] = useState<string>('USD');
   const [initialPrincipal, setInitialPrincipal] = useState<number>(100000);
   const [monthlyContribution, setMonthlyContribution] = useState<number>(5000);
   const [annualRate, setAnnualRate] = useState<number>(10.0);
   const [years, setYears] = useState<number>(10);
-  const [compoundFreq, setCompoundFreq] = useState<number>(12); // Monthly
+  const [compoundFreq, setCompoundFreq] = useState<number>(12);
+
+  const currObj = getCurrency(currency);
 
   const calc = useMemo(() => {
     const P = initialPrincipal;
@@ -32,7 +37,6 @@ export default function CompoundInterestCalculator({ onCopy }: CompoundInterestC
       for (let m = 1; m <= 12; m++) {
         currentBalance += PMT;
         yearlyContrib += PMT;
-        // Apply interest
         currentBalance *= Math.pow(1 + r / n, n / 12);
       }
       totalInvested += yearlyContrib;
@@ -48,8 +52,7 @@ export default function CompoundInterestCalculator({ onCopy }: CompoundInterestC
     const finalBalance = currentBalance;
     const totalInterest = finalBalance - totalInvested;
 
-    const fmt = (val: number) =>
-      new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val);
+    const fmt = (val: number) => formatCurr(val, currency);
 
     return {
       finalBalanceFormatted: fmt(finalBalance),
@@ -57,12 +60,14 @@ export default function CompoundInterestCalculator({ onCopy }: CompoundInterestC
       totalInterestFormatted: fmt(totalInterest),
       yearlyData,
     };
-  }, [initialPrincipal, monthlyContribution, annualRate, years, compoundFreq]);
+  }, [initialPrincipal, monthlyContribution, annualRate, years, compoundFreq, currency]);
 
   return (
     <div className="space-y-6">
       <div className="grid gap-6 md:grid-cols-2">
         <div className="space-y-4 rounded-2xl border border-zinc-200 bg-zinc-50/50 p-5 dark:border-zinc-800 dark:bg-zinc-900/50">
+          <CurrencySelector value={currency} onChange={setCurrency} />
+
           <h3 className="flex items-center gap-2 font-display text-lg font-semibold text-zinc-900 dark:text-white">
             <TrendingUp className="h-5 w-5 text-blue-600 dark:text-cyan-400" />
             Investment Growth Inputs

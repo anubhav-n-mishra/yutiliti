@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ToolPageClient from "@/src/components/ToolPageClient";
 import { TOOLS } from "@/src/types";
-import { absoluteUrl, getToolFaqs, getToolKeywords, getToolSteps, SITE_NAME, SITE_URL, toolPath } from "@/src/lib/site";
+import { absoluteUrl, getToolFaqs, getToolKeywords, getToolSeoDescription, getToolSeoTitle, getToolSteps, SITE_NAME, SITE_URL, toolPath } from "@/src/lib/site";
 
 type ToolPageProps = {
   params: Promise<{ slug: string }>;
@@ -34,8 +34,8 @@ export async function generateMetadata({ params }: ToolPageProps): Promise<Metad
 
   const path = toolPath(tool.id);
   const canonicalUrl = absoluteUrl(path);
-  const title = `${tool.title} — Free Online ${getCategoryName(tool.category)} Tool | ${SITE_NAME}`;
-  const description = `${tool.description} Use this free, privacy-first ${tool.title.toLowerCase()} directly in your browser. No signup, no data upload. ${tool.longDescription.split(".")[0]}.`;
+  const title = getToolSeoTitle(tool);
+  const description = getToolSeoDescription(tool);
 
   const ogImage = `/brand/og-${tool.id}.png`;
 

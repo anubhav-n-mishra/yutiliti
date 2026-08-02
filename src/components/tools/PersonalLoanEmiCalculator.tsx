@@ -1,5 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { User, Percent, DollarSign, ShieldAlert } from 'lucide-react';
+import CurrencySelector from '@/src/components/CurrencySelector';
+import { formatCurrency as formatCurr, getCurrency } from '@/src/lib/currency';
 
 interface PersonalLoanEmiCalculatorProps {
   onCopy: (text: string) => void;
@@ -7,10 +9,13 @@ interface PersonalLoanEmiCalculatorProps {
 }
 
 export default function PersonalLoanEmiCalculator({ onCopy }: PersonalLoanEmiCalculatorProps) {
+  const [currency, setCurrency] = useState<string>('USD');
   const [loanAmount, setLoanAmount] = useState<number>(400000);
   const [interestRate, setInterestRate] = useState<number>(12.5);
   const [tenureYears, setTenureYears] = useState<number>(4);
   const [processingFeePercent, setProcessingFeePercent] = useState<number>(1.5);
+
+  const currObj = getCurrency(currency);
 
   const calc = useMemo(() => {
     const P = loanAmount;
@@ -24,8 +29,7 @@ export default function PersonalLoanEmiCalculator({ onCopy }: PersonalLoanEmiCal
     const processingFee = (P * processingFeePercent) / 100;
     const totalCost = P + totalInterest + processingFee;
 
-    const fmt = (val: number) =>
-      new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val);
+    const fmt = (val: number) => formatCurr(val, currency);
 
     return {
       emiFormatted: fmt(emi),
@@ -33,19 +37,21 @@ export default function PersonalLoanEmiCalculator({ onCopy }: PersonalLoanEmiCal
       processingFeeFormatted: fmt(processingFee),
       totalCostFormatted: fmt(totalCost),
     };
-  }, [loanAmount, interestRate, tenureYears, processingFeePercent]);
+  }, [loanAmount, interestRate, tenureYears, processingFeePercent, currency]);
 
   return (
     <div className="space-y-6">
       <div className="grid gap-6 md:grid-cols-2">
         <div className="space-y-4 rounded-2xl border border-zinc-200 bg-zinc-50/50 p-5 dark:border-zinc-800 dark:bg-zinc-900/50">
+          <CurrencySelector value={currency} onChange={setCurrency} />
+
           <h3 className="flex items-center gap-2 font-display text-lg font-semibold text-zinc-900 dark:text-white">
             <User className="h-5 w-5 text-blue-600 dark:text-cyan-400" />
             Personal Loan Details
           </h3>
 
           <div>
-            <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300">Loan Amount (₹)</label>
+            <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300">Loan Amount ({currObj.symbol})</label>
             <input
               type="number"
               value={loanAmount}

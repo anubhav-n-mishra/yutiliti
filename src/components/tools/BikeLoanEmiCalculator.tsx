@@ -1,5 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Bike, DollarSign, Percent, ShieldCheck } from 'lucide-react';
+import CurrencySelector from '@/src/components/CurrencySelector';
+import { formatCurrency as formatCurr, getCurrency } from '@/src/lib/currency';
 
 interface BikeLoanEmiCalculatorProps {
   onCopy: (text: string) => void;
@@ -7,11 +9,14 @@ interface BikeLoanEmiCalculatorProps {
 }
 
 export default function BikeLoanEmiCalculator({ onCopy }: BikeLoanEmiCalculatorProps) {
+  const [currency, setCurrency] = useState<string>('USD');
   const [exShowroomPrice, setExShowroomPrice] = useState<number>(120000);
   const [downPayment, setDownPayment] = useState<number>(25000);
   const [interestRate, setInterestRate] = useState<number>(11.0);
   const [tenureYears, setTenureYears] = useState<number>(3);
   const [rtoInsurance, setRtoInsurance] = useState<number>(15000);
+
+  const currObj = getCurrency(currency);
 
   const calc = useMemo(() => {
     const onRoadPrice = exShowroomPrice + rtoInsurance;
@@ -28,8 +33,7 @@ export default function BikeLoanEmiCalculator({ onCopy }: BikeLoanEmiCalculatorP
 
     const ltvRatio = Math.round((loanAmount / onRoadPrice) * 100);
 
-    const fmt = (val: number) =>
-      new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val);
+    const fmt = (val: number) => formatCurr(val, currency);
 
     return {
       onRoadPriceFormatted: fmt(onRoadPrice),
@@ -39,12 +43,14 @@ export default function BikeLoanEmiCalculator({ onCopy }: BikeLoanEmiCalculatorP
       totalPaymentFormatted: fmt(totalPayment),
       ltvRatio,
     };
-  }, [exShowroomPrice, downPayment, interestRate, tenureYears, rtoInsurance]);
+  }, [exShowroomPrice, downPayment, interestRate, tenureYears, rtoInsurance, currency]);
 
   return (
     <div className="space-y-6">
       <div className="grid gap-6 md:grid-cols-2">
         <div className="space-y-4 rounded-2xl border border-zinc-200 bg-zinc-50/50 p-5 dark:border-zinc-800 dark:bg-zinc-900/50">
+          <CurrencySelector value={currency} onChange={setCurrency} />
+
           <h3 className="flex items-center gap-2 font-display text-lg font-semibold text-zinc-900 dark:text-white">
             <Bike className="h-5 w-5 text-blue-600 dark:text-cyan-400" />
             Two-Wheeler Loan Details
@@ -52,7 +58,7 @@ export default function BikeLoanEmiCalculator({ onCopy }: BikeLoanEmiCalculatorP
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="mb-1 block text-xs font-medium text-zinc-700 dark:text-zinc-300">Ex-Showroom Price (₹)</label>
+              <label className="mb-1 block text-xs font-medium text-zinc-700 dark:text-zinc-300">Ex-Showroom Price ({currObj.symbol})</label>
               <input
                 type="number"
                 value={exShowroomPrice}

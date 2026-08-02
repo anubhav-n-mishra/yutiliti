@@ -1,6 +1,23 @@
 import React from 'react';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
+import { absoluteUrl, SITE_NAME } from '@/src/lib/site';
+
+export const metadata: Metadata = {
+  title: `Privacy Policy – Free Online Tools Suite | ${SITE_NAME}`,
+  description: "Read the Yuitility Privacy Policy. Learn how our browser-based tools process your data 100% locally on your device with zero server uploads or tracking cookies.",
+  alternates: {
+    canonical: "/privacy",
+  },
+  openGraph: {
+    type: "website",
+    url: absoluteUrl("/privacy"),
+    siteName: SITE_NAME,
+    title: `Privacy Policy – Free Online Tools Suite | ${SITE_NAME}`,
+    description: "Read the Yuitility Privacy Policy. Learn how our browser-based tools process your data 100% locally on your device with zero server uploads or tracking cookies.",
+  },
+};
 
 export default function PrivacyPolicy() {
   return (
@@ -38,7 +55,7 @@ export default function PrivacyPolicy() {
           {/* Sticky Sidebar */}
           <aside className="hidden md:block w-64 shrink-0">
             <div className="sticky top-32">
-              <h4 className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-6">Contents</h4>
+              <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-6">Contents</h2>
               <ul className="space-y-4 text-sm font-semibold text-zinc-500 dark:text-zinc-400">
                 <li><a href="#client-side" className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors block">1. Client-Side Processing</a></li>
                 <li><a href="#no-collection" className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors block">2. No Data Collection</a></li>

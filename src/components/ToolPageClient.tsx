@@ -171,7 +171,7 @@ export default function ToolPageClient({ tool }: ToolPageClientProps) {
       <header className="sticky top-0 z-30 border-b border-zinc-200/80 bg-white/90 backdrop-blur-xl dark:border-zinc-800 dark:bg-zinc-950/90">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
           <Link href="/" className="flex items-center gap-2.5" aria-label="Yuitility home">
-            <img src="/brand/yuitility-logo.png" alt="" className="h-9 w-9 object-contain" />
+            <img src="/brand/yuitility-logo.png" alt="Yuitility logo" className="h-9 w-9 object-contain" />
             <span className="font-display text-lg font-bold tracking-tight text-zinc-950 dark:text-white">Yuitility</span>
           </Link>
           <div className="flex items-center gap-2">
@@ -202,6 +202,7 @@ export default function ToolPageClient({ tool }: ToolPageClientProps) {
         <div className="mb-8 flex flex-col gap-4 rounded-3xl border border-blue-100 bg-gradient-to-br from-blue-50 via-white to-cyan-50 p-6 dark:border-zinc-800 dark:from-zinc-900 dark:via-zinc-950 dark:to-cyan-950/30 sm:flex-row sm:items-center sm:justify-between">
           <div className="max-w-3xl">
             <p className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-blue-600 dark:text-cyan-300">Free online {tool.category} tool</p>
+            <h1 className="text-3xl font-display font-extrabold tracking-tight text-zinc-950 dark:text-white mb-2">{tool.title}</h1>
             <p className="text-base leading-relaxed text-zinc-600 dark:text-zinc-300">{tool.longDescription}</p>
           </div>
           <button type="button" onClick={() => share(tool.title, `#/${tool.id}`)} className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-zinc-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 dark:bg-white dark:text-zinc-950 dark:hover:bg-cyan-200">

@@ -1,5 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { DollarSign, Percent, Calendar, RefreshCw, PieChart } from 'lucide-react';
+import CurrencySelector from '@/src/components/CurrencySelector';
+import { formatCurrency as formatCurr, getCurrency } from '@/src/lib/currency';
 
 interface LoanCalculatorProps {
   onCopy: (text: string) => void;
@@ -7,9 +9,12 @@ interface LoanCalculatorProps {
 }
 
 export default function LoanCalculator({ onCopy }: LoanCalculatorProps) {
+  const [currency, setCurrency] = useState<string>('USD');
   const [amount, setAmount] = useState<number>(300000);
   const [rate, setRate] = useState<number>(10.5);
   const [tenureYears, setTenureYears] = useState<number>(3);
+
+  const currObj = getCurrency(currency);
 
   const calc = useMemo(() => {
     const P = amount;
@@ -25,8 +30,7 @@ export default function LoanCalculator({ onCopy }: LoanCalculatorProps) {
     const principalPercent = Math.round((P / totalPayment) * 100);
     const interestPercent = 100 - principalPercent;
 
-    const fmt = (val: number) =>
-      new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val);
+    const fmt = (val: number) => formatCurr(val, currency);
 
     return {
       emiFormatted: fmt(emi),
@@ -35,19 +39,21 @@ export default function LoanCalculator({ onCopy }: LoanCalculatorProps) {
       principalPercent,
       interestPercent,
     };
-  }, [amount, rate, tenureYears]);
+  }, [amount, rate, tenureYears, currency]);
 
   return (
     <div className="space-y-6">
       <div className="grid gap-6 md:grid-cols-2">
         <div className="space-y-4 rounded-2xl border border-zinc-200 bg-zinc-50/50 p-5 dark:border-zinc-800 dark:bg-zinc-900/50">
+          <CurrencySelector value={currency} onChange={setCurrency} />
+
           <h3 className="flex items-center gap-2 font-display text-lg font-semibold text-zinc-900 dark:text-white">
             <DollarSign className="h-5 w-5 text-blue-600 dark:text-cyan-400" />
             Loan Parameters
           </h3>
 
           <div>
-            <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300">Loan Amount (₹)</label>
+            <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300">Loan Amount ({currObj.symbol})</label>
             <input
               type="number"
               value={amount}

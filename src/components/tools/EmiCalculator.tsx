@@ -1,12 +1,16 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Download, RefreshCw, Share2, Info, ChevronDown, ChevronUp } from 'lucide-react';
 
+import CurrencySelector from '@/src/components/CurrencySelector';
+import { formatCurrency as formatCurr } from '@/src/lib/currency';
+
 interface EmiCalculatorProps {
   onCopy: (text: string) => void;
   onShare: (title: string, path: string) => void;
 }
 
 export default function EmiCalculator({ onCopy, onShare }: EmiCalculatorProps) {
+  const [currency, setCurrency] = useState<string>('USD');
   const [loanAmount, setLoanAmount] = useState<number>(500000);
   const [interestRate, setInterestRate] = useState<number>(8.5);
   const [tenure, setTenure] = useState<number>(5);
@@ -69,14 +73,7 @@ export default function EmiCalculator({ onCopy, onShare }: EmiCalculatorProps) {
 
   const { emi, totalInterest, totalPayment, schedule } = calculations;
 
-  // Format currency in standard Indian style or generic USD style
-  const formatCurrency = (val: number) => {
-    return new Intl.NumberFormat('en-IN', {
-      style: 'currency',
-      currency: 'INR',
-      maximumFractionDigits: 0
-    }).format(val);
-  };
+  const formatCurrency = (val: number) => formatCurr(val, currency);
 
   const handleReset = () => {
     setLoanAmount(500000);
@@ -148,6 +145,8 @@ export default function EmiCalculator({ onCopy, onShare }: EmiCalculatorProps) {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left Inputs Pane */}
         <div className="lg:col-span-7 space-y-6">
+          <CurrencySelector value={currency} onChange={setCurrency} />
+
           {/* Loan Amount Input */}
           <div className="space-y-2">
             <div className="flex justify-between items-center">

@@ -1,5 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Car, DollarSign, Percent } from 'lucide-react';
+import CurrencySelector from '@/src/components/CurrencySelector';
+import { formatCurrency as formatCurr, getCurrency } from '@/src/lib/currency';
 
 interface CarLoanEmiCalculatorProps {
   onCopy: (text: string) => void;
@@ -7,11 +9,14 @@ interface CarLoanEmiCalculatorProps {
 }
 
 export default function CarLoanEmiCalculator({ onCopy }: CarLoanEmiCalculatorProps) {
+  const [currency, setCurrency] = useState<string>('USD');
   const [carPrice, setCarPrice] = useState<number>(1000000); // 10 Lakhs
   const [downPayment, setDownPayment] = useState<number>(200000);
   const [tradeInValue, setTradeInValue] = useState<number>(50000);
   const [interestRate, setInterestRate] = useState<number>(8.75);
   const [tenureYears, setTenureYears] = useState<number>(5);
+
+  const currObj = getCurrency(currency);
 
   const calc = useMemo(() => {
     const netLoanAmount = Math.max(0, carPrice - downPayment - tradeInValue);
@@ -25,8 +30,7 @@ export default function CarLoanEmiCalculator({ onCopy }: CarLoanEmiCalculatorPro
     const totalPayment = emi * n;
     const totalInterest = totalPayment - netLoanAmount;
 
-    const fmt = (val: number) =>
-      new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val);
+    const fmt = (val: number) => formatCurr(val, currency);
 
     return {
       netLoanAmountFormatted: fmt(netLoanAmount),
@@ -34,19 +38,21 @@ export default function CarLoanEmiCalculator({ onCopy }: CarLoanEmiCalculatorPro
       totalInterestFormatted: fmt(totalInterest),
       totalPaymentFormatted: fmt(totalPayment),
     };
-  }, [carPrice, downPayment, tradeInValue, interestRate, tenureYears]);
+  }, [carPrice, downPayment, tradeInValue, interestRate, tenureYears, currency]);
 
   return (
     <div className="space-y-6">
       <div className="grid gap-6 md:grid-cols-2">
         <div className="space-y-4 rounded-2xl border border-zinc-200 bg-zinc-50/50 p-5 dark:border-zinc-800 dark:bg-zinc-900/50">
+          <CurrencySelector value={currency} onChange={setCurrency} />
+
           <h3 className="flex items-center gap-2 font-display text-lg font-semibold text-zinc-900 dark:text-white">
             <Car className="h-5 w-5 text-blue-600 dark:text-cyan-400" />
             Car Finance Parameters
           </h3>
 
           <div>
-            <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300">Car On-Road Price (₹)</label>
+            <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300">Car On-Road Price ({currObj.symbol})</label>
             <input
               type="number"
               value={carPrice}

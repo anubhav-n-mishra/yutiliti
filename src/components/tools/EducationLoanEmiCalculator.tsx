@@ -1,5 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { GraduationCap, BookOpen, Percent, ShieldCheck } from 'lucide-react';
+import CurrencySelector from '@/src/components/CurrencySelector';
+import { formatCurrency as formatCurr, getCurrency } from '@/src/lib/currency';
 
 interface EducationLoanEmiCalculatorProps {
   onCopy: (text: string) => void;
@@ -7,6 +9,7 @@ interface EducationLoanEmiCalculatorProps {
 }
 
 export default function EducationLoanEmiCalculator({ onCopy }: EducationLoanEmiCalculatorProps) {
+  const [currency, setCurrency] = useState<string>('USD');
   const [loanAmount, setLoanAmount] = useState<number>(1000000); // 10 Lakhs
   const [interestRate, setInterestRate] = useState<number>(9.5);
   const [courseDurationYears, setCourseDurationYears] = useState<number>(4);
@@ -14,15 +17,15 @@ export default function EducationLoanEmiCalculator({ onCopy }: EducationLoanEmiC
   const [repaymentTenureYears, setRepaymentTenureYears] = useState<number>(7);
   const [payInterestDuringStudy, setPayInterestDuringStudy] = useState<boolean>(false);
 
+  const currObj = getCurrency(currency);
+
   const calc = useMemo(() => {
     const P = loanAmount;
     const studyMonths = courseDurationYears * 12 + moratoriumGraceMonths;
     const studyYears = studyMonths / 12;
 
-    // Simple interest during study/moratorium period
     const moratoriumInterest = P * (interestRate / 100) * studyYears;
 
-    // Principal entering repayment phase
     const effectivePrincipal = payInterestDuringStudy ? P : P + moratoriumInterest;
 
     const r = interestRate / 12 / 100;
@@ -32,12 +35,10 @@ export default function EducationLoanEmiCalculator({ onCopy }: EducationLoanEmiC
     const totalRepayment = emi * n + (payInterestDuringStudy ? moratoriumInterest : 0);
     const totalInterest = totalRepayment - P;
 
-    // Tax Deduction Estimate (Under Section 80E in India, interest paid is 100% tax deductible for 8 years)
     const annualAvgInterest = totalInterest / (repaymentTenureYears + (payInterestDuringStudy ? studyYears : 0));
-    const estimatedTaxSavedAnnual = annualAvgInterest * 0.30; // 30% tax bracket estimate
+    const estimatedTaxSavedAnnual = annualAvgInterest * 0.30;
 
-    const fmt = (val: number) =>
-      new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val);
+    const fmt = (val: number) => formatCurr(val, currency);
 
     return {
       emiFormatted: fmt(emi),
@@ -47,12 +48,14 @@ export default function EducationLoanEmiCalculator({ onCopy }: EducationLoanEmiC
       totalRepaymentFormatted: fmt(totalRepayment),
       estimatedTaxSavedAnnualFormatted: fmt(estimatedTaxSavedAnnual),
     };
-  }, [loanAmount, interestRate, courseDurationYears, moratoriumGraceMonths, repaymentTenureYears, payInterestDuringStudy]);
+  }, [loanAmount, interestRate, courseDurationYears, moratoriumGraceMonths, repaymentTenureYears, payInterestDuringStudy, currency]);
 
   return (
     <div className="space-y-6">
       <div className="grid gap-6 md:grid-cols-2">
         <div className="space-y-4 rounded-2xl border border-zinc-200 bg-zinc-50/50 p-5 dark:border-zinc-800 dark:bg-zinc-900/50">
+          <CurrencySelector value={currency} onChange={setCurrency} />
+
           <h3 className="flex items-center gap-2 font-display text-lg font-semibold text-zinc-900 dark:text-white">
             <GraduationCap className="h-5 w-5 text-blue-600 dark:text-cyan-400" />
             Education Loan Details

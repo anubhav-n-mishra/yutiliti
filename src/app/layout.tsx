@@ -5,8 +5,8 @@ import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/src/lib/site";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${SITE_NAME} — Free Online Tools for PDF, Images, Finance & Developer Tasks`,
-    template: `%s | ${SITE_NAME}`,
+    default: "Yuitility – Free Online Tools for PDF, Finance & Dev",
+    template: "%s",
   },
   description: SITE_DESCRIPTION,
   applicationName: SITE_NAME,
@@ -82,7 +82,7 @@ export const metadata: Metadata = {
     type: "website",
     url: "/",
     siteName: SITE_NAME,
-    title: `${SITE_NAME} — Free Online Tools for PDF, Images, Finance & Developer Tasks`,
+    title: "Yuitility – Free Online Tools for PDF, Finance & Dev",
     description: SITE_DESCRIPTION,
     locale: "en_US",
     images: [
