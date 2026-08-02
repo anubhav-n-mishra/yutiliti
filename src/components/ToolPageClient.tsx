@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, CheckCircle2, Copy, Moon, ShieldCheck, Sun } from "lucide-react";
 import { Tool, TOOLS } from "@/src/types";
-import { getToolFaqs, getToolSteps, toolPath } from "@/src/lib/site";
+import { getToolFaqs, getToolHowItWorks, getToolSteps, toolPath } from "@/src/lib/site";
 import EmiCalculator from "@/src/components/tools/EmiCalculator";
 import SipCalculator from "@/src/components/tools/SipCalculator";
 import AgeCalculator from "@/src/components/tools/AgeCalculator";
@@ -132,6 +132,7 @@ export default function ToolPageClient({ tool }: ToolPageClientProps) {
   const [message, setMessage] = useState("");
   const faqs = useMemo(() => getToolFaqs(tool), [tool]);
   const steps = useMemo(() => getToolSteps(tool), [tool]);
+  const howItWorks = useMemo(() => getToolHowItWorks(tool), [tool]);
   const relatedTools = useMemo(
     () => TOOLS.filter((candidate) => candidate.category === tool.category && candidate.id !== tool.id && !candidate.disabled).slice(0, 3),
     [tool],
@@ -199,15 +200,22 @@ export default function ToolPageClient({ tool }: ToolPageClientProps) {
           <span className="font-medium text-zinc-800 dark:text-zinc-100">{tool.title}</span>
         </nav>
 
-        <div className="mb-8 flex flex-col gap-4 rounded-3xl border border-blue-100 bg-gradient-to-br from-blue-50 via-white to-cyan-50 p-6 dark:border-zinc-800 dark:from-zinc-900 dark:via-zinc-950 dark:to-cyan-950/30 sm:flex-row sm:items-center sm:justify-between">
-          <div className="max-w-3xl">
-            <p className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-blue-600 dark:text-cyan-300">Free online {tool.category} tool</p>
-            <h1 className="text-3xl font-display font-extrabold tracking-tight text-zinc-950 dark:text-white mb-2">{tool.title}</h1>
-            <p className="text-base leading-relaxed text-zinc-600 dark:text-zinc-300">{tool.longDescription}</p>
+        <div className="mb-8 flex flex-col gap-6 rounded-3xl border border-blue-100 bg-gradient-to-br from-blue-50 via-white to-cyan-50 p-6 dark:border-zinc-800 dark:from-zinc-900 dark:via-zinc-950 dark:to-cyan-950/30 sm:p-8">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div className="max-w-3xl">
+              <p className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-blue-600 dark:text-cyan-300">Free online {tool.category} tool</p>
+              <h1 className="text-3xl font-display font-extrabold tracking-tight text-zinc-950 dark:text-white mb-2">{tool.title}</h1>
+              <p className="text-base leading-relaxed text-zinc-600 dark:text-zinc-300">{tool.longDescription}</p>
+            </div>
+            <button type="button" onClick={() => share(tool.title, `#/${tool.id}`)} className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-zinc-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 dark:bg-white dark:text-zinc-950 dark:hover:bg-cyan-200">
+              <Copy className="h-4 w-4" /> Copy link
+            </button>
           </div>
-          <button type="button" onClick={() => share(tool.title, `#/${tool.id}`)} className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-zinc-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 dark:bg-white dark:text-zinc-950 dark:hover:bg-cyan-200">
-            <Copy className="h-4 w-4" /> Copy link
-          </button>
+
+          <div className="border-t border-blue-200/60 pt-5 dark:border-zinc-800">
+            <h2 className="text-xs font-bold uppercase tracking-widest text-blue-700 dark:text-cyan-300 mb-1.5">How It Works</h2>
+            <p className="text-sm leading-relaxed text-zinc-700 dark:text-zinc-300 font-medium">{howItWorks}</p>
+          </div>
         </div>
 
         <section aria-label={`${tool.title} workspace`} className="rounded-3xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-950 sm:p-8">
@@ -230,9 +238,17 @@ export default function ToolPageClient({ tool }: ToolPageClientProps) {
         </section>
 
         <section className="mt-12">
-          <h2 className="font-display text-2xl font-bold tracking-tight text-zinc-950 dark:text-white">{tool.title} FAQ</h2>
-          <div className="mt-5 grid gap-4 md:grid-cols-3">
-            {faqs.map((faq) => <details key={faq.question} className="rounded-2xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900"><summary className="cursor-pointer font-semibold text-zinc-900 dark:text-white">{faq.question}</summary><p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">{faq.answer}</p></details>)}
+          <div className="mb-6">
+            <h2 className="font-display text-2xl font-bold tracking-tight text-zinc-950 dark:text-white">{tool.title} FAQ</h2>
+            <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">Frequently asked questions about calculation formulas, privacy, and usage.</p>
+          </div>
+          <div className="grid gap-6 md:grid-cols-2">
+            {faqs.map((faq) => (
+              <article key={faq.question} className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+                <h3 className="text-base font-bold text-zinc-950 dark:text-white leading-snug">{faq.question}</h3>
+                <p className="mt-2.5 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">{faq.answer}</p>
+              </article>
+            ))}
           </div>
         </section>
 

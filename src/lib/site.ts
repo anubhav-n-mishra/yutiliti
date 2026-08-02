@@ -51,71 +51,7 @@ export function getToolSteps(tool: Tool) {
   ];
 }
 
-export function getToolFaqs(tool: Tool) {
-  const toolName = tool.title;
-  
-  if (tool.id === "bmi-calculator") {
-    return [
-      {
-        question: "How is BMI calculated?",
-        answer: "BMI is calculated by dividing body weight in kilograms by height in meters squared (kg/m²). For imperial units, multiply weight in pounds by 703 and divide by height in inches squared."
-      },
-      {
-        question: "What is a healthy BMI range?",
-        answer: "A standard healthy BMI range for adults is between 18.5 and 24.9. Below 18.5 is underweight, 25–29.9 is overweight, and 30 or above indicates obesity."
-      },
-      {
-        question: "Is BMI accurate for everyone?",
-        answer: "BMI provides a helpful general assessment, but does not distinguish between muscle mass and fat tissue. Athletes or muscular individuals may have higher BMIs without excess fat."
-      },
-      {
-        question: "Is this BMI calculator free and private?",
-        answer: "Yes. Yuitility calculates your BMI 100% locally in your browser. No health data or personal inputs are uploaded to any server."
-      }
-    ];
-  }
-
-  if (tool.category === "finance") {
-    return [
-      {
-        question: `How does the ${toolName} work?`,
-        answer: `Our ${toolName} uses standard financial compound interest and amortization math to compute monthly values and totals instantly as you adjust input parameters.`
-      },
-      {
-        question: `Can I change currencies in the ${toolName}?`,
-        answer: `Yes. You can switch between USD ($), EUR (€), GBP (£), INR (₹), AUD (A$), CAD (C$), JPY (¥), AED, and SGD using the currency selector.`
-      },
-      {
-        question: `Is my financial data saved or uploaded?`,
-        answer: `No. All calculations run strictly client-side in your device memory. Yuitility does not store, collect, or transmit your financial inputs.`
-      },
-      {
-        question: `Is the ${toolName} free to use?`,
-        answer: `Yes, 100% free forever with no account creation, no limits, and no subscription fees required.`
-      }
-    ];
-  }
-
-  return [
-    {
-      question: `Is the ${toolName} free to use?`,
-      answer: `Yes. Yuitility provides the ${toolName} as a free browser-based tool with no account or signup required.`,
-    },
-    {
-      question: `Does the ${toolName} upload my data or files?`,
-      answer:
-        "No. Your inputs and files are processed locally within your browser. Data is never uploaded to any Yuitility server.",
-    },
-    {
-      question: `How do I use the ${toolName}?`,
-      answer: `Open the tool, enter your data or select your file, adjust settings as needed, and copy or download the output immediately.`,
-    },
-    {
-      question: `Does the ${toolName} work offline?`,
-      answer: `Yes. After loading the tool page, all execution scripts remain in your browser memory so you can use it even without an internet connection.`
-    }
-  ];
-}
+export { getToolFaqs, getToolHowItWorks } from "@/src/lib/toolContent";
 
 export function getCategoryName(category: string) {
   const categories: Record<string, string> = {
