@@ -17,15 +17,15 @@ export default function manifest(): MetadataRoute.Manifest {
     dir: "ltr",
     categories: ["utilities", "productivity", "developer", "finance", "education"],
     icons: [
-      { src: "/icon-72.png", sizes: "72x72", type: "image/png", purpose: "any maskable" },
-      { src: "/icon-96.png", sizes: "96x96", type: "image/png", purpose: "any maskable" },
-      { src: "/icon-128.png", sizes: "128x128", type: "image/png", purpose: "any maskable" },
-      { src: "/icon-144.png", sizes: "144x144", type: "image/png", purpose: "any maskable" },
-      { src: "/icon-152.png", sizes: "152x152", type: "image/png", purpose: "any maskable" },
-      { src: "/icon-192.png", sizes: "192x192", type: "image/png", purpose: "any maskable" },
-      { src: "/icon-384.png", sizes: "384x384", type: "image/png", purpose: "any maskable" },
-      { src: "/icon-512.png", sizes: "512x512", type: "image/png", purpose: "any maskable" },
-      { src: "/icon-1024.png", sizes: "1024x1024", type: "image/png", purpose: "any maskable" },
+      { src: "/icon-72.png", sizes: "72x72", type: "image/png", purpose: "maskable" },
+      { src: "/icon-96.png", sizes: "96x96", type: "image/png", purpose: "maskable" },
+      { src: "/icon-128.png", sizes: "128x128", type: "image/png", purpose: "maskable" },
+      { src: "/icon-144.png", sizes: "144x144", type: "image/png", purpose: "maskable" },
+      { src: "/icon-152.png", sizes: "152x152", type: "image/png", purpose: "maskable" },
+      { src: "/icon-192.png", sizes: "192x192", type: "image/png", purpose: "maskable" },
+      { src: "/icon-384.png", sizes: "384x384", type: "image/png", purpose: "maskable" },
+      { src: "/icon-512.png", sizes: "512x512", type: "image/png", purpose: "maskable" },
+      { src: "/icon-1024.png", sizes: "1024x1024", type: "image/png", purpose: "maskable" },
     ],
     screenshots: [
       {
@@ -75,11 +75,5 @@ export default function manifest(): MetadataRoute.Manifest {
     ],
     related_applications: [],
     prefer_related_applications: false,
-    iarc_rating_id: "",
-    launch_handler: {
-      client_mode: ["focus-existing", "auto"],
-    },
-    protocol_handlers: [],
-    file_handlers: [],
   };
 }

@@ -173,6 +173,4 @@ export async function GET(
   );
 }
 
-export function generateStaticParams() {
-  return TOOLS.map((tool) => ({ toolId: tool.id }));
-}
+export const dynamic = "force-dynamic";
