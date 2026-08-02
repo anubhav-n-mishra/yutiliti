@@ -1,7 +1,7 @@
 import { FAQItem, Tool } from "@/src/types";
 
 /**
- * Priority 1 & 2 Custom "How It Works" Descriptions
+ * Priority 1, Priority 2, and Tool Content Pack "How It Works" Descriptions
  */
 const CUSTOM_HOW_IT_WORKS: Record<string, string> = {
   "dog-age-calculator":
@@ -16,37 +16,55 @@ const CUSTOM_HOW_IT_WORKS: Record<string, string> = {
     "Enter loan amount, interest rate, and tenure. The calculator computes your monthly EMI using the standard reducing-balance formula, and (for the PITI version) adds property tax, insurance, and HOA fees for a full monthly payment picture.",
   "home-loan-emi-calculator":
     "Enter loan amount, interest rate, and tenure. The calculator computes your monthly EMI using the standard reducing-balance formula, and adds property tax, insurance, and HOA fees for a full monthly payment picture.",
-  "bmi-calculator":
-    "Enter your height and body weight in either metric or imperial units. The calculator computes your Body Mass Index (BMI) using standard WHO clinical guidelines and displays your health category instantly in your browser without uploading any data.",
   "emi-calculator":
-    "Enter your loan principal amount, annual interest rate, and tenure. The calculator uses the standard reducing-balance formula to compute your exact monthly payment (EMI), interest burden, and interactive repayment schedule.",
+    "Enter your loan principal, annual interest rate, and tenure in months or years. The calculator uses the standard reducing-balance formula to show your monthly EMI, total interest payable, and total repayment amount.",
   "sip-calculator":
-    "Enter your monthly investment amount, expected annual return rate, and investment horizon. The calculator computes compound wealth growth over time and displays total invested capital alongside total returns.",
-  "password-generator":
-    "Select your desired length and toggle uppercase, lowercase, numbers, or special symbols. The generator uses Web Crypto API to generate cryptographically secure passwords 100% locally in your browser memory.",
-  "qr-code-generator":
-    "Enter any text, URL, WiFi credential, or contact info. The generator encodes it directly into a vector QR code canvas in your browser so you can download PNG or SVG graphics without server tracking.",
-  "word-counter":
-    "Paste or type your document text directly into the input area. The tool counts total words, characters (with and without spaces), sentences, paragraphs, reading duration, and keyword frequency in real time.",
-  "image-compressor":
-    "Upload your JPG, PNG, or WebP images into the local processing engine. Adjust quality settings to compress file size by up to 80% with zero server uploads and zero quality loss.",
+    "Enter your monthly investment amount, expected annual return rate, and investment duration. The calculator projects your total invested amount, estimated returns, and final corpus using compound growth.",
+  "car-loan-emi-calculator":
+    "Enter the vehicle's on-road price, down payment, interest rate, and tenure. The calculator computes your monthly EMI and total interest over the loan period.",
+  "bike-loan-emi-calculator":
+    "Enter the two-wheeler's on-road price, down payment amount, interest rate, and tenure to calculate your monthly EMI and total repayment.",
+  "personal-loan-emi-calculator":
+    "Enter your loan amount, interest rate, and tenure. The calculator shows your EMI, total interest, and total repayment, and can factor in processing fees for a true cost comparison.",
+  "retirement-calculator":
+    "Enter your current age, target retirement age, expected monthly expenses, and expected returns. The calculator projects your required retirement corpus, adjusted for inflation, and the monthly savings needed to reach it.",
+  "fd-calculator":
+    "Enter your deposit amount, interest rate, and tenure. The calculator computes your maturity value based on the compounding frequency (typically quarterly for Indian bank FDs).",
+  "rd-calculator":
+    "Enter your monthly deposit amount, interest rate, and tenure. The calculator computes your maturity value, accounting for the fact that each monthly deposit earns interest for a different duration.",
+  "compound-interest-calculator":
+    "Enter your principal, interest rate, compounding frequency, and duration. Optionally add regular monthly contributions to see how they affect total growth. The calculator shows your final amount and total interest earned.",
+  "simple-interest-calculator":
+    "Enter your principal, interest rate, and time period. The calculator computes interest using I = P × R × T, along with the total amount (principal + interest).",
+  "ppf-calculator":
+    "Enter your annual contribution amount and the calculator projects your PPF balance over the standard 15-year tenure, including compounded interest and applicable tax benefits.",
+  "bmi-calculator":
+    "Enter your height and weight. The calculator computes your Body Mass Index (weight in kg / height in meters squared) and shows which standard health category it falls into.",
   "json-formatter":
-    "Paste raw JSON into the editor. The tool validates syntax, formats indentation, fixes formatting errors, and collapses tree nodes instantly inside your browser with complete privacy.",
+    "Paste your JSON data and the tool formats (pretty-prints) it with proper indentation, validates the syntax, and flags any errors like missing commas or mismatched brackets.",
+  "password-generator":
+    "Choose your desired password length and character types (uppercase, lowercase, numbers, symbols). The tool generates a cryptographically random password locally in your browser.",
+  "qr-code-generator":
+    "Enter the content you want encoded (URL, text, WiFi credentials, contact info) and the tool generates a scannable QR code, downloadable as PNG or SVG.",
+  "word-counter":
+    "Paste or type your text and the tool instantly shows word count, character count (with and without spaces), estimated reading time, and keyword density.",
+  "image-compressor":
+    "Upload a JPG, PNG, or WebP image and the tool reduces file size while preserving visual quality, processed entirely in your browser.",
+  "background-remover":
+    "Upload an image and the tool automatically detects and removes the background, producing a transparent PNG output you can use on any background.",
+  "image-resizer":
+    "Upload an image and specify your target width and height (or a percentage scale). The tool resizes the image while giving you control over aspect ratio locking.",
+  "pdf-merger":
+    "Upload multiple PDF files, reorder them as needed, and the tool combines them into a single PDF document, processed locally in your browser.",
+  "pdf-splitter":
+    "Upload a PDF and specify the page range(s) you want to extract, or split into individual pages. The tool outputs the selected pages as a new PDF.",
+  "image-to-pdf":
+    "Upload one or more images (JPG, PNG, WebP) and the tool converts them into a single PDF document, with each image becoming a page.",
   "color-palette":
     "Generate harmonious color schemes, extract palettes from images, or test contrast ratios. Copy HEX, RGB, and HSL values instantly for web design and frontend projects.",
-  "pdf-merger":
-    "Drag and drop multiple PDF files into the file queue. Reorder pages and merge them into a single consolidated PDF document using client-side PDF processing.",
-  "pdf-splitter":
-    "Select a PDF file and specify target page numbers or custom split ranges. The tool extracts selected pages into separate PDF files without uploading your document to any server.",
-  "image-to-pdf":
-    "Select image files from your device. The converter arranges images into custom page sizes, margins, and orientations, outputting a clean PDF document directly in your browser.",
   "pdf-watermark":
     "Upload a PDF document and add custom text or image watermarks. Adjust font size, opacity, rotation, and alignment with 100% browser-side privacy.",
   "pdf-metadata": "Upload a PDF file to view and edit title, author, subject, keywords, and creator metadata fields. Save updated PDF files instantly with no server upload.",
-  "background-remover":
-    "Select an image file from your computer. Our local AI model detects subject boundaries and strips out backgrounds to generate transparent PNG images 100% in browser.",
-  "image-resizer":
-    "Select image files and set target pixel width, height, or aspect ratios. High-speed browser canvas scaling exports crisp resized graphics instantly.",
   "format-converter":
     "Select image files and pick target output formats (WebP, PNG, JPEG, GIF). Client-side canvas encoding converts format types without external server processing.",
   "pdf-compressor":
@@ -71,8 +89,6 @@ const CUSTOM_HOW_IT_WORKS: Record<string, string> = {
     "Enter your date of birth to calculate exact age converted into total months, weeks, days, hours, and minutes with live date math.",
   "pregnancy-due-date-calculator":
     "Enter your last menstrual period (LMP) date or conception date. Naegele's rule computes your estimated delivery date and key trimester milestones.",
-  "retirement-calculator":
-    "Enter your current age, target retirement age, monthly expenses, current savings, and expected investment returns to calculate your total retirement corpus.",
   "zodiac-age-calculator":
     "Enter your birthdate to calculate your chronological age alongside astrological Western zodiac signs, birth elements, ruling planets, and modalities.",
   "school-age-eligibility-calculator":
@@ -87,24 +103,8 @@ const CUSTOM_HOW_IT_WORKS: Record<string, string> = {
     "Enter your birth date, birth time, and location. Astronomical algorithms compute your Sun sign, Moon sign, and Rising sign (Ascendant) positions.",
   "loan-calculator":
     "Enter loan amount, interest rate, and repayment tenure. The calculator computes monthly payments, total interest payable, and total loan cost.",
-  "personal-loan-emi-calculator":
-    "Enter personal loan amount, interest rate, and term to compute monthly EMI payments, upfront processing fee impacts, and total borrowing costs.",
-  "bike-loan-emi-calculator":
-    "Enter two-wheeler loan principal, interest rate, and tenure. Calculate exact monthly EMIs, down payment requirements, and total interest paid.",
-  "car-loan-emi-calculator":
-    "Enter auto loan principal, interest rate, and repayment tenure to compute monthly car EMIs, down payments, and total vehicle financing cost.",
   "interest-calculator":
     "Enter principal amount, interest rate, time period, and compounding frequency to compare simple vs compound interest earnings over time.",
-  "fd-calculator":
-    "Enter fixed deposit principal, annual interest rate, and tenure to calculate bank FD maturity value and quarterly compounding interest returns.",
-  "rd-calculator":
-    "Enter monthly recurring deposit amount, interest rate, and tenure to compute total accumulated savings and maturity interest payout.",
-  "compound-interest-calculator":
-    "Enter initial principal, monthly contribution, interest rate, and compounding frequency ($A = P(1 + r/n)^{nt}$) to forecast long-term compound wealth.",
-  "simple-interest-calculator":
-    "Enter principal, annual rate, and time in years to calculate simple interest ($I = P \\\\times R \\\\times T$) and final accumulated balance.",
-  "ppf-calculator":
-    "Enter annual Public Provident Fund contribution to calculate 15-year maturity wealth, accrued compound interest, and Section 80C tax exemption benefits.",
   "age-calculator":
     "Enter your birth date to calculate exact age in years, months, and days down to the live second, plus zodiac details and next birthday countdown.",
 };
@@ -120,7 +120,7 @@ export function getToolHowItWorks(tool: Tool): string {
 }
 
 /**
- * Priority 1 & 2 and Reusable Tool FAQ Database
+ * Priority 1, Priority 2, and Content Pack FAQ Database
  */
 const TOOL_FAQS_DB: Record<string, FAQItem[]> = {
   "dog-age-calculator": [
@@ -237,174 +237,421 @@ const TOOL_FAQS_DB: Record<string, FAQItem[]> = {
     },
   ],
 
-  "bmi-calculator": [
-    {
-      question: "How is BMI calculated?",
-      answer: "BMI is calculated by dividing body weight in kilograms by height in meters squared (kg/m²). For imperial units, multiply weight in pounds by 703 and divide by height in inches squared.",
-    },
-    {
-      question: "What is a healthy BMI range for adults?",
-      answer: "A standard healthy BMI range for adults is between 18.5 and 24.9. Below 18.5 is categorized as underweight, 25–29.9 as overweight, and 30 or above indicates obesity.",
-    },
-    {
-      question: "Is BMI accurate for muscular individuals or athletes?",
-      answer: "BMI does not distinguish between muscle mass and body fat. Muscular individuals or athletes may have a high BMI despite having low body fat, so it should be interpreted alongside other metrics.",
-    },
-    {
-      question: "Is my personal height and weight data private?",
-      answer: "Yes. Yuitility calculates your BMI 100% locally in your browser memory. No health measurements or personal inputs are uploaded to any server or saved in cookies.",
-    },
-  ],
-
   "emi-calculator": [
     {
-      question: "How is loan EMI calculated?",
-      answer: "EMI is calculated using the reducing balance formula: $E = P \\cdot r \\cdot \\frac{(1+r)^n}{(1+r)^n - 1}$, where $P$ is principal, $r$ is monthly interest rate, and $n$ is loan term in months.",
+      question: "How is EMI calculated?",
+      answer: "EMI = [P x R x (1+R)^N] / [(1+R)^N - 1], where P is the principal, R is the monthly interest rate, and N is the number of monthly installments.",
     },
     {
-      question: "What is the difference between flat rate and reducing balance EMI?",
-      answer: "In flat rate loans, interest is calculated on the full initial loan amount throughout the tenure. Reducing balance EMI calculates interest only on the remaining unpaid principal, saving you money.",
+      question: "Why does more interest get paid in the early months?",
+      answer: "In a reducing-balance loan, interest is calculated on the outstanding principal. Early on, the outstanding balance is highest, so a larger share of each EMI goes toward interest rather than principal.",
     },
     {
-      question: "When should I choose a shorter loan tenure?",
-      answer: "Choosing a shorter tenure increases your monthly EMI payment but significantly reduces the total interest cost over the life of the loan.",
+      question: "Does prepayment reduce my EMI or my tenure?",
+      answer: "Depends on the lender's policy — some reduce your tenure while keeping EMI the same, others reduce your EMI while keeping tenure the same. Check with your lender which option applies.",
     },
     {
-      question: "Is my financial calculation data private?",
-      answer: "Yes. All EMI and loan amortization calculations run strictly client-side in your device memory. Yuitility does not collect or transmit your financial inputs.",
+      question: "Is a lower EMI always better?",
+      answer: "Not necessarily — a lower EMI usually means a longer tenure, which increases total interest paid over the life of the loan.",
     },
   ],
 
   "sip-calculator": [
     {
-      question: "What is a Systematic Investment Plan (SIP)?",
-      answer: "An SIP allows you to invest a fixed sum regularly into mutual funds. It instills financial discipline and leverages rupee cost averaging and compound interest growth over time.",
+      question: "What is a SIP?",
+      answer: "A Systematic Investment Plan lets you invest a fixed amount regularly (usually monthly) into a mutual fund, rather than investing a lump sum at once.",
     },
     {
-      question: "How does compound growth benefit SIP investments?",
-      answer: "Compounding reinvests your investment returns, generating additional earnings on top of previous returns. Over 10 to 20 years, compound interest can double or triple your wealth.",
+      question: "How accurate are SIP return projections?",
+      answer: "Projections use an assumed constant annual return rate for simplicity, but actual mutual fund returns fluctuate year to year. Treat projections as an estimate, not a guarantee.",
     },
     {
-      question: "Can SIP returns be guaranteed?",
-      answer: "No. Mutual fund SIP returns depend on market performance. The expected return rate in this calculator is an estimated benchmark for long-term financial planning.",
+      question: "Does SIP investing average out market volatility?",
+      answer: "Yes — this is called rupee-cost averaging. Investing a fixed amount regularly means you buy more units when prices are low and fewer when prices are high, which can smooth out volatility over time.",
     },
     {
-      question: "Is my investment plan data saved on your server?",
-      answer: "No. All SIP forecasts compute locally inside your browser. No financial targets or investment amounts are saved or shared.",
-    },
-  ],
-
-  "password-generator": [
-    {
-      question: "How does this tool generate secure passwords?",
-      answer: "This tool uses the browser's built-in Web Crypto API (`window.crypto.getRandomValues`) to produce cryptographically random characters that cannot be predicted by attackers.",
-    },
-    {
-      question: "Are generated passwords sent over the network?",
-      answer: "Never. All passwords are generated 100% locally within your browser tab. No password data is ever uploaded to external servers or logged in database files.",
-    },
-    {
-      question: "What length makes a password strong?",
-      answer: "Security experts recommend passwords of at least 16 characters containing a mixture of uppercase, lowercase, numbers, and special symbols for 90+ bits of entropy.",
-    },
-    {
-      question: "Can I use this tool offline?",
-      answer: "Yes. Once the page is loaded, the password generator script resides in browser memory and works perfectly without an active internet connection.",
+      question: "Why does the corpus grow faster in later years?",
+      answer: "Compounding accelerates over time as returns are generated on both your contributions and previously accumulated returns, so the growth curve is not linear.",
     },
   ],
 
-  "qr-code-generator": [
+  "car-loan-emi-calculator": [
     {
-      question: "What data types can I encode in a QR code?",
-      answer: "You can encode website URLs, plain text messages, WiFi network passwords, email addresses, phone numbers, and vCard contact details directly into QR code graphics.",
+      question: "Should I calculate EMI on ex-showroom or on-road price?",
+      answer: "On-road price, since that includes registration, insurance, and other charges that most lenders finance as part of the loan amount.",
     },
     {
-      question: "Do generated QR codes ever expire?",
-      answer: "No. Static QR codes created with this tool embed the raw text data directly into the matrix code. They never expire and require no external redirection server.",
+      question: "How much does a larger down payment save?",
+      answer: "A larger down payment reduces the principal being financed, which lowers both your EMI and the total interest paid — often more significantly than people expect on higher-interest auto loans.",
     },
     {
-      question: "Which file format should I download for printing?",
-      answer: "Download SVG for scalable vector printing on banners or business cards without pixelation. Download PNG for digital sharing, web pages, and documents.",
+      question: "What's a typical tenure for a car loan?",
+      answer: "Commonly 3-7 years, though shorter tenures reduce total interest paid at the cost of a higher monthly EMI.",
     },
     {
-      question: "Is my QR code content tracked or saved?",
-      answer: "No. The QR matrix is rendered directly on HTML5 canvas elements in your browser memory. Your links and passwords remain 100% private.",
-    },
-  ],
-
-  "word-counter": [
-    {
-      question: "How does the word counter calculate reading time?",
-      answer: "Reading time is estimated based on an average adult reading speed of 200 to 250 words per minute. Speaking time is calculated at 130 to 150 words per minute.",
-    },
-    {
-      question: "Does this word counter count spaces and special characters?",
-      answer: "Yes. The tool provides separate metrics for total character count with spaces, characters excluding spaces, total word count, sentence count, and paragraph count.",
-    },
-    {
-      question: "Can I paste long essays or book chapters without lag?",
-      answer: "Yes. The text parser is optimized for high-performance string tokenization, handling thousands of paragraphs instantly without sending data to servers.",
-    },
-    {
-      question: "Is my written text stored or uploaded?",
-      answer: "No. Your text remains strictly inside your browser window. Yuitility does not save, store, or transmit your draft content anywhere.",
+      question: "Is my car loan calculation saved online?",
+      answer: "No. All calculation figures execute 100% locally in your browser memory. Your loan details are never uploaded or tracked.",
     },
   ],
 
-  "image-compressor": [
+  "bike-loan-emi-calculator": [
     {
-      question: "How does browser-based image compression work?",
-      answer: "Your browser decodes the image onto an HTML5 canvas and re-encodes it using WebP or JPEG lossy compression algorithms directly in local device RAM.",
+      question: "What's included in on-road price for a bike?",
+      answer: "Ex-showroom price plus RTO registration, insurance, and sometimes accessories — financing based on on-road price avoids underestimating your actual loan need.",
     },
     {
-      question: "How much file size reduction can I expect?",
-      answer: "Depending on initial image dimensions and format, compression typically reduces file sizes by 40% to 80% with zero noticeable loss in visual quality.",
+      question: "Are bike loan interest rates higher than car loan rates?",
+      answer: "Often yes, since two-wheelers depreciate faster and are considered slightly higher risk collateral by some lenders.",
     },
     {
-      question: "Are my private photos uploaded to a cloud server?",
-      answer: "No. Unlike other compression sites that upload your photos to remote servers, Yuitility processes images 100% locally on your computer or phone.",
+      question: "What tenure is typical for bike loans?",
+      answer: "Usually 1-4 years, shorter than car loans given the lower loan amounts involved.",
     },
     {
-      question: "What image formats are supported?",
-      answer: "The compressor supports PNG, JPG, JPEG, WebP, and GIF file uploads for instant compression and quality optimization.",
+      question: "Does this bike loan calculator work for scooters?",
+      answer: "Yes. It works for all two-wheelers including motorcycles, electric scooters, and mopeds.",
+    },
+  ],
+
+  "personal-loan-emi-calculator": [
+    {
+      question: "Why are personal loan interest rates higher than secured loans?",
+      answer: "Personal loans are unsecured (no collateral), so lenders charge higher rates to offset their higher risk compared to loans backed by property or vehicles.",
+    },
+    {
+      question: "How do processing fees affect the real cost of a loan?",
+      answer: "A 1-3% processing fee effectively raises your real borrowing cost above the stated interest rate — always compare the effective annual cost, not just the advertised rate, when choosing between lenders.",
+    },
+    {
+      question: "Can I prepay a personal loan without penalty?",
+      answer: "This varies by lender — many charge a prepayment penalty on personal loans, unlike some home loans where regulations limit such charges. Check your loan agreement.",
+    },
+    {
+      question: "Is my personal financial data private?",
+      answer: "Yes. Calculations run strictly in your browser memory with zero server uploads.",
+    },
+  ],
+
+  "retirement-calculator": [
+    {
+      question: "Why does inflation matter so much in retirement planning?",
+      answer: "Over 20-30 years, even moderate inflation significantly erodes purchasing power — expenses that feel comfortable today will cost substantially more by the time you retire, so plans need to account for this.",
+    },
+    {
+      question: "How is the required corpus calculated?",
+      answer: "Generally by estimating your annual post-retirement expenses (inflation-adjusted) and calculating the lump sum needed to sustain those withdrawals for your expected retirement duration, accounting for continued investment growth.",
+    },
+    {
+      question: "What return rate should I assume?",
+      answer: "This depends on your investment mix — conservative (largely debt) portfolios might assume 6-8%, while equity-heavy portfolios might assume higher long-term averages, though actual returns vary and are never guaranteed.",
+    },
+    {
+      question: "Is my retirement goal stored anywhere?",
+      answer: "No. All projections execute locally in your browser memory with zero server tracking.",
+    },
+  ],
+
+  "fd-calculator": [
+    {
+      question: "How often does bank FD interest compound?",
+      answer: "Most Indian banks compound FD interest quarterly, though this varies — check your specific bank's terms, since monthly vs quarterly compounding changes your maturity value.",
+    },
+    {
+      question: "Is FD interest taxable?",
+      answer: "Yes, in India, FD interest is added to your taxable income and taxed at your applicable slab rate, with TDS deducted by the bank if interest exceeds the threshold.",
+    },
+    {
+      question: "What's the difference between cumulative and non-cumulative FDs?",
+      answer: "Cumulative FDs reinvest interest and pay out the full amount at maturity; non-cumulative FDs pay interest periodically (monthly/quarterly) as income instead.",
+    },
+    {
+      question: "Can I use this FD calculator for NRE/NRO fixed deposits?",
+      answer: "Yes, it works for standard resident FDs as well as NRE and NRO fixed deposits.",
+    },
+  ],
+
+  "rd-calculator": [
+    {
+      question: "Why is RD's effective return different from FD at the same rate?",
+      answer: "Since RD deposits are made monthly rather than as a lump sum, each installment earns interest for a shorter period than the full tenure, resulting in a lower effective annualized return than an FD at the same stated rate.",
+    },
+    {
+      question: "Can I withdraw an RD before maturity?",
+      answer: "Most banks allow premature withdrawal, but usually with a penalty (reduced interest rate) — check your bank's specific terms.",
+    },
+    {
+      question: "Is RD interest taxable?",
+      answer: "Yes, similar to FD, RD interest is taxable as income at your applicable slab rate in India.",
+    },
+    {
+      question: "Is my deposit data saved anywhere?",
+      answer: "No. Calculations execute strictly client-side with zero data uploads.",
+    },
+  ],
+
+  "compound-interest-calculator": [
+    {
+      question: "How does compounding frequency affect returns?",
+      answer: "More frequent compounding (daily/monthly vs annual) results in slightly higher effective returns at the same nominal rate, since interest itself starts earning interest sooner.",
+    },
+    {
+      question: "What's the difference between simple and compound interest?",
+      answer: "Simple interest is calculated only on the original principal throughout the term. Compound interest is calculated on the principal plus previously accumulated interest, causing growth to accelerate over time.",
+    },
+    {
+      question: "How much difference do regular contributions make?",
+      answer: "Adding regular contributions on top of a lump sum can significantly increase the final corpus compared to a one-time deposit alone, especially over long durations, since each contribution has its own compounding runway.",
+    },
+    {
+      question: "Is my investment growth data saved on your server?",
+      answer: "No. Compound interest calculations run 100% in your browser memory.",
+    },
+  ],
+
+  "simple-interest-calculator": [
+    {
+      question: "Where is simple interest actually used?",
+      answer: "Less common in everyday lending than people assume — most consumer loans and deposits use compound interest. Simple interest typically appears in certain short-term loans, bonds, or as a simplified teaching example.",
+    },
+    {
+      question: "How is simple interest different from compound interest?",
+      answer: "Simple interest is calculated only on the original principal for the entire period, while compound interest also earns returns on previously accumulated interest.",
+    },
+    {
+      question: "Does the time period need to be in years?",
+      answer: "The formula works with any consistent time unit as long as the interest rate matches that unit — most commonly expressed as an annual rate with time in years.",
+    },
+    {
+      question: "Is my calculation saved anywhere?",
+      answer: "No. All simple interest calculations run 100% locally in browser memory.",
+    },
+  ],
+
+  "ppf-calculator": [
+    {
+      question: "How is PPF interest calculated?",
+      answer: "Interest is compounded annually but calculated monthly based on the lowest balance in your account between the 5th and last day of each month.",
+    },
+    {
+      question: "Why does depositing before the 5th of the month matter?",
+      answer: "Since interest is calculated on the lowest balance between the 5th and month-end, depositing before the 5th ensures that month's contribution earns interest starting that same month, rather than missing out.",
+    },
+    {
+      question: "Is PPF interest and maturity amount taxable?",
+      answer: "No — PPF falls under the EEE (Exempt-Exempt-Exempt) tax category in India, meaning contributions, interest earned, and maturity proceeds are all tax-free, subject to applicable limits.",
+    },
+    {
+      question: "What is the maximum investment limit in PPF per year?",
+      answer: "The maximum contribution allowed in a PPF account is ₹1.5 lakh per financial year.",
+    },
+  ],
+
+  "bmi-calculator": [
+    {
+      question: "What are the standard BMI categories?",
+      answer: "Generally: below 18.5 is underweight, 18.5-24.9 is normal weight, 25-29.9 is overweight, and 30+ is considered obese, though these thresholds are population-level guidelines, not individual diagnoses.",
+    },
+    {
+      question: "Is BMI accurate for everyone?",
+      answer: "No — BMI doesn't distinguish muscle mass from fat, so athletes or muscular individuals can register as \"overweight\" despite low body fat. It's a screening tool, not a precise individual health measure.",
+    },
+    {
+      question: "What other measures complement BMI?",
+      answer: "Waist circumference, body fat percentage, and waist-to-hip ratio are commonly used alongside BMI for a fuller picture of health risk.",
+    },
+    {
+      question: "Is my weight data saved or tracked?",
+      answer: "No. All calculations run strictly in your browser memory. Your measurements are 100% private.",
     },
   ],
 
   "json-formatter": [
     {
-      question: "What is JSON formatting and beautifying?",
-      answer: "JSON formatting parses raw, unformatted JSON strings into structured, color-coded trees with consistent indentation spaces for improved code readability and debugging.",
+      question: "What common JSON errors does this catch?",
+      answer: "Trailing commas, mismatched brackets/braces, unquoted keys, and invalid escape sequences are among the most common issues flagged.",
     },
     {
-      question: "Can this tool fix invalid JSON syntax errors?",
-      answer: "The tool detects syntax errors (like missing quotes, trailing commas, or unbalanced brackets) and highlights the exact line and position of the error.",
+      question: "Is my data sent to a server?",
+      answer: "No — formatting and validation run entirely in your browser, so nothing you paste is uploaded anywhere, which matters if you're working with API responses or config containing sensitive data.",
     },
     {
-      question: "Is it safe to format sensitive API keys or JSON payload data?",
-      answer: "Yes, 100% safe. Processing occurs entirely within your browser memory JavaScript engine. No JSON strings or API tokens are transmitted anywhere.",
+      question: "Can I minify JSON with this tool too?",
+      answer: "Yes, most JSON formatters offer both a \"beautify\" (pretty-print) and \"minify\" (compact, whitespace-removed) option.",
     },
     {
-      question: "Does the JSON formatter support collapsing nodes?",
-      answer: "Yes. You can expand and collapse nested JSON objects and arrays to quickly navigate large payloads.",
+      question: "Does it format large JSON files quickly?",
+      answer: "Yes. The client-side parser formats large payloads in milliseconds directly in device RAM.",
+    },
+  ],
+
+  "password-generator": [
+    {
+      question: "Is length or complexity more important for password strength?",
+      answer: "Length generally matters more — a longer passphrase with moderate complexity is typically harder to crack than a short password stuffed with special characters.",
+    },
+    {
+      question: "Is it safe to generate passwords online?",
+      answer: "It's safe if the generation happens entirely client-side (in your browser) rather than being sent to and generated on a server — check that the tool you're using works this way.",
+    },
+    {
+      question: "Should I use a different password for every account?",
+      answer: "Yes — reusing passwords means a breach on one site can compromise your accounts elsewhere. A password manager paired with generated unique passwords is the standard recommendation.",
+    },
+    {
+      question: "Does Yuitility store my generated passwords?",
+      answer: "Never. Passwords are generated in your local browser tab memory using Web Crypto API.",
+    },
+  ],
+
+  "qr-code-generator": [
+    {
+      question: "Should I download QR codes as PNG or SVG?",
+      answer: "SVG for anything that will be printed or resized, since it stays sharp at any size. PNG is fine for fixed-size digital use like social media posts.",
+    },
+    {
+      question: "Do QR codes expire?",
+      answer: "Static QR codes (encoding the content directly) never expire. Dynamic QR codes (that redirect through a service) can expire if the underlying service is discontinued.",
+    },
+    {
+      question: "How much data can a QR code hold?",
+      answer: "Depends on the QR code version and error correction level, but typically up to a few thousand characters — more than enough for URLs, contact info, or short text.",
+    },
+    {
+      question: "Is my QR code payload tracked?",
+      answer: "No. The vector canvas renders locally on your device without server communication.",
+    },
+  ],
+
+  "word-counter": [
+    {
+      question: "How is reading time calculated?",
+      answer: "Typically based on an average reading speed (around 200-250 words per minute for adults), giving an estimate rather than an exact figure since actual reading speed varies by person and content complexity.",
+    },
+    {
+      question: "Does hyphenated word count as one word or two?",
+      answer: "This varies by tool and by the specific style guide you're following — worth checking if you're hitting a strict word count requirement for a submission.",
+    },
+    {
+      question: "What is keyword density used for?",
+      answer: "It shows how frequently specific words appear relative to total word count, often used in content/SEO writing to check if a target keyword is over- or under-used.",
+    },
+    {
+      question: "Is my typed text saved or sent to a server?",
+      answer: "No. Text parsing executes entirely within your browser memory window.",
+    },
+  ],
+
+  "image-compressor": [
+    {
+      question: "Does compression reduce image quality?",
+      answer: "Some compression is \"lossy\" (small quality tradeoff for major size reduction) while some is \"lossless\" (no quality loss, smaller size reduction) — most everyday use cases benefit from lossy compression since the difference is barely visible.",
+    },
+    {
+      question: "Why does image compression matter for websites?",
+      answer: "Large uncompressed images are one of the most common causes of slow page load times, which affects both user experience and search engine rankings.",
+    },
+    {
+      question: "Is WebP better than JPG?",
+      answer: "WebP typically achieves better compression than JPG at similar visual quality and is supported by all modern browsers, making it a good default for web use.",
+    },
+    {
+      question: "Are my photos uploaded to a cloud server?",
+      answer: "No. Compression runs 100% locally on your browser canvas.",
+    },
+  ],
+
+  "background-remover": [
+    {
+      question: "What image types work best for background removal?",
+      answer: "Clear subject-background contrast (like product photos or portraits with a plain background) tends to produce the cleanest results compared to busy or low-contrast backgrounds.",
+    },
+    {
+      question: "What format is the output?",
+      answer: "A transparent PNG, which preserves the removed-background area so you can layer the subject onto any new background.",
+    },
+    {
+      question: "Can this be used for product photos?",
+      answer: "Yes, it's commonly used for e-commerce listings — a clean transparent or white background on product photos often performs better for conversions than a busy original background.",
+    },
+    {
+      question: "Is my photo sent to an AI cloud server?",
+      answer: "No. Background removal models run directly in your local browser WebAssembly environment.",
+    },
+  ],
+
+  "image-resizer": [
+    {
+      question: "Should I lock the aspect ratio when resizing?",
+      answer: "Generally yes, unless you specifically want to stretch/distort the image — locking aspect ratio prevents unwanted warping.",
+    },
+    {
+      question: "Does resizing reduce file size too?",
+      answer: "Often yes, since fewer pixels typically means a smaller file, though for maximum size reduction pairing resize with compression is more effective.",
+    },
+    {
+      question: "What are common social media image dimensions?",
+      answer: "These vary by platform and post type (feed post vs story vs banner) — worth checking current platform specs since they change occasionally, rather than assuming universal dimensions.",
+    },
+    {
+      question: "Are my images uploaded during resizing?",
+      answer: "No. Resizing is performed 100% locally using HTML5 canvas elements.",
     },
   ],
 
   "pdf-merger": [
     {
-      question: "How many PDF files can I merge together at once?",
-      answer: "You can combine dozens of PDF documents in a single operation. The merge speed depends on your local computer's memory and processor speed.",
+      question: "Can I reorder pages before merging?",
+      answer: "Yes, most PDF mergers let you drag-and-drop to set the final page order before combining, which avoids having to redo the merge if the order comes out wrong.",
     },
     {
-      question: "Can I reorder PDF pages before merging?",
-      answer: "Yes. You can drag and drop PDF thumbnails to arrange documents in your exact preferred sequence prior to generating the combined PDF.",
+      question: "Does merging affect the original files?",
+      answer: "No, merging creates a new combined file — your original individual PDFs remain unchanged.",
     },
     {
-      question: "Are my confidential PDF documents uploaded to servers?",
-      answer: "No. PDF page streams are spliced using client-side WebAssembly and PDF-Lib. Your files never leave your device.",
+      question: "Is there a limit to how many PDFs I can merge?",
+      answer: "This depends on the tool, though most browser-based mergers can comfortably handle a reasonable number of files without issue for typical use cases.",
     },
     {
-      question: "Does merging PDFs reduce document quality?",
-      answer: "No. Text vector outlines, embedded fonts, images, and page dimensions are preserved without re-encoding quality degradation.",
+      question: "Are my PDF documents uploaded to cloud servers?",
+      answer: "No. PDF merging executes 100% in your browser memory.",
+    },
+  ],
+
+  "pdf-splitter": [
+    {
+      question: "Can I extract just one page from a larger document?",
+      answer: "Yes, specifying a single-page range extracts just that page as its own PDF.",
+    },
+    {
+      question: "Does splitting affect the original PDF?",
+      answer: "No, splitting creates new file(s) from the selected ranges — the original document is untouched.",
+    },
+    {
+      question: "Why would I split a PDF instead of screenshotting a page?",
+      answer: "Splitting preserves the original quality, text selectability, and any embedded data, whereas a screenshot is a flattened image that loses text searchability and can look blurry.",
+    },
+    {
+      question: "Is my document uploaded anywhere?",
+      answer: "No. Page extraction is executed locally on your computer.",
+    },
+  ],
+
+  "image-to-pdf": [
+    {
+      question: "Can I combine multiple images into one PDF?",
+      answer: "Yes, uploading several images typically creates a multi-page PDF with each image as its own page, in the order uploaded.",
+    },
+    {
+      question: "Does image quality get preserved in the PDF?",
+      answer: "Generally yes, though very large images may be compressed somewhat to keep the resulting PDF file size reasonable.",
+    },
+    {
+      question: "Why convert images to PDF instead of just sharing the images?",
+      answer: "PDFs are a more universal format for documents (forms, scanned pages, receipts) and keep multiple pages together as one file, which is easier to share, print, or submit than separate image files.",
+    },
+    {
+      question: "Are my photos sent to a server during PDF creation?",
+      answer: "No. PDF assembly runs 100% locally in your browser tab.",
     },
   ],
 };
