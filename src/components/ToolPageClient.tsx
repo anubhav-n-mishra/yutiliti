@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowLeft, CheckCircle2, Copy, Moon, ShieldCheck, Sun } from "lucide-react";
 import { Tool, TOOLS } from "@/src/types";
 import { getToolFaqs, getToolHowItWorks, getToolSteps, toolPath } from "@/src/lib/site";
+import PwaInstallButton from "./PwaInstallButton";
 import EmiCalculator from "@/src/components/tools/EmiCalculator";
 import SipCalculator from "@/src/components/tools/SipCalculator";
 import AgeCalculator from "@/src/components/tools/AgeCalculator";
@@ -226,6 +227,7 @@ export default function ToolPageClient({ tool }: ToolPageClientProps) {
             <span className="font-display text-lg font-bold tracking-tight text-zinc-950 dark:text-white">Yuitility</span>
           </Link>
           <div className="flex items-center gap-2">
+            <PwaInstallButton />
             <Link href="/" className="hidden rounded-lg px-3 py-2 text-sm font-semibold text-zinc-600 hover:bg-zinc-100 hover:text-blue-600 dark:text-zinc-300 dark:hover:bg-zinc-900 dark:hover:text-cyan-300 sm:inline-flex">
               All tools
             </Link>

@@ -48,6 +48,7 @@ import {
 } from 'lucide-react';
 
 import { TOOLS, CATEGORIES, Tool } from '../types';
+import PwaInstallButton from '../components/PwaInstallButton';
 
 const IconMap: { [key: string]: React.ComponentType<any> } = {
   Calculator,
@@ -211,6 +212,7 @@ export default function App() {
           </nav>
 
           <div className="flex items-center gap-2">
+            <PwaInstallButton />
             {/* Dark Mode toggle */}
             <button
               onClick={() => {
