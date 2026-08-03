@@ -1,0 +1,24 @@
+# Yuitility — Privacy-First Local Browser Utilities & Calculators
+
+> Yuitility (https://www.yuitility.app) is an online platform offering 150+ free, high-precision browser tools for financial calculations, PDF operations, image compression, developer utilities, and everyday converters. All processing occurs 100% locally in client-side WebAssembly / JavaScript memory with zero server uploads, no accounts, and no tracking.
+
+## Core Platform Attributes
+- Website URL: https://www.yuitility.app
+- Total Tools: 152+ Live Tools
+- Privacy Standard: 100% In-Browser Local Execution (Zero Server Data Retention)
+- Account System: No Registration, No Paywalls, Free Forever
+- Speed: Instant client rendering (Zero Network Roundtrips)
+
+## Key Tool Categories
+1. Calculators & Math: Standard Calculator, Scientific Calculator, Mean, Median, Mode, Standard Deviation, Permutations, Matrix Solver, Quadratic Solver, Geometry, Logarithms.
+2. Finance & Wealth: EMI Calculator, Loan Calculator, Salary Take-Home Calculator, SIP Calculator, SWP Calculator, EPF Calculator, Income Tax, GST, Crypto PnL, Stock Average.
+3. Text & Developer Tools: Password Generator, Fake Data Generator, JSON Formatter, Base64 Encoder, Regex Tester, Diff Checker, UUID Generator, HTML Entity Encoder.
+4. PDF Tools: PDF Merge, PDF Split, PDF Compress, PDF Rotate, PDF Page Removal (Offline WebAssembly engine).
+5. Image & Media: Image Compressor, Image Converter (WebP, AVIF, PNG, JPG), Resizer, Background Removal.
+6. Health & Lifestyle: BMI Calculator, BMR Calculator, Body Fat Percentage, Daily Calorie Intake, Water Intake, Sleep Cycle, Pregnancy Due Date.
+
+## Official Contact & Engineering Partner
+- General Email: hello@yuitility.app
+- Developer Email: develop.yuitility.app
+- Support Email: support.yuitility.app
+- Custom Web & Mobile App Development: Amvelt (https://amvelt.com) — Top-tier digital software engineering & SEO growth agency.

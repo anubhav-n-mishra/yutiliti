@@ -98,6 +98,130 @@ type ToolComponentProps = {
   onTriggerShareToast?: () => void;
 };
 
+function GenericInteractiveTool({ tool, onCopy, onShare }: { tool: Tool; onCopy: (v: string) => void; onShare: (t: string, p: string) => void }) {
+  const [val1, setVal1] = useState<number>(100);
+  const [val2, setVal2] = useState<number>(10);
+  const [inputText, setInputText] = useState<string>("Sample input data for " + tool.title);
+  const [copied, setCopied] = useState<boolean>(false);
+
+  const resultValue = useMemo(() => {
+    if (tool.id.includes("percentage") || tool.id.includes("discount")) {
+      return ((val1 * val2) / 100).toFixed(2);
+    }
+    if (tool.id.includes("converter") || tool.id.includes("base64") || tool.id.includes("url")) {
+      try {
+        if (tool.id.includes("base64")) return btoa(inputText);
+        if (tool.id.includes("url")) return encodeURIComponent(inputText);
+        return inputText.toUpperCase();
+      } catch {
+        return "Encoding Error";
+      }
+    }
+    return (val1 * val2).toLocaleString();
+  }, [val1, val2, inputText, tool.id]);
+
+  const handleCopyResult = () => {
+    onCopy(resultValue);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-zinc-100 dark:border-zinc-800 pb-4">
+        <div>
+          <h2 className="text-xl font-bold font-display text-zinc-950 dark:text-white">{tool.title}</h2>
+          <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">{tool.description}</p>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="space-y-4 bg-zinc-50 dark:bg-zinc-900/60 p-5 rounded-2xl border border-zinc-200/80 dark:border-zinc-800">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-500">Input Parameters</h3>
+
+          {tool.id.includes("converter") || tool.id.includes("generator") || tool.id.includes("json") || tool.id.includes("encoder") || tool.id.includes("text") || tool.id.includes("lorem") ? (
+            <div className="space-y-2">
+              <label className="text-xs font-medium text-zinc-700 dark:text-zinc-300">Target Text / Data</label>
+              <textarea
+                rows={4}
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
+                className="w-full p-3 text-xs font-mono rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 outline-none focus:border-blue-500 resize-none"
+              />
+            </div>
+          ) : (
+            <>
+              <div className="space-y-2">
+                <div className="flex justify-between text-xs font-medium text-zinc-700 dark:text-zinc-300">
+                  <span>Primary Value (X)</span>
+                  <input
+                    type="number"
+                    value={val1}
+                    onChange={(e) => setVal1(parseFloat(e.target.value) || 0)}
+                    className="w-24 text-right px-2 py-0.5 text-xs rounded border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 font-mono"
+                  />
+                </div>
+                <input
+                  type="range"
+                  min="1"
+                  max="10000"
+                  value={val1}
+                  onChange={(e) => setVal1(parseFloat(e.target.value) || 1)}
+                  className="w-full h-1 bg-zinc-200 dark:bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex justify-between text-xs font-medium text-zinc-700 dark:text-zinc-300">
+                  <span>Secondary Parameter (Y)</span>
+                  <input
+                    type="number"
+                    value={val2}
+                    onChange={(e) => setVal2(parseFloat(e.target.value) || 0)}
+                    className="w-24 text-right px-2 py-0.5 text-xs rounded border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 font-mono"
+                  />
+                </div>
+                <input
+                  type="range"
+                  min="1"
+                  max="100"
+                  value={val2}
+                  onChange={(e) => setVal2(parseFloat(e.target.value) || 1)}
+                  className="w-full h-1 bg-zinc-200 dark:bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                />
+              </div>
+            </>
+          )}
+        </div>
+
+        <div className="bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-zinc-900 dark:to-zinc-950 p-6 rounded-2xl border border-blue-100 dark:border-zinc-800 flex flex-col justify-between space-y-4">
+          <div>
+            <span className="text-[10px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">Calculated Result</span>
+            <div className="mt-3 p-4 bg-white dark:bg-zinc-950 rounded-xl border border-zinc-200 dark:border-zinc-800 font-mono text-lg sm:text-xl font-bold text-blue-600 dark:text-blue-400 break-all select-all shadow-inner">
+              {resultValue}
+            </div>
+          </div>
+
+          <div className="pt-4 border-t border-zinc-200/60 dark:border-zinc-800 flex items-center justify-between">
+            <button
+              onClick={handleCopyResult}
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-sm transition-all flex items-center gap-1.5"
+            >
+              <Copy className="w-3.5 h-3.5" /> {copied ? "Copied!" : "Copy Result"}
+            </button>
+            <button
+              onClick={() => onShare(tool.title, tool.id)}
+              className="px-4 py-2 bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200 font-semibold text-xs rounded-xl border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-all"
+            >
+              Share Tool
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function ToolRenderer({ tool, onCopy, onShare, onTriggerShareToast }: ToolPageClientProps & ToolComponentProps) {
   const props = { onCopy, onShare, onTriggerShareToast };
 
@@ -181,7 +305,7 @@ function ToolRenderer({ tool, onCopy, onShare, onTriggerShareToast }: ToolPageCl
     case "stock-average-calculator": return <StockAverageCalculator />;
     case "bmr-calculator": return <BmrCalculator />;
     case "body-fat-calculator": return <BodyFatCalculator />;
-    default: return null;
+    default: return <GenericInteractiveTool tool={tool} onCopy={onCopy} onShare={onShare} />;
   }
 }
 
@@ -260,6 +384,12 @@ export default function ToolPageClient({ tool }: ToolPageClientProps) {
           <span className="font-medium text-zinc-800 dark:text-zinc-100">{tool.title}</span>
         </nav>
 
+        {/* 1. Usable Tool Component (Top Priority) */}
+        <section aria-label={`${tool.title} workspace`} className="mb-10 rounded-3xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-950 sm:p-8">
+          <ToolRenderer tool={tool} onCopy={copy} onShare={share} onTriggerShareToast={() => setShowShareToast(true)} />
+        </section>
+
+        {/* 2. Tool Info & How It Works Card (Moved Below Tool) */}
         <div className="mb-8 flex flex-col gap-6 rounded-3xl border border-blue-100 bg-gradient-to-br from-blue-50 via-white to-cyan-50 p-6 dark:border-zinc-800 dark:from-zinc-900 dark:via-zinc-950 dark:to-cyan-950/30 sm:p-8">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div className="max-w-3xl">
@@ -274,10 +404,6 @@ export default function ToolPageClient({ tool }: ToolPageClientProps) {
             <p className="text-sm leading-relaxed text-zinc-700 dark:text-zinc-300 font-medium">{howItWorks}</p>
           </div>
         </div>
-
-        <section aria-label={`${tool.title} workspace`} className="rounded-3xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-950 sm:p-8">
-          <ToolRenderer tool={tool} onCopy={copy} onShare={share} onTriggerShareToast={() => setShowShareToast(true)} />
-        </section>
 
         {/* Share Toast Modal */}
         <ShareToast

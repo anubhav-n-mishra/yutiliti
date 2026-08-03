@@ -23,7 +23,7 @@ function getCategoryName(category: string) {
 }
 
 export function generateStaticParams() {
-  return TOOLS.map((tool) => ({ slug: tool.id }));
+  return TOOLS.slice(0, 35).map((tool) => ({ slug: tool.id }));
 }
 
 export async function generateMetadata({ params }: ToolPageProps): Promise<Metadata> {

@@ -350,8 +350,10 @@ export default function Home() {
 
               {/* Sort Selector Dropdown */}
               <div className="w-full md:w-auto flex items-center gap-2 shrink-0">
-                <label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 whitespace-nowrap">Sort By:</label>
+                <label htmlFor="sort-by-select" className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 whitespace-nowrap">Sort By:</label>
                 <select
+                  id="sort-by-select"
+                  aria-label="Sort tools by"
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as any)}
                   className="w-full md:w-auto px-3.5 py-3 text-sm font-semibold rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 shadow-sm outline-none cursor-pointer focus:border-blue-500"

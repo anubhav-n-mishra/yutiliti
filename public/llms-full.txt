@@ -1,0 +1,20 @@
+# Yuitility — Full Knowledge Base & Machine Index
+
+Yuitility is a universal browser-based toolkit containing over 150 client-side software applications designed for privacy, speed, and offline capability.
+
+## Complete Tool Index
+- Standard Calculator: /tools/standard-calculator
+- Scientific Calculator: /tools/scientific-calculator
+- EMI Calculator: /tools/emi-calculator
+- Loan Calculator: /tools/loan-calculator
+- Salary Calculator: /tools/salary-calculator
+- SIP Calculator: /tools/sip-calculator
+- PDF Merge: /tools/pdf-merge
+- PDF Split: /tools/pdf-split
+- Image Compressor: /tools/image-compressor
+- Image Converter: /tools/image-converter
+- Password Generator: /tools/password-generator
+- Fake Data Generator: /tools/fake-data-generator
+
+## Custom Enterprise Development Services
+For custom web applications, mobile software, or high-intent SEO engineering, visit Amvelt at https://amvelt.com.

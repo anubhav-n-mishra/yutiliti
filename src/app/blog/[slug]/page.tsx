@@ -9,6 +9,23 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
+function parseInlineMarkdown(text: string): React.ReactNode[] {
+  const parts = text.split(/(\*\*[^*]+\*\*|`[^`]+`)/g);
+  return parts.map((part, index) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={index} className="font-bold text-zinc-950 dark:text-zinc-50">{part.slice(2, -2)}</strong>;
+    }
+    if (part.startsWith('`') && part.endsWith('`')) {
+      return (
+        <code key={index} className="px-1.5 py-0.5 bg-zinc-100 dark:bg-zinc-800 text-blue-600 dark:text-blue-400 font-mono text-xs rounded border border-zinc-200 dark:border-zinc-700">
+          {part.slice(1, -1)}
+        </code>
+      );
+    }
+    return part;
+  });
+}
+
 export async function generateStaticParams() {
   return BLOG_POSTS.map((post) => ({
     slug: post.slug,
@@ -116,21 +133,33 @@ export default async function BlogPostPage({ params }: PageProps) {
         )}
 
         {/* Article Markdown Body */}
-        <article className="prose dark:prose-invert max-w-none text-zinc-800 dark:text-zinc-200 text-sm leading-relaxed space-y-4">
-          {post.content.split("\n\n").map((paragraph, idx) => {
-            if (paragraph.startsWith("### ")) {
-              return <h3 key={idx} className="text-xl font-bold font-display mt-6 mb-2 text-zinc-900 dark:text-zinc-100">{paragraph.replace("### ", "")}</h3>;
-            }
-            if (paragraph.startsWith("- ")) {
+        <article className="prose dark:prose-invert max-w-none text-zinc-800 dark:text-zinc-200 text-sm leading-relaxed space-y-5">
+          {post.content.split("\n\n").map((block, idx) => {
+            const trimmed = block.trim();
+            if (trimmed.startsWith("### ")) {
               return (
-                <ul key={idx} className="list-disc pl-5 space-y-1 my-2">
-                  {paragraph.split("\n").map((item, i) => (
-                    <li key={i}>{item.replace("- ", "")}</li>
+                <h3 key={idx} className="text-xl font-bold font-display mt-8 mb-3 text-zinc-950 dark:text-zinc-50">
+                  {parseInlineMarkdown(trimmed.replace("### ", ""))}
+                </h3>
+              );
+            }
+            if (trimmed.startsWith("- ") || trimmed.includes("\n- ")) {
+              const items = trimmed.split("\n").filter((line) => line.trim().startsWith("- "));
+              return (
+                <ul key={idx} className="list-disc pl-5 space-y-2.5 my-4 text-zinc-700 dark:text-zinc-300">
+                  {items.map((item, i) => (
+                    <li key={i} className="leading-relaxed">
+                      {parseInlineMarkdown(item.replace(/^- /, ""))}
+                    </li>
                   ))}
                 </ul>
               );
             }
-            return <p key={idx}>{paragraph}</p>;
+            return (
+              <p key={idx} className="leading-relaxed text-zinc-700 dark:text-zinc-300">
+                {parseInlineMarkdown(trimmed)}
+              </p>
+            );
           })}
         </article>
 

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { X, Send, CheckCircle2, Wrench, MessageSquare, AlertTriangle, Loader2 } from "lucide-react";
+import { X, Send, CheckCircle2, Wrench, MessageSquare, AlertTriangle, Loader2, Zap } from "lucide-react";
 import { TOOLS } from "@/src/types";
 
 interface ContactModalProps {
@@ -148,9 +148,12 @@ export default function ContactModal({ isOpen, onClose, initialType = "request" 
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
               {activeTab === "request" && (
-                <div className="p-3 bg-blue-50 dark:bg-blue-950/40 border border-blue-100 dark:border-blue-900/50 rounded-2xl text-xs text-blue-700 dark:text-blue-300">
-                  <p className="font-bold">⚡ 24-Hour Addition Promise</p>
-                  <p className="mt-0.5 opacity-90">Describe the calculator or browser utility you need. We review and build requested tools within 24 hours!</p>
+                <div className="p-3 bg-blue-50 dark:bg-blue-950/40 border border-blue-100 dark:border-blue-900/50 rounded-2xl text-xs text-blue-700 dark:text-blue-300 flex items-start gap-2">
+                  <Zap className="w-4 h-4 text-blue-600 dark:text-cyan-400 shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-bold">24-Hour Addition SLA Promise</p>
+                    <p className="mt-0.5 opacity-90">Describe the calculator or browser utility you need. We review and build requested tools within 24 hours!</p>
+                  </div>
                 </div>
               )}
 
@@ -162,8 +165,9 @@ export default function ContactModal({ isOpen, onClose, initialType = "request" 
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <label className="text-xs font-medium text-zinc-700 dark:text-zinc-300">Your Name (Optional)</label>
+                  <label htmlFor="contact-user-name" className="text-xs font-medium text-zinc-700 dark:text-zinc-300">Your Name (Optional)</label>
                   <input
+                    id="contact-user-name"
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
@@ -173,8 +177,9 @@ export default function ContactModal({ isOpen, onClose, initialType = "request" 
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-xs font-medium text-zinc-700 dark:text-zinc-300">Your Email <span className="text-red-500">*</span></label>
+                  <label htmlFor="contact-user-email" className="text-xs font-medium text-zinc-700 dark:text-zinc-300">Your Email (Required for reply)</label>
                   <input
+                    id="contact-user-email"
                     type="email"
                     required
                     value={email}
@@ -187,8 +192,10 @@ export default function ContactModal({ isOpen, onClose, initialType = "request" 
 
               {activeTab === "bug" && (
                 <div className="space-y-1">
-                  <label className="text-xs font-medium text-zinc-700 dark:text-zinc-300">Affected Tool (Optional)</label>
+                  <label htmlFor="affected-tool-select" className="text-xs font-medium text-zinc-700 dark:text-zinc-300">Affected Tool (Optional)</label>
                   <select
+                    id="affected-tool-select"
+                    aria-label="Affected tool"
                     value={selectedToolId}
                     onChange={(e) => setSelectedToolId(e.target.value)}
                     className="w-full px-3 py-2 text-xs rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 outline-none focus:border-blue-500"
