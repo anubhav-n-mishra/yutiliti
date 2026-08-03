@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true,
   },
   experimental: {
-    cpus: 4,
+    cpus: 2,
   },
   async redirects() {
     return [
