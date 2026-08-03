@@ -569,6 +569,7 @@ export default function App() {
               <ul className="space-y-4 text-sm font-medium text-zinc-600 dark:text-zinc-300">
                 <li><a href="/privacy" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Privacy Policy</a></li>
                 <li><a href="/terms" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Terms & Conditions</a></li>
+                <li><a href="/cookies" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Cookie Policy</a></li>
                 <li><a href="/tools/password-generator" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-2">Password Generator</a></li>
               </ul>
             </div>

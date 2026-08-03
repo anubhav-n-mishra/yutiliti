@@ -30,6 +30,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     { url: absoluteUrl("/privacy"), lastModified: now, changeFrequency: "yearly", priority: 0.3 },
     { url: absoluteUrl("/terms"), lastModified: now, changeFrequency: "yearly", priority: 0.3 },
+    { url: absoluteUrl("/cookies"), lastModified: now, changeFrequency: "yearly", priority: 0.3 },
     ...categoryUrls,
     ...toolUrls,
   ];

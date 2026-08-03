@@ -3,6 +3,7 @@ import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/src/lib/site";
 import ServiceWorkerRegister from "@/src/components/ServiceWorkerRegister";
+import CookieBanner from "@/src/components/CookieBanner";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -230,6 +231,7 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
       <body className={inter.className} suppressHydrationWarning>
         <ServiceWorkerRegister />
+        <CookieBanner />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareApplicationSchema) }} />
