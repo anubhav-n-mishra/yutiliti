@@ -84,6 +84,10 @@ import StockAverageCalculator from "@/src/components/tools/StockAverageCalculato
 import BmrCalculator from "@/src/components/tools/BmrCalculator";
 import BodyFatCalculator from "@/src/components/tools/BodyFatCalculator";
 
+import StandardCalculator from "@/src/components/tools/StandardCalculator";
+import ScientificCalculator from "@/src/components/tools/ScientificCalculator";
+import ShareToast from "./ShareToast";
+
 type ToolPageClientProps = {
   tool: Tool;
 };
@@ -91,12 +95,15 @@ type ToolPageClientProps = {
 type ToolComponentProps = {
   onCopy: (value: string) => void;
   onShare: (title: string, path: string) => void;
+  onTriggerShareToast?: () => void;
 };
 
-function ToolRenderer({ tool, onCopy, onShare }: ToolPageClientProps & ToolComponentProps) {
-  const props = { onCopy, onShare };
+function ToolRenderer({ tool, onCopy, onShare, onTriggerShareToast }: ToolPageClientProps & ToolComponentProps) {
+  const props = { onCopy, onShare, onTriggerShareToast };
 
   switch (tool.id) {
+    case "standard-calculator": return <StandardCalculator {...props} />;
+    case "scientific-calculator": return <ScientificCalculator {...props} />;
     case "emi-calculator": return <EmiCalculator {...props} />;
     case "sip-calculator": return <SipCalculator {...props} />;
     case "age-calculator": return <AgeCalculator {...props} />;
@@ -181,6 +188,7 @@ function ToolRenderer({ tool, onCopy, onShare }: ToolPageClientProps & ToolCompo
 export default function ToolPageClient({ tool }: ToolPageClientProps) {
   const [darkMode, setDarkMode] = useState(false);
   const [message, setMessage] = useState("");
+  const [showShareToast, setShowShareToast] = useState(false);
   const faqs = useMemo(() => getToolFaqs(tool), [tool]);
   const steps = useMemo(() => getToolSteps(tool), [tool]);
   const howItWorks = useMemo(() => getToolHowItWorks(tool), [tool]);
@@ -259,9 +267,6 @@ export default function ToolPageClient({ tool }: ToolPageClientProps) {
               <h1 className="text-3xl font-display font-extrabold tracking-tight text-zinc-950 dark:text-white mb-2">{tool.title}</h1>
               <p className="text-base leading-relaxed text-zinc-600 dark:text-zinc-300">{tool.longDescription}</p>
             </div>
-            <button type="button" onClick={() => share(tool.title, `#/${tool.id}`)} className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-zinc-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 dark:bg-white dark:text-zinc-950 dark:hover:bg-cyan-200">
-              <Copy className="h-4 w-4" /> Copy link
-            </button>
           </div>
 
           <div className="border-t border-blue-200/60 pt-5 dark:border-zinc-800">
@@ -271,8 +276,16 @@ export default function ToolPageClient({ tool }: ToolPageClientProps) {
         </div>
 
         <section aria-label={`${tool.title} workspace`} className="rounded-3xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-950 sm:p-8">
-          <ToolRenderer tool={tool} onCopy={copy} onShare={share} />
+          <ToolRenderer tool={tool} onCopy={copy} onShare={share} onTriggerShareToast={() => setShowShareToast(true)} />
         </section>
+
+        {/* Share Toast Modal */}
+        <ShareToast
+          toolTitle={tool.title}
+          toolId={tool.id}
+          show={showShareToast}
+          onClose={() => setShowShareToast(false)}
+        />
 
         <section className="mt-12 grid gap-8 lg:grid-cols-[1.4fr_0.9fr]">
           <article className="rounded-3xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 sm:p-8">

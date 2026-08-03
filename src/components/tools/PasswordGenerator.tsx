@@ -217,7 +217,7 @@ export default function PasswordGenerator({ onCopy, onShare }: PasswordGenerator
                     type="checkbox"
                     checked={includeUppercase}
                     onChange={(e) => setIncludeUppercase(e.target.checked)}
-                    className="w-4 h-4 rounded text-zinc-900 focus:ring-zinc-950 accent-zinc-900 dark:accent-zinc-100"
+                    className="w-5 h-5 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-blue-600 focus:ring-2 focus:ring-blue-500 accent-blue-600 shadow-sm cursor-pointer"
                   />
                   <div className="flex flex-col">
                     <span className="text-xs font-semibold text-zinc-800 dark:text-zinc-200">Uppercase</span>
@@ -230,7 +230,7 @@ export default function PasswordGenerator({ onCopy, onShare }: PasswordGenerator
                     type="checkbox"
                     checked={includeLowercase}
                     onChange={(e) => setIncludeLowercase(e.target.checked)}
-                    className="w-4 h-4 rounded text-zinc-900 focus:ring-zinc-950 accent-zinc-900 dark:accent-zinc-100"
+                    className="w-5 h-5 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-blue-600 focus:ring-2 focus:ring-blue-500 accent-blue-600 shadow-sm cursor-pointer"
                   />
                   <div className="flex flex-col">
                     <span className="text-xs font-semibold text-zinc-800 dark:text-zinc-200">Lowercase</span>
@@ -243,7 +243,7 @@ export default function PasswordGenerator({ onCopy, onShare }: PasswordGenerator
                     type="checkbox"
                     checked={includeNumbers}
                     onChange={(e) => setIncludeNumbers(e.target.checked)}
-                    className="w-4 h-4 rounded text-zinc-900 focus:ring-zinc-950 accent-zinc-900 dark:accent-zinc-100"
+                    className="w-5 h-5 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-blue-600 focus:ring-2 focus:ring-blue-500 accent-blue-600 shadow-sm cursor-pointer"
                   />
                   <div className="flex flex-col">
                     <span className="text-xs font-semibold text-zinc-800 dark:text-zinc-200">Numbers</span>
@@ -256,7 +256,7 @@ export default function PasswordGenerator({ onCopy, onShare }: PasswordGenerator
                     type="checkbox"
                     checked={includeSymbols}
                     onChange={(e) => setIncludeSymbols(e.target.checked)}
-                    className="w-4 h-4 rounded text-zinc-900 focus:ring-zinc-950 accent-zinc-900 dark:accent-zinc-100"
+                    className="w-5 h-5 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-blue-600 focus:ring-2 focus:ring-blue-500 accent-blue-600 shadow-sm cursor-pointer"
                   />
                   <div className="flex flex-col">
                     <span className="text-xs font-semibold text-zinc-800 dark:text-zinc-200">Symbols</span>
@@ -273,7 +273,7 @@ export default function PasswordGenerator({ onCopy, onShare }: PasswordGenerator
                     type="checkbox"
                     checked={excludeSimilar}
                     onChange={(e) => setExcludeSimilar(e.target.checked)}
-                    className="w-4 h-4 rounded text-zinc-900 focus:ring-zinc-950 accent-zinc-900 dark:accent-zinc-100"
+                    className="w-5 h-5 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-blue-600 focus:ring-2 focus:ring-blue-500 accent-blue-600 shadow-sm cursor-pointer"
                   />
                   <div className="flex flex-col">
                     <span className="text-xs font-medium text-zinc-700 dark:text-zinc-300">Exclude Similar Characters</span>

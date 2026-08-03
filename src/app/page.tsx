@@ -156,12 +156,21 @@ export default function App() {
     window.location.assign(toolId ? `/tools/${toolId}` : '/');
   };
 
-  // Filter main grid ONLY based on active category (search no longer filters main grid)
+  const [sortBy, setSortBy] = useState<'default' | 'popular' | 'alpha'>('default');
+
+  // Filter main grid based on active category and sort order
   const filteredTools = useMemo(() => {
-    return TOOLS.filter((t) => {
+    let list = TOOLS.filter((t) => {
       return activeCategory === 'all' || t.category === activeCategory;
     });
-  }, [activeCategory]);
+
+    if (sortBy === 'popular') {
+      list = [...list].sort((a, b) => (b.popular ? 1 : 0) - (a.popular ? 1 : 0));
+    } else if (sortBy === 'alpha') {
+      list = [...list].sort((a, b) => a.title.localeCompare(b.title));
+    }
+    return list;
+  }, [activeCategory, sortBy]);
 
   // Dedicated search results for the dropdown menu
   const searchResults = useMemo(() => {
@@ -248,99 +257,97 @@ export default function App() {
         {/* HOMEPAGE / LANDING SECTION */}
         <div className="space-y-16">
           
-          {/* Premium Hero block */}
-          <div className="text-center max-w-5xl mx-auto py-20 relative">
+          {/* Compact Clean Toolbar Header with Search, Filter & Sort */}
+          <div className="max-w-5xl mx-auto pt-6 pb-4 space-y-6">
 
-            <h1 className="text-5xl md:text-7xl font-display font-extrabold tracking-tight leading-[1.15] mb-6">
-              The refined toolkit for <br className="hidden md:block"/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-cyan-500 to-teal-500 dark:from-blue-400 dark:via-cyan-400 dark:to-teal-300">
-                builders & analysts.
-              </span>
-            </h1>
-            
-            <p className="text-lg text-zinc-600 dark:text-zinc-400 font-medium max-w-2xl mx-auto leading-relaxed mb-10">
-              Enjoy beautifully designed local browser instruments for calculations, media, and structures. Engineered for speed, privacy, and zero latency.
-            </p>
-
-            {/* Dynamic query Search bar */}
-            <div className="relative max-w-2xl mx-auto group" role="search">
-              <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-500"></div>
-              <div className="relative flex items-center bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-xl transition-shadow group-hover:shadow-2xl">
-                <Search className="absolute left-4 w-5 h-5 text-zinc-400 group-focus-within:text-blue-500 transition-colors" aria-hidden="true" />
-                <label htmlFor="tool-search" className="sr-only">Search tools</label>
-                <input 
-                  id="tool-search"
-                  ref={searchInputRef}
-                  type="text" 
-                  placeholder="Search tools, calculators, formats..." 
-                  className="w-full bg-transparent border-none py-4 pl-12 pr-20 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:ring-0 outline-none rounded-2xl text-lg"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-                <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center pointer-events-none">
-                  <kbd className="hidden sm:inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold text-zinc-500 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-md">
-                    <span className="text-xs">{isMac ? '⌘' : 'Ctrl'}</span> K
-                  </kbd>
-                </div>
-              </div>
-
-              {/* Search Results Dropdown */}
-              {searchQuery.trim().length > 0 && (
-                <div className="absolute left-0 right-0 top-full mt-2 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-2xl overflow-hidden z-50 text-left">
-                  <div className="max-h-[350px] overflow-y-auto p-2 space-y-1 custom-scrollbar">
-                    {searchResults.length === 0 ? (
-                      <div className="p-4 text-center text-sm text-zinc-500">No results found for &quot;{searchQuery}&quot;</div>
-                    ) : (
-                      searchResults.map((t) => {
-                        const Icon = IconMap[t.icon] || Calculator;
-                        return (
-                          <a
-                            key={t.id}
-                            href={`/tools/${t.id}`}
-                            className="w-full flex items-start gap-4 p-3 hover:bg-zinc-50 dark:hover:bg-zinc-800/50 rounded-xl transition-colors text-left group"
-                          >
-                            <div className="p-2 bg-zinc-100 dark:bg-zinc-800 rounded-lg text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform">
-                              <Icon className="w-5 h-5" />
-                            </div>
-                            <div>
-                              <h4 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">{t.title}</h4>
-                              <p className="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-1 mt-0.5">{t.description}</p>
-                            </div>
-                          </a>
-                        );
-                      })
-                    )}
+            {/* Dynamic query Search bar with Sort & Filter controls inline */}
+            <div className="flex flex-col md:flex-row items-center gap-3">
+              <div className="relative flex-1 w-full group" role="search">
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-2xl blur opacity-20 group-hover:opacity-35 transition duration-300"></div>
+                <div className="relative flex items-center bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm hover:shadow-md transition-all">
+                  <Search className="absolute left-4 w-5 h-5 text-zinc-400 group-focus-within:text-blue-500 transition-colors" aria-hidden="true" />
+                  <label htmlFor="tool-search" className="sr-only">Search tools</label>
+                  <input 
+                    id="tool-search"
+                    ref={searchInputRef}
+                    type="text" 
+                    placeholder="Search 25+ free tools, calculators..." 
+                    className="w-full bg-transparent border-none py-3.5 pl-12 pr-20 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:ring-0 outline-none rounded-2xl text-base"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                  <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center pointer-events-none">
+                    <kbd className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 text-[11px] font-semibold text-zinc-500 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-md">
+                      <span className="text-[10px]">{isMac ? '⌘' : 'Ctrl'}</span> K
+                    </kbd>
                   </div>
                 </div>
-              )}
-            </div>
 
-            {/* Trust indicators */}
-            <div className="pt-10 flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-sm text-zinc-500 dark:text-zinc-400 font-medium">
-              <div className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" aria-hidden="true" /> 100% Local Execution</div>
-              <div className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" aria-hidden="true" /> No Tracking Cookies</div>
-              <div className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" aria-hidden="true" /> Instant Results</div>
-            </div>
-          </div>
+                {/* Search Results Dropdown */}
+                {searchQuery.trim().length > 0 && (
+                  <div className="absolute left-0 right-0 top-full mt-2 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-2xl overflow-hidden z-50 text-left">
+                    <div className="max-h-[350px] overflow-y-auto p-2 space-y-1 custom-scrollbar">
+                      {searchResults.length === 0 ? (
+                        <div className="p-4 text-center text-sm text-zinc-500">No results found for &quot;{searchQuery}&quot;</div>
+                      ) : (
+                        searchResults.map((t) => {
+                          const Icon = IconMap[t.icon] || Calculator;
+                          return (
+                            <a
+                              key={t.id}
+                              href={`/tools/${t.id}`}
+                              className="w-full flex items-start gap-4 p-3 hover:bg-zinc-50 dark:hover:bg-zinc-800/50 rounded-xl transition-colors text-left group"
+                            >
+                              <div className="p-2 bg-zinc-100 dark:bg-zinc-800 rounded-lg text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform">
+                                <Icon className="w-5 h-5" />
+                              </div>
+                              <div>
+                                <h4 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">{t.title}</h4>
+                                <p className="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-1 mt-0.5">{t.description}</p>
+                              </div>
+                            </a>
+                          );
+                        })
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
 
-          {/* Categories filters - Premium Segmented Control */}
-          <div className="flex justify-center mb-12">
-            <div className="inline-flex items-center gap-1 p-1.5 bg-zinc-100/80 dark:bg-zinc-900/80 border border-zinc-200/60 dark:border-zinc-800/60 rounded-2xl overflow-x-auto shadow-sm backdrop-blur-sm" role="tablist" aria-label="Tool categories">
-              {CATEGORIES.map((cat) => (
-                <button
-                  key={cat.id}
-                  onClick={() => setActiveCategory(cat.id)}
-                  role="tab"
-                  aria-selected={activeCategory === cat.id}
-                  className={`px-5 py-2 text-sm font-medium rounded-xl whitespace-nowrap transition-all duration-300 ease-out ${
-                    activeCategory === cat.id 
-                      ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-zinc-100 shadow-[0_2px_10px_rgba(0,0,0,0.06)] dark:shadow-[0_2px_10px_rgba(0,0,0,0.2)]' 
-                      : 'text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-zinc-100 hover:bg-black/5 dark:hover:bg-white/5'
-                  }`}
+              {/* Sort Selector Dropdown */}
+              <div className="w-full md:w-auto flex items-center gap-2 shrink-0">
+                <label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 whitespace-nowrap">Sort By:</label>
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value as any)}
+                  className="w-full md:w-auto px-3.5 py-3 text-sm font-semibold rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 shadow-sm outline-none cursor-pointer focus:border-blue-500"
                 >
-                  {cat.label}
-                </button>
-              ))}
+                  <option value="default">Default</option>
+                  <option value="popular">Most Popular</option>
+                  <option value="alpha">Alphabetical (A-Z)</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Categories filters - Segmented Control with no-scrollbar */}
+            <div className="flex justify-center">
+              <div className="w-full max-w-full inline-flex items-center gap-1 p-1.5 bg-zinc-100/80 dark:bg-zinc-900/80 border border-zinc-200/60 dark:border-zinc-800/60 rounded-2xl overflow-x-auto no-scrollbar shadow-sm backdrop-blur-sm" role="tablist" aria-label="Tool categories">
+                {CATEGORIES.map((cat) => (
+                  <button
+                    key={cat.id}
+                    onClick={() => setActiveCategory(cat.id)}
+                    role="tab"
+                    aria-selected={activeCategory === cat.id}
+                    className={`px-4 py-2 text-xs md:text-sm font-semibold rounded-xl whitespace-nowrap transition-all duration-200 ease-out ${
+                      activeCategory === cat.id 
+                        ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-zinc-100 shadow-sm' 
+                        : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-100 hover:bg-black/5 dark:hover:bg-white/5'
+                    }`}
+                  >
+                    {cat.label}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 

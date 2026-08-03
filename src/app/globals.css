@@ -33,6 +33,15 @@
   }
 }
 
+/* Utility to hide scrollbars on mobile / touch containers */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 /* Animations and decorative highlights */
 .glow-card {
   position: relative;

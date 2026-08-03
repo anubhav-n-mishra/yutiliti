@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { Download, RefreshCw, Share2, Info, ChevronDown, ChevronUp } from 'lucide-react';
 
 import CurrencySelector from '@/src/components/CurrencySelector';
-import { formatCurrency as formatCurr } from '@/src/lib/currency';
+import { formatCurrency as formatCurr, getCurrency } from '@/src/lib/currency';
 
 interface EmiCalculatorProps {
   onCopy: (text: string) => void;
@@ -152,12 +152,12 @@ export default function EmiCalculator({ onCopy, onShare }: EmiCalculatorProps) {
             <div className="flex justify-between items-center">
               <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300">Loan Amount</label>
               <div className="flex items-center gap-2">
-                <span className="text-xs text-zinc-400 dark:text-zinc-500">₹</span>
+                <span className="text-xs text-zinc-400 font-bold">{getCurrency(currency).symbol}</span>
                 <input
                   type="number"
                   value={loanAmount}
                   onChange={(e) => setLoanAmount(Math.max(0, parseFloat(e.target.value) || 0))}
-                  className="w-32 text-right px-2 py-1 text-sm font-semibold rounded border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 text-zinc-950 dark:text-zinc-50 outline-none focus:border-zinc-400 dark:focus:border-zinc-700"
+                  className="w-32 text-right px-2 py-1 text-sm font-semibold rounded border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 text-zinc-950 dark:text-zinc-50 outline-none focus:border-blue-500 font-mono"
                 />
               </div>
             </div>
@@ -168,11 +168,11 @@ export default function EmiCalculator({ onCopy, onShare }: EmiCalculatorProps) {
               step="10000"
               value={loanAmount}
               onChange={(e) => setLoanAmount(parseInt(e.target.value))}
-              className="w-full h-1 bg-zinc-200 dark:bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-zinc-800 dark:accent-zinc-100"
+              className="w-full h-1 bg-zinc-200 dark:bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-blue-600"
             />
-            <div className="flex justify-between text-[10px] text-zinc-400 dark:text-zinc-500">
-              <span>₹10,000</span>
-              <span>₹1 Crore</span>
+            <div className="flex justify-between text-[10px] text-zinc-400 dark:text-zinc-500 font-mono">
+              <span>{formatCurrency(10000)}</span>
+              <span>{formatCurrency(10000000)}</span>
             </div>
           </div>
 

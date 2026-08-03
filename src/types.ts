@@ -18,6 +18,28 @@ export interface FAQItem {
 
 export const TOOLS: Tool[] = [
   {
+    id: "standard-calculator",
+    title: "Standard Calculator",
+    description: "Fast, clean basic calculator for everyday calculations with memory and history.",
+    longDescription: "A high-precision standard calculator designed for everyday math operations, percentage calculations, memory storage, and interactive calculation history.",
+    category: "utility",
+    icon: "Calculator",
+    popular: true,
+    recentlyAdded: true,
+    cta: "Open Calculator"
+  },
+  {
+    id: "scientific-calculator",
+    title: "Scientific Calculator",
+    description: "Full scientific calculator with trig, logarithms, powers, roots, DEG/RAD, and memory.",
+    longDescription: "A comprehensive, 100% browser-based scientific calculator. Includes full trigonometric functions, inverse & hyperbolic trig, natural & base-10 logarithms, exponents, powers, roots, factorials, constants (π, e), parentheses evaluation, and history.",
+    category: "developer",
+    icon: "Calculator",
+    popular: true,
+    recentlyAdded: true,
+    cta: "Open Scientific Calculator"
+  },
+  {
     id: "emi-calculator",
     title: "EMI Calculator",
     description: "Calculate monthly loan repayments, total interest, and view a detailed amortization schedule.",

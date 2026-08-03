@@ -182,12 +182,12 @@ export default function SalaryCalculator({ onCopy, onShare }: SalaryCalculatorPr
             <div className="flex justify-between items-center">
               <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300">Annual Cost to Company (CTC)</label>
               <div className="flex items-center gap-2">
-                <span className="text-xs text-zinc-400">₹</span>
+                <span className="text-xs text-zinc-400 font-bold">{getCurrency(currency).symbol}</span>
                 <input
                   type="number"
                   value={annualCtc}
                   onChange={(e) => setAnnualCtc(Math.max(0, parseFloat(e.target.value) || 0))}
-                  className="w-28 text-right px-2 py-1 text-sm font-semibold rounded border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 text-zinc-950 dark:text-zinc-50 outline-none focus:border-zinc-400 dark:focus:border-zinc-700 font-mono"
+                  className="w-32 text-right px-2.5 py-1 text-sm font-semibold rounded border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 text-zinc-950 dark:text-zinc-50 outline-none focus:border-blue-500 font-mono"
                 />
               </div>
             </div>
@@ -198,11 +198,11 @@ export default function SalaryCalculator({ onCopy, onShare }: SalaryCalculatorPr
               step="50000"
               value={annualCtc}
               onChange={(e) => setAnnualCtc(parseInt(e.target.value))}
-              className="w-full h-1 bg-zinc-200 dark:bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-zinc-800 dark:accent-zinc-100"
+              className="w-full h-1 bg-zinc-200 dark:bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-blue-600"
             />
             <div className="flex justify-between text-[10px] text-zinc-400 dark:text-zinc-500 font-mono">
-              <span>₹1 Lakh</span>
-              <span>₹50 Lakhs</span>
+              <span>{formatCurrency(100000)}</span>
+              <span>{formatCurrency(5000000)}</span>
             </div>
           </div>
 
@@ -226,7 +226,7 @@ export default function SalaryCalculator({ onCopy, onShare }: SalaryCalculatorPr
             <div className="space-y-1 bg-zinc-50/50 dark:bg-zinc-900/10 border border-zinc-100 dark:border-zinc-900 p-4 rounded-xl">
               <label className="text-xs font-semibold text-zinc-500 uppercase">Annual Performance Bonus</label>
               <div className="flex items-center gap-2 mt-2">
-                <span className="text-xs text-zinc-400">₹</span>
+                <span className="text-xs text-zinc-400 font-bold">{getCurrency(currency).symbol}</span>
                 <input
                   type="number"
                   value={annualBonus}
@@ -245,7 +245,7 @@ export default function SalaryCalculator({ onCopy, onShare }: SalaryCalculatorPr
                 type="checkbox"
                 checked={includePF}
                 onChange={(e) => setIncludePF(e.target.checked)}
-                className="w-4 h-4 rounded text-zinc-900 focus:ring-zinc-950 accent-zinc-900 dark:accent-zinc-100"
+                className="w-5 h-5 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-blue-600 focus:ring-2 focus:ring-blue-500 accent-blue-600 shadow-sm cursor-pointer"
               />
               <div className="flex flex-col">
                 <span className="text-xs font-semibold text-zinc-800 dark:text-zinc-200">Include Employee Provident Fund (EPF)</span>
