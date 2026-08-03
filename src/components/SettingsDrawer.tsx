@@ -148,7 +148,7 @@ export default function SettingsDrawer({
                 <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300">YUI Assistant API Key (BYOK)</h4>
               </div>
               <p className="text-[11px] text-zinc-500 dark:text-zinc-400 leading-relaxed">
-                Add your custom API key (NVIDIA NIM, OpenAI, or Ollama) for unlimited free queries with YUI.
+                Add your custom API key for unlimited free queries with YUI.
               </p>
               <div className="space-y-2">
                 <input

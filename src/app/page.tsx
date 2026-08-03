@@ -58,7 +58,6 @@ import ShareModal from '../components/ShareModal';
 import ContactModal from '../components/ContactModals';
 import SettingsDrawer from '../components/SettingsDrawer';
 import CookieBanner from '../components/CookieBanner';
-import AiChatbot from '../components/AiChatbot';
 import HoverFooter from '../components/ui/hover-footer';
 import DottedSurfaceHero from '../components/DottedSurfaceHero';
 
@@ -229,7 +228,7 @@ export default function Home() {
             </div>
             <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800/80 rounded-full text-[11px] font-bold text-emerald-700 dark:text-emerald-400">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              <span>152 Tools Live</span>
+              <span>{TOOLS.length} Tools Live</span>
             </div>
           </div>
 
@@ -526,8 +525,6 @@ export default function Home() {
       />
 
       <CookieBanner />
-
-      <AiChatbot />
     </div>
   );
 }

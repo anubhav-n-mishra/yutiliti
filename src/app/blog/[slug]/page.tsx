@@ -166,7 +166,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 
         {/* Author Footer */}
         <div className="pt-8 border-t border-zinc-200 dark:border-zinc-800 text-center space-y-3">
-          <p className="text-xs text-zinc-500">Enjoyed this article? Share it with colleagues or try out our 152+ free browser tools.</p>
+          <p className="text-xs text-zinc-500">Enjoyed this article? Share it with colleagues or try out our 140+ free browser tools.</p>
           <Link
             href="/"
             className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-2xl shadow-sm transition-all"

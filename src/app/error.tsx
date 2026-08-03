@@ -2,17 +2,32 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { RefreshCw, Home, Sparkles, CheckCircle2, ShieldAlert } from "lucide-react";
+import AnimatedGradientBackground from "@/src/components/ui/animated-gradient-background";
+import {
+  RefreshCw, Home, CheckCircle2, ShieldAlert,
+  Calculator, Wrench, BarChart3, Settings, Lock, Key,
+  FileText, Image, Code2, Palette, HardDrive, Ruler, Heart, Zap
+} from "lucide-react";
 
 interface ErrorProps {
   error: Error & { digest?: string };
   reset: () => void;
 }
 
-const TILE_ICONS = ["⚡", "🔧", "📊", "⚙️", "🔒", "🔑"];
+// Use Lucide icons instead of emojis
+const TILE_ICONS_MAP: Record<string, React.ReactNode> = {
+  calc: <Calculator className="w-5 h-5" />,
+  wrench: <Wrench className="w-5 h-5" />,
+  chart: <BarChart3 className="w-5 h-5" />,
+  settings: <Settings className="w-5 h-5" />,
+  lock: <Lock className="w-5 h-5" />,
+  key: <Key className="w-5 h-5" />,
+};
+
+const TILE_KEYS = Object.keys(TILE_ICONS_MAP);
 
 export default function ErrorPage({ error, reset }: ErrorProps) {
-  const [cards, setCards] = useState<{ id: number; icon: string; flipped: boolean; matched: boolean }[]>([]);
+  const [cards, setCards] = useState<{ id: number; iconKey: string; flipped: boolean; matched: boolean }[]>([]);
   const [selectedCards, setSelectedCards] = useState<number[]>([]);
   const [matchesCount, setMatchesCount] = useState(0);
 
@@ -21,9 +36,9 @@ export default function ErrorPage({ error, reset }: ErrorProps) {
   }, []);
 
   const initGame = () => {
-    const deck = [...TILE_ICONS, ...TILE_ICONS]
+    const deck = [...TILE_KEYS, ...TILE_KEYS]
       .sort(() => Math.random() - 0.5)
-      .map((icon, idx) => ({ id: idx, icon, flipped: false, matched: false }));
+      .map((iconKey, idx) => ({ id: idx, iconKey, flipped: false, matched: false }));
     setCards(deck);
     setSelectedCards([]);
     setMatchesCount(0);
@@ -41,7 +56,7 @@ export default function ErrorPage({ error, reset }: ErrorProps) {
 
     if (newSelected.length === 2) {
       const [firstIdx, secondIdx] = newSelected;
-      if (cards[firstIdx].icon === cards[secondIdx].icon) {
+      if (cards[firstIdx].iconKey === cards[secondIdx].iconKey) {
         setTimeout(() => {
           setCards((prev) =>
             prev.map((card, i) => (i === firstIdx || i === secondIdx ? { ...card, matched: true } : card))
@@ -62,9 +77,8 @@ export default function ErrorPage({ error, reset }: ErrorProps) {
 
   return (
     <div className="min-h-screen bg-zinc-950 text-white flex flex-col items-center justify-center p-6 relative overflow-hidden font-sans">
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-rose-600/10 rounded-full blur-3xl pointer-events-none" />
-
-      <div className="max-w-md w-full text-center space-y-6 z-10">
+      <AnimatedGradientBackground />
+      <div className="max-w-md w-full text-center space-y-6 z-10 relative">
         <div>
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-rose-500/10 text-rose-400 border border-rose-500/20 mb-3">
             <ShieldAlert className="w-3.5 h-3.5" /> Error 500
@@ -79,7 +93,7 @@ export default function ErrorPage({ error, reset }: ErrorProps) {
         <div className="rounded-2xl border border-zinc-800 bg-zinc-900/80 p-5 backdrop-blur-md space-y-4">
           <div className="flex justify-between items-center text-xs font-bold text-zinc-400">
             <span>Tile Matching Game</span>
-            <span className="text-emerald-400 font-mono">Matches: {matchesCount} / {TILE_ICONS.length}</span>
+            <span className="text-emerald-400 font-mono">Matches: {matchesCount} / {TILE_KEYS.length}</span>
           </div>
 
           <div className="grid grid-cols-4 gap-2.5">
@@ -87,18 +101,18 @@ export default function ErrorPage({ error, reset }: ErrorProps) {
               <button
                 key={card.id}
                 onClick={() => handleCardClick(idx)}
-                className={`h-16 rounded-xl text-2xl font-bold transition-all duration-300 flex items-center justify-center border ${
+                className={`h-16 rounded-xl font-bold transition-all duration-300 flex items-center justify-center border ${
                   card.flipped || card.matched
-                    ? "bg-blue-600/20 border-blue-500/50 text-white scale-100"
-                    : "bg-zinc-950 border-zinc-800 hover:border-zinc-700 text-transparent hover:scale-105"
+                    ? "bg-blue-600/20 border-blue-500/50 text-blue-400 scale-100"
+                    : "bg-zinc-950 border-zinc-800 hover:border-zinc-700 text-zinc-700 hover:scale-105"
                 }`}
               >
-                {card.flipped || card.matched ? card.icon : "❓"}
+                {card.flipped || card.matched ? TILE_ICONS_MAP[card.iconKey] : <HardDrive className="w-4 h-4 opacity-30" />}
               </button>
             ))}
           </div>
 
-          {matchesCount === TILE_ICONS.length && (
+          {matchesCount === TILE_KEYS.length && (
             <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-xs font-bold text-emerald-400 flex items-center justify-center gap-2">
               <CheckCircle2 className="w-4 h-4" /> Perfect! You solved all memory tiles!
             </div>

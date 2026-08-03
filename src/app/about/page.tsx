@@ -6,7 +6,7 @@ import HoverFooter from "@/src/components/ui/hover-footer";
 
 export const metadata: Metadata = {
   title: "About Yuitility — 100% In-Browser Zero-Latency Utility Engine",
-  description: "Learn how Yuitility processes 152+ tools 100% inside your local browser memory. Zero server uploads, zero latency, no tracking cookies, and free forever.",
+  description: "Learn how Yuitility processes 140+ tools 100% inside your local browser memory. Zero server uploads, zero latency, no tracking cookies, and free forever.",
   alternates: { canonical: "/about" },
 };
 
@@ -26,7 +26,7 @@ export default function AboutPage() {
     },
     {
       q: "Is Yuitility completely free to use?",
-      a: "Yes! All 152+ tools are 100% free with no hidden paywalls, no daily file limits, and no account registration required.",
+      a: "Yes! All 140+ tools are 100% free with no hidden paywalls, no daily file limits, and no account registration required.",
     },
   ];
 
@@ -44,7 +44,7 @@ export default function AboutPage() {
               href="/"
               className="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-xl shadow-md transition-all"
             >
-              <ArrowLeft className="w-4 h-4" /> Explore 152+ Tools
+              <ArrowLeft className="w-4 h-4" /> Explore 140+ Tools
             </Link>
           </div>
         </div>
@@ -62,7 +62,7 @@ export default function AboutPage() {
             </div>
 
             <h1 className="text-4xl sm:text-6xl font-display font-extrabold tracking-tight leading-[1.15] text-white">
-              Privately Process 152+ Tools <br className="hidden sm:block" />
+              Privately Process 140+ Tools <br className="hidden sm:block" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-teal-300">
                 100% Inside Your Local Memory
               </span>
@@ -77,7 +77,7 @@ export default function AboutPage() {
                 href="/"
                 className="px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-2xl shadow-xl shadow-blue-500/20 hover:scale-105 transition-all flex items-center gap-2"
               >
-                Launch All 152+ Tools <ArrowRight className="w-4 h-4" />
+                Launch All 140+ Tools <ArrowRight className="w-4 h-4" />
               </Link>
               <a
                 href="#architecture"
@@ -93,7 +93,7 @@ export default function AboutPage() {
         <section className="border-b border-zinc-800 bg-zinc-900/80 backdrop-blur-md py-12">
           <div className="max-w-6xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div className="space-y-1">
-              <p className="text-3xl sm:text-5xl font-extrabold font-mono text-blue-400">152+</p>
+              <p className="text-3xl sm:text-5xl font-extrabold font-mono text-blue-400">140+</p>
               <p className="text-xs font-semibold text-zinc-400">Live Browser Tools</p>
             </div>
             <div className="space-y-1">
@@ -145,7 +145,7 @@ export default function AboutPage() {
               </div>
               <h3 className="text-base font-bold text-white">Progressive Offline App</h3>
               <p className="text-xs text-zinc-400 leading-relaxed">
-                Install Yuitility as a PWA on iOS, Android, macOS, or Windows to use 152+ tools offline without an active internet connection.
+                Install Yuitility as a PWA on iOS, Android, macOS, or Windows to use 140+ tools offline without an active internet connection.
               </p>
             </div>
           </div>

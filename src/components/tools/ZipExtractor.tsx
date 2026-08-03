@@ -166,7 +166,7 @@ export default function ZipExtractor({ onCopy, onShare }: ZipExtractorProps) {
             <p className="text-base font-semibold text-zinc-900 dark:text-zinc-100">Click to upload or drag and drop a ZIP</p>
             <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-2">All extraction happens securely in your browser memory.</p>
             <p className="text-xs font-bold text-amber-600 dark:text-amber-500 mt-3 bg-amber-50 dark:bg-amber-500/10 px-3 py-1.5 rounded-lg border border-amber-200 dark:border-amber-500/20">
-              ⚠️ Max file size: 300MB. Very large ZIPs may crash the browser.
+              Warning: Max file size: 300MB. Very large ZIPs may crash the browser.
             </p>
             <input
               type="file"

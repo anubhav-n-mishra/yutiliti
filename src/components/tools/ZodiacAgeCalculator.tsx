@@ -53,7 +53,7 @@ export default function ZodiacAgeCalculator({ onCopy }: ZodiacAgeCalculatorProps
     }
 
     // Chinese Zodiac
-    const chineseAnimals = ['Rat 🐀', 'Ox 🐂', 'Tiger 🐅', 'Rabbit 🐇', 'Dragon 🐉', 'Snake 🐍', 'Horse 🐎', 'Goat 🐐', 'Monkey 🐒', 'Rooster 🐓', 'Dog 🐕', 'Pig 🐖'];
+    const chineseAnimals = ['Rat', 'Ox', 'Tiger', 'Rabbit', 'Dragon', 'Snake', 'Horse', 'Goat', 'Monkey', 'Rooster', 'Dog', 'Pig'];
     const chineseIndex = (year - 4) % 12;
     const chineseSign = chineseAnimals[chineseIndex < 0 ? chineseIndex + 12 : chineseIndex];
 

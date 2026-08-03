@@ -4,6 +4,7 @@ import "./globals.css";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/src/lib/site";
 import ServiceWorkerRegister from "@/src/components/ServiceWorkerRegister";
 import CookieBanner from "@/src/components/CookieBanner";
+import AiChatbot from "@/src/components/AiChatbot";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -213,7 +214,7 @@ const softwareApplicationSchema = {
     url: SITE_URL,
   },
   featureList: [
-    "25+ free browser-based tools",
+    "140+ free browser-based tools",
     "100% client-side processing",
     "No account required",
     "Privacy-focused",
@@ -232,6 +233,7 @@ export default function RootLayout({
       <body className={inter.className} suppressHydrationWarning>
         <ServiceWorkerRegister />
         <CookieBanner />
+        <AiChatbot />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareApplicationSchema) }} />

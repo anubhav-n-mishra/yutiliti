@@ -183,7 +183,7 @@ export default function HoverFooter() {
               <span className="text-white text-2xl font-bold font-display tracking-tight">Yuitility</span>
             </div>
             <p className="text-xs text-zinc-400 leading-relaxed">
-              100% In-Browser Privacy Utilities. 152+ free tools running with zero server data retention and 0ms latency.
+              100% In-Browser Privacy Utilities. 140+ free tools running with zero server data retention and 0ms latency.
             </p>
             <a
               href="https://amvelt.com"
