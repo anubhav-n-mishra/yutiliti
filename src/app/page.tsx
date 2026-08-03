@@ -95,6 +95,8 @@ const IconMap: { [key: string]: React.ComponentType<any> } = {
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const ITEMS_PER_PAGE = 24;
   const [darkMode, setDarkMode] = useState<boolean>(true);
   const [scrolled, setScrolled] = useState<boolean>(false);
   const [isMac, setIsMac] = useState<boolean>(false);
@@ -187,7 +189,13 @@ export default function Home() {
       list = [...list].sort((a, b) => a.title.localeCompare(b.title));
     }
     return list;
-  }, [activeCategory, sortBy, recentlyUsedToolIds]);
+  }, [activeCategory, sortBy, searchQuery, recentlyUsedToolIds]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredTools.length / ITEMS_PER_PAGE));
+  const paginatedTools = useMemo(() => {
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    return filteredTools.slice(start, start + ITEMS_PER_PAGE);
+  }, [filteredTools, currentPage]);
 
   // Dedicated search results for the dropdown menu
   const searchResults = useMemo(() => {
@@ -397,45 +405,98 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Tools Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredTools.map((t) => {
-              const Icon = IconMap[t.icon] || Calculator;
-              return (
-                <div
-                  key={t.id}
-                  onClick={() => navigateTo(t.id)}
-                  className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 hover:shadow-xl hover:border-blue-500/50 dark:hover:border-blue-500/50 transition-all cursor-pointer flex flex-col justify-between group"
-                >
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <div className="p-3 bg-zinc-100 dark:bg-zinc-800 text-blue-600 dark:text-blue-400 rounded-2xl group-hover:scale-110 transition-transform">
-                        <Icon className="w-6 h-6" />
+          {/* Tools Grid Section */}
+          <div id="tools-grid" className="space-y-8">
+            <div className="flex items-center justify-between text-xs font-bold text-zinc-500 dark:text-zinc-400">
+              <span>
+                Showing {filteredTools.length > 0 ? (currentPage - 1) * ITEMS_PER_PAGE + 1 : 0} - {Math.min(currentPage * ITEMS_PER_PAGE, filteredTools.length)} of {filteredTools.length} tools
+              </span>
+              <span>Page {currentPage} of {totalPages}</span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {paginatedTools.map((t) => {
+                const Icon = IconMap[t.icon] || Calculator;
+                return (
+                  <div
+                    key={t.id}
+                    onClick={() => navigateTo(t.id)}
+                    className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 hover:shadow-xl hover:border-blue-500/50 dark:hover:border-blue-500/50 transition-all cursor-pointer flex flex-col justify-between group"
+                  >
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <div className="p-3 bg-zinc-100 dark:bg-zinc-800 text-blue-600 dark:text-blue-400 rounded-2xl group-hover:scale-110 transition-transform">
+                          <Icon className="w-6 h-6" />
+                        </div>
+                        {t.popular && (
+                          <span className="px-2.5 py-1 bg-amber-50 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400 rounded-full text-[10px] font-bold border border-amber-200 dark:border-amber-900">
+                            Popular
+                          </span>
+                        )}
                       </div>
-                      {t.popular && (
-                        <span className="px-2.5 py-1 bg-amber-50 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400 rounded-full text-[10px] font-bold border border-amber-200 dark:border-amber-900">
-                          Popular
-                        </span>
-                      )}
+
+                      <div>
+                        <h3 className="text-lg font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                          {t.title}
+                        </h3>
+                        <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 line-clamp-2 leading-relaxed">
+                          {t.description}
+                        </p>
+                      </div>
                     </div>
 
-                    <div>
-                      <h3 className="text-lg font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                        {t.title}
-                      </h3>
-                      <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 line-clamp-2 leading-relaxed">
-                        {t.description}
-                      </p>
+                    <div className="pt-6 mt-4 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between text-xs font-bold text-blue-600 dark:text-blue-400">
+                      <span>{t.cta}</span>
+                      <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </div>
                   </div>
+                );
+              })}
+            </div>
 
-                  <div className="pt-6 mt-4 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between text-xs font-bold text-blue-600 dark:text-blue-400">
-                    <span>{t.cta}</span>
-                    <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </div>
-              );
-            })}
+            {/* Pagination Bar */}
+            {totalPages > 1 && (
+              <div className="flex flex-wrap items-center justify-center gap-2 pt-6">
+                <button
+                  disabled={currentPage === 1}
+                  onClick={() => {
+                    setCurrentPage((prev) => Math.max(1, prev - 1));
+                    document.getElementById("tools-grid")?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                  className="px-4 py-2 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs font-bold rounded-xl disabled:opacity-40 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-all"
+                >
+                  Previous
+                </button>
+
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                  <button
+                    key={pageNum}
+                    onClick={() => {
+                      setCurrentPage(pageNum);
+                      document.getElementById("tools-grid")?.scrollIntoView({ behavior: "smooth" });
+                    }}
+                    className={`w-9 h-9 text-xs font-bold rounded-xl transition-all ${
+                      currentPage === pageNum
+                        ? "bg-blue-600 text-white shadow-md shadow-blue-500/20"
+                        : "bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                    }`}
+                  >
+                    {pageNum}
+                  </button>
+                ))}
+
+                <button
+                  disabled={currentPage === totalPages}
+                  onClick={() => {
+                    setCurrentPage((prev) => Math.min(totalPages, prev + 1));
+                    document.getElementById("tools-grid")?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                  className="px-4 py-2 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs font-bold rounded-xl disabled:opacity-40 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-all"
+                >
+                  Next
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Interactive Hover Footer */}

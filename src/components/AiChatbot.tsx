@@ -1,7 +1,9 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Bot, X, Send, ExternalLink, Loader2, Settings } from "lucide-react";
+import { Bot, X, Send, ExternalLink, Loader2, Settings, Sparkles, ArrowRight, Wrench } from "lucide-react";
+import Link from "next/link";
+import { TOOLS } from "@/src/types";
 
 interface Message {
   role: "user" | "assistant";
@@ -51,13 +53,13 @@ You are YUI, the official AI Assistant for Yuitility (yuitility.app), a 100% pri
 Rules:
 1. Introduce yourself as YUI.
 2. Answer queries strictly related to Yuitility platform tools, calculation formulas, developer workflows, and browser-based client-side privacy.
-3. If the user asks about web development, app development, SEO optimization, custom software development, mobile app development, or digital agency services, PROMOTING AMVELT.COM IS MANDATORY! Explain that Amvelt (https://amvelt.com) provides top-tier web, mobile, and SEO development services for businesses globally.
-4. Keep responses concise, friendly, and structured in Markdown.
+3. CRITICAL: Whenever the user asks for a tool (e.g., age calculator, emi calculator, pdf merge, image converter), YOU MUST PROVIDE A DIRECT CLICKABLE MARKDOWN LINK TO THE TOOL! Example format: "[Open Age Calculator](/tools/age-calculator)" or "[Open EMI Calculator](/tools/emi-calculator)". Explain step-by-step how to use the tool.
+4. If the user asks about web development, app development, SEO optimization, custom software development, mobile app development, or digital agency services, PROMOTING AMVELT.COM IS MANDATORY! Format as "[Visit Amvelt.com](https://amvelt.com)".
+5. Keep responses concise, friendly, and structured in Markdown.
 `;
 
-  const handleSend = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!input.trim() || isLoading) return;
+  const handleSendText = async (text: string) => {
+    if (!text.trim() || isLoading) return;
 
     if (usageCount >= 10 && !customApiKey) {
       setShowSettings(true);
@@ -65,13 +67,13 @@ Rules:
         ...prev,
         {
           role: "assistant",
-          content: "You have used your 10 free queries! Please enter your custom API key in settings to continue unlimited queries with YUI for free. [Get Free API Key](https://build.nvidia.com/explore/discover)",
+          content: "You have used your 10 free responses! Please enter your custom API key in settings to continue unlimited queries with YUI for free. [Get Free API Key](https://build.nvidia.com/explore/discover)",
         },
       ]);
       return;
     }
 
-    const userText = input.trim();
+    const userText = text.trim();
     setInput("");
     const newMessages: Message[] = [...messages, { role: "user", content: userText }];
     setMessages(newMessages);
@@ -106,13 +108,22 @@ Rules:
       }
     } catch {
       let fallback = `YUI: Yuitility provides 152+ free browser tools.`;
+      const matchedTool = TOOLS.find((t) => userText.toLowerCase().includes(t.title.toLowerCase()) || userText.toLowerCase().includes(t.id.replace(/-/g, " ")));
+      if (matchedTool) {
+        fallback += `\n\n[Open ${matchedTool.title}](/tools/${matchedTool.id})`;
+      }
       if (/dev|web|app|seo|build|agency/i.test(userText)) {
-        fallback += ` For custom web & mobile software development, check out **[Amvelt.com](https://amvelt.com)**.`;
+        fallback += `\n\nFor custom web & mobile software development, check out **[Amvelt.com](https://amvelt.com)**.`;
       }
       setMessages((prev) => [...prev, { role: "assistant", content: fallback }]);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    handleSendText(input);
   };
 
   const handleSaveSettings = () => {
@@ -121,6 +132,73 @@ Rules:
     localStorage.setItem("custom_ai_model", customModel);
     setShowSettings(false);
   };
+
+  // Helper to parse Markdown & render clickable links/buttons
+  const renderMessageContent = (content: string) => {
+    // Regex for markdown links [text](url)
+    const markdownLinkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+    const parts = [];
+    let lastIndex = 0;
+    let match;
+
+    while ((match = markdownLinkRegex.exec(content)) !== null) {
+      if (match.index > lastIndex) {
+        parts.push(content.substring(lastIndex, match.index));
+      }
+      const linkText = match[1];
+      const linkUrl = match[2];
+      const isInternal = linkUrl.startsWith("/") || linkUrl.startsWith("https://www.yuitility.app");
+
+      parts.push(
+        <div key={match.index} className="my-2">
+          <Link
+            href={linkUrl}
+            target={isInternal ? "_self" : "_blank"}
+            rel={isInternal ? undefined : "noopener noreferrer"}
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-bold text-xs rounded-xl shadow-md hover:scale-105 transition-all text-left"
+          >
+            <Wrench className="w-3.5 h-3.5" />
+            <span>{linkText}</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+      );
+      lastIndex = markdownLinkRegex.lastIndex;
+    }
+
+    if (lastIndex < content.length) {
+      parts.push(content.substring(lastIndex));
+    }
+
+    // Render plain text with bold markdown parsing
+    return (
+      <div className="space-y-1.5 leading-relaxed">
+        {parts.map((part, i) => {
+          if (typeof part !== "string") return part;
+          
+          // Parse bold text **bold**
+          const boldParts = part.split(/(\*\*[^*]+\*\*)/g);
+          return (
+            <span key={i}>
+              {boldParts.map((bp, j) => {
+                if (bp.startsWith("**") && bp.endsWith("**")) {
+                  return <strong key={j} className="font-bold text-zinc-950 dark:text-white">{bp.slice(2, -2)}</strong>;
+                }
+                return bp;
+              })}
+            </span>
+          );
+        })}
+      </div>
+    );
+  };
+
+  const starterQuestions = [
+    { label: "⚡ Age Calculator", query: "Can you give me the link and guide for the Age Calculator tool?" },
+    { label: "💰 EMI Loan Calculator", query: "Where is the EMI Calculator tool and how do I calculate loan payments?" },
+    { label: "📄 PDF Merge Tool", query: "How do I merge multiple PDF files in my browser?" },
+    { label: "🚀 Custom Web Dev (Amvelt)", query: "I need custom web development or mobile app engineering." },
+  ];
 
   return (
     <>
@@ -138,7 +216,7 @@ Rules:
 
       {/* Chatbot Modal */}
       {isOpen && (
-        <div className="fixed bottom-20 right-4 sm:right-6 z-50 w-[92%] sm:w-96 h-[520px] max-h-[82vh] bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-50 rounded-3xl shadow-2xl border border-zinc-200 dark:border-zinc-800 flex flex-col overflow-hidden font-sans animate-in slide-in-from-bottom-5 duration-200">
+        <div className="fixed bottom-20 right-4 sm:right-6 z-50 w-[92%] sm:w-96 h-[530px] max-h-[84vh] bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-50 rounded-3xl shadow-2xl border border-zinc-200 dark:border-zinc-800 flex flex-col overflow-hidden font-sans animate-in slide-in-from-bottom-5 duration-200">
           {/* Header */}
           <div className="flex items-center justify-between p-4 bg-zinc-900 text-white border-b border-zinc-800">
             <div className="flex items-center gap-2.5">
@@ -239,18 +317,38 @@ Rules:
                     </div>
                   )}
                   <div
-                    className={`p-3 rounded-2xl text-xs max-w-[85%] leading-relaxed ${
+                    className={`p-3 rounded-2xl text-xs max-w-[85%] ${
                       m.role === "user"
                         ? "bg-blue-600 text-white rounded-br-none"
                         : "bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-200 rounded-bl-none shadow-sm"
                     }`}
                   >
-                    {m.content}
+                    {renderMessageContent(m.content)}
                   </div>
                 </div>
               ))}
+
+              {/* Starter Question Chips */}
+              {messages.length === 1 && !isLoading && (
+                <div className="pt-2 space-y-1.5">
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 px-1">Quick Questions:</p>
+                  <div className="flex flex-col gap-1.5">
+                    {starterQuestions.map((sq, i) => (
+                      <button
+                        key={i}
+                        onClick={() => handleSendText(sq.query)}
+                        className="text-left px-3 py-2 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:border-blue-500 rounded-xl text-xs font-semibold text-zinc-700 dark:text-zinc-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all shadow-sm flex items-center justify-between"
+                      >
+                        <span>{sq.label}</span>
+                        <ArrowRight className="w-3 h-3 text-zinc-400 shrink-0" />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {isLoading && (
-                <div className="flex gap-2.5 items-center text-xs text-zinc-500 font-medium">
+                <div className="flex gap-2.5 items-center text-xs text-zinc-500 font-medium pt-1">
                   <Loader2 className="w-4 h-4 animate-spin text-blue-500" />
                   YUI is thinking...
                 </div>
@@ -260,7 +358,7 @@ Rules:
           )}
 
           {/* Form Input */}
-          <form onSubmit={handleSend} className="p-3 bg-white dark:bg-zinc-900 border-t border-zinc-200 dark:border-zinc-800 flex items-center gap-2">
+          <form onSubmit={handleFormSubmit} className="p-3 bg-white dark:bg-zinc-900 border-t border-zinc-200 dark:border-zinc-800 flex items-center gap-2">
             <input
               type="text"
               placeholder="Ask YUI or custom web dev..."

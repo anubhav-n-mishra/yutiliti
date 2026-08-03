@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { X, Bell, Moon, Sun, Wrench, MessageSquare, AlertTriangle, Mail, HelpCircle, ShieldCheck } from "lucide-react";
+import { X, Bell, Moon, Sun, Wrench, MessageSquare, AlertTriangle, Mail, HelpCircle, ShieldCheck, Bot } from "lucide-react";
 
 interface SettingsDrawerProps {
   isOpen: boolean;
@@ -139,6 +139,36 @@ export default function SettingsDrawer({
                   {notificationStatusText}
                 </p>
               )}
+            </div>
+
+            {/* YUI AI Assistant API Key Setup */}
+            <div className="p-4 bg-zinc-50 dark:bg-zinc-900/60 rounded-2xl border border-zinc-200 dark:border-zinc-800 space-y-3">
+              <div className="flex items-center gap-2">
+                <Bot className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300">YUI Assistant API Key (BYOK)</h4>
+              </div>
+              <p className="text-[11px] text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                Add your custom API key (NVIDIA NIM, OpenAI, or Ollama) for unlimited free queries with YUI.
+              </p>
+              <div className="space-y-2">
+                <input
+                  type="password"
+                  value={localStorage.getItem("custom_ai_api_key") || ""}
+                  onChange={(e) => {
+                    localStorage.setItem("custom_ai_api_key", e.target.value);
+                  }}
+                  placeholder="Paste API Key (nvapi-...)"
+                  className="w-full px-3 py-2 text-xs rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 outline-none focus:border-blue-500 font-mono"
+                />
+                <a
+                  href="https://build.nvidia.com/explore/discover"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-[11px] font-bold text-blue-600 dark:text-blue-400 hover:underline"
+                >
+                  Get free API Key →
+                </a>
+              </div>
             </div>
           </div>
 
