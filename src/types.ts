@@ -890,8 +890,12 @@ export const TOOLS: Tool[] = [
 
 export const CATEGORIES = [
   { id: "all", label: "All Tools" },
+  { id: "math", label: "Calculators & Math" },
   { id: "finance", label: "Finance & Wealth" },
-  { id: "utility", label: "Utilities & Media" },
-  { id: "developer", label: "Developer & Design Tools" },
-  { id: "pdf", label: "PDF Tools" }
+  { id: "developer", label: "Text & Developer Tools" },
+  { id: "pdf", label: "PDF Tools" },
+  { id: "media", label: "Image & Media" },
+  { id: "conversion", label: "Units & Conversion" },
+  { id: "health", label: "Health & Lifestyle" },
+  { id: "utility", label: "Utilities & Everyday" }
 ];
