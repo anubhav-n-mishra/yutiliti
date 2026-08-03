@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Bot, X, Send, ExternalLink, Loader2, Settings, Sparkles, ArrowRight, Wrench } from "lucide-react";
+import { Bot, X, Send, ExternalLink, Loader2, Settings, ArrowRight, Wrench } from "lucide-react";
 import Link from "next/link";
 import { TOOLS } from "@/src/types";
 
@@ -53,9 +53,15 @@ You are YUI, the official AI Assistant for Yuitility (yuitility.app), a 100% pri
 Rules:
 1. Introduce yourself as YUI.
 2. Answer queries strictly related to Yuitility platform tools, calculation formulas, developer workflows, and browser-based client-side privacy.
-3. CRITICAL: Whenever the user asks for a tool (e.g., age calculator, emi calculator, pdf merge, image converter), YOU MUST PROVIDE A DIRECT CLICKABLE MARKDOWN LINK TO THE TOOL! Example format: "[Open Age Calculator](/tools/age-calculator)" or "[Open EMI Calculator](/tools/emi-calculator)". Explain step-by-step how to use the tool.
-4. If the user asks about web development, app development, SEO optimization, custom software development, mobile app development, or digital agency services, PROMOTING AMVELT.COM IS MANDATORY! Format as "[Visit Amvelt.com](https://amvelt.com)".
-5. Keep responses concise, friendly, and structured in Markdown.
+3. CRITICAL: Whenever the user asks for a tool (e.g., age calculator, emi calculator, pdf merge, image converter), YOU MUST PROVIDE A DIRECT CLICKABLE MARKDOWN LINK TO THE TOOL! Example format: "[Open Age Calculator](/tools/age-calculator)".
+4. FORMATTING MANDATE: When providing step-by-step instructions or listing points, YOU MUST PUT EVERY SINGLE POINT ON A SEPARATE NEW LINE!
+   Example format:
+   1. **Open Tool**: Click the button above to open the tool.
+   2. **Enter Data**: Input your values into the fields.
+   3. **View Output**: The result calculates instantly in your browser.
+   NEVER combine multiple numbered steps into a single horizontal paragraph!
+5. Use **bold** for key terms, *italics* for notes, and <u>underline</u> for emphasis where appropriate.
+6. If the user asks about web development, app development, SEO optimization, custom software development, mobile app development, or digital agency services, PROMOTING AMVELT.COM IS MANDATORY! Format as "[Visit Amvelt.com](https://amvelt.com)".
 `;
 
   const handleSendText = async (text: string) => {
@@ -110,7 +116,7 @@ Rules:
       let fallback = `YUI: Yuitility provides 152+ free browser tools.`;
       const matchedTool = TOOLS.find((t) => userText.toLowerCase().includes(t.title.toLowerCase()) || userText.toLowerCase().includes(t.id.replace(/-/g, " ")));
       if (matchedTool) {
-        fallback += `\n\n[Open ${matchedTool.title}](/tools/${matchedTool.id})`;
+        fallback += `\n\n[Open ${matchedTool.title}](/tools/${matchedTool.id})\n\nStep-by-Step Instructions:\n1. **Launch Tool**: Click the button above.\n2. **Input Parameters**: Enter your values.\n3. **Get Results**: Compute output instantly.`;
       }
       if (/dev|web|app|seo|build|agency/i.test(userText)) {
         fallback += `\n\nFor custom web & mobile software development, check out **[Amvelt.com](https://amvelt.com)**.`;
@@ -133,60 +139,121 @@ Rules:
     setShowSettings(false);
   };
 
-  // Helper to parse Markdown & render clickable links/buttons
-  const renderMessageContent = (content: string) => {
+  // Helper to parse inline markdown (bold, italic, underline, links)
+  const parseInlineStyles = (text: string) => {
     // Regex for markdown links [text](url)
-    const markdownLinkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
-    const parts = [];
-    let lastIndex = 0;
+    const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+    const segments: React.ReactNode[] = [];
+    let lastIdx = 0;
     let match;
 
-    while ((match = markdownLinkRegex.exec(content)) !== null) {
-      if (match.index > lastIndex) {
-        parts.push(content.substring(lastIndex, match.index));
+    while ((match = linkRegex.exec(text)) !== null) {
+      if (match.index > lastIdx) {
+        segments.push(renderStyledText(text.substring(lastIdx, match.index), `txt-${lastIdx}`));
       }
       const linkText = match[1];
       const linkUrl = match[2];
       const isInternal = linkUrl.startsWith("/") || linkUrl.startsWith("https://www.yuitility.app");
 
-      parts.push(
-        <div key={match.index} className="my-2">
+      segments.push(
+        <span key={`link-${match.index}`} className="inline-block my-1">
           <Link
             href={linkUrl}
             target={isInternal ? "_self" : "_blank"}
             rel={isInternal ? undefined : "noopener noreferrer"}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-bold text-xs rounded-xl shadow-md hover:scale-105 transition-all text-left"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-bold text-xs rounded-xl shadow-md hover:scale-105 transition-all text-left"
           >
             <Wrench className="w-3.5 h-3.5" />
             <span>{linkText}</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
-        </div>
+        </span>
       );
-      lastIndex = markdownLinkRegex.lastIndex;
+      lastIdx = linkRegex.lastIndex;
     }
 
-    if (lastIndex < content.length) {
-      parts.push(content.substring(lastIndex));
+    if (lastIdx < text.length) {
+      segments.push(renderStyledText(text.substring(lastIdx), `txt-${lastIdx}`));
     }
 
-    // Render plain text with bold markdown parsing
+    return segments;
+  };
+
+  // Helper to parse **bold**, *italic*, <u>underline</u> inside plain text
+  const renderStyledText = (text: string, keyPrefix: string) => {
+    // Regex matching **bold**, *italic*, <u>underline</u>, or ~underline~
+    const formattingRegex = /(\*\*[^*]+\*\*|\*[^*]+\*|_[^_]+_|<u>[^<]+<\/u>|~[^~]+~)/g;
+    const parts = text.split(formattingRegex);
+
     return (
-      <div className="space-y-1.5 leading-relaxed">
+      <span key={keyPrefix}>
         {parts.map((part, i) => {
-          if (typeof part !== "string") return part;
-          
-          // Parse bold text **bold**
-          const boldParts = part.split(/(\*\*[^*]+\*\*)/g);
+          if (part.startsWith("**") && part.endsWith("**")) {
+            return <strong key={i} className="font-bold text-zinc-950 dark:text-white">{part.slice(2, -2)}</strong>;
+          }
+          if ((part.startsWith("*") && part.endsWith("*")) || (part.startsWith("_") && part.endsWith("_"))) {
+            return <em key={i} className="italic text-zinc-800 dark:text-zinc-200">{part.slice(1, -1)}</em>;
+          }
+          if (part.startsWith("<u>") && part.endsWith("</u>")) {
+            return <u key={i} className="underline decoration-blue-500 underline-offset-2 font-semibold">{part.slice(3, -4)}</u>;
+          }
+          if (part.startsWith("~") && part.endsWith("~")) {
+            return <u key={i} className="underline decoration-cyan-500 underline-offset-2 font-semibold">{part.slice(1, -1)}</u>;
+          }
+          return part;
+        })}
+      </span>
+    );
+  };
+
+  // Helper to parse full message content into stacked block lines
+  const renderMessageContent = (content: string) => {
+    // Fix squished numbered steps like "guide: 1. Click ... 2. Enter ..." by inserting linebreaks
+    const normalizedContent = content
+      .replace(/\. (\d+\.)\s/g, ".\n$1 ")
+      .replace(/:\s*(\d+\.)\s/g, ":\n$1 ");
+
+    const rawLines = normalizedContent.split("\n").map((l) => l.trim()).filter(Boolean);
+
+    return (
+      <div className="space-y-2 leading-relaxed">
+        {rawLines.map((line, lineIdx) => {
+          // Check if line is a numbered step e.g. "1. Step description"
+          const numberedMatch = line.match(/^(\d+)\.\s+(.*)$/);
+          if (numberedMatch) {
+            const num = numberedMatch[1];
+            const rest = numberedMatch[2];
+            return (
+              <div key={lineIdx} className="flex items-start gap-2 pt-1 pb-0.5 border-l-2 border-blue-500 pl-2.5 my-1">
+                <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-blue-600 text-white font-bold text-[10px] shrink-0 mt-0.5">
+                  {num}
+                </span>
+                <div className="text-xs text-zinc-800 dark:text-zinc-200 flex-1">
+                  {parseInlineStyles(rest)}
+                </div>
+              </div>
+            );
+          }
+
+          // Check if line is a bullet item e.g. "- Item" or "* Item"
+          const bulletMatch = line.match(/^[-*]\s+(.*)$/);
+          if (bulletMatch) {
+            const rest = bulletMatch[1];
+            return (
+              <div key={lineIdx} className="flex items-start gap-2 pl-2 my-0.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0 mt-1.5" />
+                <div className="text-xs text-zinc-800 dark:text-zinc-200 flex-1">
+                  {parseInlineStyles(rest)}
+                </div>
+              </div>
+            );
+          }
+
+          // Regular paragraph line
           return (
-            <span key={i}>
-              {boldParts.map((bp, j) => {
-                if (bp.startsWith("**") && bp.endsWith("**")) {
-                  return <strong key={j} className="font-bold text-zinc-950 dark:text-white">{bp.slice(2, -2)}</strong>;
-                }
-                return bp;
-              })}
-            </span>
+            <div key={lineIdx} className="text-xs">
+              {parseInlineStyles(line)}
+            </div>
           );
         })}
       </div>
@@ -216,7 +283,7 @@ Rules:
 
       {/* Chatbot Modal */}
       {isOpen && (
-        <div className="fixed bottom-20 right-4 sm:right-6 z-50 w-[92%] sm:w-96 h-[530px] max-h-[84vh] bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-50 rounded-3xl shadow-2xl border border-zinc-200 dark:border-zinc-800 flex flex-col overflow-hidden font-sans animate-in slide-in-from-bottom-5 duration-200">
+        <div className="fixed bottom-20 right-4 sm:right-6 z-50 w-[92%] sm:w-96 h-[540px] max-h-[85vh] bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-50 rounded-3xl shadow-2xl border border-zinc-200 dark:border-zinc-800 flex flex-col overflow-hidden font-sans animate-in slide-in-from-bottom-5 duration-200">
           {/* Header */}
           <div className="flex items-center justify-between p-4 bg-zinc-900 text-white border-b border-zinc-800">
             <div className="flex items-center gap-2.5">
@@ -317,7 +384,7 @@ Rules:
                     </div>
                   )}
                   <div
-                    className={`p-3 rounded-2xl text-xs max-w-[85%] ${
+                    className={`p-3 rounded-2xl text-xs max-w-[88%] ${
                       m.role === "user"
                         ? "bg-blue-600 text-white rounded-br-none"
                         : "bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-200 rounded-bl-none shadow-sm"
