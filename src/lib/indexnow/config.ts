@@ -37,7 +37,7 @@ export function getIndexingConfig(): IndexingConfig {
     siteUrl,
     host,
     keyLocation,
-    endpoint: "https://api.indexnow.org/IndexNow",
+    endpoint: "https://yandex.com/indexnow",
     maxRetries: 3,
     initialRetryDelayMs: 1000,
     maxBatchSize: 10000,
