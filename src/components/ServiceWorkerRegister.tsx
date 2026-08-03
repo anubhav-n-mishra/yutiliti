@@ -9,13 +9,22 @@ export default function ServiceWorkerRegister() {
 
   useEffect(() => {
     if (typeof window !== "undefined" && "serviceWorker" in navigator) {
-      window.addEventListener("load", () => {
+      const registerSW = () => {
         navigator.serviceWorker
           .register("/sw.js")
+          .then((reg) => {
+            reg.update();
+          })
           .catch((err) => {
             console.warn("[PWA] ServiceWorker registration failed:", err);
           });
-      });
+      };
+
+      if (document.readyState === "complete" || document.readyState === "interactive") {
+        registerSW();
+      } else {
+        window.addEventListener("load", registerSW, { once: true });
+      }
     }
 
     const handleOnline = () => setIsOffline(false);
