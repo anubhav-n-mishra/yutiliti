@@ -59,8 +59,8 @@ import ContactModal from '../components/ContactModals';
 import SettingsDrawer from '../components/SettingsDrawer';
 import CookieBanner from '../components/CookieBanner';
 import AiChatbot from '../components/AiChatbot';
-import DottedSurface from '../components/ui/dotted-surface';
 import HoverFooter from '../components/ui/hover-footer';
+import DottedSurfaceHero from '../components/DottedSurfaceHero';
 
 const IconMap: { [key: string]: React.ComponentType<any> } = {
   Calculator,
@@ -205,7 +205,7 @@ export default function Home() {
 
   return (
     <div className={darkMode ? 'dark text-zinc-100 bg-zinc-950 min-h-screen font-sans antialiased relative overflow-hidden' : 'text-zinc-800 bg-white min-h-screen font-sans antialiased relative overflow-hidden'}>
-      <DottedSurface isDark={darkMode} />
+      <DottedSurfaceHero isDark={darkMode} />
       
       {/* Header section */}
       <header className={`fixed left-1/2 -translate-x-1/2 z-40 transition-all duration-500 ease-out ${

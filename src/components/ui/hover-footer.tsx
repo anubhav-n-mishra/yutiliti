@@ -3,7 +3,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/src/lib/utils";
-import { Mail, ShieldCheck, ExternalLink, Wrench, Heart } from "lucide-react";
+import { Mail, ShieldCheck, ExternalLink } from "lucide-react";
 
 export const TextHoverEffect = ({
   text,
@@ -42,7 +42,7 @@ export const TextHoverEffect = ({
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       onMouseMove={(e) => setCursor({ x: e.clientX, y: e.clientY })}
-      className={cn("select-none uppercase cursor-pointer", className)}
+      className={cn("select-none uppercase cursor-pointer w-full h-full", className)}
     >
       <defs>
         <linearGradient
@@ -90,7 +90,7 @@ export const TextHoverEffect = ({
         textAnchor="middle"
         dominantBaseline="middle"
         strokeWidth="0.3"
-        className="fill-transparent stroke-zinc-300 font-[helvetica] text-6xl sm:text-7xl font-bold dark:stroke-zinc-800"
+        className="fill-transparent stroke-zinc-700 font-[helvetica] text-6xl sm:text-7xl font-bold dark:stroke-zinc-800"
         style={{ opacity: hovered ? 0.7 : 0 }}
       >
         {text}
@@ -136,7 +136,7 @@ export const FooterBackgroundGradient = () => {
       className="absolute inset-0 z-0 pointer-events-none"
       style={{
         background:
-          "radial-gradient(125% 125% at 50% 10%, rgba(15, 23, 42, 0.4) 50%, rgba(60, 162, 250, 0.15) 100%)",
+          "radial-gradient(125% 125% at 50% 10%, rgba(15, 23, 42, 0.5) 50%, rgba(60, 162, 250, 0.2) 100%)",
       }}
     />
   );
@@ -173,8 +173,8 @@ export default function HoverFooter() {
   ];
 
   return (
-    <footer className="bg-zinc-950 text-white relative h-fit rounded-3xl overflow-hidden m-4 sm:m-8 border border-zinc-800">
-      <div className="max-w-7xl mx-auto p-8 sm:p-14 z-20 relative">
+    <footer className="w-full bg-zinc-950 text-white relative overflow-hidden border-t border-zinc-800 mt-auto">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16 z-20 relative">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-8 pb-12">
           {/* Brand section */}
           <div className="flex flex-col space-y-4">
@@ -247,8 +247,8 @@ export default function HoverFooter() {
         </div>
       </div>
 
-      {/* Big Text Hover Effect */}
-      <div className="lg:flex hidden h-[22rem] -mt-36 -mb-28 justify-center items-center pointer-events-auto">
+      {/* Full-width Big Text Hover Effect */}
+      <div className="w-full lg:flex hidden h-[22rem] -mt-36 -mb-28 justify-center items-center pointer-events-auto">
         <TextHoverEffect text="YUITILITY" className="z-30" />
       </div>
 

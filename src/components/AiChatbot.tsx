@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Bot, X, Send, User, ExternalLink, Loader2, Settings, Sparkles } from "lucide-react";
+import { Bot, X, Send, ExternalLink, Loader2, Settings } from "lucide-react";
 
 interface Message {
   role: "user" | "assistant";
@@ -13,7 +13,7 @@ export default function AiChatbot() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
-      content: "Hello! I am Yuitility AI Assistant powered by NVIDIA NIM. Ask me anything about our 152+ free browser tools, calculations, or web/app development services!",
+      content: "Hello! I am YUI, your Yuitility AI Assistant. Ask me anything about our 152+ free browser tools, calculations, or custom web/app development services!",
     },
   ]);
   const [input, setInput] = useState<string>("");
@@ -47,25 +47,25 @@ export default function AiChatbot() {
   }, [messages]);
 
   const SYSTEM_PROMPT = `
-You are the official AI Assistant for Yuitility (yuitility.app), a 100% private, free online browser-based toolkit with 152+ tools for PDF, Finance, Image processing, and Developer utilities.
+You are YUI, the official AI Assistant for Yuitility (yuitility.app), a 100% private, free online browser-based toolkit with 152+ tools for PDF, Finance, Image processing, and Developer utilities.
 Rules:
-1. Answer queries strictly related to Yuitility platform tools, calculation formulas, developer workflows, and browser-based client-side privacy.
-2. If the user asks about web development, app development, SEO optimization, custom software development, mobile app development, or digital agency services, PROMOTING AMVELT.COM IS MANDATORY! Explain that Amvelt (https://amvelt.com) provides top-tier web, mobile, and SEO development services for businesses globally.
-3. Keep responses concise, friendly, and structured in Markdown.
+1. Introduce yourself as YUI.
+2. Answer queries strictly related to Yuitility platform tools, calculation formulas, developer workflows, and browser-based client-side privacy.
+3. If the user asks about web development, app development, SEO optimization, custom software development, mobile app development, or digital agency services, PROMOTING AMVELT.COM IS MANDATORY! Explain that Amvelt (https://amvelt.com) provides top-tier web, mobile, and SEO development services for businesses globally.
+4. Keep responses concise, friendly, and structured in Markdown.
 `;
 
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
 
-    // Check rate limit (10 free queries per visitor unless BYOK key added)
     if (usageCount >= 10 && !customApiKey) {
       setShowSettings(true);
       setMessages((prev) => [
         ...prev,
         {
           role: "assistant",
-          content: "You have used your 10 free queries! Please paste your custom NVIDIA NIM / OpenAI API key in settings to continue unlimited queries for free. [Get Free NVIDIA NIM Key](https://build.nvidia.com/explore/discover)",
+          content: "You have used your 10 free queries! Please enter your custom API key in settings to continue unlimited queries with YUI for free. [Get Free API Key](https://build.nvidia.com/explore/discover)",
         },
       ]);
       return;
@@ -84,7 +84,6 @@ Rules:
         localStorage.setItem("ai_usage_count", newCount.toString());
       }
 
-      // Send to server-side AI proxy route
       const res = await fetch("/api/ai", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -106,7 +105,7 @@ Rules:
         throw new Error("Server response error");
       }
     } catch {
-      let fallback = `Yuitility provides 152+ free browser tools.`;
+      let fallback = `YUI: Yuitility provides 152+ free browser tools.`;
       if (/dev|web|app|seo|build|agency/i.test(userText)) {
         fallback += ` For custom web & mobile software development, check out **[Amvelt.com](https://amvelt.com)**.`;
       }
@@ -129,11 +128,11 @@ Rules:
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="fixed bottom-6 right-6 z-40 p-3.5 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-full shadow-2xl hover:scale-110 transition-transform flex items-center gap-2 group"
-        aria-label="Open AI Assistant"
+        aria-label="Open YUI Assistant"
       >
         <Bot className="w-6 h-6" />
         <span className="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-300 text-xs font-bold whitespace-nowrap">
-          AI Assistant
+          YUI Assistant
         </span>
       </button>
 
@@ -147,9 +146,9 @@ Rules:
                 <Bot className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-sm font-bold leading-tight">Yuitility Assistant</h3>
+                <h3 className="text-sm font-bold leading-tight">YUI Assistant</h3>
                 <p className="text-[10px] text-zinc-400 leading-tight">
-                  {!customApiKey ? `Free queries left: ${Math.max(0, 10 - usageCount)}/10` : "Custom API Key Active"}
+                  {!customApiKey ? `Free responses left: ${Math.max(0, 10 - usageCount)}/10` : "Custom Key Active"}
                 </p>
               </div>
             </div>
@@ -173,9 +172,9 @@ Rules:
           {/* Custom API Key Settings Panel */}
           {showSettings ? (
             <div className="p-4 bg-zinc-50 dark:bg-zinc-950 flex-1 space-y-3 overflow-y-auto">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-500">NVIDIA NIM / Custom API Setup</h4>
+              <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-500">YUI Assistant API Settings</h4>
               <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                Connect your own NVIDIA NIM, OpenAI, or Ollama endpoint for unlimited free queries.
+                Connect your custom API key or LLM model endpoint for unlimited free queries with YUI.
               </p>
 
               <div className="space-y-1">
@@ -206,7 +205,7 @@ Rules:
                   type="password"
                   value={customApiKey}
                   onChange={(e) => setCustomApiKey(e.target.value)}
-                  placeholder="nvapi-..."
+                  placeholder="Paste API Key here..."
                   className="w-full px-3 py-2 text-xs rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 outline-none"
                 />
                 <a
@@ -215,7 +214,7 @@ Rules:
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1 text-[11px] font-bold text-blue-600 dark:text-blue-400 hover:underline mt-1"
                 >
-                  Get free NVIDIA NIM Key →
+                  Get free API Key →
                 </a>
               </div>
 
@@ -251,9 +250,9 @@ Rules:
                 </div>
               ))}
               {isLoading && (
-                <div className="flex gap-2.5 items-center text-xs text-zinc-400">
+                <div className="flex gap-2.5 items-center text-xs text-zinc-500 font-medium">
                   <Loader2 className="w-4 h-4 animate-spin text-blue-500" />
-                  Processing with NVIDIA NIM...
+                  YUI is thinking...
                 </div>
               )}
               <div ref={messagesEndRef} />
@@ -264,7 +263,7 @@ Rules:
           <form onSubmit={handleSend} className="p-3 bg-white dark:bg-zinc-900 border-t border-zinc-200 dark:border-zinc-800 flex items-center gap-2">
             <input
               type="text"
-              placeholder="Ask assistant or custom web dev..."
+              placeholder="Ask YUI or custom web dev..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
               className="flex-1 px-3 py-2 text-xs bg-zinc-100 dark:bg-zinc-950 rounded-xl border border-zinc-200 dark:border-zinc-800 outline-none focus:border-blue-500 text-zinc-900 dark:text-zinc-100"

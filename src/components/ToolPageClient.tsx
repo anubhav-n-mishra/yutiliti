@@ -6,6 +6,7 @@ import { ArrowLeft, CheckCircle2, Copy, Moon, ShieldCheck, Sun } from "lucide-re
 import { Tool, TOOLS } from "@/src/types";
 import { getToolFaqs, getToolHowItWorks, getToolSteps, toolPath } from "@/src/lib/site";
 import PwaInstallButton from "./PwaInstallButton";
+import HoverFooter from "@/src/components/ui/hover-footer";
 import EmiCalculator from "@/src/components/tools/EmiCalculator";
 import SipCalculator from "@/src/components/tools/SipCalculator";
 import AgeCalculator from "@/src/components/tools/AgeCalculator";
@@ -451,7 +452,7 @@ export default function ToolPageClient({ tool }: ToolPageClientProps) {
         </section>}
       </main>
 
-      <footer className="border-t border-zinc-200 bg-white py-8 text-center text-sm text-zinc-500 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-400">© {new Date().getFullYear()} Yuitility · Private, practical browser tools.</footer>
+      <HoverFooter />
       {message && <div role="status" className="fixed bottom-5 right-5 flex items-center gap-2 rounded-xl bg-zinc-900 px-4 py-3 text-sm font-semibold text-white shadow-xl dark:bg-white dark:text-zinc-950"><CheckCircle2 className="h-4 w-4 text-emerald-400 dark:text-emerald-600" />{message}</div>}
     </div>
   );

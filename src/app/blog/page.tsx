@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeft, BookOpen, Clock, Tag, ArrowRight } from "lucide-react";
+import { ArrowRight, Clock, BookOpen, Calendar, User, ArrowLeft, Tag } from "lucide-react";
+import HoverFooter from "@/src/components/ui/hover-footer";
 import { BLOG_POSTS } from "@/src/lib/blogs";
 
 export const metadata: Metadata = {
@@ -76,6 +77,7 @@ export default function BlogIndexPage() {
           ))}
         </div>
       </main>
+      <HoverFooter />
     </div>
   );
 }
