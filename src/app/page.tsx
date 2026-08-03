@@ -59,6 +59,8 @@ import ContactModal from '../components/ContactModals';
 import SettingsDrawer from '../components/SettingsDrawer';
 import CookieBanner from '../components/CookieBanner';
 import AiChatbot from '../components/AiChatbot';
+import DottedSurface from '../components/ui/dotted-surface';
+import HoverFooter from '../components/ui/hover-footer';
 
 const IconMap: { [key: string]: React.ComponentType<any> } = {
   Calculator,
@@ -202,7 +204,8 @@ export default function Home() {
   }, []);
 
   return (
-    <div className={darkMode ? 'dark text-zinc-100 bg-zinc-950 min-h-screen font-sans antialiased' : 'text-zinc-800 bg-white min-h-screen font-sans antialiased'}>
+    <div className={darkMode ? 'dark text-zinc-100 bg-zinc-950 min-h-screen font-sans antialiased relative overflow-hidden' : 'text-zinc-800 bg-white min-h-screen font-sans antialiased relative overflow-hidden'}>
+      <DottedSurface isDark={darkMode} />
       
       {/* Header section */}
       <header className={`fixed left-1/2 -translate-x-1/2 z-40 transition-all duration-500 ease-out ${
@@ -211,9 +214,15 @@ export default function Home() {
           : 'top-6 w-[94%] max-w-5xl bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl border border-zinc-200/60 dark:border-zinc-800/60 rounded-full shadow-[0_4px_20px_rgb(0,0,0,0.05)] dark:shadow-[0_4px_20px_rgb(0,0,0,0.2)]'
       }`}>
         <div className={`flex items-center justify-between transition-all duration-500 ${scrolled ? 'px-4 h-12' : 'px-5 h-14'}`}>
-          <div className="flex items-center gap-2.5 cursor-pointer group" onClick={() => navigateTo(null)}>
-            <Image src="/brand/yuitility-logo.png" alt="Yuitility logo" width={32} height={32} className="object-contain transition-transform group-hover:scale-105" priority />
-            <span className="font-display font-bold text-base text-zinc-950 dark:text-zinc-50 tracking-tight">Yuitility</span>
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2.5 cursor-pointer group" onClick={() => navigateTo(null)}>
+              <Image src="/brand/yuitility-logo.png" alt="Yuitility logo" width={32} height={32} className="object-contain transition-transform group-hover:scale-105" priority />
+              <span className="font-display font-bold text-base text-zinc-950 dark:text-zinc-50 tracking-tight">Yuitility</span>
+            </div>
+            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800/80 rounded-full text-[11px] font-bold text-emerald-700 dark:text-emerald-400">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span>152 Tools Live</span>
+            </div>
           </div>
 
           <nav className="hidden md:flex items-center gap-6 text-sm font-semibold text-zinc-600 dark:text-zinc-400">
@@ -429,26 +438,8 @@ export default function Home() {
             })}
           </div>
 
-          {/* Footer Section */}
-          <footer className="border-t border-zinc-200 dark:border-zinc-800 pt-12 pb-8 space-y-6">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
-              <div className="flex items-center gap-2">
-                <Image src="/brand/yuitility-logo.png" alt="Yuitility logo" width={24} height={24} />
-                <span className="font-bold text-zinc-800 dark:text-zinc-200">Yuitility</span> — Free Online Tools & Calculators
-              </div>
-
-              <div className="flex flex-wrap items-center gap-4 font-semibold text-zinc-600 dark:text-zinc-400">
-                <a href="mailto:hello@yuitility.app" className="hover:text-blue-600">hello@yuitility.app</a>
-                <a href="mailto:develop.yuitility.app" className="hover:text-blue-600">develop.yuitility.app</a>
-                <a href="mailto:support.yuitility.app" className="hover:text-blue-600">support.yuitility.app</a>
-              </div>
-            </div>
-
-            <p className="text-[11px] text-zinc-400 text-center">
-              © {new Date().getFullYear()} Yuitility. 100% In-Browser Privacy Guarantee. No Sign-In, Free Forever.
-            </p>
-          </footer>
-
+          {/* Interactive Hover Footer */}
+          <HoverFooter />
         </div>
       </main>
 

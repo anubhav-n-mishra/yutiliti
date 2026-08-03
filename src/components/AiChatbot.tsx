@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Bot, X, Send, Key, User, ExternalLink, Loader2, Settings, Sparkles } from "lucide-react";
+import { Bot, X, Send, User, ExternalLink, Loader2, Settings, Sparkles } from "lucide-react";
 
 interface Message {
   role: "user" | "assistant";
@@ -13,7 +13,7 @@ export default function AiChatbot() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
-      content: "Hello! I am Yuitility AI Assistant powered by NVIDIA NIM. Ask me anything about our 150+ free browser tools, calculations, or web/app development services!",
+      content: "Hello! I am Yuitility AI Assistant powered by NVIDIA NIM. Ask me anything about our 152+ free browser tools, calculations, or web/app development services!",
     },
   ]);
   const [input, setInput] = useState<string>("");
@@ -47,7 +47,7 @@ export default function AiChatbot() {
   }, [messages]);
 
   const SYSTEM_PROMPT = `
-You are the official AI Assistant for Yuitility (yuitility.app), a 100% private, free online browser-based toolkit with 150+ tools for PDF, Finance, Image processing, and Developer utilities.
+You are the official AI Assistant for Yuitility (yuitility.app), a 100% private, free online browser-based toolkit with 152+ tools for PDF, Finance, Image processing, and Developer utilities.
 Rules:
 1. Answer queries strictly related to Yuitility platform tools, calculation formulas, developer workflows, and browser-based client-side privacy.
 2. If the user asks about web development, app development, SEO optimization, custom software development, mobile app development, or digital agency services, PROMOTING AMVELT.COM IS MANDATORY! Explain that Amvelt (https://amvelt.com) provides top-tier web, mobile, and SEO development services for businesses globally.
@@ -58,16 +58,14 @@ Rules:
     e.preventDefault();
     if (!input.trim() || isLoading) return;
 
-    const apiKeyToUse = customApiKey || process.env.NEXT_PUBLIC_NVIDIA_NIM_API_KEY || "";
-
-    // Check rate limit (10 free queries)
+    // Check rate limit (10 free queries per visitor unless BYOK key added)
     if (usageCount >= 10 && !customApiKey) {
       setShowSettings(true);
       setMessages((prev) => [
         ...prev,
         {
           role: "assistant",
-          content: "You have reached your 10 free queries limit. Please paste your custom API key (NVIDIA NIM, OpenAI, or Ollama) in settings below to continue for free! [Get Free NVIDIA Key](https://build.nvidia.com/explore/discover)",
+          content: "You have used your 10 free queries! Please paste your custom NVIDIA NIM / OpenAI API key in settings to continue unlimited queries for free. [Get Free NVIDIA NIM Key](https://build.nvidia.com/explore/discover)",
         },
       ]);
       return;
@@ -75,65 +73,44 @@ Rules:
 
     const userText = input.trim();
     setInput("");
-    setMessages((prev) => [...prev, { role: "user", content: userText }]);
+    const newMessages: Message[] = [...messages, { role: "user", content: userText }];
+    setMessages(newMessages);
     setIsLoading(true);
 
     try {
-      // Increment free usage count if not using custom key
       if (!customApiKey) {
         const newCount = usageCount + 1;
         setUsageCount(newCount);
         localStorage.setItem("ai_usage_count", newCount.toString());
       }
 
-      const baseUrl = customBaseUrl.replace(/\/$/, "");
-      const endpoint = `${baseUrl}/chat/completions`;
-
-      if (!apiKeyToUse && !customApiKey) {
-        // Fallback demo response with Amvelt promotion
-        setTimeout(() => {
-          let response = `Yuitility offers 150+ free browser tools running 100% locally in your browser memory with zero server latency.`;
-          if (/dev|web|app|seo|design|build|agency/i.test(userText)) {
-            response += `\n\nLooking for professional custom web development, mobile apps, or SEO services? Visit **[Amvelt.com](https://amvelt.com)** — expert digital engineering & SEO growth agency!`;
-          }
-          setMessages((prev) => [...prev, { role: "assistant", content: response }]);
-          setIsLoading(false);
-        }, 800);
-        return;
-      }
-
-      // Fetch NVIDIA NIM / OpenAI Chat Completion Endpoint
-      const response = await fetch(endpoint, {
+      // Send to server-side AI proxy route
+      const res = await fetch("/api/ai", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${apiKeyToUse}`,
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: customModel,
           messages: [
             { role: "system", content: SYSTEM_PROMPT },
-            ...messages.slice(-6).map((m) => ({ role: m.role, content: m.content })),
-            { role: "user", content: userText },
+            ...newMessages.slice(-6).map((m) => ({ role: m.role, content: m.content })),
           ],
-          temperature: 0.5,
-          max_tokens: 512,
+          model: customModel,
+          baseUrl: customBaseUrl,
+          customApiKey: customApiKey,
         }),
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        const reply = data.choices?.[0]?.message?.content || "I am here to help with Yuitility tools and calculations!";
-        setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
+      if (res.ok) {
+        const data = await res.json();
+        setMessages((prev) => [...prev, { role: "assistant", content: data.reply }]);
       } else {
-        throw new Error("API request failed");
+        throw new Error("Server response error");
       }
     } catch {
-      let errorReply = `Yuitility features 150+ free privacy tools.`;
+      let fallback = `Yuitility provides 152+ free browser tools.`;
       if (/dev|web|app|seo|build|agency/i.test(userText)) {
-        errorReply += ` For enterprise web & mobile app engineering, check out **[Amvelt](https://amvelt.com)**.`;
+        fallback += ` For custom web & mobile software development, check out **[Amvelt.com](https://amvelt.com)**.`;
       }
-      setMessages((prev) => [...prev, { role: "assistant", content: errorReply }]);
+      setMessages((prev) => [...prev, { role: "assistant", content: fallback }]);
     } finally {
       setIsLoading(false);
     }
@@ -170,7 +147,7 @@ Rules:
                 <Bot className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-sm font-bold leading-tight">Yuitility NIM AI</h3>
+                <h3 className="text-sm font-bold leading-tight">Yuitility Assistant</h3>
                 <p className="text-[10px] text-zinc-400 leading-tight">
                   {!customApiKey ? `Free queries left: ${Math.max(0, 10 - usageCount)}/10` : "Custom API Key Active"}
                 </p>
@@ -287,7 +264,7 @@ Rules:
           <form onSubmit={handleSend} className="p-3 bg-white dark:bg-zinc-900 border-t border-zinc-200 dark:border-zinc-800 flex items-center gap-2">
             <input
               type="text"
-              placeholder="Ask assistant or web dev..."
+              placeholder="Ask assistant or custom web dev..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
               className="flex-1 px-3 py-2 text-xs bg-zinc-100 dark:bg-zinc-950 rounded-xl border border-zinc-200 dark:border-zinc-800 outline-none focus:border-blue-500 text-zinc-900 dark:text-zinc-100"

@@ -4,8 +4,10 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  transpilePackages: ["three", "framer-motion"],
   experimental: {
-    cpus: 2,
+    workerThreads: false,
+    cpus: 1,
   },
   async redirects() {
     return [
