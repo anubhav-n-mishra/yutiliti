@@ -333,7 +333,7 @@ export default function App() {
                   className={`px-5 py-2 text-sm font-medium rounded-xl whitespace-nowrap transition-all duration-300 ease-out ${
                     activeCategory === cat.id 
                       ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-zinc-100 shadow-[0_2px_10px_rgba(0,0,0,0.06)] dark:shadow-[0_2px_10px_rgba(0,0,0,0.2)]' 
-                      : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 hover:bg-black/5 dark:hover:bg-white/5'
+                      : 'text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-zinc-100 hover:bg-black/5 dark:hover:bg-white/5'
                   }`}
                 >
                   {cat.label}
@@ -345,22 +345,22 @@ export default function App() {
           {/* Primary Grid Listing */}
           <div className="space-y-6">
             <div className="flex justify-between items-center">
-              <h2 className="text-sm font-semibold text-zinc-400 uppercase tracking-wider">
+              <h2 className="text-sm font-semibold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">
                 {activeCategory === 'all' ? 'All Utilities' : `${activeCategory} Tools`}
               </h2>
               <div className="flex items-center gap-4">
                 <div className="flex items-center bg-zinc-100 dark:bg-zinc-800/50 p-1 rounded-lg" role="group" aria-label="View mode">
-                  <button onClick={() => setViewMode('large')} className={`p-1.5 rounded-md transition-colors ${viewMode === 'large' ? 'bg-white dark:bg-zinc-700 shadow-sm text-zinc-900 dark:text-zinc-100' : 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300'}`} aria-label="Large grid view"><LayoutGrid className="w-4 h-4" /></button>
-                  <button onClick={() => setViewMode('small')} className={`p-1.5 rounded-md transition-colors ${viewMode === 'small' ? 'bg-white dark:bg-zinc-700 shadow-sm text-zinc-900 dark:text-zinc-100' : 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300'}`} aria-label="Compact grid view"><Grid3X3 className="w-4 h-4" /></button>
-                  <button onClick={() => setViewMode('list')} className={`p-1.5 rounded-md transition-colors ${viewMode === 'list' ? 'bg-white dark:bg-zinc-700 shadow-sm text-zinc-900 dark:text-zinc-100' : 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300'}`} aria-label="List view"><List className="w-4 h-4" /></button>
+                  <button onClick={() => setViewMode('large')} className={`p-1.5 rounded-md transition-colors ${viewMode === 'large' ? 'bg-white dark:bg-zinc-700 shadow-sm text-zinc-900 dark:text-zinc-100' : 'text-zinc-600 hover:text-zinc-900 dark:hover:text-zinc-200'}`} aria-label="Large grid view"><LayoutGrid className="w-4 h-4" /></button>
+                  <button onClick={() => setViewMode('small')} className={`p-1.5 rounded-md transition-colors ${viewMode === 'small' ? 'bg-white dark:bg-zinc-700 shadow-sm text-zinc-900 dark:text-zinc-100' : 'text-zinc-600 hover:text-zinc-900 dark:hover:text-zinc-200'}`} aria-label="Compact grid view"><Grid3X3 className="w-4 h-4" /></button>
+                  <button onClick={() => setViewMode('list')} className={`p-1.5 rounded-md transition-colors ${viewMode === 'list' ? 'bg-white dark:bg-zinc-700 shadow-sm text-zinc-900 dark:text-zinc-100' : 'text-zinc-600 hover:text-zinc-900 dark:hover:text-zinc-200'}`} aria-label="List view"><List className="w-4 h-4" /></button>
                 </div>
-                <span className="text-xs text-zinc-400 font-mono font-bold hidden sm:inline-block">{filteredTools.length} results</span>
+                <span className="text-xs text-zinc-600 dark:text-zinc-400 font-mono font-bold hidden sm:inline-block">{filteredTools.length} results</span>
               </div>
             </div>
 
             {filteredTools.length === 0 ? (
               <div className="text-center py-12 bg-white dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-900 rounded-xl">
-                <p className="text-sm text-zinc-500">No tools match your active search filter query.</p>
+                <p className="text-sm text-zinc-600 dark:text-zinc-400">No tools match your active search filter query.</p>
               </div>
             ) : (
               <div className={
@@ -398,12 +398,12 @@ export default function App() {
                               <h3 className="text-base font-display font-bold text-zinc-900 dark:text-zinc-50 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                                 {t.title}
                               </h3>
-                              {t.popular && <span className="hidden sm:inline-block text-[9px] font-bold text-amber-600 bg-amber-50 dark:text-amber-400 dark:bg-amber-950/30 border border-amber-200/50 dark:border-amber-900/50 px-2 py-0.5 rounded-full shadow-sm">HOT</span>}
-                              {t.recentlyAdded && <span className="hidden sm:inline-block text-[9px] font-bold text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-blue-950/30 border border-blue-200/50 dark:border-blue-900/50 px-2 py-0.5 rounded-full shadow-sm">NEW</span>}
+                              {t.popular && <span className="hidden sm:inline-block text-[9px] font-bold text-amber-700 bg-amber-50 dark:text-amber-300 dark:bg-amber-950/30 border border-amber-200/50 dark:border-amber-900/50 px-2 py-0.5 rounded-full shadow-sm">HOT</span>}
+                              {t.recentlyAdded && <span className="hidden sm:inline-block text-[9px] font-bold text-blue-700 bg-blue-50 dark:text-blue-300 dark:bg-blue-950/30 border border-blue-200/50 dark:border-blue-900/50 px-2 py-0.5 rounded-full shadow-sm">NEW</span>}
                             </div>
-                            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 line-clamp-1">{t.description}</p>
+                            <p className="text-xs text-zinc-600 dark:text-zinc-300 mt-1 line-clamp-1">{t.description}</p>
                           </div>
-                          <ArrowRight className="w-4 h-4 text-zinc-400 group-hover:text-blue-500 group-hover:translate-x-1 transition-all shrink-0" />
+                          <ArrowRight className="w-4 h-4 text-zinc-500 group-hover:text-blue-500 group-hover:translate-x-1 transition-all shrink-0" />
                         </div>
                       ) : (
                         <>
@@ -421,12 +421,12 @@ export default function App() {
                               {/* Badges */}
                               <div className="flex gap-1.5 flex-col items-end sm:flex-row sm:items-center">
                                 {t.popular && (
-                                  <span className="text-[10px] font-bold text-amber-600 bg-amber-50 dark:text-amber-400 dark:bg-amber-950/30 border border-amber-200/50 dark:border-amber-900/50 px-2.5 py-1 rounded-full shadow-sm">
+                                  <span className="text-[10px] font-bold text-amber-700 bg-amber-50 dark:text-amber-300 dark:bg-amber-950/30 border border-amber-200/50 dark:border-amber-900/50 px-2.5 py-1 rounded-full shadow-sm">
                                     HOT
                                   </span>
                                 )}
                                 {t.recentlyAdded && (
-                                  <span className="text-[10px] font-bold text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-blue-950/30 border border-blue-200/50 dark:border-blue-900/50 px-2.5 py-1 rounded-full shadow-sm">
+                                  <span className="text-[10px] font-bold text-blue-700 bg-blue-50 dark:text-blue-300 dark:bg-blue-950/30 border border-blue-200/50 dark:border-blue-900/50 px-2.5 py-1 rounded-full shadow-sm">
                                     NEW
                                   </span>
                                 )}
@@ -436,7 +436,7 @@ export default function App() {
                             <h3 className={`font-display font-bold text-zinc-900 dark:text-zinc-50 tracking-tight group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors ${viewMode === 'small' ? 'text-[17px] mt-4 line-clamp-2' : 'text-xl mt-5 line-clamp-1'}`}>
                               {t.title}
                             </h3>
-                            <p className={`text-zinc-500 dark:text-zinc-400 leading-relaxed line-clamp-2 ${viewMode === 'small' ? 'text-[13px] mt-1.5' : 'text-sm mt-2'}`}>
+                            <p className={`text-zinc-600 dark:text-zinc-300 leading-relaxed line-clamp-2 ${viewMode === 'small' ? 'text-[13px] mt-1.5' : 'text-sm mt-2'}`}>
                               {t.description}
                             </p>
                           </div>
@@ -459,7 +459,7 @@ export default function App() {
           <div id="why-choose" className="pt-20">
             <div className="text-center max-w-2xl mx-auto space-y-4 mb-12">
               <h2 className="text-3xl md:text-4xl font-display font-bold text-zinc-950 dark:text-zinc-50 tracking-tight">The Architectural Standard</h2>
-              <p className="text-base text-zinc-500 dark:text-zinc-400 leading-relaxed">Professional developer tools that are instantaneous, distraction-free, and respectful of core privacy.</p>
+              <p className="text-base text-zinc-600 dark:text-zinc-300 leading-relaxed">Professional developer tools that are instantaneous, distraction-free, and respectful of core privacy.</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-12 gap-6 max-w-5xl mx-auto">
@@ -478,23 +478,23 @@ export default function App() {
 
               <div className="md:col-span-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-8 rounded-3xl shadow-sm hover:shadow-xl transition-shadow group">
                 <div className="space-y-4">
-                  <div className="p-3 bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 rounded-2xl inline-block group-hover:scale-110 transition-transform">
+                  <div className="p-3 bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 rounded-2xl inline-block group-hover:scale-110 transition-transform">
                     <Zap className="w-6 h-6" />
                   </div>
                   <h3 className="text-xl font-display font-bold text-zinc-900 dark:text-zinc-50">Zero Latency</h3>
-                  <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                  <p className="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed">
                     Calculations run on optimized JavaScript routines. Avoid remote cloud roundtrips for maximum speed.
                   </p>
                 </div>
               </div>
 
               <div className="md:col-span-12 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-8 rounded-3xl shadow-sm hover:shadow-xl transition-shadow flex flex-col md:flex-row items-center gap-8 group">
-                <div className="p-4 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-3xl group-hover:rotate-12 transition-transform">
+                <div className="p-4 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 rounded-3xl group-hover:rotate-12 transition-transform">
                   <ShieldCheck className="w-10 h-10" />
                 </div>
                 <div className="space-y-2 text-center md:text-left">
                   <h3 className="text-2xl font-display font-bold text-zinc-900 dark:text-zinc-50">Clean Commercial Design</h3>
-                  <p className="text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-2xl">
+                  <p className="text-zinc-600 dark:text-zinc-300 leading-relaxed max-w-2xl">
                     Say goodbye to endless banner ads, cookie walls, and bloated page weight. Yuitility serves clean layout geometry designed specifically for modern workflows.
                   </p>
                 </div>
@@ -506,7 +506,7 @@ export default function App() {
           <div id="faq" className="pt-20 pb-10">
             <div className="text-center max-w-2xl mx-auto space-y-4 mb-12">
               <h2 className="text-3xl font-display font-bold text-zinc-950 dark:text-zinc-50 tracking-tight">Frequently Asked Questions</h2>
-              <p className="text-base text-zinc-500 leading-relaxed">Learn how we package operations without persistent database systems.</p>
+              <p className="text-base text-zinc-600 dark:text-zinc-300 leading-relaxed">Learn how we package operations without persistent database systems.</p>
             </div>
 
             <div className="max-w-3xl mx-auto space-y-4">
@@ -514,12 +514,12 @@ export default function App() {
                 <details key={idx} className="group bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm [&_summary::-webkit-details-marker]:hidden">
                   <summary className="flex items-center justify-between p-6 cursor-pointer font-semibold text-zinc-900 dark:text-zinc-100">
                     <span className="flex items-center gap-3">
-                      <HelpCircle className="w-5 h-5 text-blue-500" />
+                      <HelpCircle className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                       {faq.question}
                     </span>
-                    <ChevronDown className="w-5 h-5 text-zinc-400 group-open:rotate-180 transition-transform" />
+                    <ChevronDown className="w-5 h-5 text-zinc-500 dark:text-zinc-400 group-open:rotate-180 transition-transform" />
                   </summary>
-                  <div className="px-6 pb-6 pt-2 text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed border-t border-zinc-100 dark:border-zinc-800/50">
+                  <div className="px-6 pb-6 pt-2 text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed border-t border-zinc-100 dark:border-zinc-800/50">
                     {faq.answer}
                   </div>
                 </details>
@@ -538,15 +538,15 @@ export default function App() {
                 <Image src="/brand/yuitility-logo.png" alt="Yuitility logo" width={48} height={48} className="object-contain" />
                 <span className="text-2xl font-bold text-zinc-900 dark:text-zinc-50 font-display tracking-tight">Yuitility</span>
               </div>
-              <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-sm">
+              <p className="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed max-w-sm">
                 A premium suite of client-side developer utilities and creator tools. 
                 Everything runs locally in your browser. No servers, no tracking, zero latency.
               </p>
               <div className="flex items-center gap-4">
-                <span className="px-3 py-1.5 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full text-xs font-bold border border-blue-100 dark:border-blue-800">
+                <span className="px-3 py-1.5 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-xs font-bold border border-blue-200 dark:border-blue-800">
                   100% LOCAL ENGINE
                 </span>
-                <span className="px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-full text-xs font-bold border border-emerald-100 dark:border-emerald-800 flex items-center gap-1.5">
+                <span className="px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 rounded-full text-xs font-bold border border-emerald-200 dark:border-emerald-800 flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
                   ALL SYSTEMS ONLINE
                 </span>
@@ -555,7 +555,7 @@ export default function App() {
             
             <div className="space-y-6">
               <h2 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 uppercase tracking-wider">Product</h2>
-              <ul className="space-y-4 text-sm font-medium text-zinc-500 dark:text-zinc-400">
+              <ul className="space-y-4 text-sm font-medium text-zinc-600 dark:text-zinc-300">
                 <li><button onClick={() => navigateTo(null)} className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">All Utilities</button></li>
                 <li><a href="#why-choose" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Features</a></li>
                 <li><a href="#faq" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">FAQ</a></li>
@@ -564,7 +564,7 @@ export default function App() {
 
             <div className="space-y-6">
               <h2 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 uppercase tracking-wider">Legal & Open Source</h2>
-              <ul className="space-y-4 text-sm font-medium text-zinc-500 dark:text-zinc-400">
+              <ul className="space-y-4 text-sm font-medium text-zinc-600 dark:text-zinc-300">
                 <li><a href="/privacy" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Privacy Policy</a></li>
                 <li><a href="/terms" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Terms & Conditions</a></li>
                 <li><a href="/tools/password-generator" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-2">Password Generator</a></li>
@@ -573,10 +573,10 @@ export default function App() {
           </div>
 
           <div className="pt-8 border-t border-zinc-200 dark:border-zinc-800 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-sm text-zinc-500 font-medium">
+            <p className="text-sm text-zinc-600 dark:text-zinc-400 font-medium">
               © {new Date().getFullYear()} Yuitility. Practical tools built for the web.
             </p>
-            <p className="text-xs text-zinc-400 font-medium text-center md:text-right">
+            <p className="text-xs text-zinc-600 dark:text-zinc-400 font-medium text-center md:text-right">
               No data is collected. Privacy by design.
             </p>
           </div>
