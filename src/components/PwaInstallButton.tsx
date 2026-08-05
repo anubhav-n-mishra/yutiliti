@@ -85,7 +85,7 @@ export default function PwaInstallButton() {
         aria-label="Install Yuitility PWA"
       >
         <Download className="w-3.5 h-3.5 animate-bounce" />
-        <span>Install App</span>
+        <span>Install Now</span>
       </button>
 
       {/* Manual Installation Instructions Modal */}

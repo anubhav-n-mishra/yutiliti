@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import DottedSurfaceHero from "@/src/components/DottedSurfaceHero";
 import HoverFooter from "@/src/components/ui/hover-footer";
+import PwaInstallButton from "@/src/components/PwaInstallButton";
 
 function ScrollReveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -146,21 +147,7 @@ export default function AboutPage() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <div className="flex items-center gap-1 bg-zinc-100 dark:bg-zinc-800/60 p-1 rounded-full border border-zinc-200/60 dark:border-zinc-800/60">
-              {(['blue', 'emerald', 'indigo', 'rose', 'amber'] as const).map((color) => (
-                <button
-                  key={color}
-                  onClick={() => changeAccent(color)}
-                  className={`w-3.5 h-3.5 rounded-full border transition-all ${
-                    color === 'blue' ? 'bg-blue-500' :
-                    color === 'emerald' ? 'bg-emerald-500' :
-                    color === 'indigo' ? 'bg-indigo-500' :
-                    color === 'rose' ? 'bg-rose-500' : 'bg-amber-500'
-                  } ${accentColor === color ? 'border-white scale-125 ring-2 ring-zinc-300 dark:ring-zinc-600' : 'border-transparent opacity-80 hover:opacity-100 hover:scale-110'}`}
-                  title={`${color} accent`}
-                />
-              ))}
-            </div>
+            <PwaInstallButton />
 
             <button
               onClick={() => setDarkMode(!darkMode)}

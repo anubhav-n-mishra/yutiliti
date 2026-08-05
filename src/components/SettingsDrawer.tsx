@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { X, Bell, Moon, Sun, Wrench, MessageSquare, AlertTriangle, Mail, HelpCircle, ShieldCheck, Bot } from "lucide-react";
+import { X, Bell, Moon, Sun, Wrench, MessageSquare, AlertTriangle, Mail, HelpCircle, ShieldCheck, Bot, Palette } from "lucide-react";
 
 interface SettingsDrawerProps {
   isOpen: boolean;
@@ -9,6 +9,8 @@ interface SettingsDrawerProps {
   darkMode: boolean;
   onToggleDarkMode: () => void;
   onOpenContact: (type: "request" | "feedback" | "bug") => void;
+  accentColor?: 'blue' | 'emerald' | 'indigo' | 'rose' | 'amber';
+  onChangeAccent?: (color: 'blue' | 'emerald' | 'indigo' | 'rose' | 'amber') => void;
 }
 
 export default function SettingsDrawer({
@@ -17,6 +19,8 @@ export default function SettingsDrawer({
   darkMode,
   onToggleDarkMode,
   onOpenContact,
+  accentColor = 'blue',
+  onChangeAccent,
 }: SettingsDrawerProps) {
   const [notificationsEnabled, setNotificationsEnabled] = useState<boolean>(false);
   const [notificationStatusText, setNotificationStatusText] = useState<string>("");
@@ -107,6 +111,36 @@ export default function SettingsDrawer({
                   }`}
                 />
               </button>
+            </div>
+
+            {/* Accent Color picker */}
+            <div className="p-3.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 rounded-xl">
+                    <Palette className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold">Accent Color</p>
+                    <p className="text-[10px] text-zinc-500 dark:text-zinc-400">Choose your theme highlight</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-1.5 bg-zinc-100 dark:bg-zinc-900 p-1.5 rounded-full border border-zinc-200 dark:border-zinc-800">
+                  {(['blue', 'emerald', 'indigo', 'rose', 'amber'] as const).map((color) => (
+                    <button
+                      key={color}
+                      onClick={() => onChangeAccent?.(color)}
+                      className={`w-3.5 h-3.5 rounded-full border transition-all ${
+                        color === 'blue' ? 'bg-blue-500' :
+                        color === 'emerald' ? 'bg-emerald-500' :
+                        color === 'indigo' ? 'bg-indigo-500' :
+                        color === 'rose' ? 'bg-rose-500' : 'bg-amber-500'
+                      } ${accentColor === color ? 'border-white scale-125 ring-2 ring-zinc-300 dark:ring-zinc-650' : 'border-transparent opacity-80 hover:opacity-100 hover:scale-110'}`}
+                      title={`${color} accent`}
+                    />
+                  ))}
+                </div>
+              </div>
             </div>
 
             {/* Notifications Toggle */}
