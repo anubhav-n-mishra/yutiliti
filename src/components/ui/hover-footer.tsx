@@ -101,7 +101,7 @@ export const TextHoverEffect = ({
         textAnchor="middle"
         dominantBaseline="middle"
         strokeWidth="0.3"
-        className="fill-transparent stroke-[#3ca2fa] font-[helvetica] text-6xl sm:text-7xl font-bold dark:stroke-[#3ca2fa99]"
+        className="fill-transparent stroke-[var(--accent-primary)] font-[helvetica] text-6xl sm:text-7xl font-bold opacity-60"
         initial={{ strokeDashoffset: 1000, strokeDasharray: 1000 }}
         animate={{
           strokeDashoffset: 0,
@@ -133,10 +133,10 @@ export const TextHoverEffect = ({
 export const FooterBackgroundGradient = () => {
   return (
     <div
-      className="absolute inset-0 z-0 pointer-events-none"
+      className="absolute inset-0 z-0 pointer-events-none opacity-40 dark:opacity-60 transition-all duration-700"
       style={{
         background:
-          "radial-gradient(125% 125% at 50% 10%, rgba(15, 23, 42, 0.5) 50%, rgba(60, 162, 250, 0.2) 100%)",
+          "radial-gradient(80% 80% at 50% 30%, var(--accent-glow) 0%, rgba(9, 9, 11, 0) 100%)",
       }}
     />
   );
@@ -168,8 +168,8 @@ export default function HoverFooter() {
 
   const contactEmails = [
     { label: "hello@yuitility.app", href: "mailto:hello@yuitility.app" },
-    { label: "develop.yuitility.app", href: "mailto:develop.yuitility.app" },
-    { label: "support.yuitility.app", href: "mailto:support.yuitility.app" },
+    { label: "develop@yuitility.app", href: "mailto:develop@yuitility.app" },
+    { label: "support@yuitility.app", href: "mailto:support@yuitility.app" },
   ];
 
   return (
@@ -204,12 +204,13 @@ export default function HoverFooter() {
               </h4>
               <ul className="space-y-2.5 text-xs text-zinc-400">
                 {section.links.map((link) => (
-                  <li key={link.label}>
+                  <li key={link.label} className="transition-transform duration-200 hover:translate-x-1">
                     <a
                       href={link.href}
-                      className="hover:text-blue-400 transition-colors"
+                      className="hover:text-[var(--accent-primary)] transition-colors flex items-center gap-1 group"
                     >
-                      {link.label}
+                      <span>{link.label}</span>
+                      <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 text-[var(--accent-primary)] transition-opacity" />
                     </a>
                   </li>
                 ))}
@@ -224,9 +225,9 @@ export default function HoverFooter() {
             </h4>
             <ul className="space-y-3 text-xs text-zinc-400">
               {contactEmails.map((item) => (
-                <li key={item.label} className="flex items-center space-x-2.5">
-                  <Mail className="w-4 h-4 text-blue-400 shrink-0" />
-                  <a href={item.href} className="hover:text-blue-400 transition-colors font-mono">
+                <li key={item.label} className="flex items-center space-x-2.5 group transition-transform duration-200 hover:translate-x-1">
+                  <Mail className="w-4 h-4 text-zinc-550 group-hover:text-[var(--accent-primary)] shrink-0 transition-colors" />
+                  <a href={item.href} className="hover:text-[var(--accent-primary)] transition-colors font-mono">
                     {item.label}
                   </a>
                 </li>

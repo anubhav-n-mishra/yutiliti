@@ -1,252 +1,508 @@
-import type { Metadata } from "next";
+"use client";
+
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { ArrowLeft, ShieldCheck, CheckCircle2, ArrowRight, Server, Cpu, Lock, Zap, FileCode, Layers, HelpCircle, Sparkles } from "lucide-react";
+import { 
+  ArrowRight, 
+  Cpu, 
+  Lock, 
+  Server,
+  FileText,
+  CheckCircle2,
+  Activity,
+  Sun,
+  Moon,
+  ChevronDown
+} from "lucide-react";
 import DottedSurfaceHero from "@/src/components/DottedSurfaceHero";
 import HoverFooter from "@/src/components/ui/hover-footer";
 
-export const metadata: Metadata = {
-  title: "About Yuitility — 100% In-Browser Zero-Latency Utility Engine",
-  description: "Learn how Yuitility processes 140+ tools 100% inside your local browser memory. Zero server uploads, zero latency, no tracking cookies, and free forever.",
-  alternates: { canonical: "/about" },
-};
+function ScrollReveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
-export default function AboutPage() {
-  const faqs = [
-    {
-      q: "How does Yuitility run 100% inside the browser?",
-      a: "Yuitility is engineered with modern WebAssembly (WASM) and high-performance client-side JavaScript subroutines. When you open a PDF, convert an image, or compute a loan schedule, all computation happens directly in your CPU memory.",
-    },
-    {
-      q: "Are my files or sensitive financial inputs ever sent to a server?",
-      a: "No. Never. Your data never leaves your device network layer. Because there is no backend file processing server, your confidential documents, salary data, and passcodes are completely immune to server data leaks.",
-    },
-    {
-      q: "Why is Yuitility faster than traditional converter websites?",
-      a: "Traditional utility websites force you to upload files over the internet, wait in a remote queue, and download the output. Yuitility executes instantly with zero network roundtrips and zero latency.",
-    },
-    {
-      q: "Is Yuitility completely free to use?",
-      a: "Yes! All 140+ tools are 100% free with no hidden paywalls, no daily file limits, and no account registration required.",
-    },
-  ];
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      {
+        threshold: 0.05,
+        rootMargin: "0px 0px -40px 0px"
+      }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+    };
+  }, []);
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-50 font-sans antialiased relative overflow-hidden flex flex-col justify-between">
-      {/* Sticky Header Navigation */}
-      <header className="sticky top-0 z-30 border-b border-zinc-800 bg-zinc-950/90 backdrop-blur-xl">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
-          <Link href="/" className="flex items-center gap-2.5">
-            <img src="/brand/yuitility-logo.png" alt="Yuitility logo" className="h-9 w-9 object-contain" />
-            <span className="font-display text-lg font-bold tracking-tight text-white">Yuitility</span>
-          </Link>
-          <div className="flex items-center gap-4">
-            <Link
-              href="/"
-              className="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-xl shadow-md transition-all"
-            >
-              <ArrowLeft className="w-4 h-4" /> Explore 140+ Tools
+    <div
+      ref={ref}
+      className={`transition-all duration-[900ms] ease-out ${
+        isVisible ? "opacity-100 translate-y-0 filter-none" : "opacity-0 translate-y-8 blur-[1px]"
+      }`}
+      style={{ transitionDelay: `${delay}ms` }}
+    >
+      {children}
+    </div>
+  );
+}
+
+export default function AboutPage() {
+  const [darkMode, setDarkMode] = useState<boolean>(true);
+  const [scrolled, setScrolled] = useState<boolean>(false);
+  const [accentColor, setAccentColor] = useState<'blue' | 'emerald' | 'indigo' | 'rose' | 'amber'>('blue');
+
+  const [password, setPassword] = useState("yui-secure-pass");
+  const [textInput, setTextInput] = useState("Hello world! Yuitility runs completely locally.");
+  const [activeStep, setActiveStep] = useState<1 | 2 | 3>(1);
+  const [activeFaq, setActiveFaq] = useState<number | null>(null);
+  const [sandboxTab, setSandboxTab] = useState<'password' | 'analyzer'>('password');
+
+  const generatePass = () => {
+    const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
+    let pass = "";
+    for (let i = 0; i < 14; i++) {
+      pass += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    setPassword(pass);
+  };
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      setDarkMode(savedTheme === 'dark');
+    }
+    const savedAccent = localStorage.getItem('accent_color') as any;
+    if (savedAccent) setAccentColor(savedAccent);
+
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [darkMode]);
+
+  const changeAccent = (color: 'blue' | 'emerald' | 'indigo' | 'rose' | 'amber') => {
+    setAccentColor(color);
+    localStorage.setItem('accent_color', color);
+  };
+
+  return (
+    <div className={`theme-${accentColor} ${darkMode ? 'dark text-zinc-150 bg-zinc-950 min-h-screen font-sans antialiased relative overflow-hidden flex flex-col justify-between' : 'text-zinc-800 bg-white min-h-screen font-sans antialiased relative overflow-hidden flex flex-col justify-between'}`}>
+      
+      {/* Editorial Decorative Backgrounds */}
+      <div className="absolute top-0 left-0 w-full h-[800px] bg-gradient-to-b from-[var(--accent-glow)] via-transparent to-transparent pointer-events-none -z-10" />
+      <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] rounded-full bg-[var(--accent-primary)]/3 blur-[120px] pointer-events-none -z-10 animate-float" />
+
+      {/* Main Navigation (Sticky Dock) */}
+      <header className={`fixed left-1/2 -translate-x-1/2 z-40 transition-all duration-500 ease-out ${
+        scrolled
+          ? 'top-4 w-[90%] md:w-[70%] max-w-4xl bg-white/90 dark:bg-zinc-900/90 backdrop-blur-2xl border border-zinc-200/80 dark:border-zinc-800/80 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.06)]'
+          : 'top-6 w-[94%] max-w-6xl bg-white/70 dark:bg-zinc-900/70 backdrop-blur-xl border border-zinc-200/40 dark:border-zinc-800/40 rounded-full shadow-sm'
+      }`}>
+        <div className={`flex items-center justify-between transition-all duration-500 ${scrolled ? 'px-5 h-12' : 'px-6 h-14'}`}>
+          <div className="flex items-center gap-3">
+            <Link href="/" className="flex items-center gap-2.5 cursor-pointer group">
+              <img src="/brand/yuitility-logo.png" alt="Yuitility logo" className="h-[30px] w-[30px] object-contain transition-transform group-hover:scale-105" />
+              <span className="font-display font-bold text-base text-zinc-950 dark:text-zinc-50 tracking-tight">Yuitility</span>
             </Link>
+          </div>
+
+          <nav className="hidden md:flex items-center gap-8 text-xs font-bold text-zinc-600 dark:text-zinc-400">
+            <Link href="/" className="hover:text-[var(--accent-primary)] dark:hover:text-[var(--accent-primary)] transition-colors duration-200">
+              All Tools
+            </Link>
+            <Link href="/about" className="text-zinc-900 dark:text-zinc-200 hover:text-[var(--accent-primary)] dark:hover:text-[var(--accent-primary)] transition-colors duration-200">
+              About
+            </Link>
+            <Link href="/blog" className="hover:text-[var(--accent-primary)] dark:hover:text-[var(--accent-primary)] transition-colors duration-200">
+              Blog
+            </Link>
+            <Link href="/?request=true" className="text-[var(--accent-primary)] hover:text-[var(--accent-hover)] transition-colors duration-200">
+              Request Tool
+            </Link>
+          </nav>
+
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1 bg-zinc-100 dark:bg-zinc-800/60 p-1 rounded-full border border-zinc-200/60 dark:border-zinc-800/60">
+              {(['blue', 'emerald', 'indigo', 'rose', 'amber'] as const).map((color) => (
+                <button
+                  key={color}
+                  onClick={() => changeAccent(color)}
+                  className={`w-3.5 h-3.5 rounded-full border transition-all ${
+                    color === 'blue' ? 'bg-blue-500' :
+                    color === 'emerald' ? 'bg-emerald-500' :
+                    color === 'indigo' ? 'bg-indigo-500' :
+                    color === 'rose' ? 'bg-rose-500' : 'bg-amber-500'
+                  } ${accentColor === color ? 'border-white scale-125 ring-2 ring-zinc-300 dark:ring-zinc-600' : 'border-transparent opacity-80 hover:opacity-100 hover:scale-110'}`}
+                  title={`${color} accent`}
+                />
+              ))}
+            </div>
+
+            <button
+              onClick={() => setDarkMode(!darkMode)}
+              className="p-1.5 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-600 dark:text-zinc-300 transition-colors"
+              aria-label="Toggle dark mode"
+            >
+              {darkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-zinc-700" />}
+            </button>
           </div>
         </div>
       </header>
 
       <main className="flex-1">
-        {/* Animated Hero Landing Section with DottedSurface Wave Animation */}
-        <section className="relative py-28 px-4 sm:px-6 overflow-hidden min-h-[75vh] flex items-center justify-center border-b border-zinc-800">
-          <DottedSurfaceHero isDark={true} />
+        {/* EDITORIAL HERO SECTION */}
+        <section className="relative pt-40 pb-20 px-6 sm:px-8 border-b border-zinc-200/30 dark:border-zinc-900">
+          <DottedSurfaceHero isDark={darkMode} />
           
-          <div className="relative z-10 max-w-5xl mx-auto text-center space-y-6">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-950/80 border border-blue-800/80 rounded-full text-xs font-bold text-blue-400 shadow-xl backdrop-blur-md">
-              <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              <span>THE ZERO-LATENCY IN-BROWSER UTILITY PLATFORM</span>
+          <div className="relative z-10 max-w-6xl mx-auto space-y-16 animate-fade-in">
+            {/* Split layout: Headline & Statement */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+              <div className="lg:col-span-7">
+                <ScrollReveal delay={0}>
+                  <div className="space-y-6">
+                    <h1 className="text-4xl sm:text-6xl lg:text-7xl font-display font-black tracking-tight leading-[1.05] text-zinc-900 dark:text-white">
+                      Computing,<br />
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--accent-primary)] via-cyan-400 to-[var(--accent-primary)]">
+                        private by design.
+                      </span>
+                    </h1>
+                    
+                    <div className="flex gap-4 pt-4">
+                      <Link
+                        href="/"
+                        className="px-6 py-3.5 bg-[var(--accent-primary)] hover:bg-[var(--accent-hover)] text-white font-bold text-xs rounded-xl shadow-lg shadow-[var(--accent-glow)] transition-all flex items-center gap-2 group"
+                      >
+                        Open Workspace <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      </Link>
+                      <a
+                        href="#manifesto"
+                        className="px-6 py-3.5 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200/60 dark:border-zinc-800 text-zinc-800 dark:text-zinc-200 font-bold text-xs rounded-xl hover:bg-zinc-200/40 dark:hover:bg-zinc-800/60 transition-all"
+                      >
+                        Read Manifesto
+                      </a>
+                    </div>
+                  </div>
+                </ScrollReveal>
+              </div>
+
+              <div className="lg:col-span-5">
+                <ScrollReveal delay={150}>
+                  <div className="space-y-6 text-zinc-550 dark:text-zinc-400 pt-2 text-sm sm:text-base leading-relaxed">
+                    <p className="font-semibold text-zinc-855 dark:text-zinc-200 text-base sm:text-lg">
+                      We believe web tools should not trade functionality for your personal information.
+                    </p>
+                    <p>
+                      Yuitility is a local-first platform designed to run completely inside your browser's sandboxed memory. File compression, syntax conversions, and PDF formatting execute locally on your CPU—meaning zero network uploads, zero latency, and absolute file safety.
+                    </p>
+                  </div>
+                </ScrollReveal>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* MANIFESTO / CORE PRINCIPLES */}
+        <section id="manifesto" className="py-24 px-6 sm:px-8 max-w-6xl mx-auto space-y-16 border-b border-zinc-200/30 dark:border-zinc-900">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <div className="lg:col-span-5">
+              <h2 className="text-3xl sm:text-4xl font-display font-black tracking-tight text-zinc-900 dark:text-white leading-tight">
+                Our pillars of local execution.
+              </h2>
+            </div>
+            <div className="lg:col-span-7">
+              <p className="text-zinc-550 dark:text-zinc-400 text-sm sm:text-base leading-relaxed">
+                Yuitility was created as an alternative to utility websites filled with trackers, pop-up ads, and server processing queues. We run on three design principles.
+              </p>
+            </div>
+          </div>          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-6">
+            <ScrollReveal delay={0}>
+              <div className="relative p-8 h-full bg-zinc-50/50 dark:bg-zinc-900/30 hover:bg-zinc-100/50 dark:hover:bg-zinc-900/40 border border-zinc-200/50 dark:border-zinc-800/80 hover:border-[var(--accent-primary)]/40 rounded-3xl transition-all duration-300 group hover:-translate-y-1.5 shadow-sm">
+                <div className="absolute top-6 right-8 font-mono font-black text-2xl text-zinc-200 dark:text-zinc-850 group-hover:text-[var(--accent-primary)]/20 transition-colors">01</div>
+                <div className="p-3 w-12 h-12 bg-blue-500/10 border border-blue-500/20 text-blue-500 rounded-2xl flex items-center justify-center mb-6">
+                  <Cpu className="w-5 h-5" />
+                </div>
+                <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-3">Client CPU Isolation</h3>
+                <p className="text-xs text-zinc-550 dark:text-zinc-450 leading-relaxed">
+                  Calculations are run using local client-side engines. By performing conversions inside your browser memory, your files are protected from database breaches or leakages.
+                </p>
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal delay={150}>
+              <div className="relative p-8 h-full bg-zinc-50/50 dark:bg-zinc-900/30 hover:bg-zinc-100/50 dark:hover:bg-zinc-900/40 border border-zinc-200/50 dark:border-zinc-800/80 hover:border-emerald-500/30 rounded-3xl transition-all duration-300 group hover:-translate-y-1.5 shadow-sm">
+                <div className="absolute top-6 right-8 font-mono font-black text-2xl text-zinc-200 dark:text-zinc-850 group-hover:text-emerald-500/20 transition-colors">02</div>
+                <div className="p-3 w-12 h-12 bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 rounded-2xl flex items-center justify-center mb-6">
+                  <Lock className="w-5 h-5" />
+                </div>
+                <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-3">Zero Transmission</h3>
+                <p className="text-xs text-zinc-550 dark:text-zinc-450 leading-relaxed">
+                  We believe that the safest place for your private files, salary charts, and API tokens is on your own hard drive. Yuitility guarantees zero file uploads.
+                </p>
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal delay={300}>
+              <div className="relative p-8 h-full bg-zinc-50/50 dark:bg-zinc-900/30 hover:bg-zinc-100/50 dark:hover:bg-zinc-900/40 border border-zinc-200/50 dark:border-zinc-800/80 hover:border-cyan-500/30 rounded-3xl transition-all duration-300 group hover:-translate-y-1.5 shadow-sm">
+                <div className="absolute top-6 right-8 font-mono font-black text-2xl text-zinc-200 dark:text-zinc-850 group-hover:text-cyan-500/20 transition-colors">03</div>
+                <div className="p-3 w-12 h-12 bg-cyan-500/10 border border-cyan-500/20 text-cyan-500 rounded-2xl flex items-center justify-center mb-6">
+                  <Server className="w-5 h-5" />
+                </div>
+                <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-3">Clean Workspace</h3>
+                <p className="text-xs text-zinc-550 dark:text-zinc-450 leading-relaxed">
+                  No signups, subscription paywalls, or daily document limits. Yuitility is maintained as a fast, clean toolkit optimized for instant production usage.
+                </p>
+              </div>
+            </ScrollReveal>
+          </div>
+        </section>        {/* ASYMMETRICAL ARCHITECTURE BREAKDOWN */}
+        <section className="py-24 px-6 sm:px-8 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+            
+            {/* Left Column (Sticky Title & Dynamic Visualizer) */}
+            <div className="lg:col-span-5 lg:sticky lg:top-32 h-fit space-y-6">
+              <ScrollReveal>
+                <div className="space-y-4">
+                  <h2 className="text-3xl sm:text-4xl font-display font-black tracking-tight text-zinc-900 dark:text-white">
+                    How it runs in browser.
+                  </h2>
+                  <p className="text-xs sm:text-sm text-zinc-555 dark:text-zinc-400 leading-relaxed">
+                    Traditional utility websites require an internet connection to send files to external cloud queues. Yuitility runs locally by compiling heavy backend scripts directly into browser bundles.
+                  </p>
+                </div>
+              </ScrollReveal>              {/* Dynamic Interactive Schematic Canvas */}
+              <ScrollReveal>
+                <div className="relative p-8 bg-zinc-50 dark:bg-zinc-900/20 border border-zinc-200/60 dark:border-zinc-800/80 rounded-3xl overflow-hidden min-h-[220px] flex flex-col justify-center shadow-lg shadow-zinc-100/10 dark:shadow-none">
+                  {/* Glowing ambient background corresponding to step */}
+                  <div className={`absolute inset-0 transition-opacity duration-700 opacity-[0.03] blur-3xl ${
+                    activeStep === 1 ? "bg-blue-500" :
+                    activeStep === 2 ? "bg-emerald-500" : "bg-cyan-500"
+                  }`} />
+
+                  {activeStep === 1 && (
+                    <div className="relative space-y-4 animate-fade-in text-center md:text-left">
+                      <div className="flex items-center justify-center md:justify-start gap-2.5 text-[var(--accent-primary)] font-extrabold text-xs uppercase tracking-wider">
+                        <Cpu className="w-4.5 h-4.5" /> WebAssembly Subsystem
+                      </div>
+                      
+                      {/* Graphical CPU Core grid */}
+                      <div className="grid grid-cols-4 gap-2 max-w-xs mx-auto md:mx-0 p-3.5 bg-white dark:bg-zinc-950/80 border border-zinc-200/50 dark:border-zinc-850 rounded-2xl">
+                        {[1, 2, 3, 4, 5, 6, 7, 8].map((core) => (
+                          <div 
+                            key={core} 
+                            className={`h-7 rounded-lg flex items-center justify-center font-mono text-[9px] font-bold border transition-all ${
+                              core <= 4 
+                                ? "bg-[var(--accent-glow)] border-[var(--accent-primary)]/30 text-[var(--accent-primary)] animate-pulse" 
+                                : "bg-zinc-50/50 dark:bg-zinc-900/40 border-zinc-150/40 dark:border-zinc-800 text-zinc-400"
+                            }`}
+                          >
+                            CPU_{core}
+                          </div>
+                        ))}
+                      </div>
+                      <p className="text-[10px] text-zinc-500 font-semibold leading-relaxed">
+                        Near-native C++/Rust compilation executing directly inside localized browser threads.
+                      </p>
+                    </div>
+                  )}
+
+                  {activeStep === 2 && (
+                    <div className="relative space-y-4 animate-fade-in text-center md:text-left">
+                      <div className="flex items-center justify-center md:justify-start gap-2.5 text-emerald-500 font-extrabold text-xs uppercase tracking-wider">
+                        <Lock className="w-4.5 h-4.5" /> V8 Isolated Sandbox
+                      </div>
+
+                      <div className="flex items-center justify-center md:justify-start gap-4 p-3 mx-auto md:mx-0 max-w-xs bg-white dark:bg-zinc-950/80 border border-zinc-200/50 dark:border-zinc-850 rounded-2xl">
+                        <div className="relative w-12 h-12 rounded-full border-2 border-dashed border-emerald-500/30 flex items-center justify-center animate-spin-slow">
+                          <Lock className="w-5 h-5 text-emerald-500" />
+                        </div>
+                        <div className="text-left">
+                          <p className="font-mono text-[10px] font-extrabold text-zinc-800 dark:text-zinc-200">SHIELD STATE: ACTIVE</p>
+                          <p className="font-mono text-[9px] text-emerald-500 font-bold mt-0.5">0 Outgoing Packets</p>
+                        </div>
+                      </div>
+
+                      <p className="text-[10px] text-zinc-500 font-semibold leading-relaxed">
+                        Isolated tab environment context blocks outgoing data streams and prevents cookies transfer.
+                      </p>
+                    </div>
+                  )}
+
+                  {activeStep === 3 && (
+                    <div className="relative space-y-4 animate-fade-in text-center md:text-left">
+                      <div className="flex items-center justify-center md:justify-start gap-2.5 text-cyan-500 font-extrabold text-xs uppercase tracking-wider">
+                        <Server className="w-4.5 h-4.5" /> PWA Cache Pipeline
+                      </div>
+
+                      <div className="p-3.5 bg-white dark:bg-zinc-950/80 border border-zinc-200/50 dark:border-zinc-850 rounded-2xl max-w-xs mx-auto md:mx-0 space-y-2">
+                        <div className="flex items-center justify-between text-[9px] font-bold text-zinc-400">
+                          <span>LOCAL DATABASE CACHE</span>
+                          <span className="text-cyan-500">100% READY</span>
+                        </div>
+                        <div className="w-full h-2.5 bg-zinc-50 dark:bg-zinc-900 border border-zinc-150/40 dark:border-zinc-800 rounded-full overflow-hidden">
+                          <div className="w-[100%] h-full bg-cyan-500 rounded-full"></div>
+                        </div>
+                        <div className="text-[9px] text-zinc-500 leading-none">Offline operations supported for all 140+ tools.</div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </ScrollReveal>
             </div>
 
-            <h1 className="text-4xl sm:text-6xl font-display font-extrabold tracking-tight leading-[1.15] text-white">
-              Privately Process 140+ Tools <br className="hidden sm:block" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-teal-300">
-                100% Inside Your Local Memory
-              </span>
-            </h1>
+            {/* Right Column (Timeline Steps) */}
+            <div className="lg:col-span-7 space-y-6">
+              <ScrollReveal delay={0}>
+                <div 
+                  className={`space-y-3 p-5 rounded-2xl border transition-all duration-300 cursor-pointer ${
+                    activeStep === 1 
+                      ? "border-[var(--accent-primary)]/20 bg-zinc-50/50 dark:bg-zinc-900/30" 
+                      : "border-transparent hover:bg-zinc-50/20 dark:hover:bg-zinc-900/10"
+                  }`}
+                  onMouseEnter={() => setActiveStep(1)}
+                >
+                  <h3 className="text-lg font-bold text-zinc-900 dark:text-white">1. WebAssembly Integration</h3>
+                  <p className="text-xs sm:text-sm text-zinc-550 dark:text-zinc-450 leading-relaxed">
+                    For CPU-intensive tasks like converting file formats, extracting archives, or rendering PDFs, we compile performant libraries into WASM. This allows binary execution inside the browser sandbox at near-native speeds.
+                  </p>
+                </div>
+              </ScrollReveal>
 
-            <p className="text-base sm:text-lg text-zinc-400 max-w-2xl mx-auto leading-relaxed">
-              Yuitility replaces slow, ad-choked converter websites with a clean, high-precision browser engine. Zero server file uploads, zero data retention, and zero network latency.
-            </p>
+              <ScrollReveal delay={100}>
+                <div 
+                  className={`space-y-3 p-5 rounded-2xl border transition-all duration-300 cursor-pointer ${
+                    activeStep === 2 
+                      ? "border-emerald-500/20 bg-zinc-50/50 dark:bg-zinc-900/30" 
+                      : "border-transparent hover:bg-zinc-50/20 dark:hover:bg-zinc-900/10"
+                  }`}
+                  onMouseEnter={() => setActiveStep(2)}
+                >
+                  <h3 className="text-lg font-bold text-zinc-900 dark:text-white">2. Isolated JavaScript Subroutines</h3>
+                  <p className="text-xs sm:text-sm text-zinc-550 dark:text-zinc-450 leading-relaxed">
+                    Financial calculations, hash generation, and text formatting are evaluated in client-side JavaScript threads. These run inside your browser's V8 storage instance, isolated from other tabs and disconnected from network triggers.
+                  </p>
+                </div>
+              </ScrollReveal>
 
-            <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
-              <Link
-                href="/"
-                className="px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-2xl shadow-xl shadow-blue-500/20 hover:scale-105 transition-all flex items-center gap-2"
-              >
-                Launch All 140+ Tools <ArrowRight className="w-4 h-4" />
-              </Link>
+              <ScrollReveal delay={200}>
+                <div 
+                  className={`space-y-3 p-5 rounded-2xl border transition-all duration-300 cursor-pointer ${
+                    activeStep === 3 
+                      ? "border-cyan-500/20 bg-zinc-50/50 dark:bg-zinc-900/30" 
+                      : "border-transparent hover:bg-zinc-50/20 dark:hover:bg-zinc-900/10"
+                  }`}
+                  onMouseEnter={() => setActiveStep(3)}
+                >
+                  <h3 className="text-lg font-bold text-zinc-900 dark:text-white">3. Offline Web Application caching</h3>
+                  <p className="text-xs sm:text-sm text-zinc-550 dark:text-zinc-455 leading-relaxed">
+                    Yuitility is cacheable as a Progressive Web App (PWA). All assets and engine bundles are saved on your local device. Once loaded, you can disconnect your internet completely and run all 140+ tools offline.
+                  </p>
+                </div>
+              </ScrollReveal>
+            </div>
+
+          </div>
+        </section>
+        {/* MINIMAL PARTNER SECTION */}
+        <section className="py-16 px-6 sm:px-8 max-w-6xl mx-auto border-t border-zinc-200/30 dark:border-zinc-900">
+          <ScrollReveal>
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 py-8 px-6 bg-zinc-50 dark:bg-zinc-900/30 border border-zinc-200/60 dark:border-zinc-800/80 rounded-2xl">
+              <div className="space-y-2">
+                <h3 className="text-lg font-bold text-zinc-900 dark:text-white">Need Custom Software Engineering?</h3>
+                <p className="text-xs text-zinc-555 dark:text-zinc-400 leading-relaxed max-w-2xl">
+                  Yuitility is engineered and optimized by digital product specialists. For custom web applications, mobile development, high-fidelity products, or data-driven SEO growth, visit <strong>Amvelt.com</strong>.
+                </p>
+              </div>
               <a
-                href="#architecture"
-                className="px-8 py-4 bg-zinc-900 border border-zinc-800 text-zinc-200 font-bold text-xs rounded-2xl shadow-sm hover:bg-zinc-800 transition-all"
+                href="https://amvelt.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-5 py-3 bg-[var(--accent-primary)] hover:bg-[var(--accent-hover)] text-white font-bold text-xs rounded-xl shadow-md transition-all shrink-0 hover:-translate-y-0.5 duration-200"
               >
-                Explore Architecture
+                Visit Amvelt.com
               </a>
             </div>
-          </div>
+          </ScrollReveal>
         </section>
 
-        {/* Live Metrics Counter Banner */}
-        <section className="border-b border-zinc-800 bg-zinc-900/80 backdrop-blur-md py-12">
-          <div className="max-w-6xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div className="space-y-1">
-              <p className="text-3xl sm:text-5xl font-extrabold font-mono text-blue-400">140+</p>
-              <p className="text-xs font-semibold text-zinc-400">Live Browser Tools</p>
-            </div>
-            <div className="space-y-1">
-              <p className="text-3xl sm:text-5xl font-extrabold font-mono text-emerald-400">0 KB</p>
-              <p className="text-xs font-semibold text-zinc-400">Server File Retention</p>
-            </div>
-            <div className="space-y-1">
-              <p className="text-3xl sm:text-5xl font-extrabold font-mono text-amber-400">100%</p>
-              <p className="text-xs font-semibold text-zinc-400">Client Memory Isolation</p>
-            </div>
-            <div className="space-y-1">
-              <p className="text-3xl sm:text-5xl font-extrabold font-mono text-cyan-400">0 ms</p>
-              <p className="text-xs font-semibold text-zinc-400">Network Processing Delay</p>
-            </div>
-          </div>
-        </section>
+        {/* INTERACTIVE FAQ ACCORDION SECTION */}
+        <section className="py-24 px-6 sm:px-8 max-w-4xl mx-auto space-y-12 border-t border-zinc-200/30 dark:border-zinc-900">
+          <h2 className="text-3xl sm:text-4xl font-display font-black tracking-tight text-zinc-900 dark:text-white text-center">
+            Frequently Asked Questions
+          </h2>
 
-        {/* Technical Features Bento Grid */}
-        <section className="py-20 px-4 sm:px-6 max-w-6xl mx-auto space-y-12">
-          <div className="text-center space-y-3 max-w-2xl mx-auto">
-            <h2 className="text-3xl font-display font-extrabold tracking-tight text-white">Engineered for Absolute Privacy & Speed</h2>
-            <p className="text-xs text-zinc-400">Built from the ground up for modern browser execution capabilities.</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 space-y-3">
-              <div className="w-10 h-10 bg-blue-600/20 border border-blue-500/30 rounded-2xl flex items-center justify-center text-blue-400">
-                <Cpu className="w-5 h-5" />
-              </div>
-              <h3 className="text-base font-bold text-white">WebAssembly Engine</h3>
-              <p className="text-xs text-zinc-400 leading-relaxed">
-                PDF manipulation, image optimization, and archive extraction execute compiled C++/Rust subroutines inside client browser threads.
-              </p>
-            </div>
-
-            <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 space-y-3">
-              <div className="w-10 h-10 bg-emerald-600/20 border border-emerald-500/30 rounded-2xl flex items-center justify-center text-emerald-400">
-                <Lock className="w-5 h-5" />
-              </div>
-              <h3 className="text-base font-bold text-white">Zero Server Data Leakage</h3>
-              <p className="text-xs text-zinc-400 leading-relaxed">
-                Your private files, passwords, financial calculations, and data payloads are never transmitted to any external server.
-              </p>
-            </div>
-
-            <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 space-y-3">
-              <div className="w-10 h-10 bg-cyan-600/20 border border-cyan-500/30 rounded-2xl flex items-center justify-center text-cyan-400">
-                <Zap className="w-5 h-5" />
-              </div>
-              <h3 className="text-base font-bold text-white">Progressive Offline App</h3>
-              <p className="text-xs text-zinc-400 leading-relaxed">
-                Install Yuitility as a PWA on iOS, Android, macOS, or Windows to use 140+ tools offline without an active internet connection.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Architecture Comparison Section */}
-        <section id="architecture" className="py-16 px-4 sm:px-6 max-w-6xl mx-auto space-y-12">
-          <div className="text-center space-y-3 max-w-2xl mx-auto">
-            <h2 className="text-3xl font-display font-extrabold tracking-tight text-white">Traditional Web Tools vs Yuitility Engine</h2>
-            <p className="text-xs text-zinc-400">Compare traditional remote server processing with Yuitility's in-browser technology.</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Traditional Web Converters */}
-            <div className="bg-red-950/20 border border-red-900/40 rounded-3xl p-8 space-y-4">
-              <div className="flex items-center gap-3 text-red-400">
-                <Server className="w-6 h-6" />
-                <h3 className="text-lg font-bold">Traditional Remote Converters</h3>
-              </div>
-              <ul className="space-y-3 text-xs text-zinc-300">
-                <li className="flex items-start gap-2">
-                  <span className="text-red-500 font-bold">✕</span>
-                  <span>Uploads confidential PDFs, images, and calculations to third-party server hard disks.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-red-500 font-bold">✕</span>
-                  <span>High latency: forced upload delays, server queue waiting, and download delays.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-red-500 font-bold">✕</span>
-                  <span>Cluttered with banner ads, cookie tracking walls, and artificial daily file paywalls.</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Yuitility In-Browser Architecture */}
-            <div className="bg-emerald-950/20 border border-emerald-900/40 rounded-3xl p-8 space-y-4">
-              <div className="flex items-center gap-3 text-emerald-400">
-                <Cpu className="w-6 h-6" />
-                <h3 className="text-lg font-bold">Yuitility In-Browser Engine</h3>
-              </div>
-              <ul className="space-y-3 text-xs text-zinc-300">
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-                  <span>Zero uploads. 100% of calculations execute inside client CPU memory.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-                  <span>Instant execution: zero network latency and instant output generation.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-                  <span>Commercial clean design: zero banner ads, zero tracking, and free forever.</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        {/* Enterprise Partner Callout (Amvelt.com) */}
-        <section className="py-12 px-4 sm:px-6 max-w-6xl mx-auto my-8">
-          <div className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-3xl p-8 sm:p-12 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8">
-            <div className="space-y-3">
-              <span className="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-[10px] font-bold tracking-wider uppercase">
-                DIGITAL ENGINEERING & GROWTH PARTNER
-              </span>
-              <h3 className="text-2xl sm:text-3xl font-display font-extrabold">Need Custom Web, Mobile App or SEO Engineering?</h3>
-              <p className="text-xs sm:text-sm text-blue-100 max-w-2xl leading-relaxed">
-                Yuitility is engineered by digital product specialists. For custom software development, mobile app engineering, enterprise web applications, or data-driven SEO growth, visit <strong>Amvelt.com</strong>.
-              </p>
-            </div>
-            <a
-              href="https://amvelt.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-8 py-4 bg-white text-blue-600 font-bold text-xs rounded-2xl hover:bg-blue-50 transition-all shrink-0 shadow-lg"
-            >
-              Visit Amvelt.com →
-            </a>
-          </div>
-        </section>
-
-        {/* Platform FAQs Section */}
-        <section className="py-16 px-4 sm:px-6 max-w-5xl mx-auto space-y-8">
-          <div className="text-center space-y-2">
-            <h2 className="text-3xl font-display font-extrabold tracking-tight text-white">Frequently Asked Questions</h2>
-            <p className="text-xs text-zinc-400">Everything you need to know about Yuitility's architecture and usage.</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {faqs.map((faq, idx) => (
-              <div key={idx} className="bg-zinc-900 border border-zinc-800 p-6 rounded-3xl space-y-2">
-                <h3 className="text-sm font-bold text-white leading-snug">{faq.q}</h3>
-                <p className="text-xs text-zinc-400 leading-relaxed">{faq.a}</p>
-              </div>
-            ))}
+          <div className="space-y-4 max-w-3xl mx-auto">
+            {[
+              {
+                q: "How does Yuitility run 100% inside the browser?",
+                a: "Yuitility is engineered with WebAssembly (WASM) compiler modules and client-side JavaScript subroutines. When you open a PDF, optimize an image, or evaluate loan calculations, the computations run directly in your browser tab's sandbox memory without any remote calls."
+              },
+              {
+                q: "Are my files or sensitive records sent to a server?",
+                a: "No. Because Yuitility runs locally, there is no file upload server. Your confidential documents, financial figures, and passcodes remain strictly offline inside your device cache, immune to remote database leaks."
+              },
+              {
+                q: "Why is Yuitility faster than traditional converter tools?",
+                a: "Traditional tools force you to upload files over network pipelines, wait in remote processing queues, and download the output. Yuitility compiles the logic locally, delivering instant file conversions with zero latency."
+              },
+              {
+                q: "Is Yuitility completely free to use?",
+                a: "Yes. All 140+ tools are free with no registrations, limits, or paywalls."
+              }
+            ].map((faq, index) => {
+              const isOpen = activeFaq === index;
+              return (
+                <ScrollReveal key={index} delay={index * 50}>
+                  <div className="border-b border-zinc-200/60 dark:border-zinc-800/80 pb-3">
+                    <button
+                      onClick={() => setActiveFaq(isOpen ? null : index)}
+                      className="w-full flex items-center justify-between py-4 text-left font-bold text-sm sm:text-base text-zinc-800 dark:text-zinc-250 hover:text-[var(--accent-primary)] dark:hover:text-[var(--accent-primary)] transition-colors group"
+                    >
+                      <span>{faq.q}</span>
+                      <span className={`p-1.5 rounded-full bg-zinc-100/50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 text-zinc-400 group-hover:text-[var(--accent-primary)] transition-all shrink-0 ml-4 ${isOpen ? "rotate-180" : ""}`}>
+                        <ChevronDown className="w-3.5 h-3.5" />
+                      </span>
+                    </button>
+                    <div 
+                      className={`transition-all duration-300 ease-in-out overflow-hidden ${
+                        isOpen ? "max-h-40 pt-2 pb-4 opacity-100" : "max-h-0 opacity-0 pointer-events-none"
+                      }`}
+                    >
+                      <p className="text-xs sm:text-sm text-zinc-550 dark:text-zinc-400 leading-relaxed">
+                        {faq.a}
+                      </p>
+                    </div>
+                  </div>
+                </ScrollReveal>
+              );
+            })}
           </div>
         </section>
       </main>
 
-      {/* Full Bleed Edge-to-Edge Hover Footer */}
       <HoverFooter />
     </div>
   );

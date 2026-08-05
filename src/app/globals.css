@@ -9,6 +9,68 @@
   --font-mono: var(--font-mono), ui-monospace, SFMono-Regular, monospace;
 }
 
+/* Root Accent Color Tokens */
+:root {
+  --accent-primary: #2563eb;
+  --accent-hover: #1d4ed8;
+  --accent-glow: rgba(37, 99, 235, 0.15);
+  --accent-light: #eff6ff;
+  --accent-dark: #1e3a8a;
+  --accent-gradient: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+}
+
+.theme-emerald {
+  --accent-primary: #10b981;
+  --accent-hover: #059669;
+  --accent-glow: rgba(16, 185, 129, 0.15);
+  --accent-light: #ecfdf5;
+  --accent-dark: #064e3b;
+  --accent-gradient: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+}
+
+.theme-indigo {
+  --accent-primary: #6366f1;
+  --accent-hover: #4f46e5;
+  --accent-glow: rgba(99, 102, 241, 0.15);
+  --accent-light: #e0e7ff;
+  --accent-dark: #312e81;
+  --accent-gradient: linear-gradient(135deg, #6366f1 0%, #818cf8 100%);
+}
+
+.theme-rose {
+  --accent-primary: #f43f5e;
+  --accent-hover: #e11d48;
+  --accent-glow: rgba(244, 63, 94, 0.15);
+  --accent-light: #fff1f2;
+  --accent-dark: #881337;
+  --accent-gradient: linear-gradient(135deg, #f43f5e 0%, #fb7185 100%);
+}
+
+.theme-amber {
+  --accent-primary: #f59e0b;
+  --accent-hover: #d97706;
+  --accent-glow: rgba(245, 158, 11, 0.15);
+  --accent-light: #fef3c7;
+  --accent-dark: #78350f;
+  --accent-gradient: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+}
+
+.dark {
+  --accent-light: #172554;
+}
+.dark.theme-emerald {
+  --accent-light: #064e3b;
+}
+.dark.theme-indigo {
+  --accent-light: #1e1b4b;
+}
+.dark.theme-rose {
+  --accent-light: #4c0519;
+}
+.dark.theme-amber {
+  --accent-light: #451a03;
+}
+
 /* Base custom interactive states and scrollbar tweaks */
 @layer base {
   html {
@@ -20,17 +82,16 @@
     @apply transition-colors duration-300 bg-white dark:bg-zinc-950;
   }
 
-  /* Custom subtle scrollbar */
+  /* Hide global scrollbar for Chrome, Safari and Opera */
   ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    display: none;
   }
-  ::-webkit-scrollbar-track {
-    @apply bg-zinc-100 dark:bg-zinc-900;
-  }
-  ::-webkit-scrollbar-thumb {
-    @apply bg-zinc-200 dark:bg-zinc-800 rounded-full hover:bg-zinc-300 dark:hover:bg-zinc-700 transition-colors;
-  }
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+html {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 /* Utility to hide scrollbars on mobile / touch containers */

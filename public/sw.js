@@ -129,6 +129,11 @@ self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
+  // Bypass service worker caching on localhost/127.0.0.1 to avoid stale hot-reloading and hydration mismatches
+  if (url.hostname === 'localhost' || url.hostname === '127.0.0.1') {
+    return;
+  }
+
   // Skip non-GET or non-http(s) requests
   if (request.method !== 'GET' || !url.protocol.startsWith('http')) {
     return;

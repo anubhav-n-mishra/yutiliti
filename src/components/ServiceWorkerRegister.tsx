@@ -9,21 +9,38 @@ export default function ServiceWorkerRegister() {
 
   useEffect(() => {
     if (typeof window !== "undefined" && "serviceWorker" in navigator) {
-      const registerSW = () => {
-        navigator.serviceWorker
-          .register("/sw.js")
-          .then((reg) => {
-            reg.update();
-          })
-          .catch((err) => {
-            console.warn("[PWA] ServiceWorker registration failed:", err);
-          });
-      };
+      const isLocalhost =
+        window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1" ||
+        window.location.hostname === "[::1]";
 
-      if (document.readyState === "complete" || document.readyState === "interactive") {
-        registerSW();
+      if (isLocalhost) {
+        navigator.serviceWorker.getRegistrations().then((registrations) => {
+          for (const registration of registrations) {
+            registration.unregister().then((success) => {
+              if (success) {
+                console.log("[PWA] Unregistered stale service worker on localhost to prevent caching issues in development.");
+              }
+            });
+          }
+        });
       } else {
-        window.addEventListener("load", registerSW, { once: true });
+        const registerSW = () => {
+          navigator.serviceWorker
+            .register("/sw.js")
+            .then((reg) => {
+              reg.update();
+            })
+            .catch((err) => {
+              console.warn("[PWA] ServiceWorker registration failed:", err);
+            });
+        };
+
+        if (document.readyState === "complete" || document.readyState === "interactive") {
+          registerSW();
+        } else {
+          window.addEventListener("load", registerSW, { once: true });
+        }
       }
     }
 
