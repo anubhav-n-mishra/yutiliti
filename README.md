@@ -1,4 +1,4 @@
-# yuitility
+# yuitility-tools
 
 yuitility is a premium, high performance client side utility toolkit designed for developers, creators, and professionals. It provides a comprehensive suite of instant use tools that run entirely in your web browser. 
 
