@@ -58,15 +58,19 @@
 .dark {
   --accent-light: #172554;
 }
+
 .dark.theme-emerald {
   --accent-light: #064e3b;
 }
+
 .dark.theme-indigo {
   --accent-light: #1e1b4b;
 }
+
 .dark.theme-rose {
   --accent-light: #4c0519;
 }
+
 .dark.theme-amber {
   --accent-light: #451a03;
 }
@@ -77,7 +81,7 @@
     scroll-behavior: smooth;
     font-family: var(--font-sans);
   }
-  
+
   body {
     @apply transition-colors duration-300 bg-white dark:bg-zinc-950;
   }
@@ -90,14 +94,17 @@
 
 /* Hide scrollbar for IE, Edge and Firefox */
 html {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 /* Utility to hide scrollbars on mobile / touch containers */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -107,6 +114,7 @@ html {
 .glow-card {
   position: relative;
 }
+
 .glow-card::after {
   content: '';
   position: absolute;
@@ -116,58 +124,135 @@ html {
   z-index: -1;
   pointer-events: none;
 }
+
 .dark .glow-card::after {
   background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.01));
 }
 
 /* New Custom Animations */
 @keyframes float {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-20px) scale(1.05); }
+
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    transform: translateY(-20px) scale(1.05);
+  }
 }
+
 @keyframes pulse-glow {
-  0%, 100% { opacity: 0.4; transform: scale(1); }
-  50% { opacity: 0.7; transform: scale(1.1); }
+
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
 }
+
 .animate-float {
   animation: float 7s ease-in-out infinite;
 }
+
 .animate-float-delayed {
   animation: float 8s ease-in-out infinite 3s;
 }
+
 .animate-pulse-glow {
   animation: pulse-glow 12s ease-in-out infinite;
 }
 
 @keyframes gradient-x {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
 }
+
 .animate-gradient-x {
   animation: gradient-x 20s ease infinite;
 }
 
 @keyframes spin-slow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
+
 .animate-spin-slow {
   animation: spin-slow 12s linear infinite;
 }
+
 @keyframes sweep {
-  0% { left: -100%; }
-  100% { left: 200%; }
+  0% {
+    left: -100%;
+  }
+
+  100% {
+    left: 200%;
+  }
 }
+
 .animate-sweep {
   animation: sweep 2.5s ease-in-out infinite;
 }
 
 @keyframes grow {
-  0%, 100% { transform: scaleY(0.3); }
-  50% { transform: scaleY(1); }
+
+  0%,
+  100% {
+    transform: scaleY(0.3);
+  }
+
+  50% {
+    transform: scaleY(1);
+  }
 }
+
 @keyframes scan {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(150px); }
-  100% { transform: translateY(0); }
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(150px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes cardReveal {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.96);
+    filter: blur(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.animate-card-reveal {
+  opacity: 0;
+  animation: cardReveal 0.95s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }

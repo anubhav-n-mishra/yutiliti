@@ -17,14 +17,123 @@ const categoryKeywords: Record<string, string[]> = {
   media: ["image tool online", "private image tool", "free media utility"],
 };
 
-export function getToolKeywords(tool: Tool) {
-  return [
-    tool.title,
-    `${tool.title} online`,
-    `free ${tool.title.toLowerCase()}`,
-    `${tool.title.toLowerCase()} in browser`,
-    ...(categoryKeywords[tool.category] ?? categoryKeywords.utility),
-  ];
+export function getToolKeywords(tool: Tool): string[] {
+  const keywords = new Set<string>();
+  const name = tool.title.toLowerCase();
+
+  // 1. Direct Base Terms
+  keywords.add(tool.title);
+  keywords.add(name);
+  keywords.add(`${name} tool`);
+  keywords.add(`yuitility ${name}`);
+
+  // 2. Modifiers Permutations (Start, Middle, and End placement for "free", "online", "private", "offline")
+  const primaryModifiers = ["free", "online", "private", "offline", "secure", "browser-based", "client-side"];
+  
+  primaryModifiers.forEach(mod => {
+    keywords.add(`${mod} ${name}`);
+    keywords.add(`${name} ${mod}`);
+  });
+
+  // Dual modifier combinations (e.g. "free online [tool]", "[tool] online free", "free [tool] online")
+  keywords.add(`free online ${name}`);
+  keywords.add(`online free ${name}`);
+  keywords.add(`free ${name} online`);
+  keywords.add(`online ${name} free`);
+  keywords.add(`${name} free online`);
+  keywords.add(`${name} online free`);
+
+  keywords.add(`private offline ${name}`);
+  keywords.add(`offline private ${name}`);
+  keywords.add(`private ${name} offline`);
+  keywords.add(`offline ${name} private`);
+  keywords.add(`${name} private offline`);
+  keywords.add(`${name} offline private`);
+
+  keywords.add(`free private ${name}`);
+  keywords.add(`private free ${name}`);
+  keywords.add(`free ${name} private`);
+  keywords.add(`private ${name} free`);
+  keywords.add(`${name} free private`);
+  keywords.add(`${name} private free`);
+
+  keywords.add(`free offline ${name}`);
+  keywords.add(`offline free ${name}`);
+  keywords.add(`free ${name} offline`);
+  keywords.add(`offline ${name} free`);
+  keywords.add(`${name} free offline`);
+  keywords.add(`${name} offline free`);
+
+  // Category specific SEO & GEO enhancers
+  const cat = tool.category;
+  if (cat === "finance") {
+    keywords.add("financial calculations");
+    keywords.add("interest calculation online");
+    keywords.add("accurate finance tool");
+    keywords.add("calculate investment returns");
+    keywords.add("wealth planner");
+    keywords.add(`calculate ${tool.title.toLowerCase()} free`);
+  } else if (cat === "pdf") {
+    keywords.add("private pdf editor");
+    keywords.add("secure pdf utility");
+    keywords.add("no server upload pdf");
+    keywords.add("client side pdf converter");
+    keywords.add("offline pdf tool");
+    keywords.add("edit pdf files locally");
+  } else if (cat === "developer") {
+    keywords.add("developer utility");
+    keywords.add("client side coding tool");
+    keywords.add("local developer playground");
+    keywords.add("safe programmer tools");
+    keywords.add("offline text formatter");
+    keywords.add("browser based developer helpers");
+  } else if (cat === "media" || cat === "utility" || cat === "conversion") {
+    keywords.add("private image tool");
+    keywords.add("local media processing");
+    keywords.add("no watermark browser tool");
+    keywords.add("client side image rendering");
+    keywords.add("offline media converter");
+    keywords.add("webassembly image editor");
+  } else if (cat === "health") {
+    keywords.add("health index calculator");
+    keywords.add("fitness zone calculator");
+    keywords.add("accurate health metrics");
+    keywords.add("healthy range calculator");
+    keywords.add("daily fitness metrics tracker");
+  } else if (cat === "math") {
+    keywords.add("solve math problems online");
+    keywords.add("scientific calculation engine");
+    keywords.add("math step by step solver");
+    keywords.add("accurate math formula evaluator");
+    keywords.add("classroom math calculator free");
+  }
+
+  // Extract terms from description & longDescription to construct rich long-tails
+  const words = (tool.description + " " + tool.longDescription)
+    .toLowerCase()
+    .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")
+    .split(/\s+/);
+  
+  const meaningfulWords = words.filter(
+    (w) => w.length > 3 && !["with", "your", "from", "that", "this", "free", "online", "tool", "calculator", "instantly", "directly"].includes(w)
+  );
+
+  // Generate rich phrase variations based on tool descriptors
+  if (meaningfulWords.length >= 2) {
+    keywords.add(`${meaningfulWords[0]} ${meaningfulWords[1]} tool`);
+    keywords.add(`how to ${meaningfulWords[0]} ${meaningfulWords[1]}`);
+    if (meaningfulWords[2]) {
+      keywords.add(`secure ${meaningfulWords[1]} ${meaningfulWords[2]}`);
+      keywords.add(`client side ${meaningfulWords[0]} ${meaningfulWords[2]}`);
+    }
+  }
+
+  // Ensure GEO intent keywords (AI engine conversational triggers)
+  keywords.add(`which is the best offline ${tool.title.toLowerCase()}`);
+  keywords.add(`safest web tool for ${tool.title.toLowerCase()}`);
+  keywords.add(`yuitility browser based ${tool.title.toLowerCase()}`);
+
+  return Array.from(keywords);
 }
 
 export function getToolSteps(tool: Tool) {
@@ -69,83 +178,83 @@ export function getCategoryName(category: string) {
 // ----------------------------------------------------------------------
 
 const TOOL_SEO_TITLES: Record<string, string> = {
-  "bmi-calculator": "BMI Calculator – Free Online Health Tool | Yuitility",
-  "emi-calculator": "EMI Calculator – Free Online Finance Tool | Yuitility",
-  "sip-calculator": "SIP Calculator – Free Online Finance Tool | Yuitility",
-  "age-calculator": "Age Calculator – Free Online Utility Tool | Yuitility",
-  "password-generator": "Password Generator – Free Online Dev Tool | Yuitility",
-  "qr-code-generator": "QR Code Generator – Free Online Dev Tool | Yuitility",
-  "word-counter": "Word Counter – Free Online Utility Tool | Yuitility",
-  "image-compressor": "Image Compressor – Free Online Media Tool | Yuitility",
-  "salary-calculator": "Salary Calculator – Free Online Finance Tool | Yuitility",
-  "json-formatter": "JSON Formatter – Free Online Developer Tool | Yuitility",
-  "color-palette": "Color Palette Generator – Free Online Dev Tool | Yuitility",
-  "pdf-merger": "PDF Merger – Free Online PDF Tool | Yuitility",
-  "pdf-splitter": "PDF Splitter – Free Online PDF Tool | Yuitility",
-  "image-to-pdf": "Image to PDF Converter – Free Online PDF Tool | Yuitility",
-  "pdf-watermark": "PDF Watermark Tool – Free Online PDF Tool | Yuitility",
-  "pdf-metadata": "PDF Metadata Editor – Free Online PDF Tool | Yuitility",
-  "background-remover": "Background Remover – Free Online Media Tool | Yuitility",
-  "image-resizer": "Image Resizer – Free Online Media Tool | Yuitility",
-  "format-converter": "Image Format Converter – Free Media Tool | Yuitility",
-  "pdf-compressor": "PDF Compressor – Free Online PDF Tool | Yuitility",
-  "zip-extractor": "ZIP Extractor – Free Online Utility Tool | Yuitility",
-  "unit-converter": "Unit Converter – Free Online Utility Tool | Yuitility",
-  "meme-maker": "Meme Maker – Free Online Media Tool | Yuitility",
-  "favicon-generator": "Favicon Generator – Free Online Dev Tool | Yuitility",
-  "og-image-generator": "OG Image Generator – Free Online Dev Tool | Yuitility",
-  "social-media-resizer": "Social Media Resizer – Free Online Media Tool | Yuitility",
-  "fake-data-generator": "Fake Data Generator – Free Online Dev Tool | Yuitility",
-  "photo-collage-maker": "Photo Collage Maker – Free Online Media Tool | Yuitility",
-  "age-calculator-in-months": "Age in Months Calculator – Free Utility | Yuitility",
-  "dog-age-calculator": "Dog Age Calculator – Free Online Utility | Yuitility",
-  "pregnancy-due-date-calculator": "Pregnancy Calculator – Free Health Tool | Yuitility",
-  "retirement-calculator": "Retirement Calculator – Free Finance Tool | Yuitility",
-  "zodiac-age-calculator": "Zodiac Age Calculator – Free Astrology Tool | Yuitility",
-  "school-age-eligibility-calculator": "School Age Calculator – Free Utility | Yuitility",
-  "median-calculator": "Median Calculator – Free Online Math Tool | Yuitility",
-  "mean-calculator": "Mean Calculator – Free Online Math Tool | Yuitility",
-  "mod-calculator": "Mod Calculator – Free Online Math Tool | Yuitility",
-  "zodiac-sun-moon-calculator": "Zodiac Sun Moon Calculator – Free Astrology | Yuitility",
-  "death-calculator": "Life Expectancy Calculator – Free Health | Yuitility",
-  "loan-calculator": "Loan Calculator – Free Online Finance Tool | Yuitility",
-  "education-loan-emi-calculator": "Education Loan EMI – Free Finance Tool | Yuitility",
-  "personal-loan-emi-calculator": "Personal Loan EMI – Free Finance Tool | Yuitility",
-  "bike-loan-emi-calculator": "Bike Loan EMI – Free Online Finance Tool | Yuitility",
-  "car-loan-emi-calculator": "Car Loan EMI – Free Online Finance Tool | Yuitility",
-  "home-loan-emi-calculator": "Home Loan EMI – Free Online Finance Tool | Yuitility",
-  "mortgage-calculator": "Mortgage Calculator – Free Finance Tool | Yuitility",
-  "interest-calculator": "Interest Calculator – Free Finance Tool | Yuitility",
-  "fd-calculator": "FD Calculator – Free Online Finance Tool | Yuitility",
-  "rd-calculator": "RD Calculator – Free Online Finance Tool | Yuitility",
-  "compound-interest-calculator": "Compound Interest – Free Finance Tool | Yuitility",
-  "simple-interest-calculator": "Simple Interest – Free Finance Tool | Yuitility",
-  "ppf-calculator": "PPF Calculator – Free Online Finance Tool | Yuitility",
-  "gold-loan-emi-calculator": "Gold Loan EMI Calculator – Free Finance | Yuitility",
-  "business-loan-emi-calculator": "Business Loan EMI Calculator – Free Finance | Yuitility",
-  "swp-calculator": "SWP Calculator – Free Online Finance Tool | Yuitility",
-  "epf-calculator": "EPF Calculator – Free Online Finance Tool | Yuitility",
-  "nps-calculator": "NPS Calculator – Free Online Finance Tool | Yuitility",
-  "gratuity-calculator": "Gratuity Calculator – Free Finance Tool | Yuitility",
-  "hra-calculator": "HRA Exemption Calculator – Free Finance | Yuitility",
-  "income-tax-calculator": "Income Tax Calculator – Free Finance | Yuitility",
-  "gst-calculator": "GST Calculator – Free Online Finance Tool | Yuitility",
-  "credit-card-emi-calculator": "Credit Card EMI Calculator – Free Finance | Yuitility",
-  "net-worth-calculator": "Net Worth Calculator – Free Finance Tool | Yuitility",
-  "emergency-fund-calculator": "Emergency Fund Calculator – Free Tool | Yuitility",
-  "roi-calculator": "ROI Calculator – Free Online Finance Tool | Yuitility",
-  "cagr-calculator": "CAGR Calculator – Free Online Finance Tool | Yuitility",
-  "irr-calculator": "IRR Calculator – Free Online Finance Tool | Yuitility",
-  "break-even-calculator": "Break-even Calculator – Free Finance | Yuitility",
-  "profit-margin-calculator": "Profit Margin Calculator – Free Finance | Yuitility",
-  "discount-calculator": "Discount Calculator – Free Online Tool | Yuitility",
-  "commission-calculator": "Commission Calculator – Free Finance | Yuitility",
-  "currency-converter": "Currency Converter – Free Online Tool | Yuitility",
-  "mutual-fund-return-calculator": "Mutual Fund Return Calculator – Free | Yuitility",
-  "dividend-calculator": "Dividend Calculator – Free Finance Tool | Yuitility",
-  "stock-average-calculator": "Stock Average Calculator – Free Tool | Yuitility",
-  "bmr-calculator": "BMR Calculator – Free Online Health Tool | Yuitility",
-  "body-fat-calculator": "Body Fat Calculator – Free Health Tool | Yuitility",
+  "bmi-calculator": "BMI Calculator - Free Online Health Tool | Yuitility",
+  "emi-calculator": "EMI Calculator - Free Online Finance Tool | Yuitility",
+  "sip-calculator": "SIP Calculator - Free Online Finance Tool | Yuitility",
+  "age-calculator": "Age Calculator - Free Online Utility Tool | Yuitility",
+  "password-generator": "Password Generator - Free Online Dev Tool | Yuitility",
+  "qr-code-generator": "QR Code Generator - Free Online Dev Tool | Yuitility",
+  "word-counter": "Word Counter - Free Online Utility Tool | Yuitility",
+  "image-compressor": "Image Compressor - Free Online Media Tool | Yuitility",
+  "salary-calculator": "Salary Calculator - Free Online Finance Tool | Yuitility",
+  "json-formatter": "JSON Formatter - Free Online Developer Tool | Yuitility",
+  "color-palette": "Color Palette Generator - Free Online Dev Tool | Yuitility",
+  "pdf-merger": "PDF Merger - Free Online PDF Tool | Yuitility",
+  "pdf-splitter": "PDF Splitter - Free Online PDF Tool | Yuitility",
+  "image-to-pdf": "Image to PDF Converter - Free Online PDF Tool | Yuitility",
+  "pdf-watermark": "PDF Watermark Tool - Free Online PDF Tool | Yuitility",
+  "pdf-metadata": "PDF Metadata Editor - Free Online PDF Tool | Yuitility",
+  "background-remover": "Background Remover - Free Online Media Tool | Yuitility",
+  "image-resizer": "Image Resizer - Free Online Media Tool | Yuitility",
+  "format-converter": "Image Format Converter - Free Media Tool | Yuitility",
+  "pdf-compressor": "PDF Compressor - Free Online PDF Tool | Yuitility",
+  "zip-extractor": "ZIP Extractor - Free Online Utility Tool | Yuitility",
+  "unit-converter": "Unit Converter - Free Online Utility Tool | Yuitility",
+  "meme-maker": "Meme Maker - Free Online Media Tool | Yuitility",
+  "favicon-generator": "Favicon Generator - Free Online Dev Tool | Yuitility",
+  "og-image-generator": "OG Image Generator - Free Online Dev Tool | Yuitility",
+  "social-media-resizer": "Social Media Resizer - Free Online Media Tool | Yuitility",
+  "fake-data-generator": "Fake Data Generator - Free Online Dev Tool | Yuitility",
+  "photo-collage-maker": "Photo Collage Maker - Free Online Media Tool | Yuitility",
+  "age-calculator-in-months": "Age in Months Calculator - Free Utility | Yuitility",
+  "dog-age-calculator": "Dog Age Calculator - Free Online Utility | Yuitility",
+  "pregnancy-due-date-calculator": "Pregnancy Calculator - Free Health Tool | Yuitility",
+  "retirement-calculator": "Retirement Calculator - Free Finance Tool | Yuitility",
+  "zodiac-age-calculator": "Zodiac Age Calculator - Free Astrology Tool | Yuitility",
+  "school-age-eligibility-calculator": "School Age Calculator - Free Utility | Yuitility",
+  "median-calculator": "Median Calculator - Free Online Math Tool | Yuitility",
+  "mean-calculator": "Mean Calculator - Free Online Math Tool | Yuitility",
+  "mod-calculator": "Mod Calculator - Free Online Math Tool | Yuitility",
+  "zodiac-sun-moon-calculator": "Zodiac Sun Moon Calculator - Free Astrology | Yuitility",
+  "death-calculator": "Life Expectancy Calculator - Free Health | Yuitility",
+  "loan-calculator": "Loan Calculator - Free Online Finance Tool | Yuitility",
+  "education-loan-emi-calculator": "Education Loan EMI - Free Finance Tool | Yuitility",
+  "personal-loan-emi-calculator": "Personal Loan EMI - Free Finance Tool | Yuitility",
+  "bike-loan-emi-calculator": "Bike Loan EMI - Free Online Finance Tool | Yuitility",
+  "car-loan-emi-calculator": "Car Loan EMI - Free Online Finance Tool | Yuitility",
+  "home-loan-emi-calculator": "Home Loan EMI - Free Online Finance Tool | Yuitility",
+  "mortgage-calculator": "Mortgage Calculator - Free Finance Tool | Yuitility",
+  "interest-calculator": "Interest Calculator - Free Finance Tool | Yuitility",
+  "fd-calculator": "FD Calculator - Free Online Finance Tool | Yuitility",
+  "rd-calculator": "RD Calculator - Free Online Finance Tool | Yuitility",
+  "compound-interest-calculator": "Compound Interest - Free Finance Tool | Yuitility",
+  "simple-interest-calculator": "Simple Interest - Free Finance Tool | Yuitility",
+  "ppf-calculator": "PPF Calculator - Free Online Finance Tool | Yuitility",
+  "gold-loan-emi-calculator": "Gold Loan EMI Calculator - Free Finance | Yuitility",
+  "business-loan-emi-calculator": "Business Loan EMI Calculator - Free Finance | Yuitility",
+  "swp-calculator": "SWP Calculator - Free Online Finance Tool | Yuitility",
+  "epf-calculator": "EPF Calculator - Free Online Finance Tool | Yuitility",
+  "nps-calculator": "NPS Calculator - Free Online Finance Tool | Yuitility",
+  "gratuity-calculator": "Gratuity Calculator - Free Finance Tool | Yuitility",
+  "hra-calculator": "HRA Exemption Calculator - Free Finance | Yuitility",
+  "income-tax-calculator": "Income Tax Calculator - Free Finance | Yuitility",
+  "gst-calculator": "GST Calculator - Free Online Finance Tool | Yuitility",
+  "credit-card-emi-calculator": "Credit Card EMI Calculator - Free Finance | Yuitility",
+  "net-worth-calculator": "Net Worth Calculator - Free Finance Tool | Yuitility",
+  "emergency-fund-calculator": "Emergency Fund Calculator - Free Tool | Yuitility",
+  "roi-calculator": "ROI Calculator - Free Online Finance Tool | Yuitility",
+  "cagr-calculator": "CAGR Calculator - Free Online Finance Tool | Yuitility",
+  "irr-calculator": "IRR Calculator - Free Online Finance Tool | Yuitility",
+  "break-even-calculator": "Break-even Calculator - Free Finance | Yuitility",
+  "profit-margin-calculator": "Profit Margin Calculator - Free Finance | Yuitility",
+  "discount-calculator": "Discount Calculator - Free Online Tool | Yuitility",
+  "commission-calculator": "Commission Calculator - Free Finance | Yuitility",
+  "currency-converter": "Currency Converter - Free Online Tool | Yuitility",
+  "mutual-fund-return-calculator": "Mutual Fund Return Calculator - Free | Yuitility",
+  "dividend-calculator": "Dividend Calculator - Free Finance Tool | Yuitility",
+  "stock-average-calculator": "Stock Average Calculator - Free Tool | Yuitility",
+  "bmr-calculator": "BMR Calculator - Free Online Health Tool | Yuitility",
+  "body-fat-calculator": "Body Fat Calculator - Free Health Tool | Yuitility",
 };
 
 const TOOL_SEO_DESCRIPTIONS: Record<string, string> = {
@@ -233,8 +342,8 @@ export function getToolSeoTitle(tool: Tool): string {
     return TOOL_SEO_TITLES[tool.id];
   }
   const categoryLabel = getCategoryName(tool.category).split(" ")[0];
-  const title = `${tool.title} – Free Online ${categoryLabel} Tool | Yuitility`;
-  return title.length <= 60 ? title : `${tool.title} – Free Online Tool | Yuitility`;
+  const title = `${tool.title} - Free Online ${categoryLabel} Tool | Yuitility`;
+  return title.length <= 60 ? title : `${tool.title} - Free Online Tool | Yuitility`;
 }
 
 export function getToolSeoDescription(tool: Tool): string {

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { Download, CheckCircle2, Sparkles, X } from "lucide-react";
 
 interface BeforeInstallPromptEvent extends Event {
@@ -13,8 +14,10 @@ export default function PwaInstallButton() {
   const [isInstalled, setIsInstalled] = useState<boolean>(false);
   const [showInstructions, setShowInstructions] = useState<boolean>(false);
   const [deviceType, setDeviceType] = useState<"ios" | "android" | "desktop">("desktop");
+  const [mounted, setMounted] = useState<boolean>(false);
 
   useEffect(() => {
+    setMounted(true);
     // Detect standalone PWA mode
     const isStandalone =
       window.matchMedia("(display-mode: standalone)").matches ||
@@ -54,6 +57,17 @@ export default function PwaInstallButton() {
     };
   }, []);
 
+  useEffect(() => {
+    if (showInstructions) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [showInstructions]);
+
   const handleInstallClick = async () => {
     if (deferredPrompt) {
       await deferredPrompt.prompt();
@@ -70,8 +84,12 @@ export default function PwaInstallButton() {
 
   if (isInstalled) {
     return (
-      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-bold border border-emerald-500/20">
-        <CheckCircle2 className="w-3.5 h-3.5" /> Installed
+      <span 
+        className="inline-flex items-center justify-center gap-1.5 px-2 py-2 sm:px-2.5 sm:py-1 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-bold border border-emerald-500/20"
+        title="App Installed"
+      >
+        <CheckCircle2 className="w-4 h-4 sm:w-3.5 sm:h-3.5 shrink-0" />
+        <span className="hidden sm:inline">Installed</span>
       </span>
     );
   }
@@ -81,15 +99,16 @@ export default function PwaInstallButton() {
       <button
         onClick={handleInstallClick}
         type="button"
-        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-sm hover:shadow-md transition-all transform active:scale-95 shrink-0"
+        className="inline-flex items-center justify-center gap-1.5 px-2 py-2 sm:px-3 sm:py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-sm hover:shadow-md transition-all transform active:scale-95 shrink-0"
         aria-label="Install Yuitility PWA"
+        title="Install App"
       >
-        <Download className="w-3.5 h-3.5 animate-bounce" />
-        <span>Install Now</span>
+        <Download className="w-4 h-4 sm:w-3.5 sm:h-3.5 animate-bounce shrink-0" />
+        <span className="hidden sm:inline">Install Now</span>
       </button>
 
       {/* Manual Installation Instructions Modal */}
-      {showInstructions && (
+      {showInstructions && mounted && createPortal(
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl max-w-sm w-full p-6 shadow-2xl space-y-4 relative animate-in fade-in zoom-in-95 duration-200 text-left">
             <button
@@ -139,7 +158,8 @@ export default function PwaInstallButton() {
               Got it!
             </button>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );

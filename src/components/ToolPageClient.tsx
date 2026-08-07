@@ -2,9 +2,10 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, CheckCircle2, Copy, Moon, ShieldCheck, Sun } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Copy, Moon, ShieldCheck, Sun, ArrowRight, BookOpen } from "lucide-react";
 import { Tool, TOOLS } from "@/src/types";
 import { getToolFaqs, getToolHowItWorks, getToolSteps, toolPath } from "@/src/lib/site";
+import { BLOG_POSTS } from "@/src/lib/blogs";
 import PwaInstallButton from "./PwaInstallButton";
 import HoverFooter from "@/src/components/ui/hover-footer";
 import EmiCalculator from "@/src/components/tools/EmiCalculator";
@@ -311,7 +312,7 @@ function ToolRenderer({ tool, onCopy, onShare, onTriggerShareToast }: ToolPageCl
 }
 
 export default function ToolPageClient({ tool }: ToolPageClientProps) {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
   const [message, setMessage] = useState("");
   const [showShareToast, setShowShareToast] = useState(false);
   const faqs = useMemo(() => getToolFaqs(tool), [tool]);
@@ -319,6 +320,11 @@ export default function ToolPageClient({ tool }: ToolPageClientProps) {
   const howItWorks = useMemo(() => getToolHowItWorks(tool), [tool]);
   const relatedTools = useMemo(
     () => TOOLS.filter((candidate) => candidate.category === tool.category && candidate.id !== tool.id && !candidate.disabled).slice(0, 3),
+    [tool],
+  );
+
+  const linkedGuide = useMemo(
+    () => BLOG_POSTS.find((p) => p.toolId === tool.id),
     [tool],
   );
 
@@ -422,10 +428,28 @@ export default function ToolPageClient({ tool }: ToolPageClientProps) {
               {steps.map((step, index) => <li key={step} className="flex gap-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300"><span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-100 text-xs font-bold text-blue-700 dark:bg-cyan-500/20 dark:text-cyan-300">{index + 1}</span><span>{step}</span></li>)}
             </ol>
           </article>
-          <aside className="rounded-3xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 sm:p-8">
-            <ShieldCheck className="h-8 w-8 text-blue-600 dark:text-cyan-300" />
-            <h2 className="mt-4 font-display text-xl font-bold text-zinc-950 dark:text-white">Local-first by design</h2>
-            <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">Use this tool directly in your browser. Yuitility is built to make practical everyday tasks simpler without a Yuitility file-processing backend.</p>
+          <aside className="space-y-6">
+            <div className="rounded-3xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 sm:p-8">
+              <ShieldCheck className="h-8 w-8 text-blue-600 dark:text-cyan-300" />
+              <h2 className="mt-4 font-display text-xl font-bold text-zinc-950 dark:text-white">Local-first by design</h2>
+              <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">Use this tool directly in your browser. Yuitility is built to make practical everyday tasks simpler without a Yuitility file-processing backend.</p>
+            </div>
+
+            {linkedGuide && (
+              <div className="rounded-3xl border border-zinc-200 bg-gradient-to-br from-blue-50/20 to-cyan-50/20 dark:from-zinc-900 dark:to-cyan-950/20 p-6 dark:border-zinc-800 sm:p-8 flex flex-col justify-between">
+                <div>
+                  <BookOpen className="h-8 w-8 text-blue-600 dark:text-cyan-300" />
+                  <h2 className="mt-4 font-display text-xl font-bold text-zinc-950 dark:text-white">Tutorial Guide</h2>
+                  <p className="mt-3 text-xs leading-relaxed text-zinc-550 dark:text-zinc-400">{linkedGuide.description}</p>
+                </div>
+                <Link
+                  href={`/blog/${linkedGuide.slug}`}
+                  className="mt-6 inline-flex items-center gap-1.5 text-xs font-bold text-blue-650 hover:text-blue-750 dark:text-cyan-300 dark:hover:text-cyan-200 transition-colors"
+                >
+                  Read Full Tutorial <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            )}
           </aside>
         </section>
 

@@ -158,7 +158,7 @@ export default function HoverFooter() {
       title: "Platform Info",
       links: [
         { label: "About Yuitility", href: "/about" },
-        { label: "SEO Blog Articles", href: "/blog" },
+        { label: "Blogs", href: "/blog" },
         { label: "Privacy Policy", href: "/privacy" },
         { label: "Terms of Service", href: "/terms" },
         { label: "Cookie Policy", href: "/cookies" },
@@ -175,7 +175,7 @@ export default function HoverFooter() {
   return (
     <footer className="w-full bg-zinc-950 text-white relative overflow-hidden border-t border-zinc-800 mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16 z-20 relative">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-8 pb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-12 gap-x-8 md:gap-x-12 pb-12">
           {/* Brand section */}
           <div className="flex flex-col space-y-4">
             <div className="flex items-center space-x-2.5">
@@ -199,18 +199,20 @@ export default function HoverFooter() {
           {/* Link Columns */}
           {footerLinks.map((section) => (
             <div key={section.title}>
-              <h4 className="text-white text-sm font-bold font-display uppercase tracking-wider mb-5">
+              <h4 className="text-white text-sm font-bold font-display uppercase tracking-wider mb-6">
                 {section.title}
               </h4>
-              <ul className="space-y-2.5 text-xs text-zinc-400">
+              <ul className="space-y-4 text-xs text-zinc-400">
                 {section.links.map((link) => (
-                  <li key={link.label} className="transition-transform duration-200 hover:translate-x-1">
+                  <li key={link.label} className="overflow-hidden">
                     <a
                       href={link.href}
-                      className="hover:text-[var(--accent-primary)] transition-colors flex items-center gap-1 group"
+                      className="hover:text-white transition-all duration-300 flex items-center gap-2 group py-1 w-fit"
                     >
-                      <span>{link.label}</span>
-                      <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 text-[var(--accent-primary)] transition-opacity" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)] opacity-0 -ml-3 group-hover:ml-0 group-hover:opacity-100 transition-all duration-300 shadow-[0_0_8px_var(--accent-primary)] shrink-0" />
+                      <span className="group-hover:translate-x-0.5 transition-transform duration-350 font-medium">
+                        {link.label}
+                      </span>
                     </a>
                   </li>
                 ))}
@@ -220,15 +222,21 @@ export default function HoverFooter() {
 
           {/* Official Contact Section */}
           <div>
-            <h4 className="text-white text-sm font-bold font-display uppercase tracking-wider mb-5">
+            <h4 className="text-white text-sm font-bold font-display uppercase tracking-wider mb-6">
               Official Contact
             </h4>
-            <ul className="space-y-3 text-xs text-zinc-400">
+            <ul className="space-y-4.5 text-xs text-zinc-400">
               {contactEmails.map((item) => (
-                <li key={item.label} className="flex items-center space-x-2.5 group transition-transform duration-200 hover:translate-x-1">
-                  <Mail className="w-4 h-4 text-zinc-550 group-hover:text-[var(--accent-primary)] shrink-0 transition-colors" />
-                  <a href={item.href} className="hover:text-[var(--accent-primary)] transition-colors font-mono">
-                    {item.label}
+                <li key={item.label} className="flex items-center group py-0.5 overflow-hidden">
+                  <Mail className="w-4 h-4 text-zinc-500 group-hover:text-[var(--accent-primary)] shrink-0 transition-colors mr-2.5" />
+                  <a
+                    href={item.href}
+                    className="hover:text-white transition-all duration-300 flex items-center gap-2 font-mono py-0.5"
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)] opacity-0 -ml-3 group-hover:ml-0 group-hover:opacity-100 transition-all duration-300 shadow-[0_0_8px_var(--accent-primary)] shrink-0" />
+                    <span className="group-hover:translate-x-0.5 transition-transform duration-350">
+                      {item.label}
+                    </span>
                   </a>
                 </li>
               ))}

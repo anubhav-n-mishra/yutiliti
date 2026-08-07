@@ -27,7 +27,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Yuitility – Free Online Tools for PDF, Finance & Dev",
+    default: "Yuitility - Free Online Tools for PDF, Finance & Dev",
     template: "%s",
   },
   description: SITE_DESCRIPTION,
@@ -230,6 +230,26 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  const theme = localStorage.getItem('theme') || 'dark';
+                  if (theme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                  } else {
+                    document.documentElement.classList.remove('dark');
+                  }
+                  const accent = localStorage.getItem('accent_color') || 'blue';
+                  document.documentElement.classList.add('theme-' + accent);
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
       <body className={inter.className} suppressHydrationWarning>
         <ServiceWorkerRegister />
         <CookieBanner />

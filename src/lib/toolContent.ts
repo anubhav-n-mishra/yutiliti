@@ -711,48 +711,160 @@ const TOOL_FAQS_DB: Record<string, FAQItem[]> = {
  */
 export function getToolFaqs(tool: Tool): FAQItem[] {
   if (TOOL_FAQS_DB[tool.id]) {
-    return TOOL_FAQS_DB[tool.id];
+    // Strip em-dashes and en-dashes from hand-written db
+    return TOOL_FAQS_DB[tool.id].map(item => ({
+      question: item.question.replace(/—|–/g, "-"),
+      answer: item.answer.replace(/—|–/g, "-")
+    }));
   }
 
   const toolName = tool.title;
+  const nameLower = toolName.toLowerCase();
+  const cat = tool.category;
 
-  if (tool.category === "finance") {
+  if (cat === "finance") {
     return [
       {
-        question: `How is the ${toolName} calculated?`,
-        answer: `The ${toolName} uses standard mathematical formulas for financial interest, amortization, and investment growth to compute exact values instantly as inputs change.`,
+        question: `How does the ${toolName} calculate results?`,
+        answer: `The ${nameLower} computes exact results instantly using verified mathematical interest formulas and amortization models as you adjust the sliders or input fields.`
       },
       {
-        question: `Can I change currencies in the ${toolName}?`,
-        answer: `Yes. You can toggle between USD ($), EUR (€), GBP (£), INR (₹), AUD (A$), CAD (C$), JPY (¥), AED, and SGD using the currency selector menu.`,
+        question: `Does using this ${nameLower} require sharing my financial data?`,
+        answer: `No. All calculations run strictly inside your local browser memory. Yuitility does not transmit, log, or store your assets, inputs, or personal information.`
       },
       {
-        question: `Why should I use an online financial calculator?`,
-        answer: `Financial calculators help you forecast future returns, evaluate loan costs, optimize repayment schedules, and make informed budgeting decisions without complex manual math.`,
+        question: `Is the ${toolName} compatible with multiple currencies?`,
+        answer: `Yes. You can work with USD, EUR, GBP, INR, or any local currency format because the calculations are purely numerical. We support direct numeric entry for all fields.`
       },
       {
-        question: `Is my financial data uploaded or saved?`,
-        answer: `No. All calculations run 100% locally within your browser memory. Yuitility does not store, track, or transmit your numbers to external servers.`,
-      },
+        question: `Can I export results from this ${nameLower} tool?`,
+        answer: `Yes. Once the calculations are computed, you can copy the values directly or copy the breakdown table to your clipboard for your spreadsheets.`
+      }
     ];
   }
 
+  if (cat === "pdf") {
+    return [
+      {
+        question: `Is it safe to upload confidential files to this ${toolName}?`,
+        answer: `Yes, 100% safe. You are not uploading anything. This ${nameLower} runs entirely client-side using JavaScript, meaning files are read and processed locally in your browser.`
+      },
+      {
+        question: `Will this ${nameLower} compress or modify the original PDF?`,
+        answer: `No. The tool processes a copy of your document locally and generates a new download link. Your original file remains untouched on your hard drive.`
+      },
+      {
+        question: `Are there file size or count limits on this free ${nameLower}?`,
+        answer: `No. Since processing runs locally on your computer, there are no artificial server caps on file size. Your device's memory is the only limit.`
+      },
+      {
+        question: `Do I need to sign up or pay to export my document?`,
+        answer: `No registration is required. You can compile and download your document instantly without signing up, without watermarks, and without paying fees.`
+      }
+    ];
+  }
+
+  if (cat === "developer") {
+    return [
+      {
+        question: `Is this ${toolName} safe for credentials or proprietary code?`,
+        answer: `Yes. Because this is a client-side utility, all formatting, key generation, and encoding happen locally. No data is sent over the network to external servers.`
+      },
+      {
+        question: `Can I use the ${nameLower} offline?`,
+        answer: `Yes. Once you load this page, you can disconnect from the internet and continue using the ${nameLower} features because all code runs in your local tab.`
+      },
+      {
+        question: `How does this tool handle formatting errors?`,
+        answer: `The developer compiler parses inputs instantly and shows inline syntax errors or warnings to help you locate and fix bugs in your syntax.`
+      },
+      {
+        question: `Is there any API usage limit for this ${toolName}?`,
+        answer: `There are no limits because it does not make API calls. You can run as many operations as you need directly on your machine.`
+      }
+    ];
+  }
+
+  if (cat === "media" || cat === "utility" || cat === "conversion") {
+    return [
+      {
+        question: `Will my images or files have watermarks after using this ${toolName}?`,
+        answer: `No. All outputs are exported in high resolution without watermarks, branding, or modifications. You own 100% of your generated assets.`
+      },
+      {
+        question: `Does this ${nameLower} send media files to a server?`,
+        answer: `No files are ever uploaded. Processing is executed in your browser via HTML5 canvas and WebAssembly, keeping your photos and documents completely private.`
+      },
+      {
+        question: `What formats are supported by this ${toolName}?`,
+        answer: `It supports all standard web formats. You can input standard files and export them to WebP, PNG, JPEG, or GIF formats depending on your needs.`
+      },
+      {
+        question: `Can I process multiple files in batch?`,
+        answer: `Yes. You can input multiple assets, configure the parameters, and process them sequentially directly inside your browser tab.`
+      }
+    ];
+  }
+
+  if (cat === "health") {
+    return [
+      {
+        question: `How accurate is the ${toolName}?`,
+        answer: `The ${nameLower} uses standard health and fitness formulas (such as Mifflin-St Jeor or US Navy methods) to estimate values. These are statistical estimates, not medical diagnoses.`
+      },
+      {
+        question: `Does this health calculator save my weight or measurements?`,
+        answer: `No. Your age, height, weight, and other biological metrics are calculated locally. No data is tracked or uploaded to any medical database.`
+      },
+      {
+        question: `Is the ${toolName} free for personal planning?`,
+        answer: `Yes. Yuitility health tools are completely free, ad-free, and require no account registration or subscriptions.`
+      },
+      {
+        question: `Should I use these results as professional medical advice?`,
+        answer: `No. These results are for educational purposes. Consult a physician or certified fitness coach before starting any diet, training, or health plan.`
+      }
+    ];
+  }
+
+  if (cat === "math" || cat === "education") {
+    return [
+      {
+        question: `Does this ${toolName} show step-by-step mathematical calculations?`,
+        answer: `Yes. The tool parses values and evaluates the formulas showing mathematical steps and equations to help you understand the solution.`
+      },
+      {
+        question: `Is the mathematical precision guaranteed?`,
+        answer: `Yes. The calculator uses JavaScript double-precision floating-point arithmetic and custom rounding algorithms to ensure decimal accuracy for homework and engineering.`
+      },
+      {
+        question: `Are there limits to how many calculations I can run?`,
+        answer: `No. Because all calculations compile locally in your browser, you can perform unlimited math operations without throttling.`
+      },
+      {
+        question: `Can I use this ${nameLower} offline in a classroom?`,
+        answer: `Yes. Simply keep the tab open in your browser, and you can calculate results offline without an active internet connection.`
+      }
+    ];
+  }
+
+  // Fallback for general categories
   return [
     {
-      question: `What does the ${toolName} do?`,
-      answer: `The ${toolName} processes your inputs directly in your web browser to perform fast calculations, transformations, or data formatting without external tools.`,
+      question: `What is the primary function of this ${toolName}?`,
+      answer: `The ${nameLower} executes calculations, transforms text, or compiles documents locally in your browser tab without external servers.`
     },
     {
-      question: `Is the ${toolName} free to use?`,
-      answer: `Yes. Yuitility provides the ${toolName} 100% free with no account creation, no usage caps, and no subscription fees.`,
+      question: `Is my personal data safe with this ${toolName}?`,
+      answer: `Yes. Because all execution is client-side, your files, keys, and values are never sent to external servers, protecting your data privacy.`
     },
     {
-      question: `Does the ${toolName} upload my files or personal data?`,
-      answer: `No. All file processing, image conversion, and data math execute locally on your device. Your data never leaves your browser window.`,
+      question: `Do I need to install any browser plugins to use this?`,
+      answer: `No. The utility is built using HTML5 and vanilla JavaScript, running natively in all modern mobile and desktop browsers.`
     },
     {
-      question: `Can I use the ${toolName} offline?`,
-      answer: `Yes. Once the page is loaded, the client-side JavaScript execution code remains active in memory, allowing offline use without an active internet connection.`,
-    },
+      question: `Is this ${toolName} free forever?`,
+      answer: `Yes. All tools on Yuitility are 100% free with no hidden charges, trial limits, or account requirements.`
+    }
   ];
 }

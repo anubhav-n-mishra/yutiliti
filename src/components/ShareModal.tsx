@@ -29,6 +29,17 @@ export default function ShareModal({ isOpen, onClose, title, url }: ShareModalPr
     }
   }, [url, isOpen]);
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   const handleCopy = async () => {

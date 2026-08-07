@@ -18,15 +18,15 @@ const categoryIcons: Record<string, React.ComponentType<{ className?: string }>>
 };
 
 const categoryTitles: Record<string, string> = {
-  finance: "Finance Tools – Free Online Finance Suite | Yuitility",
-  utility: "Utility Tools – Free Online Utility Suite | Yuitility",
-  developer: "Developer Tools – Free Online Dev Suite | Yuitility",
-  pdf: "PDF Tools – Free Online PDF Utility Suite | Yuitility",
-  media: "Media Tools – Free Online Media Suite | Yuitility",
+  finance: "Finance Tools - Free Online Finance Suite | Yuitility",
+  utility: "Utility Tools - Free Online Utility Suite | Yuitility",
+  developer: "Developer Tools - Free Online Dev Suite | Yuitility",
+  pdf: "PDF Tools - Free Online PDF Utility Suite | Yuitility",
+  media: "Media Tools - Free Online Media Suite | Yuitility",
 };
 
 const categoryDescriptions: Record<string, string> = {
-  finance: "Explore free financial calculators for loans, investments, and wealth planning. Calculate returns instantly in browser with total privacy — no signup required.",
+  finance: "Explore free financial calculators for loans, investments, and wealth planning. Calculate returns instantly in browser with total privacy - no signup required.",
   utility: "Use free online browser utilities for daily file conversion, text analysis, and calculations. Get instant results with 100% privacy and zero server uploads.",
   developer: "Access free developer and designer tools for JSON formatting, color palettes, and code generation. Debug and format code instantly online with total privacy.",
   pdf: "Merge, split, compress, and edit PDF documents online for free with our PDF toolkit. Process files 100% in your browser with zero data uploads required.",
