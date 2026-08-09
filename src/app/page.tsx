@@ -223,6 +223,18 @@ export default function Home() {
       document.documentElement.classList.remove('dark');
       localStorage.setItem('theme', 'light');
     }
+    window.dispatchEvent(new CustomEvent('theme-change', { detail: darkMode }));
+  }, [darkMode]);
+
+  useEffect(() => {
+    const handleThemeChange = (e: Event) => {
+      const customEvent = e as CustomEvent<boolean>;
+      if (customEvent.detail !== darkMode) {
+        setDarkMode(customEvent.detail);
+      }
+    };
+    window.addEventListener('theme-change', handleThemeChange);
+    return () => window.removeEventListener('theme-change', handleThemeChange);
   }, [darkMode]);
 
   const openContactModal = (type: 'request' | 'feedback' | 'bug') => {

@@ -329,11 +329,35 @@ export default function ToolPageClient({ tool }: ToolPageClientProps) {
   );
 
   useEffect(() => {
-    setDarkMode(localStorage.getItem("theme") === "dark");
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme) {
+      setDarkMode(savedTheme === "dark");
+    } else {
+      setDarkMode(true);
+    }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("theme", darkMode ? "dark" : "light");
+    const root = document.documentElement;
+    if (darkMode) {
+      root.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      root.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+    window.dispatchEvent(new CustomEvent("theme-change", { detail: darkMode }));
+  }, [darkMode]);
+
+  useEffect(() => {
+    const handleThemeChange = (e: Event) => {
+      const customEvent = e as CustomEvent<boolean>;
+      if (customEvent.detail !== darkMode) {
+        setDarkMode(customEvent.detail);
+      }
+    };
+    window.addEventListener("theme-change", handleThemeChange);
+    return () => window.removeEventListener("theme-change", handleThemeChange);
   }, [darkMode]);
 
   const showMessage = (value: string) => {
