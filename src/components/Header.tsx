@@ -133,6 +133,12 @@ export default function Header() {
               About
             </Link>
             <Link
+              href="/tools"
+              className="text-sm font-semibold text-zinc-600 hover:text-[var(--accent-primary)] dark:text-zinc-300 dark:hover:text-[var(--accent-primary)] transition-colors px-3 py-2"
+            >
+              All tools
+            </Link>
+            <Link
               href="/blog"
               className={`flex items-center gap-1.5 transition-colors duration-200 ${isActive('/blog')
                 ? 'text-[var(--accent-primary)]'

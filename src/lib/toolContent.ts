@@ -868,3 +868,17 @@ export function getToolFaqs(tool: Tool): FAQItem[] {
     }
   ];
 }
+
+/**
+ * True when this tool has FAQs written specifically for it (as opposed to the
+ * category-level fallback set).
+ *
+ * Only hand-written FAQs are emitted as FAQPage structured data. The fallback
+ * sets are near-identical across ~100 pages; marking them up as distinct FAQs
+ * would be templated markup dressed as unique content, which is exactly the
+ * pattern Google's structured-data guidelines call out. They still render as
+ * visible page content, they just do not claim to be an FAQ entity.
+ */
+export function hasHandWrittenFaqs(tool: Tool): boolean {
+  return Boolean(TOOL_FAQS_DB[tool.id]);
+}

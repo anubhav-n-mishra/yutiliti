@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/src/lib/site";
+import { LIVE_TOOLS } from "@/src/lib/toolRegistry";
 import ServiceWorkerRegister from "@/src/components/ServiceWorkerRegister";
 import CookieBanner from "@/src/components/CookieBanner";
 import AiChatbot from "@/src/components/AiChatbot";
@@ -27,50 +28,11 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Yuitility - Free Online Tools for PDF, Finance & Dev",
+    default: "Yuitility: Browser Tools That Never Upload Your Files",
     template: "%s",
   },
   description: SITE_DESCRIPTION,
   applicationName: SITE_NAME,
-  keywords: [
-    "free online tools",
-    "browser tools",
-    "PDF tools",
-    "image tools",
-    "financial calculators",
-    "developer tools",
-    "utility tools",
-    "private tools",
-    "no signup tools",
-    "client-side tools",
-    "EMI calculator",
-    "SIP calculator",
-    "password generator",
-    "QR code generator",
-    "image compressor",
-    "PDF merger",
-    "PDF splitter",
-    "background remover",
-    "unit converter",
-    "color palette generator",
-    "JSON formatter",
-    "word counter",
-    "age calculator",
-    "salary calculator",
-    "meme generator",
-    "favicon generator",
-    "OG image generator",
-    "social media resizer",
-    "fake data generator",
-    "photo collage maker",
-    "PDF compressor",
-    "PDF watermark",
-    "PDF metadata editor",
-    "image to PDF",
-    "image resizer",
-    "format converter",
-    "ZIP extractor",
-  ],
   authors: [{ name: "Yuitility Team", url: SITE_URL }],
   creator: "Yuitility",
   publisher: "Yuitility",
@@ -104,7 +66,7 @@ export const metadata: Metadata = {
     type: "website",
     url: "/",
     siteName: SITE_NAME,
-    title: "Yuitility – Free Online Tools for PDF, Finance & Dev",
+    title: "Yuitility: Browser Tools That Never Upload Your Files",
     description: SITE_DESCRIPTION,
     locale: "en_US",
     images: [
@@ -121,7 +83,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@yuitility",
     creator: "@yuitility",
-    title: `${SITE_NAME} — Free Online Tools`,
+    title: `${SITE_NAME}: Browser Tools That Never Upload Your Files`,
     description: SITE_DESCRIPTION,
     images: ["/brand/yuitility-logo.png"],
   },
@@ -140,14 +102,9 @@ export const metadata: Metadata = {
     "theme-color": "#2563eb",
     "color-scheme": "light dark",
   },
-  verification: {
-    google: "google-site-verification-code",
-    yandex: "yandex-verification-code",
-    yahoo: "yahoo-verification-code",
-    other: {
-      "me": ["https://github.com/yuitility"],
-    },
-  },
+  // NOTE: no `verification` block. It previously emitted literal placeholder
+  // strings ("google-site-verification-code") as real meta tags. Add the real
+  // token here only once it exists, or verify via DNS/Search Console instead.
 };
 
 const websiteSchema = {
@@ -170,10 +127,9 @@ const websiteSchema = {
       "@type": "ImageObject",
       url: `${SITE_URL}/brand/yuitility-logo.png`,
     },
-    sameAs: [
-      "https://github.com/yuitility",
-      "https://twitter.com/yuitility",
-    ],
+    // CONTENT TODO: add sameAs entries only for profiles that actually exist
+    // and are controlled by Yuitility. Pointing at profiles that 404 is a
+    // negative entity signal, not a positive one.
   },
   mainEntityOfPage: {
     "@type": "WebPage",
@@ -187,10 +143,7 @@ const organizationSchema = {
   name: SITE_NAME,
   url: SITE_URL,
   logo: `${SITE_URL}/brand/yuitility-logo.png`,
-  sameAs: [
-    "https://github.com/yuitility",
-    "https://twitter.com/yuitility",
-  ],
+  // CONTENT TODO: add verified sameAs profile URLs when they exist.
   description: SITE_DESCRIPTION,
 };
 
@@ -214,13 +167,11 @@ const softwareApplicationSchema = {
     url: SITE_URL,
   },
   featureList: [
-    "140+ free browser-based tools",
-    "100% client-side processing",
+    `${LIVE_TOOLS.length} browser-based tools`,
+    "Client-side processing - no file or data upload",
     "No account required",
-    "Privacy-focused",
     "Works offline after first load",
   ],
-  screenshot: `${SITE_URL}/brand/screenshot.png`,
 };
 
 export default function RootLayout({

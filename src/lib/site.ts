@@ -3,153 +3,505 @@ import { Tool } from "@/src/types";
 export const SITE_NAME = "Yuitility";
 export const SITE_URL = "https://www.yuitility.app";
 export const SITE_DESCRIPTION =
-  "Free, private browser tools for PDFs, images, finance calculators, developer workflows, and daily utilities with zero latency.";
+  "Free browser tools for PDFs, images, finance calculators and developer workflows. Everything runs locally in your tab — files never leave your device.";
 
 export const toolPath = (toolId: string) => `/tools/${toolId}`;
 
 export const absoluteUrl = (path = "/") => new URL(path, SITE_URL).toString();
 
-const categoryKeywords: Record<string, string[]> = {
-  finance: ["financial calculator", "calculator online", "free calculator"],
-  utility: ["online utility", "browser tool", "free online tool"],
-  developer: ["developer tool", "web tool", "free developer utility"],
-  pdf: ["PDF tool online", "private PDF tool", "free PDF utility"],
-  media: ["image tool online", "private image tool", "free media utility"],
+// ----------------------------------------------------------------------
+// Category metadata — must cover every id in CATEGORIES except "all".
+// scripts/seo-audit.mjs fails the build if a category is missing an entry.
+// ----------------------------------------------------------------------
+
+export type CategoryMeta = {
+  name: string;
+  /** <title> for /category/<id>. Written for humans, no keyword pipes. */
+  title: string;
+  /** Meta description AND the visible intro paragraph. */
+  description: string;
+  /** Extra on-page context so the listing is not a bare grid of links. */
+  intro: string;
+  /**
+   * Optional sub-clusters for large categories.
+   *
+   * A 38-item grid is a list, not a topic. Grouping turns the category page
+   * into a genuine pillar: named sub-topics, each with a sentence explaining
+   * when you would reach for that group, and the tools underneath.
+   * Tools not named in any group fall into a trailing "Everything else" block,
+   * so nothing is ever silently dropped from the listing.
+   */
+  groups?: { name: string; blurb: string; toolIds: string[] }[];
 };
 
-export function getToolKeywords(tool: Tool): string[] {
-  const keywords = new Set<string>();
-  const name = tool.title.toLowerCase();
+export const CATEGORY_META: Record<string, CategoryMeta> = {
+  finance: {
+    name: "Finance & Wealth",
+    title: "Finance Calculators: Loans, Investments & Tax | Yuitility",
+    description:
+      "EMI, SIP, FD, EPF, tax and net-worth calculators that show the formula and the full breakdown, not just a number. Nothing you type is sent anywhere.",
+    intro:
+      "Every calculator here shows its working: the formula used, the intermediate values, and the assumptions baked into the result. Money maths is worth checking, so we make it checkable.",
+    groups: [
+      {
+        name: "Loans and EMI",
+        blurb:
+          "All of these solve the same reducing-balance equation; they differ in what they let you vary. Start with the one that matches your loan type, because the defaults and the extra inputs (down payment, moratorium, processing fee) are what change the answer.",
+        toolIds: [
+          "emi-calculator",
+          "loan-calculator",
+          "home-loan-emi-calculator",
+          "mortgage-calculator",
+          "car-loan-emi-calculator",
+          "bike-loan-emi-calculator",
+          "personal-loan-emi-calculator",
+          "education-loan-emi-calculator",
+          "gold-loan-emi-calculator",
+          "business-loan-emi-calculator",
+          "credit-card-emi-calculator",
+        ],
+      },
+      {
+        name: "Investing and returns",
+        blurb:
+          "Projection tools for money going in, and measurement tools for money that has already been invested. If cash moved in or out at different times, use IRR rather than CAGR.",
+        toolIds: [
+          "sip-calculator",
+          "mutual-fund-return-calculator",
+          "swp-calculator",
+          "cagr-calculator",
+          "irr-calculator",
+          "roi-calculator",
+          "dividend-calculator",
+          "stock-average-calculator",
+          "compound-interest-calculator",
+          "simple-interest-calculator",
+          "interest-calculator",
+        ],
+      },
+      {
+        name: "Deposits, provident funds and retirement",
+        blurb:
+          "Fixed-return instruments and long-horizon planning. The compounding convention matters more here than anywhere else - quarterly versus annual changes the maturity figure.",
+        toolIds: [
+          "fd-calculator",
+          "rd-calculator",
+          "ppf-calculator",
+          "epf-calculator",
+          "nps-calculator",
+          "gratuity-calculator",
+          "retirement-calculator",
+        ],
+      },
+      {
+        name: "Salary and tax",
+        blurb:
+          "Turning a CTC figure into the number that reaches your account, and working out which exemptions actually bind.",
+        toolIds: [
+          "salary-calculator",
+          "income-tax-calculator",
+          "hra-calculator",
+          "gst-calculator",
+        ],
+      },
+      {
+        name: "Business and pricing",
+        blurb:
+          "Unit economics: what you need to sell, what you keep, and what a discount actually costs you.",
+        toolIds: [
+          "break-even-calculator",
+          "profit-margin-calculator",
+          "discount-calculator",
+          "commission-calculator",
+        ],
+      },
+      {
+        name: "Personal balance sheet",
+        blurb: "Where you stand today, before any projection.",
+        toolIds: ["net-worth-calculator", "emergency-fund-calculator"],
+      },
+    ],
+  },
+  pdf: {
+    name: "PDF Tools",
+    title: "PDF Tools That Never Upload Your File | Yuitility",
+    description:
+      "Merge, split, compress, watermark and edit PDF metadata. Files are read into browser memory and processed on your own CPU — nothing is uploaded to a server.",
+    intro:
+      "Most free PDF sites upload your document to their servers to process it. These tools do not: pdf-lib runs inside your tab, so a bank statement or signed contract never leaves the machine you opened it on.",
+  },
+  media: {
+    name: "Image & Media",
+    title: "Image Tools: Compress, Resize & Convert | Yuitility",
+    description:
+      "Compress, resize, convert and edit images entirely in your browser. No uploads, no watermarks, no account, and no queue behind other people's files.",
+    intro:
+      "Image work happens on an HTML5 canvas in your own tab. That means no upload wait, no file-size cap imposed by someone else's server, and no copy of your photo sitting in a stranger's storage bucket.",
+  },
+  developer: {
+    name: "Developer & Text Tools",
+    title: "Developer Tools: JSON, Hashing, Test Data | Yuitility",
+    description:
+      "Format JSON, generate secure passwords and mock datasets, build QR codes and favicons. Safe for real payloads because nothing is transmitted off-device.",
+    intro:
+      "Pasting a production payload into a random online formatter is a data-handling incident waiting to happen. These tools parse everything locally, so you can use them on data you are not allowed to upload.",
+  },
+  utility: {
+    name: "Everyday Utilities",
+    title: "Everyday Utility Tools & Converters | Yuitility",
+    description:
+      "Unit conversion, word counts, age and date maths, ZIP extraction. Small tools for the jobs that interrupt the job you were actually doing.",
+    intro:
+      "These are the small interruptions — how many words is this, how old is that, what is inside this archive. They load fast, do one thing, and do not ask you to sign up first.",
+  },
+  math: {
+    name: "Calculators & Maths",
+    title: "Maths & Statistics Calculators | Yuitility",
+    description:
+      "Mean, median, modulo and general-purpose calculators that show the steps behind the answer so you can check the working, not just copy it.",
+    intro:
+      "A number without its working is not much use for homework or for a spreadsheet you have to defend. These calculators show the intermediate steps.",
+  },
+  health: {
+    name: "Health & Lifestyle",
+    title: "Health Calculators: BMI, BMR & Body Fat | Yuitility",
+    description:
+      "BMI, BMR and body-fat estimates using the named published formulas (Mifflin-St Jeor, US Navy), with the equation shown and its limits stated plainly.",
+    intro:
+      "These are statistical estimates from published formulas, not medical assessments. Each tool names the equation it uses and says where that equation is known to be unreliable, so you can judge the number rather than trust it blindly.",
+  },
+  conversion: {
+    name: "Units & Conversion",
+    title: "Unit & Currency Converters | Yuitility",
+    description:
+      "Convert length, mass, temperature, area, speed and currency. Exact conversion factors, shown alongside the result so you can verify the maths.",
+    intro:
+      "Conversion errors are quiet errors — the number looks plausible and is wrong. These converters print the factor they applied so a mistake is visible.",
+  },
+};
 
-  // 1. Direct Base Terms
-  keywords.add(tool.title);
-  keywords.add(name);
-  keywords.add(`${name} tool`);
-  keywords.add(`yuitility ${name}`);
+export function getCategoryName(category: string) {
+  return CATEGORY_META[category]?.name ?? category;
+}
 
-  // 2. Modifiers Permutations (Start, Middle, and End placement for "free", "online", "private", "offline")
-  const primaryModifiers = ["free", "online", "private", "offline", "secure", "browser-based", "client-side"];
-  
-  primaryModifiers.forEach(mod => {
-    keywords.add(`${mod} ${name}`);
-    keywords.add(`${name} ${mod}`);
-  });
+// ----------------------------------------------------------------------
+// Per-tool titles and descriptions.
+//
+// Rules (enforced by scripts/seo-audit.mjs):
+//   - <= 60 characters, no repeated "Free Online X Tool | Brand" boilerplate
+//   - lead with the entity a searcher typed, then the distinguishing detail
+//   - never stack synonyms ("Best X | X Online | Cheap X")
+//   - descriptions must be unique and say something the competitor's does not
+// ----------------------------------------------------------------------
 
-  // Dual modifier combinations (e.g. "free online [tool]", "[tool] online free", "free [tool] online")
-  keywords.add(`free online ${name}`);
-  keywords.add(`online free ${name}`);
-  keywords.add(`free ${name} online`);
-  keywords.add(`online ${name} free`);
-  keywords.add(`${name} free online`);
-  keywords.add(`${name} online free`);
+const TOOL_SEO_TITLES: Record<string, string> = {
+  // --- Loans -----------------------------------------------------------
+  "emi-calculator": "EMI Calculator with Full Amortization Schedule",
+  "loan-calculator": "Loan Calculator: Interest vs Principal Breakdown",
+  "home-loan-emi-calculator": "Home Loan EMI Calculator with Yearly Schedule",
+  "mortgage-calculator": "Mortgage Calculator with Tax, Insurance and HOA",
+  "car-loan-emi-calculator": "Car Loan EMI Calculator with Down Payment",
+  "bike-loan-emi-calculator": "Bike Loan EMI Calculator (Two-Wheeler Finance)",
+  "personal-loan-emi-calculator": "Personal Loan EMI Calculator with Fees",
+  "education-loan-emi-calculator": "Education Loan EMI Calculator with Moratorium",
+  "gold-loan-emi-calculator": "Gold Loan EMI and Interest Calculator",
+  "business-loan-emi-calculator": "Business Loan EMI and Total Cost Calculator",
+  "credit-card-emi-calculator": "Credit Card EMI Calculator with True Cost",
 
-  keywords.add(`private offline ${name}`);
-  keywords.add(`offline private ${name}`);
-  keywords.add(`private ${name} offline`);
-  keywords.add(`offline ${name} private`);
-  keywords.add(`${name} private offline`);
-  keywords.add(`${name} offline private`);
+  // --- Investing -------------------------------------------------------
+  "sip-calculator": "SIP Calculator: Invested vs Returns, Year by Year",
+  "mutual-fund-return-calculator": "Mutual Fund Return Calculator: SIP or Lump Sum",
+  "swp-calculator": "SWP Calculator: Payouts and Corpus Depletion",
+  "cagr-calculator": "CAGR Calculator with Year-on-Year Comparison",
+  "irr-calculator": "IRR Calculator for Uneven Cash Flows",
+  "roi-calculator": "ROI Calculator: Net Profit and Return Percent",
+  "dividend-calculator": "Dividend Calculator: Yield and Monthly Income",
+  "stock-average-calculator": "Stock Average Calculator (Weighted Cost Basis)",
+  "compound-interest-calculator": "Compound Interest Calculator with Contributions",
+  "simple-interest-calculator": "Simple Interest Calculator (I = P x R x T)",
+  "interest-calculator": "Interest Calculator: Simple vs Compound Compared",
 
-  keywords.add(`free private ${name}`);
-  keywords.add(`private free ${name}`);
-  keywords.add(`free ${name} private`);
-  keywords.add(`private ${name} free`);
-  keywords.add(`${name} free private`);
-  keywords.add(`${name} private free`);
+  // --- Deposits & retirement -------------------------------------------
+  "fd-calculator": "FD Calculator with Quarterly Compounding",
+  "rd-calculator": "RD Calculator: Month-by-Month Maturity Value",
+  "ppf-calculator": "PPF Calculator: 15-Year Maturity Projection",
+  "epf-calculator": "EPF Calculator: Corpus at Retirement",
+  "nps-calculator": "NPS Calculator: Lump Sum and Annuity Split",
+  "retirement-calculator": "Retirement Calculator with Inflation Adjustment",
+  "gratuity-calculator": "Gratuity Calculator (Payment of Gratuity Act)",
 
-  keywords.add(`free offline ${name}`);
-  keywords.add(`offline free ${name}`);
-  keywords.add(`free ${name} offline`);
-  keywords.add(`offline ${name} free`);
-  keywords.add(`${name} free offline`);
-  keywords.add(`${name} offline free`);
+  // --- Salary & tax ----------------------------------------------------
+  "salary-calculator": "Salary Calculator: CTC to In-Hand Breakdown",
+  "income-tax-calculator": "Income Tax Calculator with Slab-by-Slab Working",
+  "hra-calculator": "HRA Exemption Calculator (Section 10(13A))",
+  "gst-calculator": "GST Calculator: Inclusive, Exclusive, CGST/SGST",
 
-  // Category specific SEO & GEO enhancers
-  const cat = tool.category;
-  if (cat === "finance") {
-    keywords.add("financial calculations");
-    keywords.add("interest calculation online");
-    keywords.add("accurate finance tool");
-    keywords.add("calculate investment returns");
-    keywords.add("wealth planner");
-    keywords.add(`calculate ${tool.title.toLowerCase()} free`);
-  } else if (cat === "pdf") {
-    keywords.add("private pdf editor");
-    keywords.add("secure pdf utility");
-    keywords.add("no server upload pdf");
-    keywords.add("client side pdf converter");
-    keywords.add("offline pdf tool");
-    keywords.add("edit pdf files locally");
-  } else if (cat === "developer") {
-    keywords.add("developer utility");
-    keywords.add("client side coding tool");
-    keywords.add("local developer playground");
-    keywords.add("safe programmer tools");
-    keywords.add("offline text formatter");
-    keywords.add("browser based developer helpers");
-  } else if (cat === "media" || cat === "utility" || cat === "conversion") {
-    keywords.add("private image tool");
-    keywords.add("local media processing");
-    keywords.add("no watermark browser tool");
-    keywords.add("client side image rendering");
-    keywords.add("offline media converter");
-    keywords.add("webassembly image editor");
-  } else if (cat === "health") {
-    keywords.add("health index calculator");
-    keywords.add("fitness zone calculator");
-    keywords.add("accurate health metrics");
-    keywords.add("healthy range calculator");
-    keywords.add("daily fitness metrics tracker");
-  } else if (cat === "math") {
-    keywords.add("solve math problems online");
-    keywords.add("scientific calculation engine");
-    keywords.add("math step by step solver");
-    keywords.add("accurate math formula evaluator");
-    keywords.add("classroom math calculator free");
-  }
+  // --- Business --------------------------------------------------------
+  "break-even-calculator": "Break-Even Calculator: Units and Revenue Needed",
+  "profit-margin-calculator": "Profit Margin vs Markup Calculator",
+  "discount-calculator": "Discount Calculator: Final Price and Savings",
+  "commission-calculator": "Commission Calculator: Payout and Net Proceeds",
+  "currency-converter": "Currency Converter for Everyday Conversions",
+  "net-worth-calculator": "Net Worth Calculator: Assets Minus Liabilities",
+  "emergency-fund-calculator": "Emergency Fund Calculator: How Many Months",
 
-  // Extract terms from description & longDescription to construct rich long-tails
-  const words = (tool.description + " " + tool.longDescription)
-    .toLowerCase()
-    .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")
-    .split(/\s+/);
-  
-  const meaningfulWords = words.filter(
-    (w) => w.length > 3 && !["with", "your", "from", "that", "this", "free", "online", "tool", "calculator", "instantly", "directly"].includes(w)
-  );
+  // --- PDF -------------------------------------------------------------
+  "pdf-merger": "Merge PDF Files Without Uploading Them",
+  "pdf-splitter": "Split a PDF or Extract Specific Pages",
+  "pdf-compressor": "Compress a PDF in Your Browser",
+  "pdf-watermark": "Add a Watermark to a PDF Privately",
+  "pdf-metadata": "Edit PDF Metadata: Title, Author, Keywords",
+  "image-to-pdf": "Convert Images to PDF Without Uploading",
 
-  // Generate rich phrase variations based on tool descriptors
-  if (meaningfulWords.length >= 2) {
-    keywords.add(`${meaningfulWords[0]} ${meaningfulWords[1]} tool`);
-    keywords.add(`how to ${meaningfulWords[0]} ${meaningfulWords[1]}`);
-    if (meaningfulWords[2]) {
-      keywords.add(`secure ${meaningfulWords[1]} ${meaningfulWords[2]}`);
-      keywords.add(`client side ${meaningfulWords[0]} ${meaningfulWords[2]}`);
-    }
-  }
+  // --- Images ----------------------------------------------------------
+  "image-compressor": "Compress Images Without Uploading Them",
+  "image-resizer": "Resize an Image by Pixels or Percentage",
+  "format-converter": "Convert Images: WebP, PNG, JPEG, GIF",
+  "background-remover": "Remove an Image Background in Your Browser",
+  "social-media-resizer": "Social Media Image Sizes: Crop and Export",
+  "photo-collage-maker": "Photo Collage Maker (No Upload, No Watermark)",
+  "meme-maker": "Meme Maker with Classic Impact Captions",
+  "og-image-generator": "Open Graph Image Generator (1200x630)",
+  "favicon-generator": "Favicon Generator: ICO, PNG and Web Manifest",
 
-  // Ensure GEO intent keywords (AI engine conversational triggers)
-  keywords.add(`which is the best offline ${tool.title.toLowerCase()}`);
-  keywords.add(`safest web tool for ${tool.title.toLowerCase()}`);
-  keywords.add(`yuitility browser based ${tool.title.toLowerCase()}`);
+  // --- Developer -------------------------------------------------------
+  "json-formatter": "JSON Formatter and Validator with Error Lines",
+  "password-generator": "Password Generator with Entropy Measurement",
+  "fake-data-generator": "Fake Data Generator: JSON, CSV and SQL",
+  "qr-code-generator": "QR Code Generator: URL, WiFi, Text, Email",
+  "color-palette": "Color Palette Generator with WCAG Contrast",
+  "zip-extractor": "Open and Extract a ZIP File in Your Browser",
+  "word-counter": "Word Counter with Reading Time and Density",
 
-  return Array.from(keywords);
+  // --- Everyday / dates ------------------------------------------------
+  "age-calculator": "Age Calculator: Exact Years, Months and Days",
+  "age-calculator-in-months": "Age in Months Calculator (Also Weeks and Days)",
+  "school-age-eligibility-calculator": "School Age Cut-Off Eligibility Checker",
+  "zodiac-age-calculator": "Zodiac Sign and Age Calculator",
+  "zodiac-sun-moon-calculator": "Sun, Moon and Rising Sign Calculator",
+  "dog-age-calculator": "Dog Age Calculator by Breed Size",
+  "pregnancy-due-date-calculator": "Pregnancy Due Date Calculator and Timeline",
+  "unit-converter": "Unit Converter: Length, Mass, Temperature, Area",
+  "standard-calculator": "Online Calculator with Memory and History",
+  "scientific-calculator": "Scientific Calculator: Trig, Logs, Factorials",
+
+  // --- Health ----------------------------------------------------------
+  "bmi-calculator": "BMI Calculator with Category and Its Limits",
+  "bmr-calculator": "BMR Calculator (Mifflin-St Jeor) and TDEE",
+  "body-fat-calculator": "Body Fat Calculator (US Navy Method)",
+  "death-calculator": "Life Expectancy Estimator from Lifestyle Factors",
+
+  // --- Maths -----------------------------------------------------------
+  "mean-calculator": "Mean Calculator with Step-by-Step Working",
+  "median-calculator": "Median Calculator for Odd and Even Data Sets",
+  "mod-calculator": "Modulo Calculator (A mod B) with Negatives",
+};
+
+const TOOL_SEO_DESCRIPTIONS: Record<string, string> = {
+  "emi-calculator":
+    "Work out your monthly EMI and see the full amortization schedule — how much of each payment is interest, and how that flips over the life of the loan.",
+  "loan-calculator":
+    "See what a loan actually costs: monthly payment, total interest, and the split between principal and interest for every year of the term.",
+  "home-loan-emi-calculator":
+    "Calculate your home loan EMI and see the year-by-year schedule, including how little principal you repay in the early years of a long tenure.",
+  "mortgage-calculator":
+    "Full PITI monthly payment: principal, interest, property tax, insurance and HOA — not just the loan repayment portion most calculators show.",
+  "car-loan-emi-calculator":
+    "Enter on-road price, down payment, rate and tenure to get your monthly car loan EMI plus the total interest a longer tenure actually costs you.",
+  "bike-loan-emi-calculator":
+    "Calculate two-wheeler loan EMI from on-road price and down payment, and compare how the down payment changes both EMI and total interest.",
+  "personal-loan-emi-calculator":
+    "Personal loan EMI including processing fees, so you compare the real cost of two offers rather than the headline interest rate alone.",
+  "education-loan-emi-calculator":
+    "Education loan EMI with a moratorium period — see how interest accrued during your course gets capitalised into the principal before repayment starts.",
+  "gold-loan-emi-calculator":
+    "Calculate gold loan EMI and total interest, with the reducing-balance maths shown so you can check it against your lender's quote.",
+  "business-loan-emi-calculator":
+    "Commercial loan EMI and total borrowing cost, so working-capital finance can be compared on total outflow rather than advertised rate.",
+  "credit-card-emi-calculator":
+    "Convert a card purchase to EMI and see the true cost: interest plus processing fee, expressed against the original purchase price.",
+
+  "sip-calculator":
+    "Project a SIP year by year and see invested capital separated from returns — the point where growth starts outpacing contributions is usually later than expected.",
+  "mutual-fund-return-calculator":
+    "Compare a lump sum against a monthly SIP for the same total investment and return rate, and see why the two end up in very different places.",
+  "swp-calculator":
+    "Model a systematic withdrawal plan: monthly payout, remaining corpus, and the year your corpus runs out at a given withdrawal rate.",
+  "cagr-calculator":
+    "Calculate the compound annual growth rate between two values, and see why CAGR smooths away the volatility that actually happened in between.",
+  "irr-calculator":
+    "Find the internal rate of return for an uneven series of cash flows, solved numerically — useful where CAGR cannot handle the shape of the cash flows.",
+  "roi-calculator":
+    "Calculate return on investment as both an absolute profit and a percentage, with the annualised equivalent so you can compare holdings of different lengths.",
+  "dividend-calculator":
+    "Calculate annual dividend income, the monthly average, and the yield on your actual cost basis rather than on the current share price.",
+  "stock-average-calculator":
+    "Work out your weighted average cost per share after averaging down or up, and see the break-even price you now need.",
+  "compound-interest-calculator":
+    "Compound interest with regular contributions, at your chosen compounding frequency, showing how much of the final balance is growth rather than deposits.",
+  "simple-interest-calculator":
+    "Simple interest using I = P x R x T, with the substitution written out so you can verify each figure rather than trust the total.",
+  "interest-calculator":
+    "Put simple and compound interest side by side on the same principal and rate to see exactly where and when the two curves diverge.",
+
+  "fd-calculator":
+    "Fixed deposit maturity with quarterly compounding, the convention most banks actually use — annual compounding will understate your return.",
+  "rd-calculator":
+    "Recurring deposit maturity that accounts for each instalment earning interest for a different length of time, which is where most RD estimates go wrong.",
+  "ppf-calculator":
+    "Project a PPF balance across the full 15-year lock-in, showing the contribution and the compounded interest components separately.",
+  "epf-calculator":
+    "Project your EPF corpus to retirement from basic salary, contribution rate and expected interest, with the annual accrual shown.",
+  "nps-calculator":
+    "Project an NPS corpus at 60 and see the mandated split: the lump sum you can withdraw and the portion that must buy an annuity.",
+  "retirement-calculator":
+    "Work out the corpus you need in future rupees, not today's — the inflation adjustment is what makes most retirement targets look far too small.",
+  "gratuity-calculator":
+    "Calculate gratuity under the Payment of Gratuity Act formula, including how partial years past the five-year threshold are rounded.",
+
+  "salary-calculator":
+    "Break an annual CTC into basic, HRA, allowances, EPF, professional tax and income tax, to get the number that actually reaches your bank account.",
+  "income-tax-calculator":
+    "Estimate income tax with the working shown slab by slab, plus your effective rate — which is always lower than the slab you say you are 'in'.",
+  "hra-calculator":
+    "Apply all three Section 10(13A) limbs and see which one caps your exemption — the binding constraint is rarely the one people assume.",
+  "gst-calculator":
+    "Add or strip GST at 5, 12, 18 or 28 percent, with the CGST/SGST split, and see why removing 18 percent is not the same as subtracting 18 percent.",
+
+  "break-even-calculator":
+    "Find the unit volume and revenue where contribution margin covers fixed costs, and see how sensitive that point is to a small price change.",
+  "profit-margin-calculator":
+    "Margin and markup from the same cost and price, side by side — the two are routinely confused and a 50 percent markup is not a 50 percent margin.",
+  "discount-calculator":
+    "Final price and money saved from a percentage discount, including stacked discounts, which do not add the way people expect.",
+  "commission-calculator":
+    "Commission payable and net proceeds to the seller, at flat or tiered rates, from gross sale value.",
+  "currency-converter":
+    "Convert between major currencies for everyday estimates. Rates are indicative — check your bank's rate before an actual transaction.",
+  "net-worth-calculator":
+    "Total assets minus total liabilities, itemised, so you can see which line item is actually moving your net worth year to year.",
+  "emergency-fund-calculator":
+    "Size an emergency fund against your essential monthly outgoings, and see how many months of runway your current savings already buy.",
+
+  "pdf-merger":
+    "Combine PDFs into one document and reorder pages first. The files are read into browser memory and never uploaded, so contracts and statements stay on your machine.",
+  "pdf-splitter":
+    "Pull specific pages or a page range out of a PDF into a new file. Runs entirely in your tab, so the original document is never uploaded anywhere.",
+  "pdf-compressor":
+    "Reduce PDF file size in your browser. Nothing is uploaded, so there is no size cap set by someone else's server and no copy left behind.",
+  "pdf-watermark":
+    "Stamp text or an image watermark onto a PDF with control over opacity, rotation and position — processed locally, so the document never leaves your device.",
+  "pdf-metadata":
+    "View and edit the title, author, subject and keywords embedded in a PDF. Useful before sharing a file that quietly carries your name or software version.",
+  "image-to-pdf":
+    "Turn JPG, PNG or WebP images into a single PDF, one image per page, entirely in your browser with no upload step.",
+
+  "image-compressor":
+    "Cut image file size with a live before-and-after comparison, so you can find the quality setting where the saving stops being worth it.",
+  "image-resizer":
+    "Resize by exact pixel dimensions or by percentage, with optional aspect-ratio lock, processed on your own device.",
+  "format-converter":
+    "Convert between WebP, PNG, JPEG and GIF in your browser. Useful when a site rejects an upload format and you would rather not use a converter that keeps your file.",
+  "background-remover":
+    "Remove an image background and export a transparent PNG. The segmentation model runs locally in your browser — the photo is never uploaded.",
+  "social-media-resizer":
+    "Crop and export to the current post, story, banner and thumbnail dimensions for the major platforms, with the safe area shown.",
+  "photo-collage-maker":
+    "Arrange photos into a grid with adjustable spacing and background, exported at full resolution with no watermark and no upload.",
+  "meme-maker":
+    "Add top and bottom Impact captions to any image and export it. Runs locally, so your source image is not stored on a meme site's servers.",
+  "og-image-generator":
+    "Design a 1200x630 Open Graph card for a post or page and export it as PNG, so link previews stop falling back to your logo.",
+  "favicon-generator":
+    "Generate the full favicon set — ICO, the PNG sizes modern browsers request, and the web manifest entries — from a single source image.",
+
+  "json-formatter":
+    "Format, minify and validate JSON with the failing line and column reported, so a missing comma in a large payload is findable. Nothing is transmitted.",
+  "password-generator":
+    "Generate passwords from the browser's cryptographic RNG and see the actual entropy in bits, so length and character-set choices can be compared honestly.",
+  "fake-data-generator":
+    "Generate realistic test names, emails, addresses and companies, exportable as JSON, CSV or SQL inserts, for seeding a development database.",
+  "qr-code-generator":
+    "Encode a URL, WiFi network, email or plain text as a QR code with custom colours and error-correction level, exported as PNG or SVG.",
+  "color-palette":
+    "Build a harmonious palette and check every pair against WCAG AA and AAA contrast thresholds before the colours reach production.",
+  "zip-extractor":
+    "Look inside a ZIP archive and pull individual files out of it in your browser — handy on a machine where you cannot install an extractor.",
+  "word-counter":
+    "Word, character, sentence and paragraph counts with reading time and keyword density, updating as you type.",
+
+  "age-calculator":
+    "Exact age in years, months and days, plus your birth weekday and a live countdown to your next birthday.",
+  "age-calculator-in-months":
+    "Total age expressed in months, weeks, days and hours — the format paediatric forms and school registrations usually ask for.",
+  "school-age-eligibility-calculator":
+    "Check a child's age against a school's cut-off date to see which intake year they fall into.",
+  "zodiac-age-calculator":
+    "Your zodiac sign, its element and your exact age from one date of birth.",
+  "zodiac-sun-moon-calculator":
+    "Sun, Moon and Rising sign positions calculated from birth date, time and place.",
+  "dog-age-calculator":
+    "Convert dog years to human years by breed size, using current veterinary ageing curves rather than the discredited multiply-by-seven rule.",
+  "pregnancy-due-date-calculator":
+    "Estimated due date and trimester milestones from your last menstrual period or conception date, with the method used stated.",
+  "unit-converter":
+    "Convert length, mass, temperature, area, volume and speed, with the exact conversion factor shown next to the result.",
+  "standard-calculator":
+    "A fast everyday calculator with memory keys and a visible calculation history, so you can check a step rather than start again.",
+  "scientific-calculator":
+    "Trigonometric, inverse and hyperbolic functions, logarithms, powers, roots, factorials and constants, with DEG/RAD switching and full expression entry.",
+
+  "bmi-calculator":
+    "Calculate BMI and its category, with a plain statement of where BMI is misleading — muscle mass, age and body composition are not in the formula.",
+  "bmr-calculator":
+    "Basal metabolic rate via Mifflin-St Jeor, plus TDEE at each activity multiplier, with the equation shown so you can see what drives the number.",
+  "body-fat-calculator":
+    "Estimate body fat percentage using the US Navy circumference method, with lean and fat mass, and the measurement error the method carries.",
+  "death-calculator":
+    "A statistical life expectancy estimate from age, sex and lifestyle factors. An actuarial estimate for planning, not a medical prediction.",
+
+  "mean-calculator":
+    "Arithmetic mean with the sum and count shown, so the result can be checked rather than copied.",
+  "median-calculator":
+    "Median with the sorted data set displayed, and the two-middle-value average handled explicitly for even-sized sets.",
+  "mod-calculator":
+    "Modulo (A mod B) including negative operands, where JavaScript's remainder and true mathematical modulo disagree.",
+};
+
+export function getToolSeoTitle(tool: Tool): string {
+  const base = TOOL_SEO_TITLES[tool.id] ?? tool.title;
+  return `${base} | ${SITE_NAME}`;
+}
+
+/** The title without the brand suffix — used for the visible H1 context line. */
+export function getToolHeadline(tool: Tool): string {
+  return TOOL_SEO_TITLES[tool.id] ?? tool.title;
+}
+
+export function getToolSeoDescription(tool: Tool): string {
+  const custom = TOOL_SEO_DESCRIPTIONS[tool.id];
+  if (custom) return custom;
+  return `${tool.description} Runs entirely in your browser — nothing you enter is uploaded.`;
 }
 
 export function getToolSteps(tool: Tool) {
-  if (tool.category === "finance") {
+  if (tool.category === "finance" || tool.category === "math") {
     return [
-      "Enter the values for your scenario.",
-      `Review the ${tool.title.toLowerCase()} result as you adjust the inputs.`,
-      "Use the result to compare options or plan your next step.",
+      "Enter the values for your own situation rather than the defaults.",
+      `Adjust one input at a time and watch which one moves the ${tool.title.toLowerCase()} result most.`,
+      "Check the working shown below the result before you rely on the number.",
     ];
   }
 
-  if (tool.category === "pdf" || tool.category === "media" || /image|pdf|zip|collage|meme|favicon/i.test(tool.id)) {
+  if (
+    tool.category === "pdf" ||
+    tool.category === "media" ||
+    /image|pdf|zip|collage|meme|favicon/i.test(tool.id)
+  ) {
     return [
-      "Choose or drag in the file you want to work with.",
-      "Set the options that match your output.",
-      "Preview, copy, or download the finished result directly from your browser.",
+      "Choose or drag in the file you want to work with. It stays on your device.",
+      "Set the options that match the output you need.",
+      "Preview the result, then download it straight from your browser.",
     ];
   }
 
@@ -160,197 +512,4 @@ export function getToolSteps(tool: Tool) {
   ];
 }
 
-export { getToolFaqs, getToolHowItWorks } from "@/src/lib/toolContent";
-
-export function getCategoryName(category: string) {
-  const categories: Record<string, string> = {
-    finance: "Finance & Wealth",
-    utility: "Utilities & Media",
-    developer: "Developer & Design Tools",
-    pdf: "PDF Tools",
-    media: "Image & Media Tools",
-  };
-  return categories[category] || category;
-}
-
-// ----------------------------------------------------------------------
-// SEO Custom Title & Meta Description Maps (Guaranteed < 60 chars title, 120-155 chars description)
-// ----------------------------------------------------------------------
-
-const TOOL_SEO_TITLES: Record<string, string> = {
-  "bmi-calculator": "BMI Calculator - Free Online Health Tool | Yuitility",
-  "emi-calculator": "EMI Calculator - Free Online Finance Tool | Yuitility",
-  "sip-calculator": "SIP Calculator - Free Online Finance Tool | Yuitility",
-  "age-calculator": "Age Calculator - Free Online Utility Tool | Yuitility",
-  "password-generator": "Password Generator - Free Online Dev Tool | Yuitility",
-  "qr-code-generator": "QR Code Generator - Free Online Dev Tool | Yuitility",
-  "word-counter": "Word Counter - Free Online Utility Tool | Yuitility",
-  "image-compressor": "Image Compressor - Free Online Media Tool | Yuitility",
-  "salary-calculator": "Salary Calculator - Free Online Finance Tool | Yuitility",
-  "json-formatter": "JSON Formatter - Free Online Developer Tool | Yuitility",
-  "color-palette": "Color Palette Generator - Free Online Dev Tool | Yuitility",
-  "pdf-merger": "PDF Merger - Free Online PDF Tool | Yuitility",
-  "pdf-splitter": "PDF Splitter - Free Online PDF Tool | Yuitility",
-  "image-to-pdf": "Image to PDF Converter - Free Online PDF Tool | Yuitility",
-  "pdf-watermark": "PDF Watermark Tool - Free Online PDF Tool | Yuitility",
-  "pdf-metadata": "PDF Metadata Editor - Free Online PDF Tool | Yuitility",
-  "background-remover": "Background Remover - Free Online Media Tool | Yuitility",
-  "image-resizer": "Image Resizer - Free Online Media Tool | Yuitility",
-  "format-converter": "Image Format Converter - Free Media Tool | Yuitility",
-  "pdf-compressor": "PDF Compressor - Free Online PDF Tool | Yuitility",
-  "zip-extractor": "ZIP Extractor - Free Online Utility Tool | Yuitility",
-  "unit-converter": "Unit Converter - Free Online Utility Tool | Yuitility",
-  "meme-maker": "Meme Maker - Free Online Media Tool | Yuitility",
-  "favicon-generator": "Favicon Generator - Free Online Dev Tool | Yuitility",
-  "og-image-generator": "OG Image Generator - Free Online Dev Tool | Yuitility",
-  "social-media-resizer": "Social Media Resizer - Free Online Media Tool | Yuitility",
-  "fake-data-generator": "Fake Data Generator - Free Online Dev Tool | Yuitility",
-  "photo-collage-maker": "Photo Collage Maker - Free Online Media Tool | Yuitility",
-  "age-calculator-in-months": "Age in Months Calculator - Free Utility | Yuitility",
-  "dog-age-calculator": "Dog Age Calculator - Free Online Utility | Yuitility",
-  "pregnancy-due-date-calculator": "Pregnancy Calculator - Free Health Tool | Yuitility",
-  "retirement-calculator": "Retirement Calculator - Free Finance Tool | Yuitility",
-  "zodiac-age-calculator": "Zodiac Age Calculator - Free Astrology Tool | Yuitility",
-  "school-age-eligibility-calculator": "School Age Calculator - Free Utility | Yuitility",
-  "median-calculator": "Median Calculator - Free Online Math Tool | Yuitility",
-  "mean-calculator": "Mean Calculator - Free Online Math Tool | Yuitility",
-  "mod-calculator": "Mod Calculator - Free Online Math Tool | Yuitility",
-  "zodiac-sun-moon-calculator": "Zodiac Sun Moon Calculator - Free Astrology | Yuitility",
-  "death-calculator": "Life Expectancy Calculator - Free Health | Yuitility",
-  "loan-calculator": "Loan Calculator - Free Online Finance Tool | Yuitility",
-  "education-loan-emi-calculator": "Education Loan EMI - Free Finance Tool | Yuitility",
-  "personal-loan-emi-calculator": "Personal Loan EMI - Free Finance Tool | Yuitility",
-  "bike-loan-emi-calculator": "Bike Loan EMI - Free Online Finance Tool | Yuitility",
-  "car-loan-emi-calculator": "Car Loan EMI - Free Online Finance Tool | Yuitility",
-  "home-loan-emi-calculator": "Home Loan EMI - Free Online Finance Tool | Yuitility",
-  "mortgage-calculator": "Mortgage Calculator - Free Finance Tool | Yuitility",
-  "interest-calculator": "Interest Calculator - Free Finance Tool | Yuitility",
-  "fd-calculator": "FD Calculator - Free Online Finance Tool | Yuitility",
-  "rd-calculator": "RD Calculator - Free Online Finance Tool | Yuitility",
-  "compound-interest-calculator": "Compound Interest - Free Finance Tool | Yuitility",
-  "simple-interest-calculator": "Simple Interest - Free Finance Tool | Yuitility",
-  "ppf-calculator": "PPF Calculator - Free Online Finance Tool | Yuitility",
-  "gold-loan-emi-calculator": "Gold Loan EMI Calculator - Free Finance | Yuitility",
-  "business-loan-emi-calculator": "Business Loan EMI Calculator - Free Finance | Yuitility",
-  "swp-calculator": "SWP Calculator - Free Online Finance Tool | Yuitility",
-  "epf-calculator": "EPF Calculator - Free Online Finance Tool | Yuitility",
-  "nps-calculator": "NPS Calculator - Free Online Finance Tool | Yuitility",
-  "gratuity-calculator": "Gratuity Calculator - Free Finance Tool | Yuitility",
-  "hra-calculator": "HRA Exemption Calculator - Free Finance | Yuitility",
-  "income-tax-calculator": "Income Tax Calculator - Free Finance | Yuitility",
-  "gst-calculator": "GST Calculator - Free Online Finance Tool | Yuitility",
-  "credit-card-emi-calculator": "Credit Card EMI Calculator - Free Finance | Yuitility",
-  "net-worth-calculator": "Net Worth Calculator - Free Finance Tool | Yuitility",
-  "emergency-fund-calculator": "Emergency Fund Calculator - Free Tool | Yuitility",
-  "roi-calculator": "ROI Calculator - Free Online Finance Tool | Yuitility",
-  "cagr-calculator": "CAGR Calculator - Free Online Finance Tool | Yuitility",
-  "irr-calculator": "IRR Calculator - Free Online Finance Tool | Yuitility",
-  "break-even-calculator": "Break-even Calculator - Free Finance | Yuitility",
-  "profit-margin-calculator": "Profit Margin Calculator - Free Finance | Yuitility",
-  "discount-calculator": "Discount Calculator - Free Online Tool | Yuitility",
-  "commission-calculator": "Commission Calculator - Free Finance | Yuitility",
-  "currency-converter": "Currency Converter - Free Online Tool | Yuitility",
-  "mutual-fund-return-calculator": "Mutual Fund Return Calculator - Free | Yuitility",
-  "dividend-calculator": "Dividend Calculator - Free Finance Tool | Yuitility",
-  "stock-average-calculator": "Stock Average Calculator - Free Tool | Yuitility",
-  "bmr-calculator": "BMR Calculator - Free Online Health Tool | Yuitility",
-  "body-fat-calculator": "Body Fat Calculator - Free Health Tool | Yuitility",
-};
-
-const TOOL_SEO_DESCRIPTIONS: Record<string, string> = {
-  "bmi-calculator": "Calculate your BMI instantly with our free online BMI calculator. Get accurate body mass index results and health category — no signup required.",
-  "emi-calculator": "Calculate your monthly loan EMI, interest, and schedule instantly with our free EMI calculator online. Plan repayments now with no signup required.",
-  "sip-calculator": "Forecast your mutual fund wealth growth with our free online SIP calculator. Calculate compound returns instantly and plan your investments now.",
-  "age-calculator": "Calculate your exact age down to the second with our free online age calculator. Find next birthday countdown and zodiac sign — no sign up required.",
-  "password-generator": "Generate secure, random passwords with custom parameters using our free password generator. Protect your accounts with zero server upload.",
-  "qr-code-generator": "Create custom QR codes for URLs, WiFi, texts, and emails with our free QR code generator online. Download SVG and PNG instantly with no sign up.",
-  "word-counter": "Analyze text character counts, words, reading time, and keyword density with our free word counter tool. Get instant writing stats in browser.",
-  "image-compressor": "Compress JPG, PNG, and WebP images online with our free image compressor. Reduce file sizes up to 80% with zero quality loss — 100% private.",
-  "salary-calculator": "Calculate your monthly in-hand salary, EPF, and tax deductions with our free salary calculator. Get instant breakdown with no registration.",
-  "json-formatter": "Format, validate, and beautify your JSON data online with our free JSON formatter. Clean up code structure instantly in browser — 100% private.",
-  "color-palette": "Generate harmonious color palettes and copy HEX, RGB, and HSL codes instantly with our free color palette generator. Perfect for designers.",
-  "pdf-merger": "Combine multiple PDF files into one document with our free online PDF merger. Reorder pages and merge files instantly in browser — 100% local.",
-  "pdf-splitter": "Split PDF pages or extract custom page ranges with our free online PDF splitter. Process documents instantly in browser with total privacy.",
-  "image-to-pdf": "Convert PNG, JPG, and WebP images to PDF documents with our free image to PDF converter. Create clean PDFs instantly with no data uploads.",
-  "pdf-watermark": "Add text or logo watermarks to PDF files online with our free PDF watermarker. Customize opacity and position with 100% browser-based security.",
-  "pdf-metadata": "Edit PDF titles, authors, keywords, and creation dates with our free PDF metadata editor. Update document properties instantly in your browser.",
-  "background-remover": "Remove image backgrounds automatically with our free background remover tool. Get transparent PNG outputs instantly — 100% private local execution.",
-  "image-resizer": "Resize image width, height, and dimensions online with our free image resizer tool. Scale images instantly in browser with zero server uploads.",
-  "format-converter": "Convert WebP, PNG, JPEG, and GIF images with our free online image format converter. Process files instantly in browser with no registration.",
-  "pdf-compressor": "Compress PDF file size online while maintaining document quality with our free PDF compressor. Reduce file MBs instantly with zero server uploads.",
-  "zip-extractor": "Extract and unzip files online directly in your browser with our free ZIP extractor. Unpack archives instantly with zero uploads and total privacy.",
-  "unit-converter": "Convert length, weight, temperature, area, and speed measurements with our free unit converter. Get instant conversion results in your browser.",
-  "meme-maker": "Create custom memes with text captions and images using our free online meme maker. Export funny memes instantly with no sign up required.",
-  "favicon-generator": "Generate ICO, PNG, and SVG favicons for websites with our free favicon generator tool. Download web app icons instantly — 100% client side.",
-  "og-image-generator": "Create custom Open Graph social cards for blogs and websites with our free OG image generator. Download 1200x630 banners instantly online.",
-  "social-media-resizer": "Resize images for Instagram, Twitter, YouTube, and LinkedIn with our free social media resizer. Crop optimal dimensions instantly online.",
-  "fake-data-generator": "Generate fake test names, emails, addresses, and phone numbers with our free fake data generator. Export JSON and CSV instantly for dev work.",
-  "photo-collage-maker": "Create custom photo collages with layouts and grid frames using our free collage maker tool. Export high resolution image collages online.",
-  "age-calculator-in-months": "Calculate your exact age in total months, weeks, and days with our free age in months calculator. Get instant age breakdowns — no signup required.",
-  "dog-age-calculator": "Convert dog years to human years accurately based on breed size with our free dog age calculator. Calculate your pet's real age instantly online.",
-  "pregnancy-due-date-calculator": "Calculate your estimated baby due date and pregnancy milestones with our free pregnancy due date calculator. Get instant timeline results online.",
-  "retirement-calculator": "Calculate your retirement corpus requirements and monthly savings target with our free retirement calculator. Plan your future wealth now.",
-  "zodiac-age-calculator": "Discover your astrological zodiac sign, birth element, and exact age with our free zodiac age calculator. Get instant birth chart insights online.",
-  "school-age-eligibility-calculator": "Check if your child meets kindergarten and grade school entry age cutoffs with our free school age calculator. Get instant eligibility results.",
-  "median-calculator": "Calculate the statistical median value of any dataset instantly with our free median calculator. Get step-by-step math analysis online now.",
-  "mean-calculator": "Calculate the arithmetic average and mean of numbers with our free mean calculator. Get instant statistical calculations — no signup required.",
-  "mod-calculator": "Compute modulo remainder operations (A mod B) instantly with our free mod calculator. Solves integer division remainders for math and programming.",
-  "zodiac-sun-moon-calculator": "Calculate your Sun sign, Moon sign, and Rising astrological positions with our free zodiac sun moon calculator. Get instant cosmic details online.",
-  "death-calculator": "Estimate your average life expectancy based on lifestyle habits with our free longevity calculator. Get personalized health insights online now.",
-  "loan-calculator": "Calculate total interest and monthly repayments for any loan with our free loan calculator. Analyze principal vs interest breakdowns online.",
-  "education-loan-emi-calculator": "Calculate education loan EMIs, moratorium interest, and tax savings under Sec 80E with our free student loan calculator. Plan college loans.",
-  "personal-loan-emi-calculator": "Calculate personal loan EMIs, processing fees, and total borrowing costs with our free personal loan calculator. Plan instant repayments online.",
-  "bike-loan-emi-calculator": "Calculate two-wheeler loan EMIs, down payments, and on-road prices with our free bike loan EMI calculator. Plan vehicle purchases now.",
-  "car-loan-emi-calculator": "Calculate auto loan EMIs, down payments, and trade-in adjustments with our free car loan EMI calculator. Plan your vehicle finance online.",
-  "home-loan-emi-calculator": "Calculate home loan EMIs, tax benefits, and total interest with our free home loan calculator. Analyze housing finance options online now.",
-  "mortgage-calculator": "Calculate monthly mortgage PITI payments, property tax, PMI, and HOA fees with our free mortgage calculator. Plan home purchases now.",
-  "interest-calculator": "Compare simple vs compound interest growth over time with our free interest calculator. Calculate total returns and earnings online now.",
-  "fd-calculator": "Calculate bank fixed deposit maturity values and quarterly interest returns with our free FD calculator. Plan your savings returns online now.",
-  "rd-calculator": "Calculate recurring deposit maturity amounts and accrued interest with our free RD calculator. Plan monthly savings installments online now.",
-  "compound-interest-calculator": "Calculate compound interest growth with regular monthly contributions using our free compound interest calculator. Forecast your wealth online.",
-  "simple-interest-calculator": "Calculate simple interest (I = P x R x T) and total return with our free simple interest calculator. Get instant interest results online now.",
-  "ppf-calculator": "Calculate Public Provident Fund maturity value, 15-year interest, and tax savings with our free PPF calculator. Plan long term wealth now.",
-  "gold-loan-emi-calculator": "Calculate monthly gold loan EMIs and total interest charges with our free gold loan EMI calculator online. Plan repayments now with no signup.",
-  "business-loan-emi-calculator": "Calculate commercial business loan EMIs and working capital interest costs with our free business loan EMI calculator. Plan borrowing online.",
-  "swp-calculator": "Project regular monthly SWP payouts and remaining mutual fund corpus with our free SWP calculator. Plan systematic withdrawals online now.",
-  "epf-calculator": "Calculate Employee Provident Fund maturity wealth and accumulated interest with our free EPF calculator. Forecast your retirement fund online.",
-  "nps-calculator": "Calculate National Pension System retirement wealth, lump sum payouts, and monthly annuity returns with our free NPS calculator online now.",
-  "gratuity-calculator": "Calculate tax-exempt gratuity benefit payouts under Gratuity Act 1972 with our free gratuity calculator online. Plan your tenure benefits.",
-  "hra-calculator": "Calculate tax-exempt House Rent Allowance under Sec 10(13A) with our free HRA calculator. Optimize your salary tax deductions online now.",
-  "income-tax-calculator": "Estimate annual income tax liability, tax slabs, and net take-home salary with our free income tax calculator online. Plan tax savings now.",
-  "gst-calculator": "Calculate inclusive and exclusive GST tax amounts with CGST and SGST breakdowns using our free online GST calculator. Calculate now.",
-  "credit-card-emi-calculator": "Calculate credit card purchase EMI conversion costs, interest charges, and processing fees with our free credit card EMI calculator online.",
-  "net-worth-calculator": "Calculate total personal net worth by balancing total assets against liabilities with our free net worth calculator online. Calculate now.",
-  "emergency-fund-calculator": "Calculate 3 to 12 months of essential living expenses safety net needed for financial security with our free emergency fund calculator.",
-  "roi-calculator": "Calculate percentage Return on Investment (ROI) and net profit on capital with our free online ROI calculator. Measure investment returns.",
-  "cagr-calculator": "Calculate compound annual growth rate (CAGR) for multi-year investments and portfolios with our free online CAGR calculator. Plan returns.",
-  "irr-calculator": "Calculate annual Internal Rate of Return (IRR) for multi-year cash flow streams with our free online IRR calculator. Analyze projects now.",
-  "break-even-calculator": "Calculate business break-even sales volume units and required revenue with our free break-even analysis calculator online. Plan now.",
-  "profit-margin-calculator": "Calculate gross profit margin percentage and markup on cost for product sales with our free profit margin calculator online. Try it now.",
-  "discount-calculator": "Calculate final discounted sale price and total money saved from percentage discounts with our free online discount calculator. Save now.",
-  "commission-calculator": "Calculate sales rep commission payouts and net seller proceeds from sales revenue with our free commission calculator online. Try it now.",
-  "currency-converter": "Convert USD, EUR, GBP, INR, AUD, CAD, JPY, and AED exchange rates instantly with our free online currency converter. Try live rates now.",
-  "mutual-fund-return-calculator": "Calculate lump sum and SIP mutual fund wealth growth and expected returns over time with our free mutual fund return calculator online.",
-  "dividend-calculator": "Calculate passive annual dividend payouts, monthly income, and dividend yield with our free online dividend calculator. Plan passive income.",
-  "stock-average-calculator": "Calculate weighted average share price when buying additional stock shares with our free stock average calculator online. Try it now.",
-  "bmr-calculator": "Calculate baseline daily calories burned at rest using Mifflin-St Jeor formula with our free BMR calculator online. Plan TDEE maintenance.",
-  "body-fat-calculator": "Estimate body fat percentage, lean mass, and fat mass using US Navy formulas with our free body fat calculator online. Get stats now.",
-};
-
-export function getToolSeoTitle(tool: Tool): string {
-  if (TOOL_SEO_TITLES[tool.id]) {
-    return TOOL_SEO_TITLES[tool.id];
-  }
-  const categoryLabel = getCategoryName(tool.category).split(" ")[0];
-  const title = `${tool.title} - Free Online ${categoryLabel} Tool | Yuitility`;
-  return title.length <= 60 ? title : `${tool.title} - Free Online Tool | Yuitility`;
-}
-
-export function getToolSeoDescription(tool: Tool): string {
-  if (TOOL_SEO_DESCRIPTIONS[tool.id]) {
-    return TOOL_SEO_DESCRIPTIONS[tool.id];
-  }
-  const desc = `${tool.description} Use our free online ${tool.title.toLowerCase()} for instant results. 100% private in browser — no signup required.`;
-  if (desc.length >= 120 && desc.length <= 155) return desc;
-  return `Use our free online ${tool.title.toLowerCase()} to get instant, accurate results directly in your browser. 100% private with no signup required.`;
-}
+export { getToolFaqs, getToolHowItWorks, hasHandWrittenFaqs } from "@/src/lib/toolContent";

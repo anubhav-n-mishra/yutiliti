@@ -3,8 +3,11 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, CheckCircle2, Copy, Moon, ShieldCheck, Sun, ArrowRight, BookOpen } from "lucide-react";
-import { Tool, TOOLS } from "@/src/types";
-import { getToolFaqs, getToolHowItWorks, getToolSteps, toolPath } from "@/src/lib/site";
+import { Tool } from "@/src/types";
+import { getCategoryName, getToolFaqs, getToolHowItWorks, getToolSteps, toolPath } from "@/src/lib/site";
+import { getRelatedTools } from "@/src/lib/toolRegistry";
+import type { DeepContent } from "@/src/lib/toolDeepContent";
+import ToolDeepDive from "./ToolDeepDive";
 import { BLOG_POSTS } from "@/src/lib/blogs";
 import PwaInstallButton from "./PwaInstallButton";
 import HoverFooter from "@/src/components/ui/hover-footer";
@@ -92,6 +95,8 @@ import ShareToast from "./ShareToast";
 
 type ToolPageClientProps = {
   tool: Tool;
+  /** Formula, worked example, pitfalls. Present only for priority pages. */
+  deep?: DeepContent | null;
 };
 
 type ToolComponentProps = {
@@ -224,7 +229,7 @@ function GenericInteractiveTool({ tool, onCopy, onShare }: { tool: Tool; onCopy:
   );
 }
 
-function ToolRenderer({ tool, onCopy, onShare, onTriggerShareToast }: ToolPageClientProps & ToolComponentProps) {
+function ToolRenderer({ tool, onCopy, onShare, onTriggerShareToast }: { tool: Tool } & ToolComponentProps) {
   const props = { onCopy, onShare, onTriggerShareToast };
 
   switch (tool.id) {
@@ -311,17 +316,17 @@ function ToolRenderer({ tool, onCopy, onShare, onTriggerShareToast }: ToolPageCl
   }
 }
 
-export default function ToolPageClient({ tool }: ToolPageClientProps) {
+export default function ToolPageClient({ tool, deep }: ToolPageClientProps) {
   const [darkMode, setDarkMode] = useState(true);
   const [message, setMessage] = useState("");
   const [showShareToast, setShowShareToast] = useState(false);
   const faqs = useMemo(() => getToolFaqs(tool), [tool]);
   const steps = useMemo(() => getToolSteps(tool), [tool]);
   const howItWorks = useMemo(() => getToolHowItWorks(tool), [tool]);
-  const relatedTools = useMemo(
-    () => TOOLS.filter((candidate) => candidate.category === tool.category && candidate.id !== tool.id && !candidate.disabled).slice(0, 3),
-    [tool],
-  );
+  // Contextual, curated relations (see src/lib/toolRegistry.ts) rather than
+  // "first three siblings in the same category" — the anchor text and the
+  // destination both need to make sense to a reader mid-task.
+  const relatedTools = useMemo(() => getRelatedTools(tool, 4), [tool]);
 
   const linkedGuide = useMemo(
     () => BLOG_POSTS.find((p) => p.toolId === tool.id),
@@ -407,10 +412,10 @@ export default function ToolPageClient({ tool }: ToolPageClientProps) {
       </header>
 
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
-        <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
-          <Link href="/" className="inline-flex items-center gap-1 hover:text-blue-600 dark:hover:text-cyan-300"><ArrowLeft className="h-3.5 w-3.5" /> All tools</Link>
+        <nav aria-label="Breadcrumb" className="mb-6 flex flex-wrap items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
+          <Link href="/tools" className="inline-flex items-center gap-1 hover:text-blue-600 dark:hover:text-cyan-300"><ArrowLeft className="h-3.5 w-3.5" /> All tools</Link>
           <span aria-hidden="true">/</span>
-          <span className="capitalize">{tool.category}</span>
+          <Link href={`/category/${tool.category}`} className="hover:text-blue-600 dark:hover:text-cyan-300">{getCategoryName(tool.category)}</Link>
           <span aria-hidden="true">/</span>
           <span className="font-medium text-zinc-800 dark:text-zinc-100">{tool.title}</span>
         </nav>
@@ -424,7 +429,7 @@ export default function ToolPageClient({ tool }: ToolPageClientProps) {
         <div className="mb-8 flex flex-col gap-6 rounded-3xl border border-blue-100 bg-gradient-to-br from-blue-50 via-white to-cyan-50 p-6 dark:border-zinc-800 dark:from-zinc-900 dark:via-zinc-950 dark:to-cyan-950/30 sm:p-8">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div className="max-w-3xl">
-              <p className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-blue-600 dark:text-cyan-300">Free online {tool.category} tool</p>
+              <p className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-blue-600 dark:text-cyan-300">{getCategoryName(tool.category)}</p>
               <h1 className="text-3xl font-display font-extrabold tracking-tight text-zinc-950 dark:text-white mb-2">{tool.title}</h1>
               <p className="text-base leading-relaxed text-zinc-600 dark:text-zinc-300">{tool.longDescription}</p>
             </div>
@@ -477,6 +482,8 @@ export default function ToolPageClient({ tool }: ToolPageClientProps) {
           </aside>
         </section>
 
+        {deep && <ToolDeepDive tool={tool} deep={deep} />}
+
         <section className="mt-12">
           <div className="mb-6">
             <h2 className="font-display text-2xl font-bold tracking-tight text-zinc-950 dark:text-white">{tool.title} FAQ</h2>
@@ -493,10 +500,14 @@ export default function ToolPageClient({ tool }: ToolPageClientProps) {
         </section>
 
         {relatedTools.length > 0 && <section className="mt-12 border-t border-zinc-200 pt-10 dark:border-zinc-800">
-          <h2 className="font-display text-2xl font-bold tracking-tight text-zinc-950 dark:text-white">More {tool.category} tools</h2>
-          <div className="mt-5 grid gap-4 md:grid-cols-3">
-            {relatedTools.map((related) => <Link key={related.id} href={toolPath(related.id)} className="group rounded-2xl border border-zinc-200 bg-white p-5 transition hover:-translate-y-0.5 hover:border-blue-300 hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-cyan-500/60"><h3 className="font-display font-bold text-zinc-950 group-hover:text-blue-600 dark:text-white dark:group-hover:text-cyan-300">{related.title}</h3><p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">{related.description}</p><span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-blue-600 dark:text-cyan-300">Open tool <span aria-hidden="true">→</span></span></Link>)}
+          <h2 className="font-display text-2xl font-bold tracking-tight text-zinc-950 dark:text-white">What people usually need next</h2>
+          <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">Tools that pair with the {tool.title.toLowerCase()} in the same task.</p>
+          <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {relatedTools.map((related) => <Link key={related.id} href={toolPath(related.id)} className="group rounded-2xl border border-zinc-200 bg-white p-5 transition hover:-translate-y-0.5 hover:border-blue-300 hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-cyan-500/60"><h3 className="font-display font-bold text-zinc-950 group-hover:text-blue-600 dark:text-white dark:group-hover:text-cyan-300">{related.title}</h3><p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">{related.description}</p><span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-blue-600 dark:text-cyan-300">Open the {related.title.toLowerCase()} <span aria-hidden="true">→</span></span></Link>)}
           </div>
+          <p className="mt-6 text-sm text-zinc-500 dark:text-zinc-400">
+            See every tool in <Link href={`/category/${tool.category}`} className="font-semibold text-blue-600 hover:underline dark:text-cyan-300">{getCategoryName(tool.category)}</Link>, or browse <Link href="/tools" className="font-semibold text-blue-600 hover:underline dark:text-cyan-300">all Yuitility tools</Link>.
+          </p>
         </section>}
       </main>
 

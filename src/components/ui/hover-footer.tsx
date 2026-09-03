@@ -4,6 +4,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/src/lib/utils";
 import { Mail, ShieldCheck, ExternalLink } from "lucide-react";
+import { LIVE_TOOLS } from "@/src/lib/toolRegistry";
 
 export const TextHoverEffect = ({
   text,
@@ -145,20 +146,27 @@ export const FooterBackgroundGradient = () => {
 export default function HoverFooter() {
   const footerLinks = [
     {
-      title: "Popular Categories",
+      // Every live category is linked here. Health, Units & Conversion and
+      // Everyday Utilities were previously absent, which left their category
+      // pages orphaned - reachable only from the XML sitemap.
+      title: "Tool Categories",
       links: [
-        { label: "Calculators & Math", href: "/category/math" },
+        { label: "All tools", href: "/tools" },
         { label: "Finance & Wealth", href: "/category/finance" },
-        { label: "PDF Operations", href: "/category/pdf" },
+        { label: "Calculators & Maths", href: "/category/math" },
+        { label: "PDF Tools", href: "/category/pdf" },
         { label: "Image & Media", href: "/category/media" },
-        { label: "Developer Tools", href: "/category/developer" },
+        { label: "Developer & Text Tools", href: "/category/developer" },
+        { label: "Health & Lifestyle", href: "/category/health" },
+        { label: "Units & Conversion", href: "/category/conversion" },
+        { label: "Everyday Utilities", href: "/category/utility" },
       ],
     },
     {
       title: "Platform Info",
       links: [
         { label: "About Yuitility", href: "/about" },
-        { label: "Blogs", href: "/blog" },
+        { label: "Guides & articles", href: "/blog" },
         { label: "Privacy Policy", href: "/privacy" },
         { label: "Terms of Service", href: "/terms" },
         { label: "Cookie Policy", href: "/cookies" },
@@ -183,7 +191,7 @@ export default function HoverFooter() {
               <span className="text-white text-2xl font-bold font-display tracking-tight">Yuitility</span>
             </div>
             <p className="text-xs text-zinc-400 leading-relaxed">
-              100% In-Browser Privacy Utilities. 140+ free tools running with zero server data retention and 0ms latency.
+              {`100% in-browser utilities. ${LIVE_TOOLS.length} working tools, zero server data retention, no upload step.`}
             </p>
             <a
               href="https://amvelt.com"

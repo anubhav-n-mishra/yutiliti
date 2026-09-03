@@ -1,26 +1,24 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ToolPageClient from "@/src/components/ToolPageClient";
-import { TOOLS } from "@/src/types";
-import { absoluteUrl, getToolFaqs, getToolKeywords, getToolSeoDescription, getToolSeoTitle, getToolSteps, SITE_NAME, SITE_URL, toolPath } from "@/src/lib/site";
+import PlannedToolNotice from "@/src/components/PlannedToolNotice";
+import {
+  absoluteUrl,
+  getCategoryName,
+  getToolFaqs,
+  getToolSeoDescription,
+  getToolSeoTitle,
+  hasHandWrittenFaqs,
+  SITE_NAME,
+  SITE_URL,
+  toolPath,
+} from "@/src/lib/site";
+import { getToolById, isToolLive, LIVE_TOOLS, UNIQUE_TOOLS } from "@/src/lib/toolRegistry";
+import { getToolDeepContent } from "@/src/lib/toolDeepContent";
 
 type ToolPageProps = {
   params: Promise<{ slug: string }>;
 };
-
-function getTool(slug: string) {
-  return TOOLS.find((tool) => tool.id === slug);
-}
-
-function getCategoryName(category: string) {
-  const categories: Record<string, string> = {
-    finance: "Finance & Wealth",
-    utility: "Utilities & Media",
-    developer: "Developer & Design Tools",
-    pdf: "PDF Tools",
-  };
-  return categories[category] || category;
-}
 
 function getGoogleApplicationCategory(category: string): string {
   const map: Record<string, string> = {
@@ -29,38 +27,20 @@ function getGoogleApplicationCategory(category: string): string {
     developer: "DeveloperApplication",
     media: "MultimediaApplication",
     utility: "UtilitiesApplication",
+    health: "HealthApplication",
+    math: "EducationalApplication",
+    conversion: "UtilitiesApplication",
   };
   return map[category] || "UtilitiesApplication";
 }
 
-function getStableHashValue(str: string, min: number, max: number): number {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  const range = max - min + 1;
-  return min + Math.abs(hash % range);
-}
-
-function getStableReviewBody(id: string, title: string): string {
-  const name = title.toLowerCase();
-  const bodies = [
-    `This ${name} is extremely fast and easy to use. I love that all files remain local.`,
-    `A highly reliable online ${name}. The client-side processing gives me peace of mind regarding privacy.`,
-    `Simple, fast, and does exactly what it says. No watermarks and no hidden fees.`,
-    `Great interface and zero lag. The best free browser based ${name} I have found so far.`
-  ];
-  const idx = getStableHashValue(id + "body", 0, bodies.length - 1);
-  return bodies[idx];
-}
-
 export function generateStaticParams() {
-  return TOOLS.map((tool) => ({ slug: tool.id }));
+  return UNIQUE_TOOLS.map((tool) => ({ slug: tool.id }));
 }
 
 export async function generateMetadata({ params }: ToolPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const tool = getTool(slug);
+  const tool = getToolById(slug);
 
   if (!tool) return {};
 
@@ -68,13 +48,30 @@ export async function generateMetadata({ params }: ToolPageProps): Promise<Metad
   const canonicalUrl = absoluteUrl(path);
   const title = getToolSeoTitle(tool);
   const description = getToolSeoDescription(tool);
+  const live = isToolLive(tool.id);
+
+  // Tools without a real implementation stay crawlable but out of the index.
+  // A page that promises a calculator and renders a placeholder should not
+  // compete for the query — see SEO_GROWTH_AUDIT.md, finding D.
+  const robots = live
+    ? {
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+          "max-image-preview": "large" as const,
+          "max-snippet": -1,
+          "max-video-preview": -1,
+        },
+      }
+    : { index: false, follow: true };
 
   const ogImage = `/brand/og-${tool.id}.png`;
 
   return {
     title,
     description,
-    keywords: getToolKeywords(tool),
     alternates: {
       canonical: path,
     },
@@ -88,16 +85,9 @@ export async function generateMetadata({ params }: ToolPageProps): Promise<Metad
       images: [
         {
           url: absoluteUrl(ogImage),
-          alt: `${tool.title} - ${SITE_NAME}`,
+          alt: `${tool.title} on ${SITE_NAME}`,
           width: 1200,
           height: 630,
-          type: "image/png",
-        },
-        {
-          url: absoluteUrl("/brand/yuitility-logo.png"),
-          alt: `${SITE_NAME} logo`,
-          width: 512,
-          height: 512,
           type: "image/png",
         },
       ],
@@ -110,107 +100,46 @@ export async function generateMetadata({ params }: ToolPageProps): Promise<Metad
       description,
       images: [absoluteUrl(ogImage)],
     },
-    robots: {
-      index: true,
-      follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-        "max-image-preview": "large",
-        "max-snippet": -1,
-        "max-video-preview": -1,
-      },
-    },
-    other: {
-      "tool-category": tool.category,
-      "tool-id": tool.id,
-    },
+    robots,
   };
 }
 
 export default async function ToolPage({ params }: ToolPageProps) {
   const { slug } = await params;
-  const tool = getTool(slug);
+  const tool = getToolById(slug);
 
   if (!tool) notFound();
 
-  const ratingVal = (getStableHashValue(tool.id + "rating", 45, 49) / 10).toFixed(1);
-  const reviewsCount = getStableHashValue(tool.id + "reviews", 84, 1850).toString();
-  const reviewerNames = [
-    "Alex Carter", "Jordan Smith", "Sarah Jenkins", "Michael Chang", "Elena Rostova",
-    "David K.", "Priya Sharma", "Liam O'Connor", "Sofia Rossi", "Aiden Vance"
-  ];
-  const reviewer = reviewerNames[getStableHashValue(tool.id + "reviewer", 0, reviewerNames.length - 1)];
-  const reviewText = getStableReviewBody(tool.id, tool.title);
+  const live = isToolLive(tool.id);
+
+  if (!live) {
+    // Honest placeholder instead of a generic multiplier widget pretending to
+    // be the advertised calculator. Noindexed above; still linked and useful.
+    const alternatives = LIVE_TOOLS.filter((t) => t.category === tool.category).slice(0, 6);
+    return <PlannedToolNotice tool={tool} alternatives={alternatives} />;
+  }
 
   const url = absoluteUrl(toolPath(tool.id));
   const canonicalUrl = url;
   const faqs = getToolFaqs(tool);
-  const steps = getToolSteps(tool);
   const categoryName = getCategoryName(tool.category);
   const ogImage = `/brand/og-${tool.id}.png`;
-
-  const howToSchema = {
-    "@context": "https://schema.org",
-    "@type": "HowTo",
-    name: `How to use ${tool.title}`,
-    description: tool.longDescription,
-    image: absoluteUrl(ogImage),
-    totalTime: "PT5M",
-    estimatedCost: {
-      "@type": "MonetaryAmount",
-      currency: "USD",
-      value: "0",
-    },
-    supply: [
-      {
-        "@type": "HowToSupply",
-        name: "Internet browser",
-      },
-      {
-        "@type": "HowToSupply",
-        name: "Data or files to process (if applicable)",
-      },
-    ],
-    tool: {
-      "@type": "SoftwareApplication",
-      name: tool.title,
-      applicationCategory: "WebApplication",
-      operatingSystem: "Web",
-      url: canonicalUrl,
-    },
-    step: steps.map((step, index) => ({
-      "@type": "HowToStep",
-      position: index + 1,
-      name: step.split(".")[0] || `Step ${index + 1}`,
-      text: step,
-      image: absoluteUrl(ogImage),
-    })),
-  };
+  const deep = getToolDeepContent(tool.id);
 
   const softwareApplicationSchema = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: `${tool.title} | ${SITE_NAME}`,
+    name: tool.title,
     url: canonicalUrl,
     description: tool.longDescription,
     applicationCategory: getGoogleApplicationCategory(tool.category),
-    applicationSubCategory: "WebApplication",
-    operatingSystem: "Web",
-    browserRequirements: "Requires JavaScript and modern browser",
-    permissions: "No permissions required - runs entirely in browser",
+    operatingSystem: "Web browser",
+    browserRequirements: "Requires JavaScript",
     isAccessibleForFree: true,
     offers: {
       "@type": "Offer",
       price: "0",
       priceCurrency: "USD",
-      availability: "https://schema.org/InStock",
-      validFrom: new Date().toISOString().split("T")[0],
-    },
-    author: {
-      "@type": "Organization",
-      name: SITE_NAME,
-      url: SITE_URL,
     },
     publisher: {
       "@type": "Organization",
@@ -218,59 +147,23 @@ export default async function ToolPage({ params }: ToolPageProps) {
       url: SITE_URL,
     },
     featureList: [
-      "100% client-side processing",
+      "Runs entirely in the browser",
       "No account required",
-      "No data uploaded to servers",
-      "Works offline after first load",
-      "Free forever",
+      "No file or data upload",
     ],
     screenshot: absoluteUrl(ogImage),
-    releaseNotes: `Latest version of ${tool.title} with improved performance and privacy.`,
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: ratingVal,
-      reviewCount: reviewsCount,
-      bestRating: "5",
-      worstRating: "1",
-    },
-    review: {
-      "@type": "Review",
-      author: {
-        "@type": "Person",
-        name: reviewer,
-      },
-      datePublished: new Date().toISOString().split("T")[0],
-      reviewBody: reviewText,
-      reviewRating: {
-        "@type": "Rating",
-        ratingValue: ratingVal,
-        bestRating: "5",
-        worstRating: "1",
-      },
-    },
-  };
-
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqs.map((faq) => ({
-      "@type": "Question",
-      name: faq.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: faq.answer,
-      },
-    })),
+    // NOTE: no aggregateRating and no review. Yuitility does not collect user
+    // ratings, so publishing them would be fabricated structured data.
+    // See SEO_STANDARDS.md, "Structured data".
   };
 
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: SITE_NAME, item: SITE_URL },
-      { "@type": "ListItem", position: 2, name: "Free Online Tools", item: absoluteUrl("/") },
-      { "@type": "ListItem", position: 3, name: categoryName, item: absoluteUrl(`/?category=${tool.category}`) },
-      { "@type": "ListItem", position: 4, name: tool.title, item: canonicalUrl },
+      { "@type": "ListItem", position: 1, name: "All tools", item: absoluteUrl("/tools") },
+      { "@type": "ListItem", position: 2, name: categoryName, item: absoluteUrl(`/category/${tool.category}`) },
+      { "@type": "ListItem", position: 3, name: tool.title, item: canonicalUrl },
     ],
   };
 
@@ -278,64 +171,47 @@ export default async function ToolPage({ params }: ToolPageProps) {
     "@context": "https://schema.org",
     "@type": "WebPage",
     "@id": canonicalUrl,
-    name: `${tool.title} - Free Online Tool`,
-    description: tool.longDescription,
+    name: tool.title,
+    description: getToolSeoDescription(tool),
     url: canonicalUrl,
     isPartOf: {
       "@type": "WebSite",
       name: SITE_NAME,
       url: SITE_URL,
     },
-    about: {
-      "@type": "Thing",
-      name: tool.title,
-      description: tool.longDescription,
-    },
-    mainEntity: {
-      "@type": "SoftwareApplication",
-      name: tool.title,
-      url: canonicalUrl,
-    },
-    potentialAction: {
-      "@type": "UseAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: canonicalUrl,
-        actionPlatform: [
-          "http://schema.org/DesktopWebPlatform",
-          "http://schema.org/MobileWebPlatform",
-        ],
-      },
-      name: `Use ${tool.title}`,
-    },
-    datePublished: "2024-01-01",
-    dateModified: new Date().toISOString().split("T")[0],
-    publisher: {
-      "@type": "Organization",
-      name: SITE_NAME,
-      url: SITE_URL,
-      logo: {
-        "@type": "ImageObject",
-        url: absoluteUrl("/brand/yuitility-logo.png"),
-      },
+    primaryImageOfPage: {
+      "@type": "ImageObject",
+      url: absoluteUrl(ogImage),
     },
   };
+
+  // FAQPage only where the answers were written for this specific tool.
+  const faqSchema = hasHandWrittenFaqs(tool)
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: faqs.map((faq) => ({
+          "@type": "Question",
+          name: faq.question,
+          acceptedAnswer: { "@type": "Answer", text: faq.answer },
+        })),
+      }
+    : null;
 
   const allSchemas = {
     "@context": "https://schema.org",
     "@graph": [
       webPageSchema,
       softwareApplicationSchema,
-      howToSchema,
-      faqSchema,
       breadcrumbSchema,
+      ...(faqSchema ? [faqSchema] : []),
     ],
   };
 
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(allSchemas) }} />
-      <ToolPageClient tool={tool} />
+      <ToolPageClient tool={tool} deep={deep} />
     </>
   );
 }

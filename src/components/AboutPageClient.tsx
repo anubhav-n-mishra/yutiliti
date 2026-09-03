@@ -16,6 +16,7 @@ import {
 import DottedSurfaceHero from "@/src/components/DottedSurfaceHero";
 import HoverFooter from "@/src/components/ui/hover-footer";
 import Header from "@/src/components/Header";
+import { LIVE_TOOLS } from "@/src/lib/toolRegistry";
 
 function ScrollReveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -329,7 +330,7 @@ export default function AboutPageClient() {
                         <div className="w-full h-2.5 bg-zinc-50 dark:bg-zinc-900 border border-zinc-150/40 dark:border-zinc-800 rounded-full overflow-hidden">
                           <div className="w-[100%] h-full bg-cyan-500 rounded-full"></div>
                         </div>
-                        <div className="text-[9px] text-zinc-500 leading-none">Offline operations supported for all 140+ tools.</div>
+                        <div className="text-[9px] text-zinc-500 leading-none">{`Offline operations supported for all ${LIVE_TOOLS.length} tools.`}</div>
                       </div>
                     </div>
                   )}
@@ -382,7 +383,7 @@ export default function AboutPageClient() {
                 >
                   <h3 className="text-lg font-bold text-zinc-900 dark:text-white">3. Offline Web Application caching</h3>
                   <p className="text-xs sm:text-sm text-zinc-550 dark:text-zinc-455 leading-relaxed">
-                    Yuitility is cacheable as a Progressive Web App (PWA). All assets and engine bundles are saved on your local device. Once loaded, you can disconnect your internet completely and run all 140+ tools offline.
+                    Yuitility is cacheable as a Progressive Web App (PWA). All assets and engine bundles are saved on your local device. Once loaded, you can disconnect your internet completely and run all {LIVE_TOOLS.length} tools offline.
                   </p>
                 </div>
               </ScrollReveal>
@@ -435,7 +436,7 @@ export default function AboutPageClient() {
               },
               {
                 q: "Is Yuitility completely free to use?",
-                a: "Yes. All 140+ tools are free with no registrations, limits, or paywalls."
+                a: `Yes. All ${LIVE_TOOLS.length} tools are free with no registrations, limits, or paywalls.`
               }
             ].map((faq, index) => {
               const isOpen = activeFaq === index;

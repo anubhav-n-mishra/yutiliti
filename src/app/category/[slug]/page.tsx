@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { Calculator, FileText, Image as ImageIcon, Code, Palette, ShieldCheck, Zap, Lock, Box, LayoutGrid } from "lucide-react";
-import { TOOLS, CATEGORIES } from "@/src/types";
-import { absoluteUrl, SITE_NAME, SITE_URL, toolPath } from "@/src/lib/site";
+import { Activity, Calculator, FileText, Image as ImageIcon, Code, Palette, Repeat, ShieldCheck, Zap, Box, LayoutGrid } from "lucide-react";
+import { CATEGORIES } from "@/src/types";
+import { getToolById, isToolLive, liveToolsInCategory } from "@/src/lib/toolRegistry";
+import { absoluteUrl, CATEGORY_META, SITE_NAME, SITE_URL, toolPath } from "@/src/lib/site";
 
 type CategoryPageProps = {
   params: Promise<{ slug: string }>;
@@ -15,26 +16,13 @@ const categoryIcons: Record<string, React.ComponentType<{ className?: string }>>
   developer: Code,
   pdf: FileText,
   media: ImageIcon,
-};
-
-const categoryTitles: Record<string, string> = {
-  finance: "Finance Tools - Free Online Finance Suite | Yuitility",
-  utility: "Utility Tools - Free Online Utility Suite | Yuitility",
-  developer: "Developer Tools - Free Online Dev Suite | Yuitility",
-  pdf: "PDF Tools - Free Online PDF Utility Suite | Yuitility",
-  media: "Media Tools - Free Online Media Suite | Yuitility",
-};
-
-const categoryDescriptions: Record<string, string> = {
-  finance: "Explore free financial calculators for loans, investments, and wealth planning. Calculate returns instantly in browser with total privacy - no signup required.",
-  utility: "Use free online browser utilities for daily file conversion, text analysis, and calculations. Get instant results with 100% privacy and zero server uploads.",
-  developer: "Access free developer and designer tools for JSON formatting, color palettes, and code generation. Debug and format code instantly online with total privacy.",
-  pdf: "Merge, split, compress, and edit PDF documents online for free with our PDF toolkit. Process files 100% in your browser with zero data uploads required.",
-  media: "Compress, resize, convert, and edit images online for free with our media tools suite. Optimize photos instantly in your browser with zero server uploads.",
+  math: Calculator,
+  health: Activity,
+  conversion: Repeat,
 };
 
 function getCategoryTools(category: string) {
-  return TOOLS.filter((tool) => tool.category === category && !tool.disabled);
+  return liveToolsInCategory(category);
 }
 
 export function generateStaticParams() {
@@ -47,22 +35,21 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
   if (!category) return {};
 
   const tools = getCategoryTools(slug);
-  const title = categoryTitles[slug] || `${category.label} Tools – Free Online Tools | ${SITE_NAME}`;
-  const description = categoryDescriptions[slug] || `Free ${category.label.toLowerCase()} tools that run entirely in your browser. No signup, no data upload, complete privacy.`;
+  const meta = CATEGORY_META[slug];
+  const title = meta?.title ?? `${category.label} | ${SITE_NAME}`;
+  const description =
+    meta?.description ??
+    `${category.label} tools that run entirely in your browser. Nothing you open or type is uploaded.`;
 
   return {
     title,
     description,
-    keywords: [
-      `free ${category.label.toLowerCase()} tools`,
-      `online ${category.label.toLowerCase()}`,
-      `browser ${category.label.toLowerCase()}`,
-      `private ${category.label.toLowerCase()}`,
-      ...tools.flatMap((t) => [t.title.toLowerCase(), `${t.title.toLowerCase()} online`]),
-    ],
     alternates: {
       canonical: `/category/${slug}`,
     },
+    // A category with no live tools would be an empty listing page. Keep it
+    // reachable but out of the index until it has something to list.
+    robots: tools.length > 0 ? { index: true, follow: true } : { index: false, follow: true },
     openGraph: {
       type: "website",
       url: absoluteUrl(`/category/${slug}`),
@@ -77,15 +64,14 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
       description,
       images: [absoluteUrl("/brand/yuitility-logo.png")],
     },
-    robots: { index: true, follow: true },
   };
 }
 
 const categorySchema = (slug: string, tools: ReturnType<typeof getCategoryTools>) => ({
   "@context": "https://schema.org",
   "@type": "CollectionPage",
-  name: `${CATEGORIES.find((c) => c.id === slug)?.label} Tools`,
-  description: categoryDescriptions[slug],
+  name: CATEGORY_META[slug]?.name ?? slug,
+  description: CATEGORY_META[slug]?.description,
   url: absoluteUrl(`/category/${slug}`),
   isPartOf: {
     "@type": "WebSite",
@@ -111,9 +97,8 @@ const categorySchema = (slug: string, tools: ReturnType<typeof getCategoryTools>
   breadcrumb: {
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: SITE_NAME, item: SITE_URL },
-      { "@type": "ListItem", position: 2, name: "Free Online Tools", item: absoluteUrl("/") },
-      { "@type": "ListItem", position: 3, name: CATEGORIES.find((c) => c.id === slug)?.label, item: absoluteUrl(`/category/${slug}`) },
+      { "@type": "ListItem", position: 1, name: "All tools", item: absoluteUrl("/tools") },
+      { "@type": "ListItem", position: 2, name: CATEGORY_META[slug]?.name ?? slug, item: absoluteUrl(`/category/${slug}`) },
     ],
   },
 });
@@ -126,6 +111,23 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
   const tools = getCategoryTools(slug);
   const Icon = categoryIcons[slug] || Box;
+  const meta = CATEGORY_META[slug];
+  const siblings = CATEGORIES.filter(
+    (c) => c.id !== "all" && c.id !== slug && liveToolsInCategory(c.id).length > 0,
+  );
+
+  // Large categories are rendered as named sub-clusters rather than one long
+  // grid, so the page reads as a topic rather than an inventory.
+  const rawGroups = meta?.groups
+    ?.map((g) => ({
+      ...g,
+      tools: g.toolIds.filter(isToolLive).map(getToolById).filter((t): t is NonNullable<typeof t> => Boolean(t)),
+    }))
+    .filter((g) => g.tools.length > 0);
+  const groups = rawGroups && rawGroups.length > 0 ? rawGroups : null;
+  const groupedIds = new Set(groups?.flatMap((g) => g.tools.map((t) => t.id)) ?? []);
+  // Anything not named in a group still gets listed - nothing is dropped.
+  const ungrouped = tools.filter((t) => !groupedIds.has(t.id));
 
   return (
     <>
@@ -146,12 +148,12 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
         <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
           <div className="mb-12">
             <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
-              <Link href="/" className="inline-flex items-center gap-1 hover:text-blue-600 dark:hover:text-cyan-300">
+              <Link href="/tools" className="inline-flex items-center gap-1 hover:text-blue-600 dark:hover:text-cyan-300">
                 <LayoutGrid className="h-3.5 w-3.5" />
                 All tools
               </Link>
               <span aria-hidden="true">/</span>
-              <span className="font-medium text-zinc-900 dark:text-zinc-100">{category.label}</span>
+              <span className="font-medium text-zinc-900 dark:text-zinc-100">{meta?.name ?? category.label}</span>
             </nav>
 
             <div className="flex items-center gap-4">
@@ -160,21 +162,67 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
               </div>
               <div>
                 <h1 className="font-display text-3xl font-bold tracking-tight text-zinc-950 dark:text-white sm:text-4xl">
-                  {category.label}
+                  {meta?.name ?? category.label}
                 </h1>
                 <p className="mt-2 text-lg leading-relaxed text-zinc-600 dark:text-zinc-300 max-w-2xl">
-                  {categoryDescriptions[slug]}
+                  {meta?.description}
                 </p>
               </div>
             </div>
           </div>
 
-          <section aria-labelledby="tools-heading">
-            <h2 id="tools-heading" className="sr-only">
-              {category.label} Tools
+          {meta?.intro && (
+            <p className="-mt-6 mb-10 max-w-3xl text-base leading-relaxed text-zinc-600 dark:text-zinc-300">
+              {meta.intro}
+            </p>
+          )}
+
+          {groups && (
+            <div className="space-y-14">
+              {groups.map((group) => (
+                <section key={group.name} aria-labelledby={`group-${group.name}`}>
+                  <div className="max-w-3xl">
+                    <h2
+                      id={`group-${group.name}`}
+                      className="font-display text-2xl font-bold tracking-tight text-zinc-950 dark:text-white"
+                    >
+                      {group.name}
+                    </h2>
+                    <p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
+                      {group.blurb}
+                    </p>
+                  </div>
+                  <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    {group.tools.map((tool) => (
+                      <Link
+                        key={tool.id}
+                        href={toolPath(tool.id)}
+                        className="group relative flex flex-col rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:border-blue-300 hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-cyan-500/60"
+                      >
+                        <h3 className="font-display font-bold text-zinc-950 group-hover:text-blue-600 dark:text-white dark:group-hover:text-cyan-300 transition-colors">
+                          {tool.title}
+                        </h3>
+                        <p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
+                          {tool.description}
+                        </p>
+                        <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-blue-600 dark:text-cyan-300">
+                          Open the {tool.title.toLowerCase()} <span aria-hidden="true">&rarr;</span>
+                        </span>
+                      </Link>
+                    ))}
+                  </div>
+                </section>
+              ))}
+            </div>
+          )}
+
+          {(!groups || ungrouped.length > 0) && (
+          <section aria-labelledby="tools-heading" className={groups ? "mt-14" : undefined}>
+            <h2 id="tools-heading" className={groups ? "font-display text-2xl font-bold tracking-tight text-zinc-950 dark:text-white mb-6" : "sr-only"}>
+              {groups ? "Everything else in this category" : `${meta?.name ?? category.label} tools`}
             </h2>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {tools.map((tool) => (
+              {(groups ? ungrouped : tools).map((tool) => (
                 <Link
                   key={tool.id}
                   href={toolPath(tool.id)}
@@ -207,6 +255,34 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                 </Link>
               ))}
             </div>
+          </section>
+          )}
+
+          <section className="mt-16 border-t border-zinc-200 pt-10 dark:border-zinc-800">
+            <h2 className="font-display text-2xl font-bold tracking-tight text-zinc-950 dark:text-white">
+              Other tool categories
+            </h2>
+            <div className="mt-5 flex flex-wrap gap-3">
+              {siblings.map((sib) => (
+                <Link
+                  key={sib.id}
+                  href={`/category/${sib.id}`}
+                  className="rounded-xl border border-zinc-200 bg-white px-4 py-2.5 text-sm font-semibold text-zinc-700 transition hover:border-blue-300 hover:text-blue-600 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:border-cyan-500/60 dark:hover:text-cyan-300"
+                >
+                  {CATEGORY_META[sib.id]?.name ?? sib.label}
+                  <span className="ml-1.5 text-xs font-normal text-zinc-400">
+                    {liveToolsInCategory(sib.id).length}
+                  </span>
+                </Link>
+              ))}
+            </div>
+            <p className="mt-5 text-sm text-zinc-500 dark:text-zinc-400">
+              Or see{" "}
+              <Link href="/tools" className="font-semibold text-blue-600 hover:underline dark:text-cyan-300">
+                every Yuitility tool on one page
+              </Link>
+              .
+            </p>
           </section>
 
           <section className="mt-16 rounded-3xl border border-zinc-200 bg-white p-8 dark:border-zinc-800 dark:bg-zinc-900">
