@@ -5,8 +5,8 @@ import { ArrowLeft, Clock, Calendar, User, Wrench, ArrowRight } from "lucide-rea
 import HoverFooter from "@/src/components/ui/hover-footer";
 import Header from "@/src/components/Header";
 import { BLOG_POSTS } from "@/src/lib/blogs";
-import { TOOLS } from "@/src/types";
-import { SITE_NAME, SITE_URL } from "@/src/lib/site";
+import { SITE_NAME, SITE_URL, absoluteUrl, toolPath } from "@/src/lib/site";
+import { getToolById, isToolLive } from "@/src/lib/toolRegistry";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -119,7 +119,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: `${post.title} - Yuitility Guide`,
     description: post.description,
-    keywords: post.keywords,
+    // No `keywords` meta tag - Google has ignored it since 2009 and it reads as
+    // a stuffing signal. post.keywords is retained in the data model because
+    // schema.org's `keywords` property on BlogPosting is legitimate.
     alternates: { canonical: `/blog/${post.slug}` },
     openGraph: {
       title: post.title,
@@ -153,7 +155,8 @@ export default async function BlogPostPage({ params }: PageProps) {
     notFound();
   }
 
-  const linkedTool = post.toolId ? TOOLS.find((t) => t.id === post.toolId) : null;
+  const linkedTool =
+    post.toolId && isToolLive(post.toolId) ? getToolById(post.toolId) ?? null : null;
 
   const relatedGuides = BLOG_POSTS
     .filter((p) => p.slug !== post.slug)
@@ -180,9 +183,13 @@ export default async function BlogPostPage({ params }: PageProps) {
             description: post.description,
             datePublished: post.date,
             dateModified: post.date,
+            // These bylines are team names ("Yuitility Finance Team"), so the
+            // author is an Organization. Claiming a Person that does not exist
+            // is fabricated authorship.
             author: {
-              "@type": "Person",
+              "@type": "Organization",
               name: post.author,
+              url: SITE_URL,
             },
             publisher: {
               "@type": "Organization",
@@ -195,6 +202,19 @@ export default async function BlogPostPage({ params }: PageProps) {
             url: `${SITE_URL}/blog/${post.slug}`,
             inLanguage: "en-US",
             keywords: post.keywords.join(", "),
+          }),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Guides", item: absoluteUrl("/blog") },
+              { "@type": "ListItem", position: 2, name: post.title, item: absoluteUrl(`/blog/${post.slug}`) },
+            ],
           }),
         }}
       />
@@ -302,7 +322,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 
         {/* Footer actions */}
         <div className="pt-12 border-t border-zinc-200/60 dark:border-zinc-800/60 text-center space-y-4 max-w-2xl mx-auto">
-          <p className="text-xs text-zinc-500 font-medium">Enjoyed this article? Share it with colleagues or try out our 140+ free browser tools.</p>
+          <p className="text-xs text-zinc-500 font-medium">Enjoyed this article? Share it with colleagues, or try the tools it describes.</p>
           <Link
             href="/"
             className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--accent-primary)] hover:bg-[var(--accent-hover)] text-white font-bold text-xs rounded-xl shadow-lg shadow-[var(--accent-glow)] transition-all"

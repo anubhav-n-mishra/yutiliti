@@ -66,7 +66,7 @@ Select your preferred currency, enter your annual CTC, customize your Basic Sala
     category: "PDF Tools",
     readTime: "6 min read",
     author: "Yuitility Security Team",
-    toolId: "pdf-merge",
+    toolId: "pdf-merger",
     keywords: ["private pdf merger", "pdf editor offline", "merge pdf without upload", "secure pdf tools online"],
     content: `
 When you use traditional web converters to merge, compress, or split PDF files, your documents travel across public internet servers and are stored on third-party cloud storage disks.

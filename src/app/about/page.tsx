@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import AboutPageClient from "@/src/components/AboutPageClient";
 
 export const metadata: Metadata = {
-  title: "About Yuitility - 100% In-Browser Private Utility Suite",
-  description: "Learn more about Yuitility. We provide 100+ free online utility tools that process all data locally in your browser with zero server uploads and complete privacy.",
+  title: "About Yuitility: Why Nothing You Open Gets Uploaded",
+  description: "Learn more about Yuitility. Why every Yuitility tool runs on your own device instead of our servers, what that means for your files, and how you can verify it yourself.",
   alternates: {
     canonical: "/about",
   },

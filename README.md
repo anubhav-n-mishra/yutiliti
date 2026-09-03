@@ -14,7 +14,13 @@ By operating 100 percent locally on the client side, yuitility ensures zero late
 
 ## Available Tools
 
-yuitility currently features a massive library of 27 tools categorized into distinct workflows:
+yuitility currently ships **79 working tools**, grouped into topical categories.
+A further 49 are declared in `src/types.ts` but are not yet implemented; those
+routes are served as an honest "not built yet" page and are `noindex`, so they
+never compete in search for something they cannot do. See `SEO_STANDARDS.md`
+before adding a tool.
+
+Browse everything at `/tools`. Below is a summary of the main workflows:
 
 ### Developer and Design Tools
 * **Password Generator**: Create cryptographically secure keys.
@@ -76,9 +82,28 @@ To run yuitility on your local machine, follow these steps:
    ```
 6. Open your browser and navigate to `http://localhost:3000`.
 
+## SEO and content standards
+
+This repository carries four SEO documents. Read `SEO_STANDARDS.md` before adding
+a page, a tool, or any structured data.
+
+| File | Purpose |
+| --- | --- |
+| `SEO_GROWTH_AUDIT.md` | Why the site ranked at position ~79, with evidence |
+| `SEO_CONTENT_ROADMAP.md` | Prioritised list of what to build and improve next |
+| `SEO_STANDARDS.md` | Rules for titles, links, schema, indexation, new pages |
+| `SEO_EXPERIMENTS.md` | Hypothesis-and-outcome log for every SEO change |
+
+`npm run seo:audit` enforces the mechanical rules and runs automatically as
+`prebuild`. Adding a tool id to `IMPLEMENTED_TOOL_IDS` without a matching
+component in `ToolPageClient` fails the build - that gate is deliberate.
+
 ## Contribution Guidelines
 
 Contributions are welcome. If you have an idea for a new client side tool or an improvement to an existing one, please fork the repository and submit a pull request. Ensure that all new tools strictly adhere to the client side only architecture rule. No server side application programming interfaces should be introduced.
+
+A new tool must be **built and verified before its page is allowed into the
+index**. Follow the required order in `SEO_STANDARDS.md` section 11.
 
 ## License
 

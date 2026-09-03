@@ -10,6 +10,7 @@ const ALL_ROUTES = [
   '/privacy',
   '/terms',
   '/cookies',
+  '/tools',
   '/category/finance',
   '/category/utility',
   '/category/developer',

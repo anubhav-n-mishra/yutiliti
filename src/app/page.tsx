@@ -82,7 +82,8 @@ import {
   Heart
 } from 'lucide-react';
 
-import { TOOLS, CATEGORIES, Tool } from '../types';
+import { CATEGORIES, Tool } from '../types';
+import { LIVE_TOOLS as TOOLS } from '@/src/lib/toolRegistry';
 import Header from '../components/Header';
 import CookieBanner from '../components/CookieBanner';
 import HoverFooter from '../components/ui/hover-footer';
@@ -242,15 +243,24 @@ export default function Home() {
     setIsContactOpen(true);
   };
 
-  const navigateTo = (toolId: string | null) => {
-    if (toolId) {
+  /**
+   * Records the tool in "recently used" and lets the anchor navigate.
+   *
+   * Previously this called window.location.assign from a div's onClick, which
+   * meant the homepage rendered zero crawlable links to any tool page. The
+   * cards are now real <Link> elements and this only handles the side effect.
+   */
+  const rememberVisit = (toolId: string) => {
+    try {
       const updated = [toolId, ...recentlyUsedToolIds.filter((id) => id !== toolId)].slice(0, 10);
       localStorage.setItem('recently_used_tools', JSON.stringify(updated));
+    } catch {
+      /* storage unavailable - navigation still works */
     }
-    window.location.assign(toolId ? `/tools/${toolId}` : '/');
   };
 
   const toggleStar = (toolId: string, e: React.MouseEvent) => {
+    e.preventDefault();
     e.stopPropagation();
     let updated;
     if (starredTools.includes(toolId)) {
@@ -529,48 +539,55 @@ export default function Home() {
                 const isStarred = starredTools.includes(t.id);
                 return (
                   <ScrollReveal key={t.id} delay={(idx % 3) * 60}>
-                    <div
-                      onClick={() => navigateTo(t.id)}
-                      className="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800/80 rounded-3xl p-6 hover:border-[var(--accent-primary)]/60 dark:hover:border-[var(--accent-primary)]/45 transition-all duration-300 ease-out cursor-pointer flex flex-col justify-between group relative overflow-hidden hover:-translate-y-1.5 hover:shadow-[0_16px_36px_-8px_var(--accent-glow)] dark:hover:shadow-[0_16px_40px_-10px_rgba(0,0,0,0.65)]"
-                    >
-                      <div className="space-y-4 relative z-10">
-                        <div className="flex items-center justify-between">
-                          <div className="p-3 bg-zinc-100 dark:bg-zinc-800 text-[var(--accent-primary)] rounded-2xl group-hover:bg-[var(--accent-light)] dark:group-hover:bg-[var(--accent-dark)]/40 transition-colors duration-300">
+                    {/* The card is a real anchor so the homepage passes link
+                        equity and anchor text to every tool page. The star
+                        control sits outside the anchor - interactive content
+                        must not be nested inside <a>. */}
+                    <div className="relative bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800/80 rounded-3xl hover:border-[var(--accent-primary)]/60 dark:hover:border-[var(--accent-primary)]/45 transition-all duration-300 ease-out group overflow-hidden hover:-translate-y-1.5 hover:shadow-[0_16px_36px_-8px_var(--accent-glow)] dark:hover:shadow-[0_16px_40px_-10px_rgba(0,0,0,0.65)]">
+                      <div className="absolute top-6 right-6 z-20 flex items-center gap-2">
+                        {t.popular && (
+                          <span className="px-2.5 py-1 bg-amber-50 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400 rounded-full text-[10px] font-bold border border-amber-200 dark:border-amber-900">
+                            Popular
+                          </span>
+                        )}
+                        <button
+                          type="button"
+                          onClick={(e) => toggleStar(t.id, e)}
+                          className={`p-1.5 rounded-full border transition-all duration-300 ${isStarred
+                            ? 'bg-amber-500/10 border-amber-500/40 text-amber-500'
+                            : 'bg-zinc-100/50 dark:bg-zinc-800/40 border-zinc-200/60 dark:border-zinc-800/80 text-zinc-400 hover:text-amber-550 hover:border-amber-500/30'
+                            }`}
+                          aria-label={isStarred ? `Remove ${t.title} from starred` : `Add ${t.title} to starred`}
+                        >
+                          <Star className={`w-3.5 h-3.5 ${isStarred ? 'fill-current' : ''}`} />
+                        </button>
+                      </div>
+
+                      <Link
+                        href={`/tools/${t.id}`}
+                        onClick={() => rememberVisit(t.id)}
+                        className="flex h-full flex-col justify-between p-6 cursor-pointer"
+                      >
+                        <div className="space-y-4 relative z-10">
+                          <div className="p-3 w-fit bg-zinc-100 dark:bg-zinc-800 text-[var(--accent-primary)] rounded-2xl group-hover:bg-[var(--accent-light)] dark:group-hover:bg-[var(--accent-dark)]/40 transition-colors duration-300">
                             <Icon className="w-6 h-6 group-hover:scale-110 transition-transform duration-300" />
                           </div>
-                          <div className="flex items-center gap-2">
-                            {t.popular && (
-                              <span className="px-2.5 py-1 bg-amber-50 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400 rounded-full text-[10px] font-bold border border-amber-200 dark:border-amber-900">
-                                Popular
-                              </span>
-                            )}
-                            <button
-                              onClick={(e) => toggleStar(t.id, e)}
-                              className={`p-1.5 rounded-full border transition-all duration-300 ${isStarred
-                                ? 'bg-amber-500/10 border-amber-500/40 text-amber-500'
-                                : 'bg-zinc-100/50 dark:bg-zinc-800/40 border-zinc-200/60 dark:border-zinc-800/80 text-zinc-400 hover:text-amber-550 hover:border-amber-500/30'
-                                }`}
-                              title={isStarred ? "Remove from starred" : "Add to starred"}
-                            >
-                              <Star className={`w-3.5 h-3.5 ${isStarred ? 'fill-current' : ''}`} />
-                            </button>
+
+                          <div>
+                            <h3 className="text-lg font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-[var(--accent-primary)] transition-colors">
+                              {t.title}
+                            </h3>
+                            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 line-clamp-2 leading-relaxed">
+                              {t.description}
+                            </p>
                           </div>
                         </div>
 
-                        <div>
-                          <h3 className="text-lg font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-[var(--accent-primary)] transition-colors">
-                            {t.title}
-                          </h3>
-                          <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 line-clamp-2 leading-relaxed">
-                            {t.description}
-                          </p>
+                        <div className="pt-6 mt-4 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between text-xs font-bold text-[var(--accent-primary)] relative z-10">
+                          <span>{t.cta}</span>
+                          <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                         </div>
-                      </div>
-
-                      <div className="pt-6 mt-4 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between text-xs font-bold text-[var(--accent-primary)] relative z-10">
-                        <span>{t.cta}</span>
-                        <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                      </div>
+                      </Link>
                     </div>
                   </ScrollReveal>
                 );
@@ -584,12 +601,12 @@ export default function Home() {
                 const Icon = IconMap[t.icon] || Calculator;
                 const isStarred = starredTools.includes(t.id);
                 return (
-                  <div
-                    key={t.id}
-                    onClick={() => navigateTo(t.id)}
-                    className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 hover:bg-zinc-50 dark:hover:bg-zinc-800/40 cursor-pointer group transition-all"
-                  >
-                    <div className="flex items-center gap-3.5 flex-1 min-w-0">
+                  <div key={t.id} className="relative flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 hover:bg-zinc-50 dark:hover:bg-zinc-800/40 group transition-all">
+                    <Link
+                      href={`/tools/${t.id}`}
+                      onClick={() => rememberVisit(t.id)}
+                      className="flex items-center gap-3.5 flex-1 min-w-0 cursor-pointer after:absolute after:inset-0 after:content-['']"
+                    >
                       <div className="p-2 bg-zinc-100 dark:bg-zinc-800 text-[var(--accent-primary)] rounded-xl group-hover:scale-105 transition-transform shrink-0">
                         <Icon className="w-5 h-5" />
                       </div>
@@ -601,15 +618,17 @@ export default function Home() {
                           {t.description}
                         </p>
                       </div>
-                    </div>
+                    </Link>
 
-                    <div className="flex items-center gap-4 mt-3 sm:mt-0 ml-10 sm:ml-0 self-end sm:self-auto">
+                    <div className="relative z-10 flex items-center gap-4 mt-3 sm:mt-0 ml-10 sm:ml-0 self-end sm:self-auto">
                       <span className="text-[10px] bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-bold px-2 py-1 rounded-md border border-zinc-200/40 dark:border-zinc-800/40 capitalize">
                         {t.category}
                       </span>
                       <button
+                        type="button"
                         onClick={(e) => toggleStar(t.id, e)}
                         className="p-1.5 hover:bg-amber-50 dark:hover:bg-amber-950/20 rounded-lg transition-colors border border-transparent hover:border-amber-200/50"
+                        aria-label={isStarred ? `Remove ${t.title} from starred` : `Add ${t.title} to starred`}
                       >
                         <Star className={`w-3.5 h-3.5 ${isStarred ? 'text-amber-500 fill-amber-500' : 'text-zinc-400'}`} />
                       </button>
@@ -631,20 +650,25 @@ export default function Home() {
                 return (
                   <div
                     key={t.id}
-                    onClick={() => navigateTo(t.id)}
-                    className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800/80 rounded-2xl p-4 hover:shadow-md hover:border-[var(--accent-primary)]/40 dark:hover:border-[var(--accent-primary)]/40 transition-all cursor-pointer flex items-center justify-between group gap-2"
+                    className="relative bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800/80 rounded-2xl p-4 hover:shadow-md hover:border-[var(--accent-primary)]/40 dark:hover:border-[var(--accent-primary)]/40 transition-all flex items-center justify-between group gap-2"
                   >
-                    <div className="flex items-center gap-2.5 min-w-0">
+                    <Link
+                      href={`/tools/${t.id}`}
+                      onClick={() => rememberVisit(t.id)}
+                      className="flex items-center gap-2.5 min-w-0 cursor-pointer after:absolute after:inset-0 after:content-['']"
+                    >
                       <div className="p-2 bg-zinc-100 dark:bg-zinc-800 text-[var(--accent-primary)] rounded-lg group-hover:scale-110 transition-transform shrink-0">
                         <Icon className="w-4 h-4" />
                       </div>
                       <h3 className="text-xs font-bold text-zinc-800 dark:text-zinc-200 group-hover:text-[var(--accent-primary)] transition-colors truncate">
                         {t.title}
                       </h3>
-                    </div>
+                    </Link>
                     <button
+                      type="button"
                       onClick={(e) => toggleStar(t.id, e)}
-                      className="p-1 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-md shrink-0 transition-colors"
+                      className="relative z-10 p-1 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-md shrink-0 transition-colors"
+                      aria-label={isStarred ? `Remove ${t.title} from starred` : `Add ${t.title} to starred`}
                     >
                       <Star className={`w-3 h-3 ${isStarred ? 'text-amber-500 fill-amber-500' : 'text-zinc-400'}`} />
                     </button>
@@ -717,7 +741,33 @@ export default function Home() {
               </button>
             </div>
           )}
-        </section>
+        
+          {/* Crawlable entry points.
+              The grid above is paginated client-side, so pages 2+ produce no
+              URLs a crawler can follow. These links (and /tools) are how the
+              full corpus stays reachable from the site's strongest page. */}
+          <nav aria-label="Browse all tools" className="border-t border-zinc-200 dark:border-zinc-800 pt-8 space-y-4">
+            <p className="text-sm text-zinc-600 dark:text-zinc-300">
+              Prefer one long list?{' '}
+              <Link href="/tools" className="font-bold text-[var(--accent-primary)] hover:underline">
+                See all {TOOLS.length} Yuitility tools on a single page
+              </Link>
+              .
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {CATEGORIES.filter((c) => c.id !== 'all').map((c) => (
+                <Link
+                  key={c.id}
+                  href={`/category/${c.id}`}
+                  className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-3.5 py-2 text-xs font-bold text-zinc-700 dark:text-zinc-300 hover:border-[var(--accent-primary)]/50 hover:text-[var(--accent-primary)] transition-colors"
+                >
+                  {c.label}
+                </Link>
+              ))}
+            </div>
+          </nav>
+
+</section>
       </main>
 
       {/* Interactive Hover Footer */}
