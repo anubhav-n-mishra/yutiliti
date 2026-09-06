@@ -401,41 +401,41 @@ const TOOL_SEO_TITLES: Record<string, string> = {
   "loan-calculator": "Loan Calculator: Interest vs Principal Breakdown",
   "home-loan-emi-calculator": "Home Loan EMI Calculator with Yearly Schedule",
   "mortgage-calculator": "Mortgage Calculator with Tax, Insurance and HOA",
-  "car-loan-emi-calculator": "Car Loan EMI Calculator with Down Payment",
-  "bike-loan-emi-calculator": "Bike Loan EMI Calculator (Two-Wheeler Finance)",
+  "car-loan-emi-calculator": "Car Loan EMI Calculator: Auto Loan Monthly Payment",
+  "bike-loan-emi-calculator": "Bike Loan EMI Calculator: Two-Wheeler Loan Payment",
   "personal-loan-emi-calculator": "Personal Loan EMI Calculator with Fees",
   "education-loan-emi-calculator": "Education Loan EMI Calculator with Moratorium",
-  "gold-loan-emi-calculator": "Gold Loan EMI and Interest Calculator",
-  "business-loan-emi-calculator": "Business Loan EMI and Total Cost Calculator",
+  "gold-loan-emi-calculator": "Gold Loan EMI Calculator: Interest Rates & Per Gram",
+  "business-loan-emi-calculator": "Business Loan EMI Calculator: Commercial Interest",
   "credit-card-emi-calculator": "Credit Card EMI Calculator with True Cost",
 
   // --- Investing -------------------------------------------------------
   "sip-calculator": "SIP Calculator: Invested vs Returns, Year by Year",
-  "mutual-fund-return-calculator": "Mutual Fund Return Calculator: SIP or Lump Sum",
-  "swp-calculator": "SWP Calculator: Payouts and Corpus Depletion",
+  "mutual-fund-return-calculator": "Mutual Fund Return Calculator: SIP & Lumpsum Returns",
+  "swp-calculator": "SWP Calculator: Systematic Withdrawal Plan Payouts",
   "cagr-calculator": "CAGR Calculator with Year-on-Year Comparison",
-  "irr-calculator": "IRR Calculator for Uneven Cash Flows",
+  "irr-calculator": "IRR Calculator: Internal Rate of Return Cash Flows",
   "roi-calculator": "ROI Calculator: Net Profit and Return Percent",
   "dividend-calculator": "Dividend Calculator: Yield and Monthly Income",
-  "stock-average-calculator": "Stock Average Calculator (Weighted Cost Basis)",
-  "compound-interest-calculator": "Compound Interest Calculator with Contributions",
+  "stock-average-calculator": "Stock Average Calculator: Average Down Share Price",
+  "compound-interest-calculator": "Compound Interest Calculator: Daily, Monthly, Yearly",
   "simple-interest-calculator": "Simple Interest Calculator (I = P x R x T)",
   "interest-calculator": "Interest Calculator: Simple vs Compound Compared",
 
   // --- Deposits & retirement -------------------------------------------
-  "fd-calculator": "FD Calculator with Quarterly Compounding",
+  "fd-calculator": "FD Calculator: Fixed Deposit Interest & Maturity",
   "rd-calculator": "RD Calculator: Month-by-Month Maturity Value",
   "ppf-calculator": "PPF Calculator: 15-Year Maturity Projection",
-  "epf-calculator": "EPF Calculator: Corpus at Retirement",
+  "epf-calculator": "EPF Calculator: PF Balance, Interest & Maturity",
   "nps-calculator": "NPS Calculator: Lump Sum and Annuity Split",
-  "retirement-calculator": "Retirement Calculator with Inflation Adjustment",
+  "retirement-calculator": "Retirement Calculator: 401(k), Corpus & Inflation",
   "gratuity-calculator": "Gratuity Calculator (Payment of Gratuity Act)",
 
   // --- Salary & tax ----------------------------------------------------
   "salary-calculator": "Salary Calculator: CTC to In-Hand Breakdown",
   "income-tax-calculator": "Income Tax Calculator with Slab-by-Slab Working",
-  "hra-calculator": "HRA Exemption Calculator (Section 10(13A))",
-  "gst-calculator": "GST Calculator: Inclusive, Exclusive, CGST/SGST",
+  "hra-calculator": "HRA Calculator: House Rent Allowance Tax Exemption",
+  "gst-calculator": "GST Calculator: Inclusive & Exclusive GST Rates",
 
   // --- Business --------------------------------------------------------
   "break-even-calculator": "Break-Even Calculator: Units and Revenue Needed",
@@ -448,7 +448,7 @@ const TOOL_SEO_TITLES: Record<string, string> = {
 
   // --- PDF -------------------------------------------------------------
   "pdf-merger": "Merge PDF Files Without Uploading Them",
-  "pdf-splitter": "Split a PDF or Extract Specific Pages",
+  "pdf-splitter": "PDF Splitter: Extract Specific Pages from PDF",
   "pdf-compressor": "Compress a PDF in Your Browser",
   "pdf-watermark": "Add a Watermark to a PDF Privately",
   "pdf-metadata": "Edit PDF Metadata: Title, Author, Keywords",
@@ -459,7 +459,7 @@ const TOOL_SEO_TITLES: Record<string, string> = {
 
   // --- Images ----------------------------------------------------------
   "image-compressor": "Compress Images Without Uploading Them",
-  "image-resizer": "Resize an Image by Pixels or Percentage",
+  "image-resizer": "Image Resizer: Resize Image Without Losing Quality",
   "format-converter": "Convert Images: WebP, PNG, JPEG, GIF",
   "background-remover": "Remove an Image Background in Your Browser",
   "social-media-resizer": "Social Media Image Sizes: Crop and Export",
@@ -473,8 +473,8 @@ const TOOL_SEO_TITLES: Record<string, string> = {
   "password-generator": "Password Generator with Entropy Measurement",
   "fake-data-generator": "Fake Data Generator: JSON, CSV and SQL",
   "qr-code-generator": "QR Code Generator: URL, WiFi, Text, Email",
-  "color-palette": "Color Palette Generator with WCAG Contrast",
-  "zip-extractor": "Open and Extract a ZIP File in Your Browser",
+  "color-palette": "Color Palette Generator: HEX Codes & WCAG Contrast",
+  "zip-extractor": "ZIP Extractor: Open & Extract ZIP Files Online",
   "word-counter": "Word Counter with Reading Time and Density",
 
   // --- Everyday / dates ------------------------------------------------
@@ -493,7 +493,7 @@ const TOOL_SEO_TITLES: Record<string, string> = {
   "bmi-calculator": "BMI Calculator with Category and Its Limits",
   "bmr-calculator": "BMR Calculator (Mifflin-St Jeor) and TDEE",
   "body-fat-calculator": "Body Fat Calculator (US Navy Method)",
-  "death-calculator": "Life Expectancy Estimator from Lifestyle Factors",
+  "death-calculator": "Death Calculator: Life Expectancy & Longevity Quiz",
 
   // --- Maths -----------------------------------------------------------
   "mean-calculator": "Mean Calculator with Step-by-Step Working",
@@ -518,7 +518,7 @@ const TOOL_SEO_TITLES: Record<string, string> = {
   "cgpa-calculator": "CGPA Calculator with Semester Credits & Target",
   "cgpa-to-percentage-calculator": "CGPA to Percentage Converter (CBSE & Engineering)",
   "gpa-calculator": "GPA Calculator: 4.0 College Grade Scale",
-  "date-difference-calculator": "Date Difference Calculator: Days, Weeks, Months",
+  "date-difference-calculator": "Date Difference Calculator: Days Between Two Dates",
   "mode-frequency-calculator": "Mode & Frequency Calculator with Sorted Table",
   "standard-deviation-calculator": "Standard Deviation Calculator (Sample & Pop)",
   "probability-calculator": "Probability Calculator: Single & Compound Events",
@@ -532,7 +532,7 @@ const TOOL_SEO_TITLES: Record<string, string> = {
 
   // --- Health additions ------------------------------------------------
   "lean-body-mass-calculator": "Lean Body Mass Calculator (Boer & James)",
-  "ideal-body-weight-calculator": "Ideal Body Weight Calculator: Devine & Hamwi",
+  "ideal-body-weight-calculator": "Ideal Body Weight Calculator: Devine & Hamwi (IBW)",
   "daily-calorie-calculator": "Daily Calorie Calculator for Deficit & Bulk",
   "water-intake-calculator": "Daily Water Intake Calculator by Weight",
   "macro-ratio-calculator": "Macronutrient Ratio Calculator: Carbs & Protein",
@@ -549,7 +549,7 @@ const TOOL_SEO_TITLES: Record<string, string> = {
 
   // --- Utility additions -----------------------------------------------
   "room-square-footage-calculator": "Room Square Footage & Material Cost Estimator",
-  "flooring-calculator": "Flooring Calculator: Boxes & Waste Included",
+  "flooring-calculator": "Flooring Calculator: Square Feet & Boxes Needed",
   "tile-count-calculator": "Tile Count Calculator for Floors and Walls",
   "paint-volume-calculator": "Paint Volume Calculator: Gallons and Liters",
   "brick-count-calculator": "Brick Count Calculator for Single & Double Walls",

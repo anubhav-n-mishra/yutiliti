@@ -248,66 +248,93 @@ Pasting confidential application payloads into random online tools can leak API 
   },
   {
     slug: "checking-wcag-color-contrast-accessibility",
-    title: "Checking Web Design Color Contrast for WCAG Accessibility",
-    description: "Learn how to test text-to-background contrast using official WCAG rules for web accessibility.",
+    title: "WCAG Color Contrast Checker: Test AA & AAA Ratios",
+    description: "Learn how to test and fix web color contrast ratios to meet WCAG 2.1 Level AA and AAA standards. Real formula calculations for accessible digital design.",
     date: "2026-07-31",
     category: "Developer & Text",
     readTime: "4 min read",
     author: "Yuitility Design Team",
     toolId: "color-palette",
-    keywords: ["wcag contrast checker", "color palette harmonies", "web accessibility test", "hex contrast tool"],
+    keywords: ["wcag contrast checker", "color contrast ratio tester", "web accessibility test", "hex contrast tool", "color contrast accessibility"],
     content: `
-Web accessibility ensures that everyone, including users with visual impairments, can read your website content. Color contrast is a critical factor.
+Web accessibility (a11y) ensures that digital interfaces are usable for all people, including the estimated 300 million individuals globally with color vision deficiencies or low visual acuity. Color contrast is one of the most heavily audited factors in automated WCAG compliance scans.
 
-### Understanding WCAG Standards
-The Web Content Accessibility Guidelines (WCAG) define two levels of contrast ratios:
-- **Level AA**: Requires a minimum contrast ratio of 4.5:1 for normal text and 3:1 for large text.
-- **Level AAA**: Requires an enhanced contrast ratio of 7:1 for normal text and 4.5:1 for large text.
+### Understanding WCAG 2.1 Contrast Standards
+The Web Content Accessibility Guidelines (WCAG) evaluate the contrast ratio between foreground text and its background color on a scale from 1:1 (zero contrast, e.g. white on white) to 21:1 (maximum contrast, e.g. black on white):
 
-### Testing Color Combinations
-Check your background color hex code against your foreground text color. A contrast calculator evaluates the mathematical difference in relative luminance to give you a pass or fail rating instantly.
+- **Level AA (Minimum Standard for Production Websites)**:
+  - Normal text (< 18pt or < 14pt bold): Requires a minimum ratio of **4.5:1**.
+  - Large text (≥ 18pt or ≥ 14pt bold): Requires a minimum ratio of **3.0:1**.
+  - UI components and graphical objects: Requires a minimum ratio of **3.0:1**.
+- **Level AAA (Enhanced Standard for High-Accessibility Portals)**:
+  - Normal text: Requires an enhanced ratio of **7.0:1**.
+  - Large text: Requires an enhanced ratio of **4.5:1**.
+
+### Mathematical Formula for Relative Luminance
+Contrast ratio is calculated using relative luminance ($L$), defined as the relative brightness of any point in a colorspace normalized to 0 for black and 1 for white:
+$$\\text{Contrast Ratio} = \\frac{L_1 + 0.05}{L_2 + 0.05}$$
+Where $L_1$ is the relative luminance of the lighter color and $L_2$ is the relative luminance of the darker color. The $0.05$ offset prevents division by zero and adjusts for ambient room lighting reflection.
+
+### How to Test and Remediate Low-Contrast Colors
+1. Input your foreground text hex code and background hex code into the Yuitility Color Palette & Contrast Evaluator.
+2. If your ratio falls below 4.5:1, darken the text color or lighten the background until the status badge switches from Fail to Pass AA.
+3. Test your designs under dark mode and light mode colorways independently.
 `,
   },
   {
     slug: "how-to-extract-specific-pdf-pages",
-    title: "How to Split and Extract Specific Pages From a PDF",
-    description: "Learn how to extract individual pages from large PDF documents without using slow cloud servers.",
+    title: "How to Extract Specific Pages From a PDF Online",
+    description: "Step-by-step guide to separating and extracting individual pages from large PDF documents online using secure client-side browser tools with zero file upload.",
     date: "2026-07-30",
     category: "PDF Tools",
-    readTime: "3 min read",
+    readTime: "4 min read",
     author: "Yuitility PDF Team",
     toolId: "pdf-splitter",
-    keywords: ["split pdf online", "extract pages from pdf", "pdf separator tool", "cut pdf document"],
+    keywords: ["extract pages from pdf", "split pdf online", "separate pdf pages", "pdf page extractor free", "cut pdf pages without software"],
     content: `
-Sometimes you have a large PDF report, but you only need to send a single page or section to a client. Splitting the document is the solution.
+Large multi-page PDF documents—such as quarterly earnings reports, legal agreements, academic dissertations, and mortgage closing packages—often contain only a few specific pages you actually need to share with a client, banker, or colleague. Extracting these pages into a standalone, clean PDF is essential for privacy and file size efficiency.
 
-### How PDF Page Extraction Works
-PDF files contain cross-reference tables that point to different page streams. An online splitter loads the PDF data structure, parses the selected pages (like 1 to 5, or 8), and compiles a new PDF with just those elements.
+### How Client-Side PDF Extraction Works
+Traditional cloud PDF splitters require uploading your complete file to a remote server, where a backend script processes the document and sends back a download link. This creates severe compliance risks when handling sensitive tax forms, bank statements, or confidential business contracts.
 
-### Preserving Quality and Text
-Do not take screenshots of pages to separate them, as this makes text unsearchable. A local PDF page extractor maintains vector layouts, formatting, fonts, and searchable text layers.
+Yuitility uses WebAssembly and native browser canvas parsing (` + "`pdf-lib`" + `):
+- **Cross-Reference Parsing**: Loads the document's internal byte stream and XRef table locally inside browser memory.
+- **Page Isolation**: Extracts the exact page objects, vector paths, embedded fonts, and raster images without re-encoding or degrading visual fidelity.
+- **Instant Assembly**: Compiles the selected pages into a new, compliant PDF document instantly on your device.
+
+### Flexible Page Range Syntax
+When using the Yuitility PDF Splitter, you can specify individual pages or continuous ranges:
+- **Individual Pages**: Type comma-separated page numbers (e.g., ` + "`1, 4, 7`" + `).
+- **Page Ranges**: Specify hyphenated intervals (e.g., ` + "`5-12`" + ` to extract pages 5 through 12).
+- **Mixed Selections**: Combine ranges and single pages (e.g., ` + "`1, 3-6, 10`" + `).
+
+### Text Searchability & OCR Integrity
+A common mistake is taking screenshots of PDF pages and converting them to images. This destroys the underlying text layer, rendering the document unsearchable and breaking screen readers. Client-side page extraction preserves all original searchable text, selectable tables, and hyperlinks intact.
 `,
   },
   {
     slug: "converting-images-to-pdf-locally",
-    title: "How to Convert and Combine Images Into a Single PDF",
-    description: "Step-by-step guide to packing JPG, PNG, and WebP images into a single PDF document in your browser.",
+    title: "How to Convert JPG & PNG Images to PDF Online Free",
+    description: "Step-by-step guide to converting and combining JPG, PNG, and WebP photos into a single PDF document directly in your browser with zero data uploads.",
     date: "2026-07-29",
     category: "PDF Tools",
-    readTime: "3 min read",
+    readTime: "4 min read",
     author: "Yuitility PDF Team",
     toolId: "image-to-pdf",
-    keywords: ["convert image to pdf", "jpg to pdf converter", "compile photos to pdf", "png to pdf local"],
+    keywords: ["convert image to pdf", "jpg to pdf online free", "png to pdf converter", "combine images to pdf", "image to pdf without upload"],
     content: `
-If you need to submit scanned documents, receipts, or photos as a single document, converting those images to a PDF is the standard requirement.
+Whether you are submitting scanned receipts for expense reimbursement, compiling KYC identity documents for a loan application, or packaging high-resolution design proofs for a client review, combining multiple images into a single standardized PDF document is universally required.
 
-### Arranging Layouts
-When compiling images into a PDF:
-- **Set Page Sizes**: Match the page dimensions to the image size or fit them to standard A4 layouts.
-- **Control Margin Spacing**: Adjust margins so images align nicely on the document canvas.
-- **Preserve Aspect Ratios**: Prevent your photos from stretching or distorting during the conversion.
+### Key Considerations for Image-to-PDF Conversion
+1. **Aspect Ratio Preservation**: Stretching or squishing images during PDF compilation ruins readability, especially on contracts, receipts, and identity cards. The Yuitility Image-to-PDF tool automatically computes optimal scaling to fit standard page dimensions while preserving the original aspect ratio.
+2. **Page Orientation (Portrait vs Landscape)**: If you upload horizontal photos alongside vertical scans, automated orientation detection rotates individual pages to match the image dimensions, eliminating awkward sideways document viewing.
+3. **Margins & Spacing**: Setting consistent margins (such as 10mm or 0.5 inches) ensures that your document prints cleanly without clipping text or barcodes near the physical paper edges.
 
-Processing this conversion locally using client-side scripts ensures your images are compiled in milliseconds without server delays.
+### Step-by-Step Conversion Guide
+1. Drag and drop your JPG, PNG, or WebP files into the Yuitility Image-to-PDF workspace.
+2. Reorder pages using intuitive drag handles to match your desired narrative sequence.
+3. Choose standard page format (A4, Letter, or Fit to Image).
+4. Click **Convert to PDF** to download your compiled document in milliseconds with 100% offline privacy.
 `,
   },
   {
@@ -334,22 +361,34 @@ Running this task locally keeps your tax returns or business contracts completel
   },
   {
     slug: "editing-pdf-metadata-for-privacy",
-    title: "How to Edit PDF Document Metadata to Protect Privacy",
-    description: "Learn how to view, change, or remove hidden metadata fields like author and subject from PDF documents.",
+    title: "How to Edit & Remove PDF Metadata to Protect Privacy",
+    description: "Learn how to inspect and scrub hidden PDF metadata including author names, software versions, creation dates, and GPS coordinates without server uploads.",
     date: "2026-07-26",
     category: "PDF Tools",
     readTime: "4 min read",
     author: "Yuitility Security Team",
     toolId: "pdf-metadata",
-    keywords: ["edit pdf metadata", "pdf author editor", "remove metadata from pdf", "private pdf properties"],
+    keywords: ["edit pdf metadata", "remove metadata from pdf", "pdf metadata editor online", "clean pdf properties", "scrub author from pdf"],
     content: `
-Every PDF document contains hidden metadata fields. These properties can store your name, computer software, creation date, and organization details.
+Every PDF document created by Microsoft Word, Google Docs, Adobe Acrobat, or scanning hardware contains an invisible "Info" dictionary and Extensible Metadata Platform (XMP) metadata layer. These hidden tags store detailed forensic data including your full operating system username, exact printer serial number, computer network path, creation timestamp, and GPS coordinates from embedded smartphone photos.
 
-### Why Metadata Matters
-When you share a business proposal or project layout, leaving old author names or system paths in the document properties can look unprofessional or expose internal details.
+### Why You Must Scrub PDF Metadata
+1. **Competitive & Business Intelligence**: Sending a proposal to a prospect with previous internal revision names or other client company tags in the metadata exposes confidential commercial pricing strategies.
+2. **Personal Identity Protection**: Submitting resumes, academic papers, or public comments with your home computer account username can unintentionally deanonymize you or expose you to spear-phishing attacks.
+3. **Legal Compliance**: Court filings, government tenders, and blind peer reviews strictly mandate scrubbing all author and company metadata prior to electronic filing.
 
-### Updating Document Properties
-You can edit the title, author, subject, and keyword fields inside your browser. A local editor updates the internal PDF dictionary objects and exports the corrected file instantly.
+### Standard Metadata Fields You Can Edit
+- **Title**: The formal document title displayed in browser tabs instead of the raw filename.
+- **Author**: The individual or organization credited with authoring the content.
+- **Subject**: A brief summary statement or category classification.
+- **Keywords**: Search terms used by enterprise document indexers.
+- **Creator & Producer**: The originating software application (e.g. Acrobat Distiller, macOS Quartz).
+
+### How to Inspect and Scrub PDF Properties in Yuitility
+1. Drop your PDF into the local Yuitility PDF Metadata Editor.
+2. View existing properties extracted directly into the browser form.
+3. Overwrite outdated author tags or click **Clear All Metadata** to strip all personal identifiers.
+4. Export the clean PDF instantly with zero bytes uploaded to remote servers.
 `,
   },
   {
@@ -375,42 +414,64 @@ Traditional background tools send your photos to a server. Yuitility utilizes op
   },
   {
     slug: "resizing-images-without-quality-loss",
-    title: "How to Resize Images to Exact Dimensions Without Loss",
-    description: "Learn the difference between resizing and compressing, and how to scale images to specific pixel dimensions.",
+    title: "How to Resize Images Without Losing Quality Online",
+    description: "Learn how to resize images to exact pixel dimensions without losing quality. Complete guide with aspect ratio locks, canvas interpolation, and export formats.",
     date: "2026-07-23",
     category: "Image & Media",
-    readTime: "3 min read",
+    readTime: "5 min read",
     author: "Yuitility Media Team",
     toolId: "image-resizer",
-    keywords: ["resize image online", "pixel resizer tool", "scale image dimension", "local image cropper"],
+    keywords: ["resize image without losing quality", "resize image online", "scale image dimensions", "image resizer no quality loss", "change photo dimensions"],
     content: `
-Resizing images involves changing their physical pixel dimensions (width and height), which is essential for meeting specific website banner or upload layout requirements.
+Resizing an image means changing its physical dimensions in pixels (such as scaling from 4000×3000 down to 1200×900) to meet website layout specs, email attachment size limits, or social media banner guidelines. When done incorrectly, resizing causes pixelation, blurriness, or unnatural distortion.
 
-### Aspect Ratio Control
-When scaling images, always lock the aspect ratio. If you stretch the width without scaling the height, your image will look distorted. 
+### Resizing vs Compressing: What's the Difference?
+- **Resizing**: Changes the pixel resolution (e.g. from 3840×2160 down to 1920×1080). Reducing resolution discards redundant pixels while maintaining visual crispness at the target display size.
+- **Compressing**: Preserves the pixel resolution but uses mathematical lossy or lossless quantization (such as WebP or MozJPEG encoding) to reduce the storage file size (KB to MB).
 
-### Local Canvas Rendering
-Using a browser-based canvas tool, you can scale images instantly. The browser renders the new image size locally, preserving sharp details and exporting the file in seconds.
+For optimal web performance, always **resize first** to the maximum container dimensions needed, then compress the resulting file.
+
+### Preventing Image Distortion: Aspect Ratio Calculation
+The aspect ratio is the proportional relationship between image width and height. If you alter the width without proportionally scaling the height, the image stretches horizontally or squashes vertically:
+$$\\text{New Height} = \\text{New Width} \\times \\left( \\frac{\\text{Original Height}}{\\text{Original Width}} \\right)$$
+
+Always ensure the **Maintain Aspect Ratio** lock is enabled in the Yuitility Image Resizer to preserve natural visual balance automatically.
+
+### Common Standard Dimensions for Web & Social Media
+| Platform / Use Case | Recommended Dimensions | Aspect Ratio |
+|---|---|---|
+| **Instagram Square** | 1080 × 1080 px | 1:1 |
+| **Instagram Portrait / Story** | 1080 × 1920 px | 9:16 |
+| **LinkedIn Hero Banner** | 1200 × 627 px | 1.91:1 |
+| **YouTube Video Thumbnail** | 1280 × 720 px | 16:9 |
+| **Website Desktop Hero** | 1920 × 1080 px | 16:9 |
+
+### Why In-Browser Canvas Resizing Preserves Sharpness
+Yuitility leverages hardware-accelerated HTML5 Canvas interpolation (` + "`imageSmoothingQuality = 'high'`" + `) executing Bicubic downsampling directly on your GPU/CPU. Your photos are scaled with crisp vector-quality edges and exported in PNG, WebP, or JPEG with 100% offline privacy.
 `,
   },
   {
     slug: "extracting-zip-files-directly-in-browser",
-    title: "How to Open and Extract ZIP Files Without Software",
-    description: "Learn how to open, view, and extract compressed ZIP files online using local JS libraries.",
+    title: "How to Extract ZIP Files Online Without Software",
+    description: "Learn how to open, view, and extract compressed ZIP archives online directly in your browser without installing desktop software or uploading sensitive files.",
     date: "2026-07-22",
     category: "Math & Calculators",
-    readTime: "3 min read",
+    readTime: "4 min read",
     author: "Yuitility Dev Team",
     toolId: "zip-extractor",
-    keywords: ["extract zip online", "open zip files", "unzip without software", "local zip manager"],
+    keywords: ["extract zip files online", "unzip files without software", "open zip online", "browser zip extractor", "unzip without winrar"],
     content: `
-ZIP files are the standard format for grouping and compressing multiple files. Ordinarily, you need desktop software to open and view their contents.
+ZIP archives are the universal standard for bundling and compressing multiple files, code repositories, document packets, and photo galleries into a single lightweight package. However, opening a ZIP file often requires bloated third-party software (such as WinRAR, 7-Zip, or subscription utilities) or clunky mobile file managers.
 
-### Decompressing Locally
-Yuitility uses client-side compression libraries to read ZIP files. The archive is parsed inside your browser tab:
-- **Preview Files**: Browse filenames, paths, and file sizes inside the archive.
-- **Local Unpacking**: Select and download specific files directly to your device.
-- **Data Safety**: Since there is no server upload, your compressed files remain private.
+### The Problem With Cloud ZIP Extractors
+Most online "free unzipper" tools force you to upload your entire ZIP archive to a remote web server. If your archive contains personal tax records, source code, medical records, or proprietary corporate data, uploading it exposes your contents to server logs, data breaches, and third-party scraping.
+
+### How Yuitility Decompresses ZIPs Inside Your Browser
+Yuitility performs 100% client-side decompression using streaming JavaScript WebAssembly routines:
+1. **Local Parsing**: The ZIP central directory table is read directly from memory in your browser tab.
+2. **Selective Extraction**: You can view the complete file directory tree, file sizes, and file extensions without decompressing the entire package.
+3. **Targeted Download**: Click to download single specific files or extract the entire directory directly to your Downloads folder.
+4. **Zero Server Footprint**: Your files are never uploaded over the internet, guaranteeing complete confidentiality and zero bandwidth limits.
 `,
   },
   {
