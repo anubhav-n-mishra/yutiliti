@@ -150,7 +150,7 @@ for (const id of implementedIds) {
 check(
   "Category Pillar Sub-Clustering Coverage",
   unclusteredTools.length === 0,
-  unclusteredTools.length === 0 ? `All 131 tools are mapped to thematic category sub-groups.` : `Unclustered: ${unclusteredTools.join(", ")}`
+  unclusteredTools.length === 0 ? `All ${implementedIds.length} tools are mapped to thematic category sub-groups.` : `Unclustered: ${unclusteredTools.join(", ")}`
 );
 
 // 8. Bidirectional Internal Linking (RELATED_TOOLS)
@@ -174,7 +174,7 @@ const underlinked = implementedIds.filter(id => {
 check(
   "Bidirectional Contextual Internal Linking (>= 3 Related Tools)",
   underlinked.length === 0,
-  underlinked.length === 0 ? `All 131 tools have contextual related tool links.` : `Underlinked: ${underlinked.join(", ")}`
+  underlinked.length === 0 ? `All ${implementedIds.length} tools have contextual related tool links.` : `Underlinked: ${underlinked.join(", ")}`
 );
 
 // 9. Structured Data JSON-LD Schema
@@ -215,8 +215,8 @@ const llmsTxt = read("public/llms.txt");
 const llmsFull = read("public/llms-full.txt");
 check(
   "AI Generative Search Index Parity (llms.txt / llms-full.txt)",
-  llmsTxt.includes("131") && llmsFull.includes("Total Live Verified Tools: 131"),
-  "Both machine-readable indexes specify 131 verified tools across all 8 categories."
+  llmsTxt.includes("132") && llmsFull.includes("Total Live Verified Tools: 132"),
+  "Both machine-readable indexes specify 132 verified tools across all 8 categories."
 );
 
 console.log("\n=================================================");

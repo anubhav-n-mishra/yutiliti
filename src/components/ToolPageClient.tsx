@@ -104,6 +104,7 @@ import HexColorConverter from "@/src/components/tools/HexColorConverter";
 import MorseCodeTranslator from "@/src/components/tools/MorseCodeTranslator";
 import RegexTester from "@/src/components/tools/RegexTester";
 import MarkdownToHtml from "@/src/components/tools/MarkdownToHtml";
+import MarkdownViewer from "@/src/components/tools/MarkdownViewer";
 import DiffChecker from "@/src/components/tools/DiffChecker";
 
 import PercentageCalculator from "@/src/components/tools/PercentageCalculator";
@@ -382,6 +383,7 @@ export function ToolRenderer({ tool, onCopy, onShare, onTriggerShareToast }: { t
     case "morse-code-translator": return <MorseCodeTranslator {...props} />;
     case "regex-tester": return <RegexTester {...props} />;
     case "markdown-to-html": return <MarkdownToHtml {...props} />;
+    case "markdown-viewer": return <MarkdownViewer {...props} />;
     case "diff-checker": return <DiffChecker {...props} />;
 
     case "percentage-calculator": return <PercentageCalculator {...props} />;

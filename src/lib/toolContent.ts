@@ -163,6 +163,8 @@ const CUSTOM_HOW_IT_WORKS: Record<string, string> = {
     "Enter principal amount, interest rate, time period, and compounding frequency to compare simple vs compound interest earnings over time.",
   "age-calculator":
     "Enter your birth date to calculate exact age in years, months, and days down to the live second, plus zodiac details and next birthday countdown.",
+  "markdown-viewer":
+    "Drag-and-drop or upload any .md or .txt file, or paste markdown text directly from your clipboard. The viewer parses GitHub Flavored Markdown (GFM) in browser memory with real-time split-screen preview, tables, interactive task checklists, code blocks, and reading metrics with zero server uploads.",
 };
 
 /**
@@ -179,6 +181,24 @@ export function getToolHowItWorks(tool: Tool): string {
  * Priority 1, Priority 2, and Content Pack FAQ Database
  */
 const TOOL_FAQS_DB: Record<string, FAQItem[]> = {
+  "markdown-viewer": [
+    {
+      question: "Is my markdown file uploaded to any remote server?",
+      answer: "No. The entire parsing and rendering process happens 100% locally in your web browser using HTML5 FileReader and client-side JavaScript. Your file data, text, and metrics never leave your device.",
+    },
+    {
+      question: "Which markdown formats and syntax are supported?",
+      answer: "The viewer supports full GitHub Flavored Markdown (GFM) including headings, bold, italic, strikethrough, blockquotes, GitHub-style callouts (> [!NOTE], [!TIP]), tables, task checklists (- [x]), and fenced code blocks with language tags.",
+    },
+    {
+      question: "Can I paste markdown content directly from my clipboard?",
+      answer: "Yes. You can click 'Paste Clipboard' to import markdown directly from your operating system clipboard, or type and edit directly inside the built-in editor pane.",
+    },
+    {
+      question: "Can I export the rendered preview to HTML or print to PDF?",
+      answer: "Yes. You can copy the rendered HTML, download as a standalone .html or .md file, or click the print button to generate clean, print-ready PDF documents without watermarks.",
+    },
+  ],
   "dog-age-calculator": [
     {
       question: "Is the \"1 dog year = 7 human years\" rule accurate?",

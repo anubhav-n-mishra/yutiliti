@@ -192,6 +192,7 @@ export const CATEGORY_META: Record<string, CategoryMeta> = {
           "word-counter",
           "zip-extractor",
           "markdown-to-html",
+          "markdown-viewer",
           "diff-checker",
           "lorem-ipsum-generator",
         ],
@@ -509,6 +510,7 @@ const TOOL_SEO_TITLES: Record<string, string> = {
   "morse-code-translator": "Morse Code Translator: Text to Audio & Beeps",
   "regex-tester": "RegEx Tester and Matcher with Explanations",
   "markdown-to-html": "Markdown to HTML Converter with Live Preview",
+  "markdown-viewer": "Markdown File Viewer: Live GFM Preview & Local Upload",
   "diff-checker": "Text Diff Checker: Compare Two Texts Online",
 
   // --- Math additions --------------------------------------------------
@@ -754,6 +756,8 @@ const TOOL_SEO_DESCRIPTIONS: Record<string, string> = {
     "Test regular expression patterns against sample text with real-time match highlighting, capture group extraction, and regex syntax error debugging.",
   "markdown-to-html":
     "Convert Markdown to clean semantic HTML in real-time with split-pane live preview. Supports headings, tables, code fences, and checklists with instant copy.",
+  "markdown-viewer":
+    "Open, upload and view Markdown files in your browser with live split-screen preview, GFM tables, code syntax styling, and word count stats. 100% private and client-side.",
   "diff-checker":
     "Compare two text files or code snippets side-by-side or inline to spot line additions and deletions with character-level accuracy. 100% private in-browser diff.",
 

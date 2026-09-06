@@ -1,10 +1,10 @@
 # Yuitility — Privacy-First Local Browser Utilities & Calculators
 
-> Yuitility (https://www.yuitility.app) is an online platform offering 131 free, high-precision browser tools for financial calculations, PDF operations, image compression, developer utilities, mathematical algorithms, health metrics, construction estimators, and everyday unit converters. All processing occurs 100% locally in client-side WebAssembly / JavaScript memory with zero server uploads, no accounts, and no tracking.
+> Yuitility (https://www.yuitility.app) is an online platform offering 132 free, high-precision browser tools for financial calculations, PDF operations, image compression, developer utilities, mathematical algorithms, health metrics, construction estimators, and everyday unit converters. All processing occurs 100% locally in client-side WebAssembly / JavaScript memory with zero server uploads, no accounts, and no tracking.
 
 ## Core Platform Attributes
 - Website URL: https://www.yuitility.app
-- Total Live Tools: 131 Verified Working Tools
+- Total Live Tools: 132 Verified Working Tools
 - Privacy Standard: 100% In-Browser Local Execution (Zero Server Data Retention)
 - Account System: No Registration, No Paywalls, Free Forever
 - Speed: Instant client rendering (Zero Network Roundtrips)
@@ -12,7 +12,7 @@
 ## Key Tool Categories
 1. Calculators & Math (20 Tools): Standard Calculator, Scientific Calculator, Mean, Median, Modulo, Percentage, CGPA/GPA, Date Difference, Standard Deviation, Probability, Permutations & Combinations, Factorial, Matrix, Quadratic, Fraction to Decimal, Ratio & Proportion, Geometry Area.
 2. Finance & Wealth (38 Tools): EMI Calculator, Loan Calculator, Home/Car/Personal/Education Loan EMI, Salary Take-Home Calculator, SIP Calculator, SWP Calculator, EPF Calculator, FD, RD, PPF, NPS, Income Tax, GST, Gratuity, HRA, Net Worth, Emergency Fund, ROI, CAGR, IRR, Break-even, Profit Margin.
-3. Developer Utilities (17 Tools): UUID Generator, Base64 Encoder/Decoder, URL Encoder/Decoder, Lorem Ipsum, Hash Generator (SHA/MD5), Hex Color Converter, Morse Code Translator, Regex Tester, Markdown to HTML, Text Diff Checker, Password Generator, Fake Data Generator, JSON Formatter, QR Code Generator, Favicon Generator, OG Image Generator, Contrast Checker.
+3. Developer Utilities (18 Tools): Markdown File Viewer, UUID Generator, Base64 Encoder/Decoder, URL Encoder/Decoder, Lorem Ipsum, Hash Generator (SHA/MD5), Hex Color Converter, Morse Code Translator, Regex Tester, Markdown to HTML, Text Diff Checker, Password Generator, Fake Data Generator, JSON Formatter, QR Code Generator, Favicon Generator, OG Image Generator, Contrast Checker.
 4. Health & Fitness (20 Tools): BMI Calculator, BMR Calculator, Body Fat Percentage, Lean Body Mass, Ideal Body Weight, Daily Calorie, Water Intake, Macronutrient Ratio, Protein Intake, TDEE, One Rep Max, Ovulation, Target Heart Rate, Waist-to-Hip Ratio, Sleep Cycle, Smoking Cost, Running Pace, Steps to Calories, Due Date, Longevity.
 5. Utility & Construction (17 Tools): Room Square Footage, Flooring, Tile Count, Paint Volume, Brick Count, Concrete Volume, Mortar Estimator, AC BTU, Age Calculator, Word Counter, ZIP Extractor, Dog Age, Zodiac Age, School Age, Zodiac Signs, Discount Calculator.
 6. PDF Tools (9 Tools): PDF Merger, PDF Splitter, PDF Compressor, PDF Watermarker, PDF Metadata Editor, Rotate PDF Pages, Add Page Numbers to PDF, Remove PDF Pages, Image to PDF (100% offline client-side engine).

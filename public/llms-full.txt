@@ -1,7 +1,7 @@
 # Yuitility - Full Knowledge Base & Machine Index for AI Agents and LLMs
 Site: https://www.yuitility.app
 Architecture: 100% Client-Side WebAssembly and Native JavaScript (Zero Server Uploads)
-Total Live Verified Tools: 131
+Total Live Verified Tools: 132
 Canonical Domain: https://www.yuitility.app
 
 Yuitility is a universal web-based utility toolkit offering high-precision financial calculators, client-side PDF document manipulation, Canvas/WASM media processing, and offline developer utilities. All computations occur within the user's browser sandbox using local CPU memory. No user files, parameters, or payloads are transmitted to external servers.
@@ -462,7 +462,7 @@ Yuitility is a universal web-based utility toolkit offering high-precision finan
 - Technical Details: Calculate BTU cooling capacity required based on room size and sunlight exposure.
 - Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
 
-## Category: DEVELOPER (17 Tools)
+## Category: DEVELOPER (18 Tools)
 
 ### Password Generator
 - Canonical URL: https://www.yuitility.app/tools/password-generator
@@ -564,6 +564,12 @@ Yuitility is a universal web-based utility toolkit offering high-precision finan
 - Canonical URL: https://www.yuitility.app/tools/diff-checker
 - Purpose: Compare two text files or code snippets to find line differences.
 - Technical Details: Compare two text inputs side-by-side to highlight insertions and deletions.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Markdown File Viewer
+- Canonical URL: https://www.yuitility.app/tools/markdown-viewer
+- Purpose: View, upload, and edit Markdown files with live GFM preview, tables, and statistics.
+- Technical Details: Open local .md files using browser FileReader API, preview GitHub Flavored Markdown with custom tables, task lists, code fences, and metrics with zero server uploads.
 - Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
 
 ## Category: MEDIA (7 Tools)

@@ -110,6 +110,7 @@ export const IMPLEMENTED_TOOL_IDS: ReadonlySet<string> = new Set([
   "morse-code-translator",
   "regex-tester",
   "markdown-to-html",
+  "markdown-viewer",
   "diff-checker",
 
   // Math additions (15)
@@ -305,8 +306,9 @@ export const RELATED_TOOLS: Record<string, string[]> = {
   "hex-color-converter": ["color-palette", "og-image-generator", "favicon-generator"],
   "morse-code-translator": ["base64-encoder-decoder", "url-encoder-decoder", "word-counter"],
   "regex-tester": ["diff-checker", "word-counter", "json-formatter"],
-  "markdown-to-html": ["diff-checker", "word-counter", "lorem-ipsum-generator"],
-  "diff-checker": ["markdown-to-html", "regex-tester", "word-counter"],
+  "markdown-to-html": ["markdown-viewer", "diff-checker", "word-counter", "lorem-ipsum-generator"],
+  "markdown-viewer": ["markdown-to-html", "diff-checker", "word-counter", "lorem-ipsum-generator"],
+  "diff-checker": ["markdown-viewer", "markdown-to-html", "regex-tester", "word-counter"],
 
   // Math cluster
   "percentage-calculator": ["discount-calculator", "cagr-calculator", "ratio-proportion-calculator", "fraction-to-decimal-converter"],
