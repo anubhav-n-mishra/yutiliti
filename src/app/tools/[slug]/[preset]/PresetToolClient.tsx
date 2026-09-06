@@ -27,6 +27,10 @@ import CgpaToPercentage from "@/src/components/tools/CgpaToPercentage";
 import HomeLoanEmiCalculator from "@/src/components/tools/HomeLoanEmiCalculator";
 import SipCalculator from "@/src/components/tools/SipCalculator";
 import SalaryCalculator from "@/src/components/tools/SalaryCalculator";
+import MortgageCalculator from "@/src/components/tools/MortgageCalculator";
+import RetirementCalculator from "@/src/components/tools/RetirementCalculator";
+import CompoundInterestCalculator from "@/src/components/tools/CompoundInterestCalculator";
+import CarLoanEmiCalculator from "@/src/components/tools/CarLoanEmiCalculator";
 
 interface PresetToolClientProps {
   tool: Tool;
@@ -272,6 +276,62 @@ export default function PresetToolClient({
           {tool.id === "salary-calculator" && (
             <SalaryCalculator
               initialCtc={preset.presetParams.initialCtc}
+              initialCurrency={preset.presetParams.initialCurrency}
+              onCopy={copy}
+              onShare={share}
+            />
+          )}
+
+          {tool.id === "mortgage-calculator" && (
+            <MortgageCalculator
+              initialHomePrice={preset.presetParams.initialHomePrice}
+              initialDownPaymentPercent={preset.presetParams.initialDownPaymentPercent}
+              initialInterestRate={preset.presetParams.initialInterestRate}
+              initialLoanTermYears={preset.presetParams.initialLoanTermYears}
+              initialPropertyTaxAnnual={preset.presetParams.initialPropertyTaxAnnual}
+              initialHomeInsuranceAnnual={preset.presetParams.initialHomeInsuranceAnnual}
+              initialHoaFeesMonthly={preset.presetParams.initialHoaFeesMonthly}
+              initialCurrency={preset.presetParams.initialCurrency}
+              onCopy={copy}
+              onShare={share}
+            />
+          )}
+
+          {tool.id === "retirement-calculator" && (
+            <RetirementCalculator
+              initialCurrentAge={preset.presetParams.initialCurrentAge}
+              initialRetirementAge={preset.presetParams.initialRetirementAge}
+              initialLifeExpectancy={preset.presetParams.initialLifeExpectancy}
+              initialCurrentSavings={preset.presetParams.initialCurrentSavings}
+              initialMonthlyExpenses={preset.presetParams.initialMonthlyExpenses}
+              initialExpectedReturn={preset.presetParams.initialExpectedReturn}
+              initialInflationRate={preset.presetParams.initialInflationRate}
+              initialCurrency={preset.presetParams.initialCurrency}
+              onCopy={copy}
+              onShare={share}
+            />
+          )}
+
+          {tool.id === "compound-interest-calculator" && (
+            <CompoundInterestCalculator
+              initialPrincipal={preset.presetParams.initialPrincipal}
+              initialMonthlyContribution={preset.presetParams.initialMonthlyContribution}
+              initialAnnualRate={preset.presetParams.initialAnnualRate}
+              initialYears={preset.presetParams.initialYears}
+              initialCompoundFreq={preset.presetParams.initialCompoundFreq}
+              initialCurrency={preset.presetParams.initialCurrency}
+              onCopy={copy}
+              onShare={share}
+            />
+          )}
+
+          {tool.id === "car-loan-emi-calculator" && (
+            <CarLoanEmiCalculator
+              initialCarPrice={preset.presetParams.initialCarPrice}
+              initialDownPayment={preset.presetParams.initialDownPayment}
+              initialTradeInValue={preset.presetParams.initialTradeInValue}
+              initialInterestRate={preset.presetParams.initialInterestRate}
+              initialTenureYears={preset.presetParams.initialTenureYears}
               initialCurrency={preset.presetParams.initialCurrency}
               onCopy={copy}
               onShare={share}

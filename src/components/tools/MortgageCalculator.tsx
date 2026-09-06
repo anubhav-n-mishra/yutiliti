@@ -4,19 +4,38 @@ import CurrencySelector from '@/src/components/CurrencySelector';
 import { formatCurrency as formatCurr, getCurrency } from '@/src/lib/currency';
 
 interface MortgageCalculatorProps {
-  onCopy: (text: string) => void;
-  onShare: (title: string, path: string) => void;
+  onCopy?: (text: string) => void;
+  onShare?: (title: string, path: string) => void;
+  initialHomePrice?: number;
+  initialDownPaymentPercent?: number;
+  initialInterestRate?: number;
+  initialLoanTermYears?: number;
+  initialPropertyTaxAnnual?: number;
+  initialHomeInsuranceAnnual?: number;
+  initialHoaFeesMonthly?: number;
+  initialCurrency?: string;
 }
 
-export default function MortgageCalculator({ onCopy }: MortgageCalculatorProps) {
-  const [currency, setCurrency] = useState<string>('USD');
-  const [homePrice, setHomePrice] = useState<number>(400000);
-  const [downPaymentPercent, setDownPaymentPercent] = useState<number>(20);
-  const [interestRate, setInterestRate] = useState<number>(6.5);
-  const [loanTermYears, setLoanTermYears] = useState<number>(30);
-  const [propertyTaxAnnual, setPropertyTaxAnnual] = useState<number>(4800);
-  const [homeInsuranceAnnual, setHomeInsuranceAnnual] = useState<number>(1400);
-  const [hoaFeesMonthly, setHoaFeesMonthly] = useState<number>(150);
+export default function MortgageCalculator({
+  onCopy,
+  onShare,
+  initialHomePrice,
+  initialDownPaymentPercent,
+  initialInterestRate,
+  initialLoanTermYears,
+  initialPropertyTaxAnnual,
+  initialHomeInsuranceAnnual,
+  initialHoaFeesMonthly,
+  initialCurrency,
+}: MortgageCalculatorProps) {
+  const [currency, setCurrency] = useState<string>(initialCurrency || 'USD');
+  const [homePrice, setHomePrice] = useState<number>(initialHomePrice ?? 400000);
+  const [downPaymentPercent, setDownPaymentPercent] = useState<number>(initialDownPaymentPercent ?? 20);
+  const [interestRate, setInterestRate] = useState<number>(initialInterestRate ?? 6.5);
+  const [loanTermYears, setLoanTermYears] = useState<number>(initialLoanTermYears ?? 30);
+  const [propertyTaxAnnual, setPropertyTaxAnnual] = useState<number>(initialPropertyTaxAnnual ?? 4800);
+  const [homeInsuranceAnnual, setHomeInsuranceAnnual] = useState<number>(initialHomeInsuranceAnnual ?? 1400);
+  const [hoaFeesMonthly, setHoaFeesMonthly] = useState<number>(initialHoaFeesMonthly ?? 150);
 
   const currObj = getCurrency(currency);
 

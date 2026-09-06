@@ -589,6 +589,409 @@ export const TOOL_PRESETS: ToolPreset[] = [
       },
     ],
   },
+
+  // =========================================================================
+  // 6. US & TIER 1 MORTGAGE PRESETS (mortgage-calculator)
+  // =========================================================================
+  {
+    toolId: "mortgage-calculator",
+    presetSlug: "30-year-fixed",
+    category: "finance",
+    seoTitle: "30-Year Fixed Mortgage Calculator: Current US Rates", // 53 chars
+    seoDescription:
+      "Calculate 30-year fixed rate mortgage monthly payments, amortization schedule, property taxes, and PMI with current benchmark interest rates.", // 143 chars
+    h1: "30-Year Fixed Mortgage Calculator",
+    subtitle: "US Conventional 30-Year Benchmark: Model monthly principal, interest, taxes, and insurance (PITI)",
+    badge: "US 30-Yr Benchmark (6.85%)",
+    presetParams: {
+      initialHomePrice: 425000,
+      initialDownPaymentPercent: 20,
+      initialInterestRate: 6.85,
+      initialLoanTermYears: 30,
+      initialPropertyTaxAnnual: 4800,
+      initialHomeInsuranceAnnual: 1400,
+      initialHoaFeesMonthly: 100,
+      initialCurrency: "USD",
+    },
+    officialReference: {
+      title: "Freddie Mac Primary Mortgage Market Survey (PMMS)",
+      authority: "Federal Home Loan Mortgage Corp (Freddie Mac)",
+      citation: "30-Year Fixed-Rate Mortgage Conforming Loan Average",
+      url: "https://www.freddiemac.com/pmms",
+    },
+    faqs: [
+      {
+        question: "What is the monthly payment on a $400,000 30-year fixed mortgage?",
+        answer: "At a 6.85% interest rate with 20% down ($80,000 down payment, $320,000 loan balance), the monthly principal and interest payment is approximately $2,097. Adding estimated taxes and insurance brings the total payment to around $2,613/month.",
+      },
+      {
+        question: "How does 20% down payment avoid PMI in the US?",
+        answer: "Under Fannie Mae and Freddie Mac underwriting rules, putting down 20% or more creates an 80% Loan-to-Value (LTV) ratio, legally exempting conventional borrowers from Private Mortgage Insurance (PMI).",
+      },
+    ],
+  },
+  {
+    toolId: "mortgage-calculator",
+    presetSlug: "15-year-fixed",
+    category: "finance",
+    seoTitle: "15-Year Fixed Mortgage Calculator: Rates & Payoff", // 49 chars
+    seoDescription:
+      "Calculate 15-year fixed mortgage monthly payments and compare interest savings versus 30-year loans using current US conforming interest rates.", // 143 chars
+    h1: "15-Year Fixed Mortgage Calculator",
+    subtitle: "Accelerate home equity and save tens of thousands in interest with a 15-year fixed repayment plan",
+    badge: "US 15-Yr Benchmark (6.15%)",
+    presetParams: {
+      initialHomePrice: 425000,
+      initialDownPaymentPercent: 20,
+      initialInterestRate: 6.15,
+      initialLoanTermYears: 15,
+      initialPropertyTaxAnnual: 4800,
+      initialHomeInsuranceAnnual: 1400,
+      initialHoaFeesMonthly: 100,
+      initialCurrency: "USD",
+    },
+    officialReference: {
+      title: "Freddie Mac 15-Year Conforming Fixed Benchmark",
+      authority: "Freddie Mac PMMS",
+      citation: "15-Year Fixed-Rate Loan Series",
+      url: "https://www.freddiemac.com/pmms",
+    },
+    faqs: [
+      {
+        question: "How much interest do you save with a 15-year vs 30-year mortgage?",
+        answer: "On a $320,000 mortgage, choosing a 15-year loan at 6.15% over a 30-year loan at 6.85% saves over $265,000 in total lifetime interest while paying the home off 15 years sooner.",
+      },
+    ],
+  },
+  {
+    toolId: "mortgage-calculator",
+    presetSlug: "fha-loan",
+    category: "finance",
+    seoTitle: "FHA Loan Calculator: 3.5% Down Payment & Monthly MIP", // 52 chars
+    seoDescription:
+      "Calculate Federal Housing Administration (FHA) mortgage payments with 3.5% minimum down payment, upfront MIP, and annual mortgage insurance premiums.", // 151 chars
+    h1: "FHA Mortgage Loan Calculator",
+    subtitle: "Model FHA loan eligibility with 3.5% down payment and mandatory mortgage insurance premium (MIP)",
+    badge: "HUD FHA 3.5% Down Guidelines",
+    presetParams: {
+      initialHomePrice: 350000,
+      initialDownPaymentPercent: 3.5,
+      initialInterestRate: 6.5,
+      initialLoanTermYears: 30,
+      initialPropertyTaxAnnual: 3800,
+      initialHomeInsuranceAnnual: 1200,
+      initialHoaFeesMonthly: 0,
+      initialCurrency: "USD",
+    },
+    officialReference: {
+      title: "HUD Single Family Housing Policy Handbook 4000.1",
+      authority: "U.S. Department of Housing and Urban Development (HUD)",
+      citation: "FHA Forward Mortgage Maximum LTV & MIP Guidelines",
+      url: "https://www.hud.gov",
+    },
+    faqs: [
+      {
+        question: "What credit score is required for 3.5% down on an FHA loan?",
+        answer: "HUD requires a minimum FICO credit score of 580 to qualify for the 3.5% down payment option. Credit scores between 500 and 579 require 10% down.",
+      },
+      {
+        question: "How much is FHA monthly MIP?",
+        answer: "For a 30-year FHA loan with 3.5% down, the annual Mortgage Insurance Premium (MIP) is 0.55% of the base loan amount, divided across 12 monthly payments.",
+      },
+    ],
+  },
+  {
+    toolId: "mortgage-calculator",
+    presetSlug: "va-loan",
+    category: "finance",
+    seoTitle: "VA Loan Calculator: 0% Down Military Mortgage & Fees", // 53 chars
+    seoDescription:
+      "Calculate monthly payments on a 0% down VA home loan for US veterans and active military personnel. Account for VA funding fees and zero PMI.", // 142 chars
+    h1: "VA Home Loan Mortgage Calculator",
+    subtitle: "Zero down payment, competitive interest rates, and no monthly private mortgage insurance (PMI) for US Veterans",
+    badge: "VA Zero-Down Benefit (Sep 2026)",
+    presetParams: {
+      initialHomePrice: 400000,
+      initialDownPaymentPercent: 0,
+      initialInterestRate: 6.35,
+      initialLoanTermYears: 30,
+      initialPropertyTaxAnnual: 4200,
+      initialHomeInsuranceAnnual: 1300,
+      initialHoaFeesMonthly: 0,
+      initialCurrency: "USD",
+    },
+    officialReference: {
+      title: "VA Home Loan Guaranty Buyer Guide",
+      authority: "U.S. Department of Veterans Affairs (VA)",
+      citation: "Title 38 U.S. Code Chapter 37 Housing Loans",
+      url: "https://www.va.gov/housing-assistance/home-loans/",
+    },
+    faqs: [
+      {
+        question: "Do VA home loans require monthly mortgage insurance?",
+        answer: "No. Unlike conventional loans with <20% down or FHA loans, VA loans never require monthly Private Mortgage Insurance (PMI), significantly lowering your monthly payment.",
+      },
+    ],
+  },
+  {
+    toolId: "mortgage-calculator",
+    presetSlug: "canada-cmhc",
+    category: "finance",
+    seoTitle: "Canada Mortgage Calculator: CMHC Insurance & Rates", // 50 chars
+    seoDescription:
+      "Calculate Canadian residential mortgage payments, CMHC insurance premiums for under 20% down, and qualifying stress test amortization schedules.", // 144 chars
+    h1: "Canada Mortgage Calculator (CMHC Insurance)",
+    subtitle: "Model Canadian home purchases with 5-year fixed rates, CMHC default insurance tiers, and property taxes",
+    badge: "CMHC Insurance Rules (CAD)",
+    presetParams: {
+      initialHomePrice: 650000,
+      initialDownPaymentPercent: 10,
+      initialInterestRate: 4.85,
+      initialLoanTermYears: 25,
+      initialPropertyTaxAnnual: 5200,
+      initialHomeInsuranceAnnual: 1500,
+      initialHoaFeesMonthly: 0,
+      initialCurrency: "CAD",
+    },
+    officialReference: {
+      title: "CMHC Mortgage Loan Insurance Rules",
+      authority: "Canada Mortgage and Housing Corporation (CMHC)",
+      citation: "B-20 Residential Mortgage Underwriting Practices",
+      url: "https://www.cmhc-schl.gc.ca",
+    },
+    faqs: [
+      {
+        question: "What is CMHC mortgage insurance premium in Canada?",
+        answer: "When putting down 10% on a Canadian property, CMHC charges a 3.10% insurance premium on the loan amount, which is rolled directly into the principal mortgage balance.",
+      },
+    ],
+  },
+  {
+    toolId: "mortgage-calculator",
+    presetSlug: "uk-repayment",
+    category: "finance",
+    seoTitle: "UK Mortgage Calculator: BoE Base Rate & Repayment", // 49 chars
+    seoDescription:
+      "Calculate UK monthly mortgage repayments, interest totals, and Loan-to-Value (LTV) ratios based on current Bank of England base rates in Pounds Sterling.", // 153 chars
+    h1: "UK Mortgage Repayment Calculator",
+    subtitle: "Calculate monthly repayments and interest breakdown for England, Scotland, and Wales residential properties",
+    badge: "UK BoE Benchmark (GBP)",
+    presetParams: {
+      initialHomePrice: 320000,
+      initialDownPaymentPercent: 15,
+      initialInterestRate: 4.75,
+      initialLoanTermYears: 25,
+      initialPropertyTaxAnnual: 1800,
+      initialHomeInsuranceAnnual: 400,
+      initialHoaFeesMonthly: 0,
+      initialCurrency: "GBP",
+    },
+    officialReference: {
+      title: "Bank of England Official Bank Rate",
+      authority: "Bank of England (BoE)",
+      citation: "Monetary Policy Committee Benchmark Rate Decisions",
+      url: "https://www.bankofengland.co.uk",
+    },
+    faqs: [
+      {
+        question: "What is the monthly repayment on a £250,000 UK mortgage at 4.75%?",
+        answer: "For a 25-year capital and interest repayment mortgage of £250,000 at 4.75%, your monthly repayment is approximately £1,425.",
+      },
+    ],
+  },
+
+  // =========================================================================
+  // 7. US RETIREMENT & WEALTH PRESETS (retirement-calculator)
+  // =========================================================================
+  {
+    toolId: "retirement-calculator",
+    presetSlug: "401k-growth",
+    category: "finance",
+    seoTitle: "401(k) Calculator: Employer Match & Retirement Growth", // 53 chars
+    seoDescription:
+      "Forecast 401(k) retirement balance with company match, annual salary raises, and compound market growth up to the 2026 IRS $23,500 contribution limit.", // 150 chars
+    h1: "401(k) Retirement Growth Calculator",
+    subtitle: "Compound growth simulator with employer matching contributions and historical index returns",
+    badge: "IRS 2026 401(k) Limit ($23,500)",
+    presetParams: {
+      initialCurrentAge: 28,
+      initialRetirementAge: 65,
+      initialCurrentSavings: 45000,
+      initialMonthlyExpenses: 4500,
+      initialExpectedReturn: 9.0,
+      initialInflationRate: 3.0,
+      initialCurrency: "USD",
+    },
+    officialReference: {
+      title: "IRS Notice: Retirement Plan Contribution Limits",
+      authority: "Internal Revenue Service (IRS)",
+      citation: "IRC Section 402(g) Elective Deferrals",
+      url: "https://www.irs.gov",
+    },
+    faqs: [
+      {
+        question: "What is the maximum 401(k) contribution limit for 2026?",
+        answer: "The IRS employee contribution limit for 401(k) plans is $23,500 per year (plus an additional $7,500 catch-up contribution for workers aged 50 and older).",
+      },
+    ],
+  },
+  {
+    toolId: "retirement-calculator",
+    presetSlug: "roth-ira",
+    category: "finance",
+    seoTitle: "Roth IRA Calculator: Tax-Free Compound Growth to 65", // 51 chars
+    seoDescription:
+      "Calculate tax-free wealth accumulation in a Roth IRA with annual $7,000 contributions, compound dividend reinvestment, and early retirement benchmarks.", // 152 chars
+    h1: "Roth IRA Compound Growth Calculator",
+    subtitle: "Model 100% tax-free retirement compounding with annual contributions and S&P 500 benchmark returns",
+    badge: "IRS 2026 Roth IRA Limit ($7,000)",
+    presetParams: {
+      initialCurrentAge: 25,
+      initialRetirementAge: 65,
+      initialCurrentSavings: 15000,
+      initialMonthlyExpenses: 4000,
+      initialExpectedReturn: 10.0,
+      initialInflationRate: 2.8,
+      initialCurrency: "USD",
+    },
+    officialReference: {
+      title: "IRS Publication 590-A: Contributions to IRAs",
+      authority: "Internal Revenue Service (IRS)",
+      citation: "IRC Section 408A Roth IRAs",
+      url: "https://www.irs.gov",
+    },
+    faqs: [
+      {
+        question: "How much will maxing out a Roth IRA every year grow to?",
+        answer: "Maxing out a Roth IRA at $7,000/year from age 25 to 65 at an average 10% annual return grows to approximately $3,375,000—completely exempt from federal and state income taxes upon qualified withdrawal.",
+      },
+    ],
+  },
+  {
+    toolId: "retirement-calculator",
+    presetSlug: "fire-movement",
+    category: "finance",
+    seoTitle: "FIRE Calculator: Financial Independence & 4% Rule", // 50 chars
+    seoDescription:
+      "Calculate your exact Financial Independence, Retire Early (FIRE) number using the Trinity Study 4% safe withdrawal rate rule and annual living expenses.", // 154 chars
+    h1: "FIRE Movement Retirement Calculator",
+    subtitle: "Find your 25x annual expenditure target to retire decades early with the 4% safe withdrawal rule",
+    badge: "Trinity Study 4% Rule",
+    presetParams: {
+      initialCurrentAge: 30,
+      initialRetirementAge: 45,
+      initialCurrentSavings: 120000,
+      initialMonthlyExpenses: 5000,
+      initialExpectedReturn: 9.0,
+      initialInflationRate: 3.0,
+      initialCurrency: "USD",
+    },
+    officialReference: {
+      title: "Retirement Savings: Choosing a Withdrawal Rate That Is Sustainable",
+      authority: "Trinity University Study (Cooley, Hubbard, Walz)",
+      citation: "Journal of the American Association of Individual Investors (4% Rule)",
+      url: "https://www.aaii.com",
+    },
+    faqs: [
+      {
+        question: "How do you calculate your FIRE number?",
+        answer: "Your FIRE number equals 25 times your annual living expenses. For example, if you spend $60,000 per year, your target nest egg is $60,000 * 25 = $1,500,000 based on the 4% safe withdrawal rate.",
+      },
+    ],
+  },
+
+  // =========================================================================
+  // 8. TIER 1 COMPOUND WEALTH PRESETS (compound-interest-calculator)
+  // =========================================================================
+  {
+    toolId: "compound-interest-calculator",
+    presetSlug: "sp500-index",
+    category: "finance",
+    seoTitle: "S&P 500 Return Calculator: 10% Historical CAGR Return", // 53 chars
+    seoDescription:
+      "Calculate long-term wealth growth investing in the S&P 500 index at its historical 10% annualized return with monthly dollar-cost averaging.", // 141 chars
+    h1: "S&P 500 Index Compound Return Calculator",
+    subtitle: "Simulate dollar-cost averaging into low-cost index funds (VOO / SPY) with reinvested dividends",
+    badge: "S&P 500 10% Historical CAGR",
+    presetParams: {
+      initialPrincipal: 10000,
+      initialMonthlyContribution: 500,
+      initialAnnualRate: 10.0,
+      initialYears: 20,
+      initialCurrency: "USD",
+    },
+    officialReference: {
+      title: "S&P 500 Historical Total Return Series",
+      authority: "S&P Dow Jones Indices",
+      citation: "S&P 500 Total Return Index 1926-2026",
+      url: "https://www.spglobal.com",
+    },
+    faqs: [
+      {
+        question: "What is the historical average return of the S&P 500?",
+        answer: "Over the last 90+ years, the S&P 500 index has generated an annualized nominal compound return of approximately 10.2% with dividends reinvested (roughly 7% adjusted for inflation).",
+      },
+    ],
+  },
+  {
+    toolId: "compound-interest-calculator",
+    presetSlug: "500-a-month",
+    category: "finance",
+    seoTitle: "$500 a Month Investment Calculator: 10, 20 & 30 Years", // 52 chars
+    seoDescription:
+      "Calculate how much $500 invested monthly grows to in 10, 20, and 30 years at 8%, 10%, and 12% compound returns. Real wealth breakdown with charts.", // 148 chars
+    h1: "$500 a Month Investment Calculator",
+    subtitle: "Discover how a consistent $500 monthly investment compounds into over $1,000,000 in index funds",
+    badge: "$500/Month DCA Strategy",
+    presetParams: {
+      initialPrincipal: 1000,
+      initialMonthlyContribution: 500,
+      initialAnnualRate: 10.0,
+      initialYears: 25,
+      initialCurrency: "USD",
+    },
+    faqs: [
+      {
+        question: "How much will $500 a month be in 25 years at 10% interest?",
+        answer: "Investing $500 per month for 25 years at 10% annual return yields approximately $669,450 on a total out-of-pocket investment of just $151,000. In 30 years, it crosses $1,130,000.",
+      },
+    ],
+  },
+
+  // =========================================================================
+  // 9. US AUTO LOANS (car-loan-emi-calculator)
+  // =========================================================================
+  {
+    toolId: "car-loan-emi-calculator",
+    presetSlug: "60-month-auto-loan",
+    category: "finance",
+    seoTitle: "60-Month Car Loan Calculator: Payment & 6.8% APR", // 48 chars
+    seoDescription:
+      "Calculate 60-month (5-year) new and used car monthly loan payments with trade-in value, down payment, and current US average 6.8% auto loan interest rates.", // 156 chars
+    h1: "60-Month Auto Loan Payment Calculator",
+    subtitle: "Model the most common US auto financing term with trade-in deduction and current bank APRs",
+    badge: "US 60-Month Benchmark (6.8% APR)",
+    presetParams: {
+      initialCarPrice: 35000,
+      initialDownPayment: 5000,
+      initialTradeInValue: 3000,
+      initialInterestRate: 6.8,
+      initialTenureYears: 5,
+      initialCurrency: "USD",
+    },
+    officialReference: {
+      title: "Federal Reserve Consumer Credit Report (G.19)",
+      authority: "Federal Reserve Board",
+      citation: "Commercial Bank Interest Rates on 60-Month Auto Loans",
+      url: "https://www.federalreserve.gov/releases/g19/",
+    },
+    faqs: [
+      {
+        question: "What is the average monthly payment for a $35,000 car for 60 months?",
+        answer: "With $5,000 down payment and $3,000 trade-in ($27,000 loan amount) at 6.8% APR, the monthly payment is approximately $532. Total interest paid over 5 years is roughly $4,923.",
+      },
+    ],
+  },
 ];
 
 export function getAllToolPresets(): ToolPreset[] {

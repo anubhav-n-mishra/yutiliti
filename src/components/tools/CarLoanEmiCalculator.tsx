@@ -4,17 +4,32 @@ import CurrencySelector from '@/src/components/CurrencySelector';
 import { formatCurrency as formatCurr, getCurrency } from '@/src/lib/currency';
 
 interface CarLoanEmiCalculatorProps {
-  onCopy: (text: string) => void;
-  onShare: (title: string, path: string) => void;
+  onCopy?: (text: string) => void;
+  onShare?: (title: string, path: string) => void;
+  initialCarPrice?: number;
+  initialDownPayment?: number;
+  initialTradeInValue?: number;
+  initialInterestRate?: number;
+  initialTenureYears?: number;
+  initialCurrency?: string;
 }
 
-export default function CarLoanEmiCalculator({ onCopy }: CarLoanEmiCalculatorProps) {
-  const [currency, setCurrency] = useState<string>('USD');
-  const [carPrice, setCarPrice] = useState<number>(1000000); // 10 Lakhs
-  const [downPayment, setDownPayment] = useState<number>(200000);
-  const [tradeInValue, setTradeInValue] = useState<number>(50000);
-  const [interestRate, setInterestRate] = useState<number>(8.75);
-  const [tenureYears, setTenureYears] = useState<number>(5);
+export default function CarLoanEmiCalculator({
+  onCopy,
+  onShare,
+  initialCarPrice,
+  initialDownPayment,
+  initialTradeInValue,
+  initialInterestRate,
+  initialTenureYears,
+  initialCurrency,
+}: CarLoanEmiCalculatorProps) {
+  const [currency, setCurrency] = useState<string>(initialCurrency || 'USD');
+  const [carPrice, setCarPrice] = useState<number>(initialCarPrice ?? 35000);
+  const [downPayment, setDownPayment] = useState<number>(initialDownPayment ?? 5000);
+  const [tradeInValue, setTradeInValue] = useState<number>(initialTradeInValue ?? 0);
+  const [interestRate, setInterestRate] = useState<number>(initialInterestRate ?? 6.8);
+  const [tenureYears, setTenureYears] = useState<number>(initialTenureYears ?? 5);
 
   const currObj = getCurrency(currency);
 

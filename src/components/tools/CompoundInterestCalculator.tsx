@@ -4,17 +4,32 @@ import CurrencySelector from '@/src/components/CurrencySelector';
 import { formatCurrency as formatCurr, getCurrency } from '@/src/lib/currency';
 
 interface CompoundInterestCalculatorProps {
-  onCopy: (text: string) => void;
-  onShare: (title: string, path: string) => void;
+  onCopy?: (text: string) => void;
+  onShare?: (title: string, path: string) => void;
+  initialPrincipal?: number;
+  initialMonthlyContribution?: number;
+  initialAnnualRate?: number;
+  initialYears?: number;
+  initialCompoundFreq?: number;
+  initialCurrency?: string;
 }
 
-export default function CompoundInterestCalculator({ onCopy }: CompoundInterestCalculatorProps) {
-  const [currency, setCurrency] = useState<string>('USD');
-  const [initialPrincipal, setInitialPrincipal] = useState<number>(100000);
-  const [monthlyContribution, setMonthlyContribution] = useState<number>(5000);
-  const [annualRate, setAnnualRate] = useState<number>(10.0);
-  const [years, setYears] = useState<number>(10);
-  const [compoundFreq, setCompoundFreq] = useState<number>(12);
+export default function CompoundInterestCalculator({
+  onCopy,
+  onShare,
+  initialPrincipal: propInitialPrincipal,
+  initialMonthlyContribution,
+  initialAnnualRate,
+  initialYears,
+  initialCompoundFreq,
+  initialCurrency,
+}: CompoundInterestCalculatorProps) {
+  const [currency, setCurrency] = useState<string>(initialCurrency || 'USD');
+  const [initialPrincipal, setInitialPrincipal] = useState<number>(propInitialPrincipal ?? 10000);
+  const [monthlyContribution, setMonthlyContribution] = useState<number>(initialMonthlyContribution ?? 500);
+  const [annualRate, setAnnualRate] = useState<number>(initialAnnualRate ?? 10.0);
+  const [years, setYears] = useState<number>(initialYears ?? 10);
+  const [compoundFreq, setCompoundFreq] = useState<number>(initialCompoundFreq ?? 12);
 
   const currObj = getCurrency(currency);
 

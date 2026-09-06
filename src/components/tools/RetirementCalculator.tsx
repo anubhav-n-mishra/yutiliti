@@ -4,19 +4,38 @@ import CurrencySelector from '@/src/components/CurrencySelector';
 import { formatCurrency as formatCurr, getCurrency } from '@/src/lib/currency';
 
 interface RetirementCalculatorProps {
-  onCopy: (text: string) => void;
-  onShare: (title: string, path: string) => void;
+  onCopy?: (text: string) => void;
+  onShare?: (title: string, path: string) => void;
+  initialCurrentAge?: number;
+  initialRetirementAge?: number;
+  initialLifeExpectancy?: number;
+  initialCurrentSavings?: number;
+  initialMonthlyExpenses?: number;
+  initialExpectedReturn?: number;
+  initialInflationRate?: number;
+  initialCurrency?: string;
 }
 
-export default function RetirementCalculator({ onCopy }: RetirementCalculatorProps) {
-  const [currency, setCurrency] = useState<string>('USD');
-  const [currentAge, setCurrentAge] = useState<number>(30);
-  const [retirementAge, setRetirementAge] = useState<number>(60);
-  const [lifeExpectancy, setLifeExpectancy] = useState<number>(85);
-  const [currentSavings, setCurrentSavings] = useState<number>(500000);
-  const [monthlyExpenses, setMonthlyExpenses] = useState<number>(50000);
-  const [expectedReturn, setExpectedReturn] = useState<number>(10);
-  const [inflationRate, setInflationRate] = useState<number>(6);
+export default function RetirementCalculator({
+  onCopy,
+  onShare,
+  initialCurrentAge,
+  initialRetirementAge,
+  initialLifeExpectancy,
+  initialCurrentSavings,
+  initialMonthlyExpenses,
+  initialExpectedReturn,
+  initialInflationRate,
+  initialCurrency,
+}: RetirementCalculatorProps) {
+  const [currency, setCurrency] = useState<string>(initialCurrency || 'USD');
+  const [currentAge, setCurrentAge] = useState<number>(initialCurrentAge ?? 30);
+  const [retirementAge, setRetirementAge] = useState<number>(initialRetirementAge ?? 60);
+  const [lifeExpectancy, setLifeExpectancy] = useState<number>(initialLifeExpectancy ?? 85);
+  const [currentSavings, setCurrentSavings] = useState<number>(initialCurrentSavings ?? 50000);
+  const [monthlyExpenses, setMonthlyExpenses] = useState<number>(initialMonthlyExpenses ?? 4000);
+  const [expectedReturn, setExpectedReturn] = useState<number>(initialExpectedReturn ?? 8.0);
+  const [inflationRate, setInflationRate] = useState<number>(initialInflationRate ?? 3.0);
 
   const currObj = getCurrency(currency);
 
