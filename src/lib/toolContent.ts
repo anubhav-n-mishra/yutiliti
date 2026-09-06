@@ -164,7 +164,7 @@ const CUSTOM_HOW_IT_WORKS: Record<string, string> = {
   "age-calculator":
     "Enter your birth date to calculate exact age in years, months, and days down to the live second, plus zodiac details and next birthday countdown.",
   "markdown-viewer":
-    "Drag-and-drop or upload any .md or .txt file, or paste markdown text directly from your clipboard. The viewer parses GitHub Flavored Markdown (GFM) in browser memory with real-time split-screen preview, tables, interactive task checklists, code blocks, and reading metrics with zero server uploads.",
+    "Drag-and-drop or upload any .md or .txt file to open it instantly, or paste Markdown text from your clipboard. The engine parses CommonMark and GitHub Flavored Markdown (GFM) directly in your browser memory, rendering real-time tables, task checklists, and code blocks with 1-click export to PDF, Word, or HTML.",
 };
 
 /**
@@ -183,20 +183,24 @@ export function getToolHowItWorks(tool: Tool): string {
 const TOOL_FAQS_DB: Record<string, FAQItem[]> = {
   "markdown-viewer": [
     {
+      question: "How do I open an MD file without installing special software?",
+      answer: "You can open any .md file directly in your web browser by dragging and dropping it onto this page or clicking 'Open .md File'. Our in-browser file reader parses and renders the Markdown text into formatted HTML with styled headings, tables, and code blocks instantly without needing VS Code, Obsidian, or desktop apps.",
+    },
+    {
+      question: "How do I convert or export Markdown (.md) to PDF?",
+      answer: "Click the 'MD to PDF' button in the live preview toolbar. This opens your operating system's native print engine with print-optimized CSS that removes UI buttons, centers the typography, and renders headers, tables, and code blocks cleanly into a downloadable PDF document.",
+    },
+    {
+      question: "Can I convert Markdown to Microsoft Word (.doc)?",
+      answer: "Yes. Click the 'MD to Word' button to generate an immediate .doc file containing all parsed headings, tables, and formatted lists. You can open and edit this file directly in Microsoft Word, Google Docs, or LibreOffice.",
+    },
+    {
+      question: "Which markdown formats and GitHub extensions are supported?",
+      answer: "The viewer supports full GitHub Flavored Markdown (GFM) including headings (H1-H6), bold, italic, strikethrough, blockquotes, GitHub callout alerts (> [!NOTE], > [!TIP], > [!WARNING]), aligned data tables, interactive task checklists (- [x]), and syntax-highlighted code fences.",
+    },
+    {
       question: "Is my markdown file uploaded to any remote server?",
-      answer: "No. The entire parsing and rendering process happens 100% locally in your web browser using HTML5 FileReader and client-side JavaScript. Your file data, text, and metrics never leave your device.",
-    },
-    {
-      question: "Which markdown formats and syntax are supported?",
-      answer: "The viewer supports full GitHub Flavored Markdown (GFM) including headings, bold, italic, strikethrough, blockquotes, GitHub-style callouts (> [!NOTE], [!TIP]), tables, task checklists (- [x]), and fenced code blocks with language tags.",
-    },
-    {
-      question: "Can I paste markdown content directly from my clipboard?",
-      answer: "Yes. You can click 'Paste Clipboard' to import markdown directly from your operating system clipboard, or type and edit directly inside the built-in editor pane.",
-    },
-    {
-      question: "Can I export the rendered preview to HTML or print to PDF?",
-      answer: "Yes. You can copy the rendered HTML, download as a standalone .html or .md file, or click the print button to generate clean, print-ready PDF documents without watermarks.",
+      answer: "No. The entire parsing and rendering process executes 100% locally in your web browser RAM using the HTML5 FileReader API. Your document content, filenames, and text never leave your computer or touch any external server.",
     },
   ],
   "dog-age-calculator": [

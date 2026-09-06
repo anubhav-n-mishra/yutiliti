@@ -115,6 +115,24 @@ const PRIORITY_URLS = [
     intent: "Retirement corpus & monthly SIP calculation with lifetime roadmap",
     targetRank: "Move from Pos 79 -> Top 10",
   },
+  {
+    category: "GSC High-Impression Climbers",
+    url: "https://www.yuitility.app/tools/markdown-viewer",
+    intent: "Target #1 query: open md file (44k), markdown viewer (33k), md to pdf (23k), md to word (6.4k)",
+    targetRank: "Move from Pos 78 -> Top 5 (10,000+ clicks/day target)",
+  },
+  {
+    category: "GSC High-Impression Climbers",
+    url: "https://www.yuitility.app/tools/markdown-viewer/github-readme",
+    intent: "GitHub README.md viewer, badge renderer, and GFM editor",
+    targetRank: "Page 1 (Target: 850 clicks/day)",
+  },
+  {
+    category: "GSC High-Impression Climbers",
+    url: "https://www.yuitility.app/blog/how-to-open-and-view-md-files-online",
+    intent: "Comprehensive guide to opening, viewing, and converting MD to PDF/Word",
+    targetRank: "Page 1 (Target: 1,200 clicks/day)",
+  },
 
   // --- High Impression Expanded Guides (NavBoost Dwell Time Anchors) ---
   {

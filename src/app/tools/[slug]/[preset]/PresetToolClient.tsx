@@ -33,6 +33,7 @@ import MortgageCalculator from "@/src/components/tools/MortgageCalculator";
 import RetirementCalculator from "@/src/components/tools/RetirementCalculator";
 import CompoundInterestCalculator from "@/src/components/tools/CompoundInterestCalculator";
 import CarLoanEmiCalculator from "@/src/components/tools/CarLoanEmiCalculator";
+import MarkdownViewer, { TEMPLATES } from "@/src/components/tools/MarkdownViewer";
 
 interface PresetToolClientProps {
   tool: Tool;
@@ -346,6 +347,19 @@ export default function PresetToolClient({
               initialInterestRate={preset.presetParams.initialInterestRate}
               initialTenureYears={preset.presetParams.initialTenureYears}
               initialCurrency={preset.presetParams.initialCurrency}
+              onCopy={copy}
+              onShare={share}
+            />
+          )}
+
+          {tool.id === "markdown-viewer" && (
+            <MarkdownViewer
+              initialMarkdown={
+                preset.presetParams.templateKey && TEMPLATES[preset.presetParams.templateKey]
+                  ? TEMPLATES[preset.presetParams.templateKey].content
+                  : undefined
+              }
+              initialFileName={preset.presetParams.initialFileName}
               onCopy={copy}
               onShare={share}
             />

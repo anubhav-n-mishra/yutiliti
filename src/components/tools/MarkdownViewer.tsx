@@ -1,4 +1,4 @@
-import React, { useState, useRef, useId, useMemo } from 'react';
+import React, { useState, useRef, useId, useMemo, useEffect } from 'react';
 import {
   Upload,
   Clipboard,
@@ -14,23 +14,41 @@ import {
   Printer,
   ShieldCheck,
   BookOpen,
-  Maximize2
+  Maximize2,
+  FileDown,
+  Bold,
+  Italic,
+  Heading1,
+  Heading2,
+  List,
+  CheckSquare,
+  Code,
+  Table as TableIcon,
+  Quote,
+  Share2,
+  FileCode
 } from 'lucide-react';
 
 interface MarkdownViewerProps {
   onCopy?: (text: string) => void;
   onShare?: (title: string, path: string) => void;
+  initialMarkdown?: string;
+  initialFileName?: string;
 }
 
-const SAMPLE_MARKDOWN = `# 📝 GitHub Flavored Markdown (GFM) Sample
+export const TEMPLATES: Record<string, { label: string; fileName: string; content: string }> = {
+  sample: {
+    label: 'GFM Feature Demo',
+    fileName: 'sample.md',
+    content: `# 📝 GitHub Flavored Markdown (GFM) Live Viewer
 
-Welcome to **Yuitility's In-Browser Markdown File Viewer**! This tool runs **100% locally in your browser**. Your files, pastes, and documents never touch a remote server.
+Welcome to **Yuitility's Free In-Browser Markdown File Viewer & Editor**! This tool runs **100% locally in your web browser**. Your files, pastes, and notes never touch any remote server.
 
 > [!NOTE]
-> This viewer supports GitHub alerts, GFM tables, interactive checkboxes, code fences, and client-side drag-and-drop upload.
+> Supports GitHub alerts, GFM tables, interactive task checklists, code syntax blocks, and 1-click export to PDF, Word, or HTML.
 
 > [!TIP]
-> You can drop any \`.md\`, \`.markdown\`, or \`.txt\` file straight onto the editor!
+> Drag and drop any \`.md\`, \`.markdown\`, or \`.txt\` file directly into the editor to open it instantly!
 
 ---
 
@@ -39,16 +57,17 @@ Welcome to **Yuitility's In-Browser Markdown File Viewer**! This tool runs **100
 | Feature | In-Browser Execution | Server Upload Needed | Privacy Level |
 | :--- | :---: | :---: | :--- |
 | **Markdown Preview** | ✅ Yes | ❌ None | **100% Private (RAM only)** |
-| **File Reading** | ✅ FileReader API | ❌ None | **Zero Data Leakage** |
-| **HTML Export** | ✅ Instant | ❌ None | **Client-side Blob** |
+| **Open Local .md** | ✅ FileReader API | ❌ None | **Zero Data Leakage** |
+| **Export to PDF** | ✅ Window Print CSS | ❌ None | **Local Print Engine** |
+| **Export to Word** | ✅ Instant .doc Blob | ❌ None | **Client-side Generation** |
 
 ---
 
 ## ⚡ Task Checklist
-- [x] Read markdown file using local browser APIs
+- [x] Open markdown file using local browser APIs
 - [x] Real-time split-screen rendering
 - [x] Word, line, and reading time metrics
-- [ ] Upload your own \`.md\` file to preview!
+- [ ] Export rendered document as PDF or Word!
 
 ---
 
@@ -73,10 +92,164 @@ function computeStats(markdown: string): DocumentMetrics {
 }
 \`\`\`
 
-Here is some inline code: \`const privacy = true;\` and a strikethrough: ~~old unrendered markdown~~.
+Here is some inline code: \`const privacy = true;\` and strikethrough: ~~old unrendered markdown~~.
 
-Visit [Yuitility Free Tools](https://www.yuitility.app) for over 130+ privacy-first utilities.
-`;
+Visit [Yuitility Free Tools](https://www.yuitility.app) for over 130+ privacy-first browser utilities.
+`
+  },
+  readme: {
+    label: 'GitHub README.md',
+    fileName: 'README.md',
+    content: `# 🚀 Project Title
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-blue.svg)]()
+
+A modern, fast, and privacy-first web application built with TypeScript and React.
+
+---
+
+## ✨ Features
+- ⚡ **Zero Latency**: Executes entirely client-side inside the browser.
+- 🔒 **Privacy-First**: No remote server uploads, tracking, or external database queries.
+- 📱 **Fully Responsive**: Optimized for desktop, tablet, and mobile screens.
+- 🛠️ **Export Capabilities**: 1-click download to Markdown (.md), PDF, Word (.doc), and HTML.
+
+---
+
+## 📦 Installation
+
+Clone the repository and install dependencies using your favorite package manager:
+
+\`\`\`bash
+git clone https://github.com/username/project-name.git
+cd project-name
+npm install
+\`\`\`
+
+---
+
+## 🚀 Quick Start
+
+Start the local development server:
+
+\`\`\`bash
+npm run dev
+\`\`\`
+
+Open [http://localhost:3000](http://localhost:3000) in your browser to view the application.
+
+---
+
+## 📑 API Reference
+
+| Endpoint | Method | Description | Auth Required |
+| :--- | :--- | :--- | :---: |
+| \`/api/status\` | \`GET\` | Returns service health status | ❌ No |
+| \`/api/convert\` | \`POST\` | Client-side format processing | ❌ No |
+
+---
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome! Feel free to check the [issues page]().
+
+1. Fork the Project
+2. Create your Feature Branch (\`git checkout -b feature/AmazingFeature\`)
+3. Commit your Changes (\`git commit -m 'Add some AmazingFeature'\`)
+4. Push to the Branch (\`git push origin feature/AmazingFeature\`)
+5. Open a Pull Request
+
+---
+
+## 📝 License
+
+Distributed under the MIT License. See \`LICENSE\` for more information.
+`
+  },
+  changelog: {
+    label: 'Keep a Changelog',
+    fileName: 'CHANGELOG.md',
+    content: `# 📋 Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+---
+
+## [Unreleased]
+### Added
+- Real-time client-side split-screen markdown preview.
+- 1-click export to Word (.doc) and PDF formats.
+
+---
+
+## [1.2.0] - 2026-09-06
+### Added
+- Support for GitHub Flavored Markdown (GFM) callout alerts: \`> [!NOTE]\`, \`> [!TIP]\`, \`> [!WARNING]\`.
+- Full table alignments support (left, center, right).
+- Task checklists with interactive checkboxes.
+
+### Changed
+- Improved memory efficiency when parsing large files (>5MB).
+- Optimized typography contrast for dark mode viewing.
+
+### Fixed
+- Fixed unclosed code fence indentation issue on Windows line endings (\`\\r\\n\`).
+- Resolved table border overflow on mobile viewport widths.
+
+---
+
+## [1.0.0] - 2026-08-01
+### Added
+- Initial public release of Yuitility Markdown File Viewer.
+- Drag-and-drop local file reader supporting \`.md\`, \`.markdown\`, and \`.txt\`.
+- Real-time word count, character metrics, and estimated reading time.
+`
+  },
+  docs: {
+    label: 'Technical Documentation',
+    fileName: 'DOCS.md',
+    content: `# 📘 Architecture & Technical Specification
+
+This document details the system design, algorithmic data flow, and runtime security model of the client-side Markdown engine.
+
+> [!IMPORTANT]
+> All document transformations execute strictly inside the browser thread using web standards (HTML5 FileReader, Web Crypto, and DOM APIs). No user data is ever transmitted across the network.
+
+---
+
+## 🏗️ Architecture Pipeline
+
+1. **File Input / Clipboard Intake**: Reads binary blob or string via \`FileReader.readAsText()\`.
+2. **Tokenizer & Block Parser**: Deconstructs lines into block-level elements (Headings, Code Fences, Blockquotes, Tables, Lists).
+3. **Inline Formatter**: Applies regex passes for bold, italic, inline code, links, images, and strikethroughs.
+4. **HTML Sanitization & Rendering**: Converts AST tokens into clean, styled HTML5 elements.
+5. **DOM Injection**: Updates the split-pane live preview container synchronously.
+
+---
+
+## ⚙️ Supported Block Elements
+
+| Syntax Token | HTML Output | Description |
+| :--- | :--- | :--- |
+| \`# Heading 1\` | \`<h1>\` | Top-level document header |
+| \`| col | col |\` | \`<table>\` | GFM formatted data grid |
+| \`- [x] task\` | \`<input type="checkbox">\` | Interactive task status |
+| \`\`\`lang\` | \`<pre><code>\` | Syntax-highlighted code block |
+| \`> [!TIP]\` | \`<blockquote class="tip">\` | Callout notification alert |
+
+---
+
+## 🔒 Security & Privacy Guarantees
+- **No Cookies / Local Storage of Document Content**: Uploaded files exist only in volatile browser RAM.
+- **Zero Third-Party Telemetry**: Document text is never inspected, tokenized, or logged.
+`
+  }
+};
 
 function parseMarkdownToHtml(md: string): string {
   if (!md) return '';
@@ -354,14 +527,41 @@ function parseMarkdownToHtml(md: string): string {
   return out.join('\n');
 }
 
-export default function MarkdownViewer({ onCopy, onShare }: MarkdownViewerProps) {
-  const [markdown, setMarkdown] = useState<string>(SAMPLE_MARKDOWN);
+export default function MarkdownViewer({
+  onCopy,
+  onShare,
+  initialMarkdown,
+  initialFileName,
+}: MarkdownViewerProps) {
+  const [markdown, setMarkdown] = useState<string>(initialMarkdown || TEMPLATES.sample.content);
   const [viewMode, setViewMode] = useState<'split' | 'preview' | 'editor'>('split');
   const [copied, setCopied] = useState<boolean>(false);
-  const [fileName, setFileName] = useState<string>('sample.md');
+  const [copiedLink, setCopiedLink] = useState<boolean>(false);
+  const [fileName, setFileName] = useState<string>(initialFileName || 'document.md');
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const inputId = useId();
+
+  // Client-side URL query parameter hydration for pre-filled templates or shared snippets
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    try {
+      const sp = new URLSearchParams(window.location.search);
+      const templateKey = sp.get('template');
+      if (templateKey && TEMPLATES[templateKey]) {
+        setMarkdown(TEMPLATES[templateKey].content);
+        setFileName(TEMPLATES[templateKey].fileName);
+      }
+      const rawText = sp.get('text');
+      if (rawText) {
+        setMarkdown(decodeURIComponent(rawText));
+        setFileName('shared.md');
+      }
+    } catch {
+      // Ignore query parsing error
+    }
+  }, []);
 
   // Metrics computation
   const stats = useMemo(() => {
@@ -443,13 +643,63 @@ export default function MarkdownViewer({ onCopy, onShare }: MarkdownViewerProps)
     URL.revokeObjectURL(url);
   };
 
-  const handlePrint = () => {
+  // 1-Click Export to Microsoft Word (.doc) with complete Office HTML envelope
+  const handleExportWord = () => {
+    const base = fileName.replace(/\.[^/.]+$/, '') || 'document';
+    const header = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+<head><meta charset='utf-8'><title>${escapeHtml(base)}</title>
+<style>
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; font-size: 11pt; line-height: 1.6; color: #1f2937; }
+h1 { font-size: 20pt; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 6px; }
+h2 { font-size: 16pt; color: #1f2937; border-bottom: 1px solid #e5e7eb; padding-bottom: 4px; }
+h3 { font-size: 13pt; color: #374151; }
+table { border-collapse: collapse; width: 100%; margin: 16px 0; }
+th, td { border: 1px solid #d1d5db; padding: 8px 12px; text-align: left; }
+th { background-color: #f3f4f6; font-weight: bold; }
+code { font-family: "Courier New", Courier, monospace; background-color: #f3f4f6; padding: 2px 4px; border-radius: 4px; font-size: 10pt; }
+pre { background-color: #1f2937; color: #f9fafb; padding: 12px; border-radius: 6px; font-family: monospace; overflow-x: auto; }
+blockquote { border-left: 4px solid #3b82f6; margin: 12px 0; padding: 8px 16px; background-color: #eff6ff; color: #1e3a8a; }
+</style>
+</head><body>`;
+    const footer = `</body></html>`;
+    const sourceHTML = header + htmlOutput + footer;
+    const blob = new Blob(['\ufeff' + sourceHTML], { type: 'application/msword;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${base}.doc`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  // 1-Click Export to PDF via clean print layout
+  const handlePrintPdf = () => {
     window.print();
+  };
+
+  // Quick Format Snippet Inserter into textarea
+  const insertFormatting = (prefix: string, suffix: string = '', defaultPlaceholder: string = '') => {
+    const el = textareaRef.current;
+    if (!el) return;
+    const start = el.selectionStart;
+    const end = el.selectionEnd;
+    const selectedText = el.value.substring(start, end) || defaultPlaceholder;
+    const replacement = `${prefix}${selectedText}${suffix}`;
+    const newMarkdown = el.value.substring(0, start) + replacement + el.value.substring(end);
+    setMarkdown(newMarkdown);
+
+    // Reset cursor position inside inserted text
+    setTimeout(() => {
+      el.focus();
+      el.setSelectionRange(start + prefix.length, start + prefix.length + selectedText.length);
+    }, 50);
   };
 
   return (
     <div className="space-y-6">
-      {/* File Upload & Paste Bar */}
+      {/* File Upload, Dropzone, & Template Selector Bar */}
       <div
         onDragOver={(e) => {
           e.preventDefault();
@@ -459,31 +709,31 @@ export default function MarkdownViewer({ onCopy, onShare }: MarkdownViewerProps)
         onDrop={handleDrop}
         className={`rounded-2xl border-2 border-dashed p-4 sm:p-5 transition-all ${
           isDragging
-            ? 'border-blue-500 bg-blue-50/50 dark:bg-blue-950/30'
-            : 'border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/30'
+            ? 'border-blue-500 bg-blue-50/70 dark:bg-blue-950/40'
+            : 'border-zinc-200 dark:border-zinc-800 bg-zinc-50/60 dark:bg-zinc-900/40'
         }`}
       >
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-blue-50 text-blue-600 dark:bg-blue-950/50 dark:text-cyan-400">
-              <FileText className="w-5 h-5" />
+            <div className="p-2.5 rounded-xl bg-blue-600 text-white dark:bg-cyan-500 dark:text-zinc-950 shadow-sm">
+              <FileCode className="w-5 h-5" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                <span className="text-sm font-bold text-zinc-900 dark:text-zinc-100 font-mono">
                   {fileName}
                 </span>
-                <span className="text-[11px] font-mono text-zinc-400 bg-zinc-200/60 dark:bg-zinc-800 px-1.5 py-0.5 rounded">
+                <span className="text-[11px] font-mono text-zinc-500 dark:text-zinc-400 bg-zinc-200/70 dark:bg-zinc-800 px-1.5 py-0.5 rounded">
                   {stats.kb} KB
                 </span>
               </div>
-              <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
-                Drop your <code className="font-mono text-[11px]">.md</code> file here, or click to upload. 100% computed in browser memory.
+              <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-0.5">
+                Drop your <code className="font-mono text-[11px]">.md</code> or <code className="font-mono text-[11px]">.txt</code> file here, or select a template below. 100% computed in browser memory.
               </p>
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+          <div className="flex flex-wrap items-center gap-2 w-full lg:w-auto">
             <input
               type="file"
               ref={fileInputRef}
@@ -498,35 +748,48 @@ export default function MarkdownViewer({ onCopy, onShare }: MarkdownViewerProps)
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-xl bg-blue-600 hover:bg-blue-700 text-white shadow transition active:scale-95"
+              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-xl bg-blue-600 hover:bg-blue-700 text-white shadow-sm transition active:scale-95 dark:bg-cyan-500 dark:text-zinc-950 dark:hover:bg-cyan-400"
+              title="Open a local .md file from your computer"
             >
-              <Upload className="w-3.5 h-3.5" /> Upload .md
+              <Upload className="w-3.5 h-3.5" /> Open .md File
             </button>
             <button
               type="button"
               onClick={handlePasteFromClipboard}
               className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-200 transition active:scale-95"
             >
-              <Clipboard className="w-3.5 h-3.5" /> Paste Clipboard
+              <Clipboard className="w-3.5 h-3.5" /> Paste
             </button>
-            <button
-              type="button"
-              onClick={() => {
-                setMarkdown(SAMPLE_MARKDOWN);
-                setFileName('sample.md');
-              }}
-              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-200 transition"
-              title="Load full GFM markdown demo"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-amber-500" /> Sample
-            </button>
+
+            {/* Quick Templates Selector */}
+            <div className="flex items-center gap-1 bg-white dark:bg-zinc-800 p-0.5 rounded-xl border border-zinc-200 dark:border-zinc-700">
+              {Object.entries(TEMPLATES).map(([key, t]) => (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => {
+                    setMarkdown(t.content);
+                    setFileName(t.fileName);
+                  }}
+                  className={`px-2 py-1.5 text-[11px] font-medium rounded-lg transition ${
+                    fileName === t.fileName
+                      ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950'
+                      : 'text-zinc-600 dark:text-zinc-300 hover:text-blue-600 dark:hover:text-cyan-300'
+                  }`}
+                  title={`Load ${t.label} template`}
+                >
+                  {t.label.split(' ')[0]}
+                </button>
+              ))}
+            </div>
+
             <button
               type="button"
               onClick={() => {
                 setMarkdown('');
                 setFileName('untitled.md');
               }}
-              className="inline-flex items-center gap-1.5 px-2.5 py-2 text-xs font-semibold rounded-xl border border-rose-200 dark:border-rose-900/40 text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition"
+              className="inline-flex items-center gap-1 px-2.5 py-2 text-xs font-semibold rounded-xl border border-rose-200 dark:border-rose-900/40 text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition"
               title="Clear editor"
             >
               <Trash2 className="w-3.5 h-3.5" />
@@ -536,7 +799,7 @@ export default function MarkdownViewer({ onCopy, onShare }: MarkdownViewerProps)
       </div>
 
       {/* Metrics Bar & View Mode Toggles */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-zinc-100/70 dark:bg-zinc-900/50 p-3.5 rounded-2xl border border-zinc-200/80 dark:border-zinc-800 text-xs">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-zinc-100/70 dark:bg-zinc-900/50 p-3 rounded-2xl border border-zinc-200/80 dark:border-zinc-800 text-xs">
         {/* Document Stats */}
         <div className="flex flex-wrap items-center gap-4 text-zinc-600 dark:text-zinc-400 font-mono">
           <span>
@@ -591,6 +854,93 @@ export default function MarkdownViewer({ onCopy, onShare }: MarkdownViewerProps)
         </div>
       </div>
 
+      {/* Editor Formatting Quick Toolbar */}
+      {(viewMode === 'split' || viewMode === 'editor') && (
+        <div className="flex flex-wrap items-center gap-1 p-2 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs">
+          <button
+            type="button"
+            onClick={() => insertFormatting('**', '**', 'bold text')}
+            className="p-1.5 rounded-lg text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition"
+            title="Bold (**text**)"
+          >
+            <Bold className="w-3.5 h-3.5" />
+          </button>
+          <button
+            type="button"
+            onClick={() => insertFormatting('*', '*', 'italic text')}
+            className="p-1.5 rounded-lg text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition"
+            title="Italic (*text*)"
+          >
+            <Italic className="w-3.5 h-3.5" />
+          </button>
+          <button
+            type="button"
+            onClick={() => insertFormatting('# ', '', 'Heading 1')}
+            className="p-1.5 rounded-lg text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition font-bold text-xs"
+            title="Heading 1 (# Heading)"
+          >
+            <Heading1 className="w-3.5 h-3.5" />
+          </button>
+          <button
+            type="button"
+            onClick={() => insertFormatting('## ', '', 'Heading 2')}
+            className="p-1.5 rounded-lg text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition font-bold text-xs"
+            title="Heading 2 (## Heading)"
+          >
+            <Heading2 className="w-3.5 h-3.5" />
+          </button>
+          <span className="w-px h-4 bg-zinc-200 dark:bg-zinc-700 mx-1" />
+          <button
+            type="button"
+            onClick={() => insertFormatting('- ', '', 'List item')}
+            className="p-1.5 rounded-lg text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition"
+            title="Unordered List (- item)"
+          >
+            <List className="w-3.5 h-3.5" />
+          </button>
+          <button
+            type="button"
+            onClick={() => insertFormatting('- [ ] ', '', 'New task')}
+            className="p-1.5 rounded-lg text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition"
+            title="Task Checklist (- [ ] task)"
+          >
+            <CheckSquare className="w-3.5 h-3.5" />
+          </button>
+          <button
+            type="button"
+            onClick={() => insertFormatting('> ', '', 'Quote text')}
+            className="p-1.5 rounded-lg text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition"
+            title="Blockquote (> quote)"
+          >
+            <Quote className="w-3.5 h-3.5" />
+          </button>
+          <button
+            type="button"
+            onClick={() => insertFormatting('```\n', '\n```', 'console.log("code");')}
+            className="p-1.5 rounded-lg text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition font-mono"
+            title="Code Fence (```code```)"
+          >
+            <Code className="w-3.5 h-3.5" />
+          </button>
+          <button
+            type="button"
+            onClick={() => insertFormatting('| Column 1 | Column 2 |\n| :--- | :--- |\n| Data 1 | Data 2 |\n')}
+            className="p-1.5 rounded-lg text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition"
+            title="Insert Table Grid"
+          >
+            <TableIcon className="w-3.5 h-3.5" />
+          </button>
+          <button
+            type="button"
+            onClick={() => insertFormatting('> [!NOTE]\n> ', '', 'Important notification text')}
+            className="px-2 py-1 rounded-lg text-[11px] font-semibold text-blue-600 dark:text-cyan-400 hover:bg-blue-50 dark:hover:bg-zinc-800 transition"
+            title="GitHub Alert (> [!NOTE])"
+          >
+            [!NOTE]
+          </button>
+        </div>
+      )}
+
       {/* Main Workspace: Split or Single View */}
       <div
         className={`grid gap-6 ${
@@ -608,7 +958,7 @@ export default function MarkdownViewer({ onCopy, onShare }: MarkdownViewerProps)
                 <button
                   type="button"
                   onClick={handleCopyMarkdown}
-                  className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200/60 dark:hover:bg-zinc-800 rounded-lg transition"
+                  className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200/60 dark:hover:bg-zinc-800 rounded-lg transition"
                   title="Copy raw markdown"
                 >
                   {copied ? <Check className="w-3 h-3 text-emerald-500" /> : <Copy className="w-3 h-3" />}
@@ -617,20 +967,21 @@ export default function MarkdownViewer({ onCopy, onShare }: MarkdownViewerProps)
                 <button
                   type="button"
                   onClick={() => handleDownload('md')}
-                  className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200/60 dark:hover:bg-zinc-800 rounded-lg transition"
+                  className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200/60 dark:hover:bg-zinc-800 rounded-lg transition"
                   title="Download .md file"
                 >
-                  <Download className="w-3 h-3" /> .md
+                  <Download className="w-3 h-3" /> Save .md
                 </button>
               </div>
             </div>
             <textarea
               id={inputId}
+              ref={textareaRef}
               value={markdown}
               onChange={(e) => setMarkdown(e.target.value)}
-              placeholder="Paste or write Markdown content here..."
-              rows={22}
-              className="w-full h-full min-h-[500px] p-4 bg-transparent text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 font-mono text-xs sm:text-sm resize-none focus:outline-none"
+              placeholder="Paste or type Markdown content here..."
+              rows={24}
+              className="w-full h-full min-h-[500px] p-4 bg-transparent text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 font-mono text-xs sm:text-sm resize-none focus:outline-none leading-relaxed"
             />
           </div>
         )}
@@ -638,46 +989,114 @@ export default function MarkdownViewer({ onCopy, onShare }: MarkdownViewerProps)
         {/* Rendered Live Preview Pane */}
         {(viewMode === 'split' || viewMode === 'preview') && (
           <div className="flex flex-col rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 overflow-hidden shadow-sm">
-            <div className="flex items-center justify-between px-4 py-2.5 bg-zinc-50 dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800">
+            <div className="flex flex-wrap items-center justify-between gap-2 px-4 py-2.5 bg-zinc-50 dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800">
               <span className="flex items-center gap-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider">
-                <Eye className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" /> Live HTML Preview
+                <Eye className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" /> Live Rendered Preview
               </span>
-              <div className="flex items-center gap-1.5">
+              <div className="flex flex-wrap items-center gap-1.5">
+                <button
+                  type="button"
+                  onClick={handleExportWord}
+                  className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-950/40 hover:bg-blue-100 dark:hover:bg-blue-900/50 rounded-lg transition"
+                  title="Convert Markdown to Word document (.doc)"
+                >
+                  <FileDown className="w-3 h-3" /> MD to Word
+                </button>
+                <button
+                  type="button"
+                  onClick={handlePrintPdf}
+                  className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/40 hover:bg-purple-100 dark:hover:bg-purple-900/50 rounded-lg transition"
+                  title="Export Markdown to PDF via system print dialog"
+                >
+                  <Printer className="w-3 h-3" /> MD to PDF
+                </button>
                 <button
                   type="button"
                   onClick={handleCopyHtml}
-                  className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200/60 dark:hover:bg-zinc-800 rounded-lg transition"
-                  title="Copy rendered HTML"
+                  className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200/60 dark:hover:bg-zinc-800 rounded-lg transition"
+                  title="Copy rendered HTML code"
                 >
-                  <Copy className="w-3 h-3" /> Copy HTML
+                  <Copy className="w-3 h-3" /> HTML
                 </button>
                 <button
                   type="button"
                   onClick={() => handleDownload('html')}
-                  className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200/60 dark:hover:bg-zinc-800 rounded-lg transition"
-                  title="Download HTML"
+                  className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200/60 dark:hover:bg-zinc-800 rounded-lg transition"
+                  title="Download standalone HTML file"
                 >
                   <Download className="w-3 h-3" /> .html
-                </button>
-                <button
-                  type="button"
-                  onClick={handlePrint}
-                  className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200/60 dark:hover:bg-zinc-800 rounded-lg transition"
-                  title="Print or export as PDF"
-                >
-                  <Printer className="w-3 h-3" />
                 </button>
               </div>
             </div>
 
-            <div className="p-5 sm:p-6 flex-1 min-h-[500px] max-h-[800px] overflow-y-auto">
+            <div className="p-5 sm:p-7 flex-1 min-h-[500px] max-h-[800px] overflow-y-auto print:overflow-visible print:max-h-none print:p-0">
               <div
-                className="prose prose-zinc dark:prose-invert max-w-none"
+                className="prose prose-zinc dark:prose-invert max-w-none print:text-black print:prose-neutral"
                 dangerouslySetInnerHTML={{ __html: htmlOutput }}
               />
             </div>
           </div>
         )}
+      </div>
+
+      {/* Conversion & Capability Action Ribbon */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div className="p-4 rounded-2xl border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 flex items-start gap-3">
+          <div className="p-2 rounded-xl bg-purple-50 text-purple-600 dark:bg-purple-950/50 dark:text-purple-400 shrink-0">
+            <Printer className="w-4 h-4" />
+          </div>
+          <div>
+            <h4 className="text-xs font-bold text-zinc-900 dark:text-zinc-100">Export MD to PDF</h4>
+            <p className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5">
+              Outputs clean paginated PDF documents without watermarks or server uploads.
+            </p>
+            <button
+              type="button"
+              onClick={handlePrintPdf}
+              className="mt-2 text-xs font-semibold text-purple-600 dark:text-purple-400 hover:underline"
+            >
+              Print / Save PDF →
+            </button>
+          </div>
+        </div>
+
+        <div className="p-4 rounded-2xl border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 flex items-start gap-3">
+          <div className="p-2 rounded-xl bg-blue-50 text-blue-600 dark:bg-blue-950/50 dark:text-blue-400 shrink-0">
+            <FileDown className="w-4 h-4" />
+          </div>
+          <div>
+            <h4 className="text-xs font-bold text-zinc-900 dark:text-zinc-100">Export MD to Word</h4>
+            <p className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5">
+              1-click download as Microsoft Word (.doc) with tables and headers preserved.
+            </p>
+            <button
+              type="button"
+              onClick={handleExportWord}
+              className="mt-2 text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline"
+            >
+              Download .doc →
+            </button>
+          </div>
+        </div>
+
+        <div className="p-4 rounded-2xl border border-zinc-200/80 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 flex items-start gap-3">
+          <div className="p-2 rounded-xl bg-emerald-50 text-emerald-600 dark:bg-emerald-950/50 dark:text-emerald-400 shrink-0">
+            <Download className="w-4 h-4" />
+          </div>
+          <div>
+            <h4 className="text-xs font-bold text-zinc-900 dark:text-zinc-100">Export to HTML</h4>
+            <p className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5">
+              Copy semantic HTML code or save as a standalone .html file for blogs and CMSs.
+            </p>
+            <button
+              type="button"
+              onClick={() => handleDownload('html')}
+              className="mt-2 text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline"
+            >
+              Download HTML →
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Privacy & Feature Footer Callout */}
@@ -687,7 +1106,7 @@ export default function MarkdownViewer({ onCopy, onShare }: MarkdownViewerProps)
           <strong className="text-zinc-900 dark:text-zinc-200 font-semibold block mb-0.5">
             100% In-Browser Privacy &amp; Zero Server Uploads
           </strong>
-          When you upload or paste markdown files, the contents are parsed in RAM using HTML5 FileReader and client-side JavaScript. No document content, filenames, or metrics are ever sent across the network.
+          When you open, drop, or edit .md files, everything is processed inside your local device memory using HTML5 FileReader and client-side JavaScript. No file text, document names, or metrics are ever transmitted over the network.
         </div>
       </div>
     </div>

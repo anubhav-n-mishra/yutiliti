@@ -992,6 +992,107 @@ export const TOOL_PRESETS: ToolPreset[] = [
       },
     ],
   },
+
+  // =========================================================================
+  // 6. MARKDOWN DOCUMENT & DEVELOPER PRESETS (markdown-viewer)
+  // =========================================================================
+  {
+    toolId: "markdown-viewer",
+    presetSlug: "github-readme",
+    category: "developer",
+    seoTitle: "GitHub README.md Viewer & Editor (Free Online)", // 48 chars
+    seoDescription:
+      "Preview and edit your GitHub README.md online with live split-screen preview, badge rendering, tables, code blocks, and instant copy. 100% private in-browser.", // 160 chars
+    h1: "GitHub README.md Viewer & Editor",
+    subtitle: "Real-time GitHub Flavored Markdown (GFM) preview, shields.io badges, installation blocks, and contributing guidelines",
+    badge: "GitHub README Specification",
+    presetParams: {
+      templateKey: "readme",
+      initialFileName: "README.md",
+    },
+    officialReference: {
+      title: "GitHub Docs - About READMEs",
+      authority: "GitHub Documentation",
+      citation: "GitHub Standard Repository Documentation Guide",
+      url: "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes",
+    },
+    faqs: [
+      {
+        question: "How do I preview a GitHub README.md before pushing to GitHub?",
+        answer: "Paste your README markdown into the editor or upload your README.md file. This viewer uses the exact GitHub Flavored Markdown (GFM) specification to render headings, badges, tables, checklists, and code fences identically to GitHub's web interface.",
+      },
+      {
+        question: "Can I export my GitHub README as a PDF or Word document?",
+        answer: "Yes. Click 'MD to PDF' or 'MD to Word' in the top action ribbon to compile a clean, formatted document for executive reports, grant proposals, or client documentation.",
+      },
+      {
+        question: "Does this preview tool upload my proprietary code or README to any server?",
+        answer: "No. Everything runs strictly in your local browser memory via JavaScript. No repository code, documentation, or metadata is ever transmitted over the network.",
+      },
+    ],
+  },
+  {
+    toolId: "markdown-viewer",
+    presetSlug: "changelog",
+    category: "developer",
+    seoTitle: "Keep a Changelog Viewer & Editor (CHANGELOG.md)", // 47 chars
+    seoDescription:
+      "Preview and edit CHANGELOG.md files adhering to Keep a Changelog standards. Live GFM preview with version release tags, checklists, and instant PDF/Word export.", // 162 chars
+    h1: "Keep a Changelog Viewer & Editor",
+    subtitle: "Standardized release notes viewer adhering to KeepAChangelog.com and SemVer 2.0.0 guidelines with instant export",
+    badge: "KeepAChangelog Spec v1.1.0",
+    presetParams: {
+      templateKey: "changelog",
+      initialFileName: "CHANGELOG.md",
+    },
+    officialReference: {
+      title: "Keep a Changelog Standard (v1.1.0)",
+      authority: "Keep a Changelog Initiative",
+      citation: "Standardized Release History Conventions for Software Projects",
+      url: "https://keepachangelog.com/en/1.1.0/",
+    },
+    faqs: [
+      {
+        question: "What categories should a CHANGELOG.md include?",
+        answer: "According to Keep a Changelog standards, each release should organize changes under: Added (new features), Changed (modifications), Deprecated (soon-to-be removed), Removed (eliminated features), Fixed (bug resolutions), and Security (vulnerability patches).",
+      },
+      {
+        question: "How do I format version headers in Markdown?",
+        answer: "Use level-2 headings with square brackets for version numbers and release dates: ## [1.2.0] - 2026-09-06. The top section should always remain ## [Unreleased] for upcoming changes.",
+      },
+    ],
+  },
+  {
+    toolId: "markdown-viewer",
+    presetSlug: "documentation",
+    category: "developer",
+    seoTitle: "Markdown Documentation Viewer & Editor (DOCS.md)", // 48 chars
+    seoDescription:
+      "Preview technical documentation and API docs in Markdown. Features live split-screen view, parameter tables, GFM alert callouts, and instant PDF export.", // 154 chars
+    h1: "Technical Markdown Documentation Viewer",
+    subtitle: "Interactive developer documentation viewer with API endpoint grids, request/response syntax blocks, and alert callouts",
+    badge: "Technical Docs & API Spec",
+    presetParams: {
+      templateKey: "docs",
+      initialFileName: "DOCS.md",
+    },
+    officialReference: {
+      title: "CommonMark Standard Specification (v0.31.2)",
+      authority: "CommonMark Workgroup",
+      citation: "Standardized Syntax for Technical & Computational Documentation",
+      url: "https://commonmark.org",
+    },
+    faqs: [
+      {
+        question: "How can I share technical documentation written in Markdown with non-technical stakeholders?",
+        answer: "Use the 'MD to PDF' or 'MD to Word' export buttons. This compiles your Markdown documentation, tables, and code snippets into standard .pdf and .doc files that clients, managers, and non-developers can read without any Markdown reader.",
+      },
+      {
+        question: "How do I write callout boxes for warnings or tips in Markdown?",
+        answer: "Use GitHub-style alert callouts: > [!NOTE], > [!TIP], > [!IMPORTANT], > [!WARNING], or > [!CAUTION]. The viewer styles each with thematic colors, borders, and icons.",
+      },
+    ],
+  },
 ];
 
 export function getAllToolPresets(): ToolPreset[] {

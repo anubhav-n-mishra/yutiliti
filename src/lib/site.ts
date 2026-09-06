@@ -510,7 +510,7 @@ const TOOL_SEO_TITLES: Record<string, string> = {
   "morse-code-translator": "Morse Code Translator: Text to Audio & Beeps",
   "regex-tester": "RegEx Tester and Matcher with Explanations",
   "markdown-to-html": "Markdown to HTML Converter with Live Preview",
-  "markdown-viewer": "Markdown File Viewer: Live GFM Preview & Local Upload",
+  "markdown-viewer": "Open MD File Online: Free Markdown Viewer & Editor",
   "diff-checker": "Text Diff Checker: Compare Two Texts Online",
 
   // --- Math additions --------------------------------------------------
@@ -757,7 +757,7 @@ const TOOL_SEO_DESCRIPTIONS: Record<string, string> = {
   "markdown-to-html":
     "Convert Markdown to clean semantic HTML in real-time with split-pane live preview. Supports headings, tables, code fences, and checklists with instant copy.",
   "markdown-viewer":
-    "Open, upload and view Markdown files in your browser with live split-screen preview, GFM tables, code syntax styling, and word count stats. 100% private and client-side.",
+    "Open and view MD files online with live Markdown preview and editor. Supports GitHub Flavored Markdown, split-screen editing, and instant export to PDF, Word, or HTML. 100% private.",
   "diff-checker":
     "Compare two text files or code snippets side-by-side or inline to spot line additions and deletions with character-level accuracy. 100% private in-browser diff.",
 

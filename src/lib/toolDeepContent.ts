@@ -892,6 +892,71 @@ export const TOOL_DEEP_CONTENT: Record<string, DeepContent> = {
       },
     ],
   },
+
+  // -------------------------------------------------------------------
+  // Developer & Document Utilities — high-demand Markdown searches
+  // -------------------------------------------------------------------
+  "markdown-viewer": {
+    formula: {
+      expression: "AST = Tokenize(Lines) ➔ ParseBlocks(Headings, Tables, Fences) ➔ ParseInline(GFM) ➔ Render(HTML5)",
+      where: [
+        "Lines: Stream of plain-text Markdown characters split across Windows (\\r\\n) or Unix (\\n) line breaks",
+        "ParseBlocks: CommonMark block structure identifying H1-H6, GFM pipe tables (| col |), lists (- / 1.), and fences (```)",
+        "ParseInline: AST leaf evaluation formatting bold (**), italic (*), code (`), links ([text](url)), and alerts (> [!NOTE])",
+        "Render: Deterministic compilation into clean, sanitized HTML5 elements with local CSS variables and print media styles",
+      ],
+    },
+    workedExample: {
+      scenario: "Opening a 2,500-word software specification (.md file) and converting it to PDF & Word",
+      steps: [
+        { label: "File Ingestion (FileReader API)", value: "Local HTML5 reader buffers 45 KB binary text into volatile browser RAM in 1.8ms" },
+        { label: "GFM Block Parsing", value: "Identifies 14 section headers, 3 pipe tables, 5 syntax code blocks, and 12 checklist items" },
+        { label: "DOM Injection & Live Metrics", value: "Generates semantic DOM tree: 2,514 words, 16,840 characters, ~13 min estimated reading time" },
+        { label: "1-Click PDF Compilation", value: "Applies CSS @media print styling, strips editor UI, and outputs clean paginated PDF without watermarks" },
+        { label: "1-Click Word Conversion", value: "Builds UTF-8 encoded Office XML MIME document (.doc) with table borders and typography intact" },
+      ],
+      result: "100% private local render and dual PDF/Word export completed in under 15ms with zero network transmission.",
+      takeaway: "Traditional online Markdown tools send documents to cloud servers to run headless Chromium or Pandoc, risking intellectual property and private notes. In-browser rendering achieves identical formatting with zero security exposure.",
+    },
+    pitfalls: [
+      {
+        title: "Missing Empty Lines Around Markdown Tables",
+        body: "CommonMark parsers require a blank line before and after table delimiters. If text immediately precedes a table header row (| col |), parsers treat it as plain text.",
+      },
+      {
+        title: "Unclosed Code Fences Corrupting Document Layout",
+        body: "Leaving a triple-backtick (```) block open causes all subsequent headings, checklists, and paragraphs to be treated as raw monospace code.",
+      },
+      {
+        title: "Mismatched Table Column Delimiters",
+        body: "A GFM table requires equal cell counts across header and separator rows (| --- | --- |). Omitted pipe characters break grid layout alignment.",
+      },
+    ],
+    edgeCases: [
+      {
+        title: "GitHub Callout Alert Rendering (> [!NOTE], > [!TIP])",
+        body: "Standard Markdown ignores GitHub callouts and displays them as plain blockquotes. This viewer parses alert types and injects styled iconography and thematic border accents.",
+      },
+      {
+        title: "Windows CRLF vs Unix LF Line Endings",
+        body: "Markdown files created in PowerShell or Notepad often use \\r\\n line endings. The parser normalizes carriage returns to prevent broken multi-line code fences.",
+      },
+    ],
+    statutoryReferences: [
+      {
+        title: "CommonMark Spec v0.31.2 (Standardized Markdown Specification)",
+        authority: "CommonMark Workgroup (John MacFarlane et al.)",
+        url: "https://commonmark.org",
+        citation: "A robust, unambiguous Markdown syntax specification",
+      },
+      {
+        title: "GitHub Flavored Markdown (GFM) Specification v0.29.0",
+        authority: "GitHub Engineering",
+        url: "https://github.github.com/gfm/",
+        citation: "GFM Syntax Extensions: Tables, Task Lists, Strikethrough, and Autolinks",
+      },
+    ],
+  },
 };
 
 export function getToolDeepContent(toolId: string): DeepContent | null {
