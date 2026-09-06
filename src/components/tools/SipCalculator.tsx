@@ -42,6 +42,29 @@ export default function SipCalculator({
   const [enableInflation, setEnableInflation] = useState<boolean>(false);
   const [inflationRate, setInflationRate] = useState<number>(6);
 
+  // Client-side URL query parameter hydration for stateful deep links
+  React.useEffect(() => {
+    if (typeof window === 'undefined') return;
+    try {
+      const sp = new URLSearchParams(window.location.search);
+      const p = sp.get('p') || sp.get('monthly');
+      if (p && !isNaN(Number(p))) setMonthlyInvestment(Number(p));
+      const r = sp.get('rate') || sp.get('roi');
+      if (r && !isNaN(Number(r))) setExpectedReturn(Number(r));
+      const y = sp.get('years') || sp.get('duration');
+      if (y && !isNaN(Number(y))) setDuration(Number(y));
+      const step = sp.get('stepup');
+      if (step && !isNaN(Number(step))) {
+        setEnableStepUp(true);
+        setStepUpPercent(Number(step));
+      }
+      const c = sp.get('curr') || sp.get('currency');
+      if (c) setCurrency(c);
+    } catch {
+      // Ignore query parsing error
+    }
+  }, []);
+
   // Perform SIP Calculation (Regular or Step-Up)
   const calculations = useMemo(() => {
     const P = monthlyInvestment;
@@ -201,11 +224,11 @@ export default function SipCalculator({
             Copy
           </button>
           <button
-            onClick={() => onShare('SIP Calculator', 'sip-calculator')}
+            onClick={() => onShare && onShare('SIP Calculator', `sip-calculator?monthly=${monthlyInvestment}&rate=${expectedReturn}&years=${duration}${enableStepUp ? `&stepup=${stepUpPercent}` : ''}&curr=${currency}`)}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-zinc-600 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-800 rounded-md hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
           >
             <Share2 className="w-3.5 h-3.5" />
-            Share
+            Share Pre-filled Link
           </button>
         </div>
       </div>

@@ -14,6 +14,8 @@ import {
   Award,
   ExternalLink,
   Sparkles,
+  Code2,
+  X,
 } from "lucide-react";
 import { Tool } from "@/src/types";
 import { ToolPreset } from "@/src/lib/toolPresets";
@@ -47,7 +49,10 @@ export default function PresetToolClient({
 }: PresetToolClientProps) {
   const [darkMode, setDarkMode] = useState<boolean>(true);
   const [message, setMessage] = useState<string>("");
+  const [showEmbedModal, setShowEmbedModal] = useState<boolean>(false);
   const [userRating, setUserRating] = useState<number | null>(null);
+
+  const embedSnippet = `<iframe src="https://www.yuitility.app/embed/${tool.id}" width="100%" height="700" frameborder="0" style="border:1px solid #e4e4e7; border-radius:16px; overflow:hidden;" title="${preset.h1}"></iframe>\n<p style="font-size:12px;text-align:right;margin-top:4px;font-family:sans-serif;"><a href="https://www.yuitility.app/tools/${tool.id}/${preset.presetSlug}" target="_blank" rel="noopener" style="color:#2563eb;text-decoration:none;">⚡ Free ${preset.h1} by Yuitility</a></p>`;
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
@@ -228,6 +233,14 @@ export default function PresetToolClient({
             >
               <Copy className="w-3.5 h-3.5" /> Copy Link
             </button>
+            <button
+              type="button"
+              onClick={() => setShowEmbedModal(true)}
+              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-xl border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-700 dark:text-zinc-300 transition-all active:scale-95"
+              aria-label="Embed this preset tool"
+            >
+              <Code2 className="w-3.5 h-3.5" /> Embed
+            </button>
             <Link
               href={toolPath(tool.id)}
               className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-xl border border-blue-200 dark:border-blue-800/80 bg-blue-50/50 dark:bg-blue-950/30 hover:bg-blue-100 dark:hover:bg-blue-900/50 text-blue-700 dark:text-blue-300 transition-all"
@@ -337,6 +350,60 @@ export default function PresetToolClient({
               onShare={share}
             />
           )}
+        </section>
+
+        {/* Embed Calculator Section for Bloggers & Webmasters */}
+        <section aria-label="Embed preset widget" className="mb-8 rounded-3xl border border-blue-200/80 bg-gradient-to-br from-blue-50/70 via-white to-cyan-50/50 p-6 shadow-sm dark:border-blue-900/40 dark:from-zinc-900/90 dark:via-zinc-900/50 dark:to-cyan-950/20 sm:p-7">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-3.5">
+            <div className="flex items-start gap-3">
+              <span className="p-2.5 rounded-2xl bg-blue-600 text-white dark:bg-cyan-500 dark:text-zinc-950 shrink-0 shadow-md">
+                <Code2 className="w-5 h-5" />
+              </span>
+              <div>
+                <div className="flex items-center gap-2">
+                  <h2 className="text-base sm:text-lg font-display font-bold text-zinc-950 dark:text-white">
+                    Embed {preset.h1} On Your Website
+                  </h2>
+                  <span className="hidden sm:inline-block px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300">
+                    Free Embed
+                  </span>
+                </div>
+                <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-0.5 max-w-2xl">
+                  Embed this verified, 100% private calculator widget into your articles, guides, or portal. Zero server tracking, instant in-browser execution.
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                type="button"
+                onClick={() => {
+                  copy(embedSnippet);
+                  showMessage("Embed snippet copied to clipboard! Paste directly into your CMS.");
+                }}
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold rounded-xl bg-blue-600 hover:bg-blue-700 text-white shadow-sm transition-all active:scale-95 dark:bg-cyan-500 dark:text-zinc-950 dark:hover:bg-cyan-400"
+              >
+                <Copy className="w-3.5 h-3.5" /> Copy Embed Code
+              </button>
+              <a
+                href={`/embed/${tool.id}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 px-3 py-2 text-xs font-semibold rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 transition-all"
+              >
+                Preview Widget <ArrowRight className="w-3 h-3" />
+              </a>
+            </div>
+          </div>
+
+          <div className="relative">
+            <textarea
+              readOnly
+              rows={2}
+              value={embedSnippet}
+              onClick={(e) => (e.target as HTMLTextAreaElement).select()}
+              className="w-full rounded-xl border border-zinc-200 bg-white/90 dark:bg-zinc-950 p-2.5 text-[11px] font-mono text-zinc-700 select-all outline-none dark:border-zinc-800 dark:text-zinc-300 resize-none shadow-inner"
+            />
+          </div>
         </section>
 
         {/* Official Reference & Regulatory Citation Card */}
@@ -491,6 +558,69 @@ export default function PresetToolClient({
             )}
           </div>
         </section>
+
+        {/* Embed Widget Modal */}
+        {showEmbedModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+            <div className="relative w-full max-w-xl rounded-3xl border border-zinc-200 bg-white p-6 shadow-2xl dark:border-zinc-800 dark:bg-zinc-900 sm:p-7">
+              <button
+                type="button"
+                onClick={() => setShowEmbedModal(false)}
+                className="absolute top-5 right-5 rounded-lg p-1.5 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700 dark:hover:bg-zinc-800 dark:hover:text-zinc-200 transition"
+                aria-label="Close embed modal"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              <div className="flex items-center gap-2.5 mb-2">
+                <span className="p-2 rounded-xl bg-blue-50 text-blue-600 dark:bg-blue-950/50 dark:text-blue-400">
+                  <Code2 className="w-5 h-5" />
+                </span>
+                <h3 className="text-xl font-display font-bold text-zinc-900 dark:text-white">
+                  Embed &ldquo;{preset.h1}&rdquo;
+                </h3>
+              </div>
+              <p className="text-xs text-zinc-600 dark:text-zinc-400 mb-4">
+                Add this verified calculation engine to your site or educational resources. Zero server tracking, instant in-browser execution.
+              </p>
+
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">HTML Embed Snippet</label>
+                  <span className="text-[10px] text-zinc-400 font-mono">iframe responsive</span>
+                </div>
+                <textarea
+                  readOnly
+                  rows={4}
+                  value={embedSnippet}
+                  className="w-full rounded-xl border border-zinc-200 bg-zinc-50 p-3 text-xs font-mono text-zinc-800 select-all outline-none dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200 resize-none"
+                />
+              </div>
+
+              <div className="mt-5 flex flex-col sm:flex-row items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => {
+                    copy(embedSnippet);
+                    showMessage("Embed snippet copied to clipboard!");
+                  }}
+                  className="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow hover:bg-blue-700 dark:bg-cyan-500 dark:text-zinc-950 dark:hover:bg-cyan-400 transition"
+                >
+                  <Copy className="w-4 h-4" />
+                  Copy Embed Code
+                </button>
+                <a
+                  href={`/embed/${tool.id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-2.5 text-sm font-semibold text-zinc-700 hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700 transition"
+                >
+                  Preview Widget <ArrowRight className="w-3.5 h-3.5" />
+                </a>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
 
       {/* Floating Copy / Share Toast */}

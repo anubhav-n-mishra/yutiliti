@@ -439,7 +439,7 @@ export default function ToolPageClient({ tool, deep }: ToolPageClientProps) {
   const [showEmbedModal, setShowEmbedModal] = useState(false);
   const [userRating, setUserRating] = useState<number | null>(null);
 
-  const embedSnippet = `<iframe src="https://www.yuitility.app/embed/${tool.id}" width="100%" height="700" frameborder="0" style="border:1px solid #e4e4e7; border-radius:16px; overflow:hidden;" title="${tool.title}"></iframe>\n<p style="font-size:12px;text-align:right;margin-top:4px;font-family:sans-serif;"><a href="https://www.yuitility.app/tools/${tool.id}" target="_blank" rel="noopener" style="color:#2563eb;text-decoration:none;">⚡ Free &amp; Private Tools by Yuitility</a></p>`;
+  const embedSnippet = `<iframe src="https://www.yuitility.app/embed/${tool.id}" width="100%" height="700" frameborder="0" style="border:1px solid #e4e4e7; border-radius:16px; overflow:hidden;" title="${tool.title}"></iframe>\n<p style="font-size:12px;text-align:right;margin-top:4px;font-family:sans-serif;"><a href="https://www.yuitility.app/tools/${tool.id}" target="_blank" rel="noopener" style="color:#2563eb;text-decoration:none;">⚡ Free ${tool.title} by Yuitility</a></p>`;
 
   const faqs = useMemo(() => getToolFaqs(tool), [tool]);
   const steps = useMemo(() => getToolSteps(tool), [tool]);
@@ -647,7 +647,61 @@ export default function ToolPageClient({ tool, deep }: ToolPageClientProps) {
           </div>
         </section>
 
-        {/* 2. Tool Info & How It Works Card */}
+        {/* 2. Embed Calculator Section for Bloggers & Webmasters */}
+        <section aria-label="Embed calculator widget" className="mb-8 rounded-3xl border border-blue-200/80 bg-gradient-to-br from-blue-50/70 via-white to-cyan-50/50 p-6 shadow-sm dark:border-blue-900/40 dark:from-zinc-900/90 dark:via-zinc-900/50 dark:to-cyan-950/20 sm:p-7">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-3.5">
+            <div className="flex items-start gap-3">
+              <span className="p-2.5 rounded-2xl bg-blue-600 text-white dark:bg-cyan-500 dark:text-zinc-950 shrink-0 shadow-md">
+                <Code2 className="w-5 h-5" />
+              </span>
+              <div>
+                <div className="flex items-center gap-2">
+                  <h2 className="text-base sm:text-lg font-display font-bold text-zinc-950 dark:text-white">
+                    Embed This {tool.title} On Your Website
+                  </h2>
+                  <span className="hidden sm:inline-block px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300">
+                    Free Embed
+                  </span>
+                </div>
+                <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-0.5 max-w-2xl">
+                  Add this fast, responsive, 100% private calculator directly to your blog, university portal, or company site. No API keys required, zero server uploads, instant execution.
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                type="button"
+                onClick={() => {
+                  copy(embedSnippet);
+                  showMessage("Embed snippet copied to clipboard! Paste into your CMS or HTML.");
+                }}
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold rounded-xl bg-blue-600 hover:bg-blue-700 text-white shadow-sm transition-all active:scale-95 dark:bg-cyan-500 dark:text-zinc-950 dark:hover:bg-cyan-400"
+              >
+                <Copy className="w-3.5 h-3.5" /> Copy Embed Code
+              </button>
+              <a
+                href={`/embed/${tool.id}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 px-3 py-2 text-xs font-semibold rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 transition-all"
+              >
+                Preview Widget <ArrowRight className="w-3 h-3" />
+              </a>
+            </div>
+          </div>
+
+          <div className="relative">
+            <textarea
+              readOnly
+              rows={2}
+              value={embedSnippet}
+              onClick={(e) => (e.target as HTMLTextAreaElement).select()}
+              className="w-full rounded-xl border border-zinc-200 bg-white/90 dark:bg-zinc-950 p-2.5 text-[11px] font-mono text-zinc-700 select-all outline-none dark:border-zinc-800 dark:text-zinc-300 resize-none shadow-inner"
+            />
+          </div>
+        </section>
+
+        {/* 3. Tool Info & How It Works Card */}
         <div className="mb-8 flex flex-col gap-6 rounded-3xl border border-blue-100 bg-gradient-to-br from-blue-50 via-white to-cyan-50 p-6 dark:border-zinc-800 dark:from-zinc-900 dark:via-zinc-950 dark:to-cyan-950/30 sm:p-8">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div className="max-w-3xl">

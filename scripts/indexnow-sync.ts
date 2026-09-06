@@ -1,6 +1,8 @@
 import { CATEGORIES, TOOLS } from "../src/types";
 import { absoluteUrl, toolPath } from "../src/lib/site";
 import { getIndexingConfig, IndexingBatchQueue, submitUrls } from "../src/lib/indexnow";
+import { getAllToolPresets } from "../src/lib/toolPresets";
+import { BLOG_POSTS } from "../src/lib/blogs";
 
 /**
  * Admin CLI Utility for sync submitting all site URLs to IndexNow.
@@ -20,6 +22,8 @@ export async function runIndexNowSync(): Promise<void> {
   // Extract all active sitemap URLs
   const urls: string[] = [
     absoluteUrl("/"),
+    absoluteUrl("/tools"),
+    absoluteUrl("/blog"),
     absoluteUrl("/privacy"),
     absoluteUrl("/terms"),
   ];
@@ -32,6 +36,16 @@ export async function runIndexNowSync(): Promise<void> {
   // Tool URLs
   TOOLS.filter((t) => !t.disabled).forEach((tool) => {
     urls.push(absoluteUrl(toolPath(tool.id)));
+  });
+
+  // Programmatic Presets (US, UK, Canada, India High-CPC targets)
+  getAllToolPresets().forEach((preset) => {
+    urls.push(absoluteUrl(`/tools/${preset.toolId}/${preset.presetSlug}`));
+  });
+
+  // Deep Blog Tutorial Guides
+  BLOG_POSTS.forEach((post) => {
+    urls.push(absoluteUrl(`/blog/${post.slug}`));
   });
 
   const deduplicated = IndexingBatchQueue.deduplicate(urls);

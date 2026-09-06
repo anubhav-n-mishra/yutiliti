@@ -46,6 +46,26 @@ export default function HomeLoanEmiCalculator({
   const [monthlyPrepayment, setMonthlyPrepayment] = useState<number>(10000);
   const [annualPrepayment, setAnnualPrepayment] = useState<number>(100000);
 
+  // Client-side URL query parameter hydration for stateful deep links
+  React.useEffect(() => {
+    if (typeof window === 'undefined') return;
+    try {
+      const sp = new URLSearchParams(window.location.search);
+      const p = sp.get('price');
+      if (p && !isNaN(Number(p))) setPropertyPrice(Number(p));
+      const d = sp.get('down');
+      if (d && !isNaN(Number(d))) setDownPaymentPercent(Number(d));
+      const r = sp.get('rate');
+      if (r && !isNaN(Number(r))) setInterestRate(Number(r));
+      const y = sp.get('tenure') || sp.get('term') || sp.get('years');
+      if (y && !isNaN(Number(y))) setTenureYears(Number(y));
+      const c = sp.get('curr') || sp.get('currency');
+      if (c) setCurrency(c);
+    } catch {
+      // Ignore query parsing error
+    }
+  }, []);
+
   const currObj = getCurrency(currency);
   const fmt = (val: number) => formatCurr(val, currency);
 
@@ -272,11 +292,11 @@ export default function HomeLoanEmiCalculator({
             Copy
           </button>
           <button
-            onClick={() => onShare('Home Loan EMI Calculator', 'home-loan-emi-calculator')}
+            onClick={() => onShare && onShare('Home Loan EMI Calculator', `home-loan-emi-calculator?price=${propertyPrice}&down=${downPaymentPercent}&rate=${interestRate}&tenure=${tenureYears}&curr=${currency}`)}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-zinc-600 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-800 rounded-md hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
           >
             <Share2 className="w-3.5 h-3.5" />
-            Share
+            Share Pre-filled Link
           </button>
         </div>
       </div>
