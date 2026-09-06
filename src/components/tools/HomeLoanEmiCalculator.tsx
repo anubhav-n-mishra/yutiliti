@@ -166,7 +166,7 @@ export default function HomeLoanEmiCalculator({ onCopy, onShare }: HomeLoanEmiCa
       totalPayment,
       annualTaxSaving,
       schedule,
-      prepaidTotalInterest,
+      prepaidTotalInterest: prepayTotalInterest,
       prepaidTotalPayment: prepayTotalPaid,
       interestSaved,
       monthsSaved,
