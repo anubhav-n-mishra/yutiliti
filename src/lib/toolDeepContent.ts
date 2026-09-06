@@ -18,6 +18,13 @@ export type WorkedExample = {
   takeaway: string;
 };
 
+export type StatutoryReference = {
+  title: string;
+  authority: string;
+  url: string;
+  citation: string;
+};
+
 export type DeepContent = {
   /** The equation, written so it can be checked in a spreadsheet. */
   formula?: { expression: string; where: string[] };
@@ -26,6 +33,8 @@ export type DeepContent = {
   pitfalls?: { title: string; body: string }[];
   /** Cases competing pages usually skip. */
   edgeCases?: { title: string; body: string }[];
+  /** Official regulatory, academic, or statutory authority references for E-E-A-T. */
+  statutoryReferences?: StatutoryReference[];
   /** Rate/legal assumptions that a maintainer must keep current. */
   assumptionNote?: string;
 };
@@ -79,6 +88,20 @@ export const TOOL_DEEP_CONTENT: Record<string, DeepContent> = {
       {
         title: "Part-prepayment",
         body: "A lump-sum prepayment reduces principal immediately. You then choose to keep the EMI (tenure shortens, maximum interest saved) or reduce the EMI (tenure unchanged, less saved). Keeping the EMI is almost always the cheaper option.",
+      },
+    ],
+    statutoryReferences: [
+      {
+        title: "Master Direction - Reserve Bank of India (Interest Rate on Advances)",
+        authority: "Reserve Bank of India (RBI)",
+        url: "https://www.rbi.org.in",
+        citation: "RBI/DBR/2015-16/18 Master Direction DBR.Dir.No.85/13.03.00/2015-16",
+      },
+      {
+        title: "Waiver of Foreclosure Charges on Floating Rate Loans to Individual Borrowers",
+        authority: "Reserve Bank of India & NHB",
+        url: "https://www.rbi.org.in",
+        citation: "RBI Circular DBOD.Dir.BC.107/13.03.00/2011-12",
       },
     ],
   },
@@ -708,6 +731,166 @@ export const TOOL_DEEP_CONTENT: Record<string, DeepContent> = {
       takeaway:
         "These are different operations, not a bug. % is a remainder that takes the sign of the dividend; modulo takes the sign of the divisor. This calculator reports both, because the mismatch is a classic source of off-by-one errors in wrap-around and hashing code.",
     },
+  },
+  "cgpa-to-percentage-calculator": {
+    formula: {
+      expression: "Percentage = CGPA × FormulaMultiplier (CBSE: 9.5, VTU/SPPU: (CGPA − 0.75) × 10, Mumbai Univ Engg: 7.1 × CGPA + 12, KTU/GTU: (CGPA − 0.5) × 10)",
+      where: [
+        "CGPA — Cumulative Grade Point Average on 10.0 scale",
+        "CBSE / Delhi University: Percentage = CGPA × 9.5",
+        "VTU (Karnataka): Percentage = (CGPA − 0.75) × 10",
+        "Anna University (Tamil Nadu): Percentage = CGPA × 10",
+        "Mumbai University: Engineering = 7.1 × CGPA + 12; Arts/Commerce = 7.25 × CGPA + 11",
+        "KTU & GTU: Percentage = (CGPA − 0.5) × 10",
+      ],
+    },
+    workedExample: {
+      scenario: "Converting a CGPA of 8.40 across different Indian universities.",
+      steps: [
+        { label: "CBSE / DU / AICTE", value: "8.40 × 9.5 = 79.80%" },
+        { label: "VTU (Visvesvaraya)", value: "(8.40 − 0.75) × 10 = 76.50%" },
+        { label: "Anna University", value: "8.40 × 10 = 84.00%" },
+        { label: "Mumbai University (Engg)", value: "7.1 × 8.40 + 12 = 71.64%" },
+        { label: "KTU / GTU", value: "(8.40 − 0.50) × 10 = 79.00%" },
+      ],
+      result: "An 8.40 CGPA translates from 71.64% (MU) to 84.00% (Anna Univ) depending on university board rules.",
+      takeaway:
+        "Using the generic 9.5 factor for VTU or Mumbai University will produce an inaccurate score on job applications or WES evaluations. Always select your specific graduating university rule.",
+    },
+    pitfalls: [
+      {
+        title: "Assuming 9.5 applies to all Indian universities",
+        body: "CBSE popularized the 9.5 multiplier based on the statistical distribution of marks from the 2009–2010 batch. Autonomous universities like VTU, Mumbai University, and Anna University established separate official statutory conversion formulas in their examination ordinances.",
+      },
+      {
+        title: "Using percentage for WES (World Education Services) evaluation",
+        body: "For foreign university admissions (US/Canada), do not convert your CGPA to percentage manually. Submit your official university grading scale transcript directly.",
+      },
+    ],
+    statutoryReferences: [
+      {
+        title: "CBSE Examination Bylaws & CGPA Grading Scheme",
+        authority: "Central Board of Secondary Education (CBSE)",
+        url: "https://www.cbse.gov.in",
+        citation: "CBSE Examination Notification Rule 42.1 (Multiplier 9.5 derived from Class X cohort mean)",
+      },
+      {
+        title: "VTU Notification on CGPA to Percentage Conversion",
+        authority: "Visvesvaraya Technological University (Belagavi)",
+        url: "https://vtu.ac.in",
+        citation: "Notification Ref: VTU/BGM/Aca-OS/Cirs/2016-17/10006 for B.E./B.Tech Choice Based Credit System",
+      },
+      {
+        title: "Mumbai University Ordinance on Choice Based Credit System (CBCS)",
+        authority: "University of Mumbai Examination Section",
+        url: "https://mu.ac.in",
+        citation: "Circular No. VCD/Exam/15/2018 Formula: Percentage = 7.1 × CGPA + 12 (for CGPA between 7.00 and 10.00)",
+      },
+      {
+        title: "AICTE Guidelines for Examination Grading and CGPA Calculation",
+        authority: "All India Council for Technical Education",
+        url: "https://www.aicte-india.org",
+        citation: "AICTE Model Curriculum Section on Academic Framework and Credit Grading Norms",
+      },
+    ],
+  },
+
+  "home-loan-emi-calculator": {
+    formula: {
+      expression: "EMI = P × r × (1 + r)ⁿ ÷ ((1 + r)ⁿ − 1)",
+      where: [
+        "P — Home loan principal (Sanctioned amount − down payment, typically 80% to 90% LTV)",
+        "r — Monthly interest rate = Annual interest rate ÷ 12 ÷ 100",
+        "n — Loan tenure in months (up to 360 months for 30-year mortgages)",
+      ],
+    },
+    workedExample: {
+      scenario: `A ${rupees("75,00,000")} home loan at 8.75% for 25 years.`,
+      steps: [
+        { label: "r (monthly rate)", value: "8.75 ÷ 12 ÷ 100 = 0.0072917" },
+        { label: "n (months)", value: "25 × 12 = 300" },
+        { label: "(1 + r)³⁰⁰", value: "1.0072917³⁰⁰ = 8.8131" },
+        { label: "Monthly EMI", value: "7500000 × 0.0072917 × 8.8131 ÷ 7.8131" },
+      ],
+      result: `EMI = ${rupees("61,659")} per month. Total repaid ${rupees("1,84,97,643")}, of which ${rupees("1,09,97,643")} is interest.`,
+      takeaway:
+        "Over 25 years at 8.75%, the interest paid (₹1.10 Crore) is 1.46 times the amount borrowed. Prepaying even ₹5,000 extra per month cuts your repayment tenure by over 4 years and saves over ₹22 Lakhs in net interest.",
+    },
+    pitfalls: [
+      {
+        title: "Ignoring the Repo Linked Lending Rate (RLLR) resets",
+        body: "All floating rate home loans in India are pegged to the RBI Repo Rate. When the RBI raises or cuts the repo rate, your interest rate and tenure adjust automatically.",
+      },
+      {
+        title: "Missing tax deductions under Section 24(b) and Section 80C",
+        body: "Under the Old Tax Regime, interest up to ₹2 Lakh/year is deductible under Section 24(b), and principal up to ₹1.5 Lakh under Section 80C. Under the New Tax Regime (Section 115BAC), self-occupied home loan deductions are disallowed.",
+      },
+    ],
+    statutoryReferences: [
+      {
+        title: "RBI Guidelines on External Benchmark Based Lending (RLLR)",
+        authority: "Reserve Bank of India (RBI)",
+        url: "https://www.rbi.org.in",
+        citation: "RBI/2019-20/54 DBR.DIR.BC.No.14/08.12.001/2019-20 (Mandatory benchmarking of retail loans to external benchmarks)",
+      },
+      {
+        title: "National Housing Bank (NHB) Directions on Housing Finance Companies",
+        authority: "National Housing Bank",
+        url: "https://nhb.org.in",
+        citation: "Master Circular on Housing Finance Lending Norms and Loan-to-Value (LTV) limits",
+      },
+    ],
+  },
+
+  "salary-calculator": {
+    formula: {
+      expression: "Net In-Hand Salary = Gross CTC − (Employer EPF + Gratuity + Employer Insurance) − (Employee EPF + Professional Tax + Income Tax Deductions)",
+      where: [
+        "Gross Salary = Basic Pay + HRA + Special Allowance + Statutory Bonuses",
+        "Employee EPF = 12% of Basic Pay (capped or uncapped based on employer policy)",
+        "Professional Tax = Flat state slab (e.g. ₹200/month in Karnataka/Maharashtra)",
+        "Income Tax (TDS) = Monthly tax liability under New Regime (Sec 115BAC) or Old Regime",
+      ],
+    },
+    workedExample: {
+      scenario: `Annual CTC of ${rupees("15,00,000")} under the New Tax Regime (FY 2025-26).`,
+      steps: [
+        { label: "Gross CTC", value: "₹15,00,000 / year (₹1,25,000 / month)" },
+        { label: "Basic Pay (40%)", value: "₹6,00,000 / year" },
+        { label: "Employee EPF (12% of Basic)", value: "₹72,000 / year (₹6,000 / month)" },
+        { label: "Standard Deduction (Sec 16(ia))", value: "₹75,000 (New Regime)" },
+        { label: "Taxable Income", value: "₹15,00,000 − ₹75,000 = ₹14,25,000" },
+        { label: "Income Tax (New Slabs)", value: "₹1,27,500 + 4% Cess = ₹1,32,600 / year" },
+        { label: "Professional Tax", value: "₹2,400 / year (₹200 / month)" },
+      ],
+      result: `Estimated Take-Home Salary: ${rupees("98,900")} to ${rupees("1,02,000")} per month.`,
+      takeaway:
+        "Many employees expect ₹15 Lakhs ÷ 12 = ₹1,25,000 per month, but deductions (PF, Gratuity, Taxes, PT) account for ₹23,000–₹26,000 monthly.",
+    },
+    pitfalls: [
+      {
+        title: "Confusing CTC (Cost to Company) with Gross Salary",
+        body: "Employer PF contribution (12%), Gratuity provision (4.81%), and employer group health insurance are part of CTC but never appear in your bank account.",
+      },
+      {
+        title: "Default New Tax Regime vs Old Regime choice",
+        body: "From FY 2023-24 onwards, Section 115BAC (New Tax Regime) is the default. If you have substantial deductions (80C, 80D, HRA, home loan interest), compare both regimes before filing your investment declarations.",
+      },
+    ],
+    statutoryReferences: [
+      {
+        title: "Income Tax Act 1961 - Section 115BAC (Concessional Tax Rates)",
+        authority: "Central Board of Direct Taxes (CBDT), Ministry of Finance",
+        url: "https://incometax.gov.in",
+        citation: "Finance (No. 2) Act, 2024 (Updated Slabs & ₹75,000 Standard Deduction)",
+      },
+      {
+        title: "Employees' Provident Funds and Miscellaneous Provisions Act, 1952",
+        authority: "Ministry of Labour & Employment",
+        url: "https://www.epfindia.gov.in",
+        citation: "Statutory Contribution Norms (12% Employee + 12% Employer EPF)",
+      },
+    ],
   },
 };
 

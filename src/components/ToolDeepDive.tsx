@@ -108,6 +108,51 @@ export default function ToolDeepDive({ tool, deep }: { tool: Tool; deep: DeepCon
           </div>
         )}
 
+        {deep.statutoryReferences && deep.statutoryReferences.length > 0 && (
+          <div className="rounded-3xl border border-emerald-200/80 bg-gradient-to-br from-emerald-50/50 via-white to-teal-50/30 p-6 dark:border-emerald-900/40 dark:from-zinc-900 dark:via-zinc-950 dark:to-emerald-950/20 sm:p-8">
+            <div className="flex items-center gap-2 text-emerald-700 dark:text-emerald-400">
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+              </span>
+              <h3 className="font-display text-lg font-bold text-zinc-950 dark:text-white">
+                Statutory Authorities &amp; Official References
+              </h3>
+            </div>
+            <p className="mt-2 text-xs text-zinc-600 dark:text-zinc-400">
+              Regulatory standards, published statutory gazettes, and official research governing this computation.
+            </p>
+
+            <div className="mt-5 grid gap-4 sm:grid-cols-2">
+              {deep.statutoryReferences.map((ref) => (
+                <a
+                  key={ref.title}
+                  href={ref.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group rounded-2xl border border-emerald-200/70 bg-white/80 p-4 transition hover:border-emerald-400 hover:shadow-sm dark:border-zinc-800 dark:bg-zinc-900/90 dark:hover:border-emerald-700"
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
+                      {ref.authority}
+                    </span>
+                    <svg className="h-3.5 w-3.5 text-zinc-400 group-hover:text-emerald-600 transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </div>
+                  <h4 className="mt-1.5 text-sm font-semibold text-zinc-900 group-hover:text-emerald-600 dark:text-zinc-100 dark:group-hover:text-emerald-400 leading-snug">
+                    {ref.title}
+                  </h4>
+                  <p className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400 font-mono">
+                    {ref.citation}
+                  </p>
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+
         {deep.assumptionNote && (
           <p className="rounded-2xl border border-zinc-200 bg-zinc-50 px-5 py-4 text-xs leading-relaxed text-zinc-500 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400">
             <strong className="font-semibold text-zinc-700 dark:text-zinc-300">Note on assumptions:</strong>{" "}

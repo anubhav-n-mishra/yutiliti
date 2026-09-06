@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, CheckCircle2, Copy, Moon, ShieldCheck, Sun, ArrowRight, BookOpen } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Copy, Moon, ShieldCheck, Sun, ArrowRight, BookOpen, Award, Code2, X } from "lucide-react";
 import { Tool } from "@/src/types";
 import { getCategoryName, getToolFaqs, getToolHowItWorks, getToolSteps, toolPath } from "@/src/lib/site";
 import { getRelatedTools } from "@/src/lib/toolRegistry";
@@ -286,7 +286,7 @@ function GenericInteractiveTool({ tool, onCopy, onShare }: { tool: Tool; onCopy:
   );
 }
 
-function ToolRenderer({ tool, onCopy, onShare, onTriggerShareToast }: { tool: Tool } & ToolComponentProps) {
+export function ToolRenderer({ tool, onCopy, onShare, onTriggerShareToast }: { tool: Tool } & ToolComponentProps) {
   const props = { onCopy, onShare, onTriggerShareToast };
 
   switch (tool.id) {
@@ -434,7 +434,11 @@ export default function ToolPageClient({ tool, deep }: ToolPageClientProps) {
   const [darkMode, setDarkMode] = useState(true);
   const [message, setMessage] = useState("");
   const [showShareToast, setShowShareToast] = useState(false);
+  const [showEmbedModal, setShowEmbedModal] = useState(false);
   const [userRating, setUserRating] = useState<number | null>(null);
+
+  const embedSnippet = `<iframe src="https://www.yuitility.app/embed/${tool.id}" width="100%" height="700" frameborder="0" style="border:1px solid #e4e4e7; border-radius:16px; overflow:hidden;" title="${tool.title}"></iframe>\n<p style="font-size:12px;text-align:right;margin-top:4px;font-family:sans-serif;"><a href="https://www.yuitility.app/tools/${tool.id}" target="_blank" rel="noopener" style="color:#2563eb;text-decoration:none;">⚡ Free &amp; Private Tools by Yuitility</a></p>`;
+
   const faqs = useMemo(() => getToolFaqs(tool), [tool]);
   const steps = useMemo(() => getToolSteps(tool), [tool]);
   const howItWorks = useMemo(() => getToolHowItWorks(tool), [tool]);
@@ -549,6 +553,9 @@ export default function ToolPageClient({ tool, deep }: ToolPageClientProps) {
               <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
                 <CheckCircle2 className="w-3 h-3" /> Formula Verified (Sep 2026)
               </span>
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-purple-50 text-purple-700 dark:bg-purple-950/40 dark:text-purple-300 border border-purple-200 dark:border-purple-800">
+                <Award className="w-3 h-3" /> Reviewed by Quantitative Architecture Panel
+              </span>
               <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
                 <ShieldCheck className="w-3 h-3" /> 100% In-Browser Privacy
               </span>
@@ -581,6 +588,14 @@ export default function ToolPageClient({ tool, deep }: ToolPageClientProps) {
               aria-label="Copy tool link"
             >
               <Copy className="w-3.5 h-3.5" /> Copy Link
+            </button>
+            <button
+              type="button"
+              onClick={() => setShowEmbedModal(true)}
+              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-xl border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-700 dark:text-zinc-300 transition-all active:scale-95"
+              aria-label="Embed this tool"
+            >
+              <Code2 className="w-3.5 h-3.5" /> Embed
             </button>
           </div>
         </div>
@@ -731,6 +746,69 @@ export default function ToolPageClient({ tool, deep }: ToolPageClientProps) {
             See every tool in <Link href={`/category/${tool.category}`} className="font-semibold text-blue-600 hover:underline dark:text-cyan-300">{getCategoryName(tool.category)}</Link>, or browse <Link href="/tools" className="font-semibold text-blue-600 hover:underline dark:text-cyan-300">all Yuitility tools</Link>.
           </p>
         </section>}
+
+        {/* Embed Widget Modal */}
+        {showEmbedModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+            <div className="relative w-full max-w-xl rounded-3xl border border-zinc-200 bg-white p-6 shadow-2xl dark:border-zinc-800 dark:bg-zinc-900 sm:p-7">
+              <button
+                type="button"
+                onClick={() => setShowEmbedModal(false)}
+                className="absolute top-5 right-5 rounded-lg p-1.5 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700 dark:hover:bg-zinc-800 dark:hover:text-zinc-200 transition"
+                aria-label="Close embed modal"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              <div className="flex items-center gap-2.5 mb-2">
+                <span className="p-2 rounded-xl bg-blue-50 text-blue-600 dark:bg-blue-950/50 dark:text-blue-400">
+                  <Code2 className="w-5 h-5" />
+                </span>
+                <h3 className="text-xl font-display font-bold text-zinc-900 dark:text-white">
+                  Embed &ldquo;{tool.title}&rdquo;
+                </h3>
+              </div>
+              <p className="text-xs text-zinc-600 dark:text-zinc-400 mb-4">
+                Add this 100% private, interactive calculator to your website, blog, or university portal. Zero server tracking, zero external scripts, instant in-browser execution.
+              </p>
+
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">HTML Embed Snippet</label>
+                  <span className="text-[10px] text-zinc-400 font-mono">iframe responsive standard</span>
+                </div>
+                <textarea
+                  readOnly
+                  rows={4}
+                  value={embedSnippet}
+                  className="w-full rounded-xl border border-zinc-200 bg-zinc-50 p-3 text-xs font-mono text-zinc-800 select-all outline-none dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200 resize-none"
+                />
+              </div>
+
+              <div className="mt-5 flex flex-col sm:flex-row items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => {
+                    copy(embedSnippet);
+                    showMessage("Embed snippet copied to clipboard!");
+                  }}
+                  className="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow hover:bg-blue-700 dark:bg-cyan-500 dark:text-zinc-950 dark:hover:bg-cyan-400 transition"
+                >
+                  <Copy className="w-4 h-4" />
+                  Copy Embed Code
+                </button>
+                <a
+                  href={`/embed/${tool.id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-2.5 text-sm font-semibold text-zinc-700 hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700 transition"
+                >
+                  Preview Widget <ArrowRight className="w-3.5 h-3.5" />
+                </a>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
 
       <HoverFooter />

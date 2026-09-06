@@ -9,6 +9,16 @@ interface EmiCalculatorProps {
   onShare: (title: string, path: string) => void;
 }
 
+const BANK_BENCHMARKS = [
+  { name: 'Bank of Baroda', rate: 8.40, category: 'PSU' },
+  { name: 'SBI', rate: 8.50, category: 'PSU' },
+  { name: 'HDFC Bank', rate: 8.70, category: 'Private' },
+  { name: 'ICICI Bank', rate: 8.75, category: 'Private' },
+  { name: 'Axis Bank', rate: 8.75, category: 'Private' },
+  { name: 'US 30Y Fixed', rate: 6.85, category: 'Global' },
+  { name: 'US 15Y Fixed', rate: 6.10, category: 'Global' },
+];
+
 export default function EmiCalculator({ onCopy, onShare }: EmiCalculatorProps) {
   const [currency, setCurrency] = useState<string>('USD');
   const [loanAmount, setLoanAmount] = useState<number>(500000);
@@ -18,25 +28,40 @@ export default function EmiCalculator({ onCopy, onShare }: EmiCalculatorProps) {
   const [showAmortization, setShowAmortization] = useState<boolean>(true);
   const [isDark, setIsDark] = useState(false);
 
+  // Prepayment Scenario State
+  const [enablePrepayment, setEnablePrepayment] = useState<boolean>(false);
+  const [monthlyPrepayment, setMonthlyPrepayment] = useState<number>(5000);
+  const [annualPrepayment, setAnnualPrepayment] = useState<number>(50000);
+
   useEffect(() => {
     setIsDark(document.documentElement.classList.contains('dark'));
   }, []);
 
-  // Perform EMI calculation
+  // Perform EMI calculation (standard + prepayment scenario)
   const calculations = useMemo(() => {
     const P = loanAmount;
     const r = (interestRate / 12) / 100;
     const n = tenureUnit === 'years' ? tenure * 12 : tenure;
 
     if (P <= 0 || interestRate <= 0 || n <= 0) {
-      return { emi: 0, totalInterest: 0, totalPayment: 0, schedule: [] };
+      return {
+        emi: 0,
+        totalInterest: 0,
+        totalPayment: 0,
+        schedule: [],
+        prepaidTotalInterest: 0,
+        prepaidTotalPayment: 0,
+        interestSaved: 0,
+        monthsSaved: 0,
+        prepaidSchedule: [],
+      };
     }
 
     const emi = (P * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
     const totalPayment = emi * n;
     const totalInterest = totalPayment - P;
 
-    // Generate Year-by-Year Schedule for cleaner layout
+    // Standard Year-by-Year Schedule
     const schedule = [];
     let remainingPrincipal = P;
     const totalYears = Math.ceil(n / 12);
@@ -63,15 +88,83 @@ export default function EmiCalculator({ onCopy, onShare }: EmiCalculatorProps) {
       });
     }
 
+    // Prepayment simulation month-by-month
+    let prepayRemaining = P;
+    let prepayTotalInterest = 0;
+    let prepayTotalPaid = 0;
+    let prepayMonths = 0;
+    const prepaidSchedule: Array<{ year: number; principalPaid: number; interestPaid: number; totalPaid: number; balance: number }> = [];
+
+    if (enablePrepayment && (monthlyPrepayment > 0 || annualPrepayment > 0)) {
+      let currYearInterest = 0;
+      let currYearPrincipal = 0;
+      let currYearTotal = 0;
+
+      while (prepayRemaining > 0.01 && prepayMonths < n) {
+        prepayMonths++;
+        const monthlyInt = prepayRemaining * r;
+        let monthlyPrinc = emi - monthlyInt;
+        let extra = monthlyPrepayment;
+        if (prepayMonths % 12 === 0) {
+          extra += annualPrepayment;
+        }
+
+        const effectivePayment = Math.min(prepayRemaining + monthlyInt, monthlyPrinc + extra + monthlyInt);
+        const actualPrincipalPaid = effectivePayment - monthlyInt;
+
+        prepayTotalInterest += monthlyInt;
+        prepayTotalPaid += effectivePayment;
+        prepayRemaining = Math.max(0, prepayRemaining - actualPrincipalPaid);
+
+        currYearInterest += monthlyInt;
+        currYearPrincipal += actualPrincipalPaid;
+        currYearTotal += effectivePayment;
+
+        if (prepayMonths % 12 === 0 || prepayRemaining <= 0.01) {
+          prepaidSchedule.push({
+            year: Math.ceil(prepayMonths / 12),
+            principalPaid: currYearPrincipal,
+            interestPaid: currYearInterest,
+            totalPaid: currYearTotal,
+            balance: prepayRemaining,
+          });
+          currYearInterest = 0;
+          currYearPrincipal = 0;
+          currYearTotal = 0;
+        }
+      }
+    }
+
+    const interestSaved = enablePrepayment ? Math.max(0, totalInterest - prepayTotalInterest) : 0;
+    const monthsSaved = enablePrepayment ? Math.max(0, n - prepayMonths) : 0;
+
     return {
       emi: isNaN(emi) ? 0 : emi,
       totalInterest: isNaN(totalInterest) ? 0 : totalInterest,
       totalPayment: isNaN(totalPayment) ? 0 : totalPayment,
-      schedule
+      schedule,
+      prepaidTotalInterest: isNaN(prepayTotalInterest) ? 0 : prepayTotalInterest,
+      prepaidTotalPayment: isNaN(prepayTotalPaid) ? 0 : prepayTotalPaid,
+      interestSaved,
+      monthsSaved,
+      prepaidSchedule: prepaidSchedule.length > 0 ? prepaidSchedule : schedule,
     };
-  }, [loanAmount, interestRate, tenure, tenureUnit]);
+  }, [loanAmount, interestRate, tenure, tenureUnit, enablePrepayment, monthlyPrepayment, annualPrepayment]);
 
-  const { emi, totalInterest, totalPayment, schedule } = calculations;
+  const {
+    emi,
+    totalInterest,
+    totalPayment,
+    schedule,
+    prepaidTotalInterest,
+    interestSaved,
+    monthsSaved,
+    prepaidSchedule,
+  } = calculations;
+
+  const activeSchedule = enablePrepayment ? prepaidSchedule : schedule;
+  const activeInterest = enablePrepayment ? prepaidTotalInterest : totalInterest;
+  const activePayment = enablePrepayment ? calculations.prepaidTotalPayment : totalPayment;
 
   const formatCurrency = (val: number) => formatCurr(val, currency);
 
@@ -80,11 +173,14 @@ export default function EmiCalculator({ onCopy, onShare }: EmiCalculatorProps) {
     setInterestRate(8.5);
     setTenure(5);
     setTenureUnit('years');
+    setEnablePrepayment(false);
+    setMonthlyPrepayment(5000);
+    setAnnualPrepayment(50000);
   };
 
   const handleExportCSV = () => {
-    const headers = 'Year,Principal Paid,Interest Paid,Total Paid,Balance\n';
-    const rows = schedule
+    const headers = 'Year,Principal Paid,Interest Paid,Total Paid,Ending Balance\n';
+    const rows = activeSchedule
       .map(
         (s) =>
           `${s.year},${s.principalPaid.toFixed(2)},${s.interestPaid.toFixed(2)},${s.totalPaid.toFixed(2)},${s.balance.toFixed(2)}`
@@ -95,19 +191,19 @@ export default function EmiCalculator({ onCopy, onShare }: EmiCalculatorProps) {
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `EMI_Amortization_Schedule_${Date.now()}.csv`;
+    a.download = `EMI_Amortization_Schedule_${enablePrepayment ? 'Prepaid_' : ''}${Date.now()}.csv`;
     a.click();
     window.URL.revokeObjectURL(url);
   };
 
   const handleCopyResults = () => {
-    const text = `EMI Calculation:\nMonthly EMI: ${formatCurrency(emi)}\nLoan Amount: ${formatCurrency(loanAmount)}\nInterest Rate: ${interestRate}%\nTenure: ${tenure} ${tenureUnit}\nTotal Interest: ${formatCurrency(totalInterest)}\nTotal Repayment: ${formatCurrency(totalPayment)}`;
+    const text = `EMI Calculation:\nMonthly EMI: ${formatCurrency(emi)}\nLoan Amount: ${formatCurrency(loanAmount)}\nInterest Rate: ${interestRate}%\nTenure: ${tenure} ${tenureUnit}\nTotal Interest: ${formatCurrency(activeInterest)}\nTotal Repayment: ${formatCurrency(activePayment)}${enablePrepayment ? `\nInterest Saved by Prepayment: ${formatCurrency(interestSaved)} (${Math.floor(monthsSaved / 12)} yrs ${monthsSaved % 12} mos saved)` : ''}`;
     onCopy(text);
   };
 
   // SVG Chart Dimensions
-  const principalPercentage = totalPayment > 0 ? (loanAmount / totalPayment) * 100 : 50;
-  const interestPercentage = totalPayment > 0 ? (totalInterest / totalPayment) * 100 : 50;
+  const principalPercentage = activePayment > 0 ? (loanAmount / activePayment) * 100 : 50;
+  const interestPercentage = activePayment > 0 ? (activeInterest / activePayment) * 100 : 50;
 
   return (
     <div className="space-y-8">
@@ -203,6 +299,32 @@ export default function EmiCalculator({ onCopy, onShare }: EmiCalculatorProps) {
               <span>1%</span>
               <span>20%</span>
             </div>
+
+            {/* Benchmark Bank Rate Presets */}
+            <div className="pt-2">
+              <span className="text-[11px] font-medium text-zinc-500 dark:text-zinc-400 block mb-1.5">
+                Popular Bank Benchmarks (Click to apply):
+              </span>
+              <div className="flex flex-wrap gap-1.5">
+                {BANK_BENCHMARKS.map((b) => {
+                  const isSelected = Math.abs(interestRate - b.rate) < 0.01;
+                  return (
+                    <button
+                      key={b.name}
+                      type="button"
+                      onClick={() => setInterestRate(b.rate)}
+                      className={`px-2 py-1 text-xs rounded-lg border transition-all ${
+                        isSelected
+                          ? 'border-blue-600 bg-blue-50 text-blue-700 font-semibold dark:border-blue-500 dark:bg-blue-950/40 dark:text-blue-300'
+                          : 'border-zinc-200 bg-zinc-50/60 text-zinc-600 hover:border-zinc-300 dark:border-zinc-800 dark:bg-zinc-900/60 dark:text-zinc-400'
+                      }`}
+                    >
+                      {b.name} <span className="font-mono font-medium opacity-80">({b.rate}%)</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
           </div>
 
           {/* Tenure Input */}
@@ -246,6 +368,62 @@ export default function EmiCalculator({ onCopy, onShare }: EmiCalculatorProps) {
               <span>{tenureUnit === 'years' ? '30 Years' : '360 Months'}</span>
             </div>
           </div>
+
+          {/* Prepayment & Foreclosure Modeling Module */}
+          <div className="rounded-xl border border-blue-100 bg-blue-50/30 p-4 dark:border-blue-900/40 dark:bg-blue-950/20">
+            <div className="flex items-center justify-between">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
+                  Prepayment / Foreclosure Modeling
+                </span>
+                <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
+                  See how paying extra cuts years off your loan and saves interest.
+                </p>
+              </div>
+              <label className="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={enablePrepayment}
+                  onChange={(e) => setEnablePrepayment(e.target.checked)}
+                  className="sr-only peer"
+                />
+                <div className="w-9 h-5 bg-zinc-200 peer-focus:outline-none rounded-full peer dark:bg-zinc-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></div>
+              </label>
+            </div>
+
+            {enablePrepayment && (
+              <div className="mt-4 pt-3 border-t border-blue-100 dark:border-blue-900/40 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">
+                    Monthly Prepayment ({getCurrency(currency).symbol})
+                  </label>
+                  <input
+                    type="number"
+                    value={monthlyPrepayment}
+                    min="0"
+                    step="500"
+                    onChange={(e) => setMonthlyPrepayment(Math.max(0, parseFloat(e.target.value) || 0))}
+                    className="w-full px-3 py-1.5 text-sm rounded-lg border border-zinc-200 bg-white dark:border-zinc-700 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 font-mono"
+                  />
+                  <span className="text-[10px] text-zinc-400">Added to principal every month</span>
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">
+                    Annual Lump Sum ({getCurrency(currency).symbol})
+                  </label>
+                  <input
+                    type="number"
+                    value={annualPrepayment}
+                    min="0"
+                    step="5000"
+                    onChange={(e) => setAnnualPrepayment(Math.max(0, parseFloat(e.target.value) || 0))}
+                    className="w-full px-3 py-1.5 text-sm rounded-lg border border-zinc-200 bg-white dark:border-zinc-700 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 font-mono"
+                  />
+                  <span className="text-[10px] text-zinc-400">Paid once every 12 months (e.g. bonus)</span>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Right Output Dashboard Pane */}
@@ -269,7 +447,7 @@ export default function EmiCalculator({ onCopy, onShare }: EmiCalculatorProps) {
               </div>
               <div>
                 <p className="text-[11px] text-zinc-400 dark:text-zinc-500 font-medium">Interest Payable</p>
-                <p className="text-base font-semibold text-zinc-900 dark:text-zinc-50 mt-0.5">{formatCurrency(totalInterest)}</p>
+                <p className="text-base font-semibold text-zinc-900 dark:text-zinc-50 mt-0.5">{formatCurrency(activeInterest)}</p>
                 <div className="flex items-center gap-1.5 mt-1.5">
                   <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
                   <span className="text-xs font-mono text-zinc-500">{interestPercentage.toFixed(1)}%</span>
@@ -281,8 +459,22 @@ export default function EmiCalculator({ onCopy, onShare }: EmiCalculatorProps) {
 
             <div>
               <p className="text-xs text-zinc-400 dark:text-zinc-500 font-medium">Total Cost of Loan</p>
-              <p className="text-lg font-semibold text-zinc-950 dark:text-zinc-50 mt-0.5">{formatCurrency(totalPayment)}</p>
+              <p className="text-lg font-semibold text-zinc-950 dark:text-zinc-50 mt-0.5">{formatCurrency(activePayment)}</p>
             </div>
+
+            {enablePrepayment && interestSaved > 0 && (
+              <div className="rounded-xl border border-emerald-200 bg-emerald-50/80 p-3.5 dark:border-emerald-900/50 dark:bg-emerald-950/30">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
+                  🎉 Prepayment Impact
+                </span>
+                <div className="mt-1 text-sm font-semibold text-emerald-900 dark:text-emerald-200">
+                  Saves {formatCurrency(interestSaved)} in interest!
+                </div>
+                <div className="text-xs text-emerald-700 dark:text-emerald-300 mt-0.5">
+                  Closes loan {Math.floor(monthsSaved / 12)} years {monthsSaved % 12} months earlier.
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Clean Handcrafted Circular Doughnut Chart using SVG */}
@@ -331,8 +523,12 @@ export default function EmiCalculator({ onCopy, onShare }: EmiCalculatorProps) {
           className="w-full flex justify-between items-center p-4 bg-zinc-50 dark:bg-zinc-900/50 border-b border-zinc-100 dark:border-zinc-800 outline-none"
         >
           <div className="flex items-center gap-2">
-            <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Amortization Schedule (Yearly)</h2>
-            <span className="text-[10px] text-zinc-500 bg-zinc-200/50 dark:bg-zinc-800 px-1.5 py-0.5 rounded-full font-medium">Yearly breakdown</span>
+            <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+              Amortization Schedule {enablePrepayment ? '(Prepayment Mode)' : '(Yearly)'}
+            </h2>
+            <span className="text-[10px] text-zinc-500 bg-zinc-200/50 dark:bg-zinc-800 px-1.5 py-0.5 rounded-full font-medium">
+              {activeSchedule.length} Years
+            </span>
           </div>
           <div className="flex items-center gap-3">
             <button
@@ -359,7 +555,7 @@ export default function EmiCalculator({ onCopy, onShare }: EmiCalculatorProps) {
                 </tr>
               </thead>
               <tbody className="text-xs divide-y divide-zinc-100 dark:divide-zinc-800 font-mono">
-                {schedule.map((s) => (
+                {activeSchedule.map((s) => (
                   <tr key={s.year} className="hover:bg-zinc-50/30 dark:hover:bg-zinc-900/10 text-zinc-700 dark:text-zinc-300">
                     <td className="p-3 pl-4 font-sans font-medium text-zinc-900 dark:text-zinc-200">Year {s.year}</td>
                     <td className="p-3 text-right">{formatCurrency(s.principalPaid)}</td>
