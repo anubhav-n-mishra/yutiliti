@@ -3,16 +3,60 @@ import HoverFooter from "@/src/components/ui/hover-footer";
 import Header from "@/src/components/Header";
 import BlogList from "@/src/components/BlogList";
 import { BLOG_POSTS } from "@/src/lib/blogs";
+import { SITE_NAME, SITE_URL } from "@/src/lib/site";
 
 export const metadata: Metadata = {
-  title: "Yuitility Journal - Engineering Guides & Privacy Insights",
+  title: "Engineering Guides & Privacy Insights | Yuitility Journal",
   description: "Explore in-depth articles, tutorials, and guides on scientific calculations, salary breakdowns, in-browser PDF security, and image optimization.",
   alternates: { canonical: "/blog" },
+  openGraph: {
+    type: "website",
+    url: `${SITE_URL}/blog`,
+    siteName: SITE_NAME,
+    title: "Engineering Guides & Privacy Insights | Yuitility Journal",
+    description: "Explore in-depth articles, tutorials, and guides on scientific calculations, salary breakdowns, in-browser PDF security, and image optimization.",
+    images: [{ url: `${SITE_URL}/brand/yuitility-logo.png`, alt: "Yuitility Journal" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@yuitility",
+    creator: "@yuitility",
+    title: "Engineering Guides & Privacy Insights | Yuitility Journal",
+    description: "Explore in-depth articles, tutorials, and guides on scientific calculations, salary breakdowns, in-browser PDF security, and image optimization.",
+    images: [`${SITE_URL}/brand/yuitility-logo.png`],
+  },
 };
 
 export default function BlogIndexPage() {
+  const blogListSchema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Yuitility Journal - Engineering Guides & Privacy Insights",
+    description: "Explore in-depth articles, tutorials, and guides on scientific calculations, salary breakdowns, in-browser PDF security, and image optimization.",
+    url: `${SITE_URL}/blog`,
+    isPartOf: {
+      "@type": "WebSite",
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+    mainEntity: {
+      "@type": "ItemList",
+      numberOfItems: BLOG_POSTS.length,
+      itemListElement: BLOG_POSTS.map((post, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        url: `${SITE_URL}/blog/${post.slug}`,
+        name: post.title,
+      })),
+    },
+  };
+
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50 font-sans relative overflow-hidden flex flex-col justify-between">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogListSchema) }}
+      />
       {/* Decorative background glows */}
       <div className="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-blue-500/5 via-transparent to-transparent pointer-events-none -z-10" />
       <div className="absolute top-1/4 left-1/3 w-[300px] h-[300px] rounded-full bg-blue-500/[0.02] blur-[100px] pointer-events-none -z-10" />

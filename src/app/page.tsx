@@ -341,24 +341,60 @@ export default function Home() {
         {/* PREMIUM HUMAN-MADE HERO SECTION */}
         <section className="text-center max-w-3xl mx-auto space-y-5 pt-8 pb-4 animate-fade-in">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-black font-display text-zinc-900 dark:text-zinc-50 tracking-tight leading-[1.1]">
-            All the utilities you need.<br />
+            Free Online Browser Tools &amp; Calculators<br />
             <span className="bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-hover)] bg-clip-text text-transparent">
-              In one clean workspace.
+              100% Private, In Your Browser
             </span>
           </h1>
 
-          <p className="text-sm sm:text-base text-zinc-500 dark:text-zinc-400 font-medium max-w-xl mx-auto leading-relaxed">
-            Zero signups. Zero server uploads. Every single calculation and file modification happens entirely inside your browser for complete data privacy.
+          <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-300 font-medium max-w-2xl mx-auto leading-relaxed">
+            Zero signups. Zero server uploads. Every single calculation, image transformation, and PDF operation executes entirely inside your browser memory for uncompromising privacy and speed.
           </p>
+
+          {/* Trust badges pill row */}
+          <div className="flex flex-wrap items-center justify-center gap-2 pt-2 text-xs font-semibold text-zinc-600 dark:text-zinc-300">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200/60 dark:border-emerald-800/40">
+              <ShieldCheck className="w-3.5 h-3.5" /> 100% Client-Side Privacy
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 border border-blue-200/60 dark:border-blue-800/40">
+              <Zap className="w-3.5 h-3.5" /> Zero File Uploads
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 border border-purple-200/60 dark:border-purple-800/40">
+              <Sparkles className="w-3.5 h-3.5" /> 79+ Free Fast Tools
+            </span>
+          </div>
+
+          {/* Hero CTAs */}
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-3">
+            <a
+              href="#tools-directory"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[var(--accent-primary)] hover:bg-[var(--accent-hover)] text-white font-semibold text-sm shadow-md hover:shadow-lg transition-all active:scale-[0.98]"
+            >
+              <LayoutGrid className="w-4 h-4" />
+              Explore All 79+ Tools
+            </a>
+            <button
+              type="button"
+              onClick={() => {
+                setSelectedCategory('finance');
+                const el = document.getElementById('tools-directory');
+                el?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-900 dark:hover:bg-zinc-800 text-zinc-800 dark:text-zinc-200 font-semibold text-sm border border-zinc-200 dark:border-zinc-800 transition-all active:scale-[0.98]"
+            >
+              <Calculator className="w-4 h-4" />
+              Try Popular Calculators
+            </button>
+          </div>
         </section>
 
         {/* Toolbar Header with Search, Filter & Sort */}
         <ScrollReveal delay={100} className="w-full">
-          <div className="max-w-7xl mx-auto space-y-6">
+          <div id="tools-directory" className="max-w-7xl mx-auto space-y-6 scroll-mt-24">
             <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3">
               <div className="relative flex-1 group" role="search">
                 <div className="absolute -inset-0.5 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-hover)] rounded-2xl blur opacity-15 group-hover:opacity-25 transition duration-300"></div>
-                <div className="relative flex items-center bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm hover:shadow-md transition-all">
+                <div className="relative flex items-center bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm hover:shadow-md transition-all focus-within:ring-2 focus-within:ring-[var(--accent-primary)]">
                   <Search className="absolute left-4 w-5 h-5 text-zinc-400 group-focus-within:text-[var(--accent-primary)] transition-colors" aria-hidden="true" />
                   <label htmlFor="tool-search" className="sr-only">Search tools</label>
                   <input
@@ -366,7 +402,7 @@ export default function Home() {
                     ref={searchInputRef}
                     type="text"
                     placeholder={`Search ${TOOLS.length}+ free tools, calculators...`}
-                    className="w-full bg-transparent border-none py-3.5 pl-12 pr-20 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:ring-0 outline-none rounded-2xl text-base"
+                    className="w-full bg-transparent border-none py-3.5 pl-12 pr-20 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none rounded-2xl text-base"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
@@ -523,7 +559,10 @@ export default function Home() {
         </ScrollReveal>
 
         {/* Tools Grid Section */}
-        <section id="tools-grid" className="space-y-8">
+        <section id="tools-grid" aria-labelledby="tools-catalog-heading" className="space-y-8">
+          <h2 id="tools-catalog-heading" className="sr-only">
+            Free Browser Utilities Catalog
+          </h2>
           <div className="flex items-center justify-between text-xs font-bold text-zinc-500 dark:text-zinc-400">
             <span>
               Showing {filteredTools.length > 0 ? (currentPage - 1) * ITEMS_PER_PAGE + 1 : 0} - {Math.min(currentPage * ITEMS_PER_PAGE, filteredTools.length)} of {filteredTools.length} tools

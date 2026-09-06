@@ -96,7 +96,7 @@ export default function PdfWatermarker({ onCopy, onShare }: PdfWatermarkerProps)
       {/* Upper header section */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-100 dark:border-zinc-800 pb-5">
         <div>
-          <h1 className="text-2xl font-display font-semibold text-zinc-900 dark:text-zinc-50 tracking-tight">PDF Watermarker</h1>
+          <h2 className="text-2xl font-display font-semibold text-zinc-900 dark:text-zinc-50 tracking-tight">PDF Watermarker</h2>
           <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1">Stamp a custom text watermark on all pages of your PDF document.</p>
         </div>
         <div className="flex items-center gap-2">
@@ -109,7 +109,7 @@ export default function PdfWatermarker({ onCopy, onShare }: PdfWatermarkerProps)
             Clear
           </button>
           <button
-            onClick={() => onShare("PDF Watermarker", "#/pdf-watermark")}
+            onClick={() => onShare("PDF Watermarker", "pdf-watermark")}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-zinc-600 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-800 rounded-md hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
           >
             <Share2 className="w-3.5 h-3.5" />

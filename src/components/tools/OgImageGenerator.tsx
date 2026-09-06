@@ -67,7 +67,7 @@ export default function OgImageGenerator({ onCopy, onShare }: OgImageGeneratorPr
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-100 dark:border-zinc-800 pb-5">
         <div>
-          <h1 className="text-2xl font-display font-semibold text-zinc-900 dark:text-zinc-50 tracking-tight">OG Image Generator</h1>
+          <h2 className="text-2xl font-display font-semibold text-zinc-900 dark:text-zinc-50 tracking-tight">OG Image Generator</h2>
           <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1">Design beautiful 1200x630 Open Graph images for social media sharing.</p>
         </div>
         <div className="flex items-center gap-2">
@@ -79,7 +79,7 @@ export default function OgImageGenerator({ onCopy, onShare }: OgImageGeneratorPr
             Reset
           </button>
           <button
-            onClick={() => onShare("OG Image Generator", "#/og-image-generator")}
+            onClick={() => onShare("OG Image Generator", "og-image-generator")}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-zinc-600 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-800 rounded-md hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
           >
             <Share2 className="w-3.5 h-3.5" />
@@ -210,9 +210,9 @@ export default function OgImageGenerator({ onCopy, onShare }: OgImageGeneratorPr
 
               {/* Main Content */}
               <div className="relative z-10 px-16 pb-20 flex-grow flex flex-col justify-center">
-                <h1 className="text-white font-bold tracking-tight leading-tight" style={{ fontSize: '72px', textShadow: '0 4px 20px rgba(0,0,0,0.1)' }}>
+                <div role="heading" aria-level={1} className="text-white font-bold tracking-tight leading-tight" style={{ fontSize: '72px', textShadow: '0 4px 20px rgba(0,0,0,0.1)' }}>
                   {title}
-                </h1>
+                </div>
                 {subtitle && (
                   <p className="text-white/80 font-medium mt-8 leading-normal" style={{ fontSize: '36px' }}>
                     {subtitle}

@@ -11,10 +11,7 @@ export default function robots(): MetadataRoute.Robots {
         "/private/",
       ],
     },
-    sitemap: [
-      `${SITE_URL}/sitemap.xml`,
-      `${SITE_URL}/rss.xml`,
-    ],
+    sitemap: `${SITE_URL}/sitemap.xml`,
     host: "www.yuitility.app",
   };
 }

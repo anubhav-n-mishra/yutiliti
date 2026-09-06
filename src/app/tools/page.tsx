@@ -21,6 +21,24 @@ export const metadata: Metadata = {
   description:
     "Every working Yuitility tool in one list: finance calculators, PDF and image utilities, developer tools and everyday converters. All of them run in your browser.",
   alternates: { canonical: "/tools" },
+  openGraph: {
+    type: "website",
+    url: absoluteUrl("/tools"),
+    siteName: SITE_NAME,
+    title: "All Yuitility Tools, Grouped by What They Do | Yuitility",
+    description:
+      "Every working Yuitility tool in one list: finance calculators, PDF and image utilities, developer tools and everyday converters. All of them run in your browser.",
+    images: [{ url: absoluteUrl("/brand/yuitility-logo.png"), alt: "All Tools - Yuitility" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@yuitility",
+    creator: "@yuitility",
+    title: "All Yuitility Tools, Grouped by What They Do | Yuitility",
+    description:
+      "Every working Yuitility tool in one list: finance calculators, PDF and image utilities, developer tools and everyday converters. All of them run in your browser.",
+    images: [absoluteUrl("/brand/yuitility-logo.png")],
+  },
 };
 
 const orderedCategories = CATEGORIES.filter((c) => c.id !== "all").filter(

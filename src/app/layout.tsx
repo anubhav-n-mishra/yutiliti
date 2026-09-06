@@ -28,7 +28,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Yuitility: Browser Tools That Never Upload Your Files",
+    default: "Free Browser Tools & Calculators (100% Private) | Yuitility",
     template: "%s",
   },
   description: SITE_DESCRIPTION,
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
     type: "website",
     url: "/",
     siteName: SITE_NAME,
-    title: "Yuitility: Browser Tools That Never Upload Your Files",
+    title: "Free Browser Tools & Calculators (100% Private) | Yuitility",
     description: SITE_DESCRIPTION,
     locale: "en_US",
     images: [
@@ -83,7 +83,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@yuitility",
     creator: "@yuitility",
-    title: `${SITE_NAME}: Browser Tools That Never Upload Your Files`,
+    title: "Free Browser Tools & Calculators (100% Private) | Yuitility",
     description: SITE_DESCRIPTION,
     images: ["/brand/yuitility-logo.png"],
   },
@@ -107,70 +107,59 @@ export const metadata: Metadata = {
   // token here only once it exists, or verify via DNS/Search Console instead.
 };
 
-const websiteSchema = {
+const rootGraphSchema = {
   "@context": "https://schema.org",
-  "@type": "WebSite",
-  name: SITE_NAME,
-  url: SITE_URL,
-  description: SITE_DESCRIPTION,
-  inLanguage: "en-US",
-  potentialAction: {
-    "@type": "SearchAction",
-    target: `${SITE_URL}/?q={search_term_string}`,
-    "query-input": "required name=search_term_string",
-  },
-  publisher: {
-    "@type": "Organization",
-    name: SITE_NAME,
-    url: SITE_URL,
-    logo: {
-      "@type": "ImageObject",
-      url: `${SITE_URL}/brand/yuitility-logo.png`,
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${SITE_URL}/#organization`,
+      name: SITE_NAME,
+      url: SITE_URL,
+      logo: {
+        "@type": "ImageObject",
+        "@id": `${SITE_URL}/#logo`,
+        url: `${SITE_URL}/brand/yuitility-logo.png`,
+        contentUrl: `${SITE_URL}/brand/yuitility-logo.png`,
+        caption: `${SITE_NAME} Logo`,
+        width: 512,
+        height: 512,
+      },
+      image: { "@id": `${SITE_URL}/#logo` },
+      description: SITE_DESCRIPTION,
+      foundingDate: "2024",
+      sameAs: [
+        "https://x.com/yuitility",
+        "https://github.com/yuitility",
+      ],
+      contactPoint: [
+        {
+          "@type": "ContactPoint",
+          contactType: "customer support",
+          email: "support@yuitility.app",
+          url: `${SITE_URL}/contact`,
+        },
+      ],
+      knowsAbout: [
+        "https://en.wikipedia.org/wiki/Client-side_computing",
+        "https://www.wikidata.org/wiki/Q11072",
+        "https://en.wikipedia.org/wiki/WebAssembly",
+        "https://www.wikidata.org/wiki/Q21686016",
+      ],
     },
-    // CONTENT TODO: add sameAs entries only for profiles that actually exist
-    // and are controlled by Yuitility. Pointing at profiles that 404 is a
-    // negative entity signal, not a positive one.
-  },
-  mainEntityOfPage: {
-    "@type": "WebPage",
-    "@id": SITE_URL,
-  },
-};
-
-const organizationSchema = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: SITE_NAME,
-  url: SITE_URL,
-  logo: `${SITE_URL}/brand/yuitility-logo.png`,
-  // CONTENT TODO: add verified sameAs profile URLs when they exist.
-  description: SITE_DESCRIPTION,
-};
-
-const softwareApplicationSchema = {
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  name: SITE_NAME,
-  applicationCategory: "WebApplication",
-  operatingSystem: "Web",
-  offers: {
-    "@type": "Offer",
-    price: "0",
-    priceCurrency: "USD",
-    availability: "https://schema.org/InStock",
-  },
-  description: SITE_DESCRIPTION,
-  url: SITE_URL,
-  author: {
-    "@type": "Organization",
-    name: SITE_NAME,
-    url: SITE_URL,
-  },
-  featureList: [
-    `${LIVE_TOOLS.length} browser-based tools`,
-    "Client-side processing - no file or data upload",
-    "No account required",
-    "Works offline after first load",
+    {
+      "@type": "WebSite",
+      "@id": `${SITE_URL}/#website`,
+      name: SITE_NAME,
+      url: SITE_URL,
+      description: SITE_DESCRIPTION,
+      inLanguage: "en-US",
+      publisher: { "@id": `${SITE_URL}/#organization` },
+      potentialAction: {
+        "@type": "SearchAction",
+        target: `${SITE_URL}/?q={search_term_string}`,
+        "query-input": "required name=search_term_string",
+      },
+    },
   ],
 };
 
@@ -205,9 +194,10 @@ export default function RootLayout({
         <ServiceWorkerRegister />
         <CookieBanner />
         <AiChatbot />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareApplicationSchema) }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(rootGraphSchema) }}
+        />
         {children}
       </body>
     </html>

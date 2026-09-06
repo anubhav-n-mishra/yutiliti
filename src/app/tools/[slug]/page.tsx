@@ -34,6 +34,8 @@ function getGoogleApplicationCategory(category: string): string {
   return map[category] || "UtilitiesApplication";
 }
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return UNIQUE_TOOLS.map((tool) => ({ slug: tool.id }));
 }
@@ -42,7 +44,7 @@ export async function generateMetadata({ params }: ToolPageProps): Promise<Metad
   const { slug } = await params;
   const tool = getToolById(slug);
 
-  if (!tool) return {};
+  if (!tool) notFound();
 
   const path = toolPath(tool.id);
   const canonicalUrl = absoluteUrl(path);
@@ -135,7 +137,13 @@ export default async function ToolPage({ params }: ToolPageProps) {
     applicationCategory: getGoogleApplicationCategory(tool.category),
     operatingSystem: "Web browser",
     browserRequirements: "Requires JavaScript",
+    inLanguage: "en-US",
     isAccessibleForFree: true,
+    ...(tool.category === "finance"
+      ? {
+          spatialCoverage: ["IN", "US", "GB", "CA", "AU"],
+        }
+      : {}),
     offers: {
       "@type": "Offer",
       price: "0",
@@ -160,10 +168,12 @@ export default async function ToolPage({ params }: ToolPageProps) {
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
+    "@id": `${canonicalUrl}#breadcrumb`,
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "All tools", item: absoluteUrl("/tools") },
-      { "@type": "ListItem", position: 2, name: categoryName, item: absoluteUrl(`/category/${tool.category}`) },
-      { "@type": "ListItem", position: 3, name: tool.title, item: canonicalUrl },
+      { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
+      { "@type": "ListItem", position: 2, name: "All tools", item: absoluteUrl("/tools") },
+      { "@type": "ListItem", position: 3, name: categoryName, item: absoluteUrl(`/category/${tool.category}`) },
+      { "@type": "ListItem", position: 4, name: tool.title, item: canonicalUrl },
     ],
   };
 
@@ -174,6 +184,10 @@ export default async function ToolPage({ params }: ToolPageProps) {
     name: tool.title,
     description: getToolSeoDescription(tool),
     url: canonicalUrl,
+    inLanguage: "en-US",
+    datePublished: "2024-01-01T00:00:00Z",
+    dateModified: "2026-09-01T00:00:00Z",
+    breadcrumb: { "@id": `${canonicalUrl}#breadcrumb` },
     isPartOf: {
       "@type": "WebSite",
       name: SITE_NAME,

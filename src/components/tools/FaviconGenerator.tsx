@@ -169,7 +169,7 @@ export default function FaviconGenerator({ onCopy, onShare }: FaviconGeneratorPr
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-100 dark:border-zinc-800 pb-5">
         <div>
-          <h1 className="text-2xl font-display font-semibold text-zinc-900 dark:text-zinc-50 tracking-tight">Favicon Generator</h1>
+          <h2 className="text-2xl font-display font-semibold text-zinc-900 dark:text-zinc-50 tracking-tight">Favicon Generator</h2>
           <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1">Generate a complete set of web favicons and a manifest in seconds.</p>
         </div>
         <div className="flex items-center gap-2">
@@ -181,7 +181,7 @@ export default function FaviconGenerator({ onCopy, onShare }: FaviconGeneratorPr
             Clear
           </button>
           <button
-            onClick={() => onShare("Favicon Generator", "#/favicon-generator")}
+            onClick={() => onShare("Favicon Generator", "favicon-generator")}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-zinc-600 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-800 rounded-md hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
           >
             <Share2 className="w-3.5 h-3.5" />

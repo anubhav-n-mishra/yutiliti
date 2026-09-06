@@ -14,8 +14,8 @@ export interface BlogPost {
 export const BLOG_POSTS: BlogPost[] = [
   {
     slug: "how-to-use-scientific-calculator-online",
-    title: "Mastering the Scientific Calculator Online: Trigonometry, Logarithms and Memory Functions",
-    description: "Learn how to calculate complex trigonometric formulas, exponential powers, factorials, and logarithmic equations with our free, high-precision scientific calculator.",
+    title: "Mastering the Scientific Calculator: Trig & Logarithms",
+    description: "Learn how to calculate trigonometric formulas, powers, factorials, and logarithmic equations with our free, high-precision scientific calculator.",
     date: "2026-08-01",
     category: "Math & Calculators",
     readTime: "4 min read",
@@ -37,7 +37,7 @@ Traditional online scientific calculators perform remote server calls on every b
   },
   {
     slug: "understanding-salary-take-home-pay-and-epf",
-    title: "Understanding Salary Take-Home Pay, In-Hand Income and EPF Deductions",
+    title: "Salary Take-Home Pay, In-Hand Income and EPF Deductions",
     description: "A complete guide to calculating your monthly in-hand salary, annual CTC breakdown, Employee Provident Fund (EPF) deductions, and net income.",
     date: "2026-07-28",
     category: "Finance & Wealth",
@@ -60,8 +60,8 @@ Select your preferred currency, enter your annual CTC, customize your Basic Sala
   },
   {
     slug: "why-in-browser-pdf-tools-are-more-secure",
-    title: "Why In-Browser PDF Processing is 100% More Secure Than Server Uploads",
-    description: "Discover why uploading sensitive bank statements, tax forms, or confidential PDF documents to remote server converters exposes you to privacy risks - and how local PDF-Lib processing protects you.",
+    title: "Why In-Browser PDF Processing is More Secure Than Uploads",
+    description: "Why uploading bank statements or tax forms to remote converters exposes you to privacy risks - and how local PDF-Lib browser processing protects you.",
     date: "2026-07-25",
     category: "PDF Tools",
     readTime: "6 min read",

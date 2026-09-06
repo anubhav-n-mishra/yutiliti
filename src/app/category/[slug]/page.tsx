@@ -25,6 +25,8 @@ function getCategoryTools(category: string) {
   return liveToolsInCategory(category);
 }
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return CATEGORIES.filter((c) => c.id !== "all").map((cat) => ({ slug: cat.id }));
 }
@@ -32,7 +34,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
   const { slug } = await params;
   const category = CATEGORIES.find((c) => c.id === slug);
-  if (!category) return {};
+  if (!category) notFound();
 
   const tools = getCategoryTools(slug);
   const meta = CATEGORY_META[slug];
@@ -97,8 +99,9 @@ const categorySchema = (slug: string, tools: ReturnType<typeof getCategoryTools>
   breadcrumb: {
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "All tools", item: absoluteUrl("/tools") },
-      { "@type": "ListItem", position: 2, name: CATEGORY_META[slug]?.name ?? slug, item: absoluteUrl(`/category/${slug}`) },
+      { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
+      { "@type": "ListItem", position: 2, name: "All tools", item: absoluteUrl("/tools") },
+      { "@type": "ListItem", position: 3, name: CATEGORY_META[slug]?.name ?? slug, item: absoluteUrl(`/category/${slug}`) },
     ],
   },
 });
@@ -139,7 +142,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
         <header className="border-b border-zinc-200 dark:border-zinc-800 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-xl sticky top-0 z-30">
           <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
             <Link href="/" className="flex items-center gap-2.5" aria-label={`${SITE_NAME} home`}>
-              <img src="/brand/yuitility-logo.png" alt="" className="h-9 w-9 object-contain" />
+              <img src="/brand/yuitility-logo.png" alt={`${SITE_NAME} logo`} width={36} height={36} className="h-9 w-9 object-contain" />
               <span className="font-display text-lg font-bold tracking-tight text-zinc-950 dark:text-white">{SITE_NAME}</span>
             </Link>
           </div>
@@ -148,6 +151,10 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
         <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
           <div className="mb-12">
             <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
+              <Link href="/" className="hover:text-blue-600 dark:hover:text-cyan-300">
+                Home
+              </Link>
+              <span aria-hidden="true">/</span>
               <Link href="/tools" className="inline-flex items-center gap-1 hover:text-blue-600 dark:hover:text-cyan-300">
                 <LayoutGrid className="h-3.5 w-3.5" />
                 All tools

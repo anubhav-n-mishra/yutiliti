@@ -38,6 +38,30 @@ function parseInlineMarkdown(text: string): React.ReactNode[] {
   });
 }
 
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function extractToc(content: string): { title: string; id: string; level: number }[] {
+  const lines = content.split('\n');
+  const toc: { title: string; id: string; level: number }[] = [];
+  lines.forEach((line) => {
+    const trimmed = line.trim();
+    if (trimmed.startsWith("## ")) {
+      const title = trimmed.replace("## ", "");
+      toc.push({ title, id: slugify(title), level: 2 });
+    } else if (trimmed.startsWith("### ")) {
+      const title = trimmed.replace("### ", "");
+      toc.push({ title, id: slugify(title), level: 3 });
+    }
+  });
+  return toc;
+}
+
 function parseMarkdownToReact(content: string): React.ReactNode[] {
   const lines = content.split('\n');
   const elements: React.ReactNode[] = [];
@@ -66,16 +90,18 @@ function parseMarkdownToReact(content: string): React.ReactNode[] {
 
     if (trimmed.startsWith("### ")) {
       flushList(idx);
+      const heading = trimmed.replace("### ", "");
       elements.push(
-        <h3 key={idx} className="text-xl sm:text-2xl font-black font-display mt-8 mb-4 text-zinc-950 dark:text-white tracking-tight">
-          {parseInlineMarkdown(trimmed.replace("### ", ""))}
+        <h3 id={slugify(heading)} key={idx} className="scroll-mt-28 text-xl sm:text-2xl font-black font-display mt-8 mb-4 text-zinc-950 dark:text-white tracking-tight">
+          {parseInlineMarkdown(heading)}
         </h3>
       );
     } else if (trimmed.startsWith("## ")) {
       flushList(idx);
+      const heading = trimmed.replace("## ", "");
       elements.push(
-        <h2 key={idx} className="text-2xl sm:text-3xl font-black font-display mt-10 mb-4 text-zinc-950 dark:text-white tracking-tight">
-          {parseInlineMarkdown(trimmed.replace("## ", ""))}
+        <h2 id={slugify(heading)} key={idx} className="scroll-mt-28 text-2xl sm:text-3xl font-black font-display mt-10 mb-4 text-zinc-950 dark:text-white tracking-tight">
+          {parseInlineMarkdown(heading)}
         </h2>
       );
     } else if (trimmed.startsWith("- ") || trimmed.startsWith("* ")) {
@@ -100,6 +126,8 @@ function parseMarkdownToReact(content: string): React.ReactNode[] {
   return elements;
 }
 
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   return BLOG_POSTS.map((post) => ({
     slug: post.slug,
@@ -111,22 +139,23 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const post = BLOG_POSTS.find((p) => p.slug === slug);
 
   if (!post) {
-    return { title: "Post Not Found - Yuitility" };
+    notFound();
   }
 
-  const ogImageUrl = `/brand/yuitility-logo.png`;
+  const title = post.title.length > 45 ? post.title : `${post.title} | ${SITE_NAME}`;
+  const canonicalUrl = absoluteUrl(`/blog/${post.slug}`);
+  const ogImageUrl = absoluteUrl("/brand/yuitility-logo.png");
 
   return {
-    title: `${post.title} - Yuitility Guide`,
+    title,
     description: post.description,
-    // No `keywords` meta tag - Google has ignored it since 2009 and it reads as
-    // a stuffing signal. post.keywords is retained in the data model because
-    // schema.org's `keywords` property on BlogPosting is legitimate.
     alternates: { canonical: `/blog/${post.slug}` },
     openGraph: {
-      title: post.title,
+      title,
       description: post.description,
       type: "article",
+      url: canonicalUrl,
+      siteName: SITE_NAME,
       publishedTime: post.date,
       authors: [post.author],
       images: [
@@ -140,7 +169,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     },
     twitter: {
       card: "summary_large_image",
-      title: `${post.title} - Yuitility Guide`,
+      site: "@yuitility",
+      creator: "@yuitility",
+      title,
       description: post.description,
       images: [ogImageUrl],
     },
@@ -154,6 +185,8 @@ export default async function BlogPostPage({ params }: PageProps) {
   if (!post) {
     notFound();
   }
+
+  const toc = extractToc(post.content);
 
   const linkedTool =
     post.toolId && isToolLive(post.toolId) ? getToolById(post.toolId) ?? null : null;
@@ -181,11 +214,16 @@ export default async function BlogPostPage({ params }: PageProps) {
             },
             headline: post.title,
             description: post.description,
+            image: [
+              {
+                "@type": "ImageObject",
+                url: absoluteUrl("/brand/yuitility-logo.png"),
+                width: 1200,
+                height: 630,
+              },
+            ],
             datePublished: post.date,
             dateModified: post.date,
-            // These bylines are team names ("Yuitility Finance Team"), so the
-            // author is an Organization. Claiming a Person that does not exist
-            // is fabricated authorship.
             author: {
               "@type": "Organization",
               name: post.author,
@@ -212,8 +250,9 @@ export default async function BlogPostPage({ params }: PageProps) {
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Guides", item: absoluteUrl("/blog") },
-              { "@type": "ListItem", position: 2, name: post.title, item: absoluteUrl(`/blog/${post.slug}`) },
+              { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
+              { "@type": "ListItem", position: 2, name: "Guides", item: absoluteUrl("/blog") },
+              { "@type": "ListItem", position: 3, name: post.title, item: absoluteUrl(`/blog/${post.slug}`) },
             ],
           }),
         }}
@@ -230,8 +269,8 @@ export default async function BlogPostPage({ params }: PageProps) {
 
         {/* Split Grid Layout for Premium Editorial feel */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-          {/* Left panel: Meta details & Tool promotion */}
-          <aside className="lg:col-span-4 space-y-8 lg:sticky lg:top-32">
+          {/* Left panel: Meta details, TOC & Tool promotion */}
+          <aside className="lg:col-span-4 space-y-6 lg:sticky lg:top-32">
             {/* Meta details list */}
             <div className="p-6 bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800/80 rounded-3xl space-y-4 shadow-sm">
               <div className="flex items-center gap-3 text-xs text-zinc-650 dark:text-zinc-400 font-medium">
@@ -257,6 +296,27 @@ export default async function BlogPostPage({ params }: PageProps) {
               </div>
             </div>
 
+            {/* Table of Contents */}
+            {toc.length > 0 && (
+              <div className="p-6 bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800/80 rounded-3xl space-y-3 shadow-sm">
+                <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-400">Table of Contents</h3>
+                <nav className="space-y-1.5 text-xs">
+                  {toc.map((item) => (
+                    <a
+                      key={item.id}
+                      href={`#${item.id}`}
+                      className={`block transition-colors hover:text-[var(--accent-primary)] ${
+                        item.level === 3
+                          ? "pl-3 text-zinc-500 dark:text-zinc-400"
+                          : "font-semibold text-zinc-800 dark:text-zinc-200"
+                      }`}
+                    >
+                      {item.title}
+                    </a>
+                  ))}
+                </nav>
+              </div>
+            )}
             {/* Premium Integrated Tool Promotion */}
             {linkedTool && (
               <div className="relative p-6 bg-zinc-900 text-white rounded-3xl overflow-hidden border border-zinc-800 shadow-xl group">
@@ -287,6 +347,16 @@ export default async function BlogPostPage({ params }: PageProps) {
               <h1 className="text-3xl sm:text-5xl font-black font-display tracking-tight leading-[1.1] text-zinc-950 dark:text-white">
                 {post.title}
               </h1>
+            </div>
+
+            {/* Quick Answer / TL;DR Summary Block */}
+            <div className="p-5 rounded-2xl bg-blue-50/70 border border-blue-200/70 dark:bg-zinc-900 dark:border-blue-900/40">
+              <p className="text-xs font-bold uppercase tracking-wider text-blue-700 dark:text-cyan-300 mb-1">
+                Quick Summary / TL;DR
+              </p>
+              <p className="text-sm leading-relaxed text-zinc-800 dark:text-zinc-200">
+                {post.description}
+              </p>
             </div>
 
             <article className="max-w-none text-zinc-800 dark:text-zinc-200 text-sm leading-relaxed space-y-6">

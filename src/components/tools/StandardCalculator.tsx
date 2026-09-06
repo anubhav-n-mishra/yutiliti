@@ -182,9 +182,9 @@ export default function StandardCalculator({ onCopy, onShare, onTriggerShareToas
       {/* Header Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-100 dark:border-zinc-800 pb-5">
         <div>
-          <h1 className="text-2xl font-display font-semibold text-zinc-900 dark:text-zinc-50 tracking-tight">
+          <h2 className="text-2xl font-display font-semibold text-zinc-900 dark:text-zinc-50 tracking-tight">
             Standard Calculator
-          </h1>
+          </h2>
           <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1">
             Fast, clean, high-precision basic calculator with memory and history.
           </p>
@@ -420,7 +420,7 @@ export default function StandardCalculator({ onCopy, onShare, onTriggerShareToas
           {/* Bottom Share Link Button */}
           <div className="pt-4 flex justify-center">
             <button
-              onClick={() => onShare("Standard Calculator", "/tools/standard-calculator")}
+              onClick={() => onShare("Standard Calculator", "standard-calculator")}
               className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold text-zinc-600 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-xl transition-colors"
             >
               <Share2 className="w-4 h-4" />

@@ -5,7 +5,7 @@ import { ArrowLeft } from 'lucide-react';
 import { absoluteUrl, SITE_NAME } from '@/src/lib/site';
 
 export const metadata: Metadata = {
-  title: `Privacy Policy – Free Online Tools Suite | ${SITE_NAME}`,
+  title: `Privacy Policy | ${SITE_NAME}`,
   description: "Read the Yuitility Privacy Policy. Learn how our browser-based tools process your data 100% locally on your device with zero server uploads or tracking cookies.",
   alternates: {
     canonical: "/privacy",
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     type: "website",
     url: absoluteUrl("/privacy"),
     siteName: SITE_NAME,
-    title: `Privacy Policy – Free Online Tools Suite | ${SITE_NAME}`,
+    title: `Privacy Policy | ${SITE_NAME}`,
     description: "Read the Yuitility Privacy Policy. Learn how our browser-based tools process your data 100% locally on your device with zero server uploads or tracking cookies.",
   },
 };

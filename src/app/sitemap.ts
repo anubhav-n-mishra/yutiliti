@@ -16,18 +16,20 @@ import { absoluteUrl, toolPath } from "@/src/lib/site";
  * both, and carrying them invites the fiction that they do something.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date();
+  // Calibrated release date instead of dynamically asserting every page was modified
+  // at the exact build instant (which causes search engines to ignore lastmod).
+  const baselineRelease = new Date("2026-09-03");
 
   const toolUrls = LIVE_TOOLS.map((tool) => ({
     url: absoluteUrl(toolPath(tool.id)),
-    lastModified: now,
+    lastModified: baselineRelease,
   }));
 
   const categoryUrls = CATEGORIES.filter(
     (c) => c.id !== "all" && liveToolsInCategory(c.id).length > 0,
   ).map((category) => ({
     url: absoluteUrl(`/category/${category.id}`),
-    lastModified: now,
+    lastModified: baselineRelease,
   }));
 
   const blogPostUrls = BLOG_POSTS.map((post) => ({
@@ -36,10 +38,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
 
   return [
-    { url: absoluteUrl("/"), lastModified: now },
-    { url: absoluteUrl("/tools"), lastModified: now },
-    { url: absoluteUrl("/blog"), lastModified: now },
-    { url: absoluteUrl("/about"), lastModified: now },
+    { url: absoluteUrl("/"), lastModified: baselineRelease },
+    { url: absoluteUrl("/tools"), lastModified: baselineRelease },
+    { url: absoluteUrl("/blog"), lastModified: baselineRelease },
+    { url: absoluteUrl("/about"), lastModified: baselineRelease },
+    { url: absoluteUrl("/contact"), lastModified: baselineRelease },
     ...categoryUrls,
     ...toolUrls,
     ...blogPostUrls,

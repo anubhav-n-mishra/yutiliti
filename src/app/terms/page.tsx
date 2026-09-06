@@ -5,7 +5,7 @@ import { ArrowLeft } from 'lucide-react';
 import { absoluteUrl, SITE_NAME } from '@/src/lib/site';
 
 export const metadata: Metadata = {
-  title: `Terms & Conditions – Free Online Tools Suite | ${SITE_NAME}`,
+  title: `Terms of Service | ${SITE_NAME}`,
   description: "Read the Yuitility Terms & Conditions governing the use of our free, browser-based online tools suite and local client-side application services.",
   alternates: {
     canonical: "/terms",
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     type: "website",
     url: absoluteUrl("/terms"),
     siteName: SITE_NAME,
-    title: `Terms & Conditions – Free Online Tools Suite | ${SITE_NAME}`,
+    title: `Terms of Service | ${SITE_NAME}`,
     description: "Read the Yuitility Terms & Conditions governing the use of our free, browser-based online tools suite and local client-side application services.",
   },
 };

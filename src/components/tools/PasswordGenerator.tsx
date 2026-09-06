@@ -152,7 +152,7 @@ export default function PasswordGenerator({ onCopy, onShare }: PasswordGenerator
       {/* Upper header section */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-100 dark:border-zinc-800 pb-5">
         <div>
-          <h1 className="text-2xl font-display font-semibold text-zinc-900 dark:text-zinc-50 tracking-tight">Key & Password Generator</h1>
+          <h2 className="text-2xl font-display font-semibold text-zinc-900 dark:text-zinc-50 tracking-tight">Key & Password Generator</h2>
           <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1">Create cryptographically secure credentials with customizable pools and batching.</p>
         </div>
         <div className="flex items-center gap-2">
@@ -164,7 +164,7 @@ export default function PasswordGenerator({ onCopy, onShare }: PasswordGenerator
             Reset
           </button>
           <button
-            onClick={() => onShare("Password Generator", "#/password-generator")}
+            onClick={() => onShare("Password Generator", "password-generator")}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-zinc-600 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-800 rounded-md hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
           >
             <Share2 className="w-3.5 h-3.5" />

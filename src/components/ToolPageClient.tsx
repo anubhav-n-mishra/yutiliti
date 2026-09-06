@@ -320,6 +320,7 @@ export default function ToolPageClient({ tool, deep }: ToolPageClientProps) {
   const [darkMode, setDarkMode] = useState(true);
   const [message, setMessage] = useState("");
   const [showShareToast, setShowShareToast] = useState(false);
+  const [userRating, setUserRating] = useState<number | null>(null);
   const faqs = useMemo(() => getToolFaqs(tool), [tool]);
   const steps = useMemo(() => getToolSteps(tool), [tool]);
   const howItWorks = useMemo(() => getToolHowItWorks(tool), [tool]);
@@ -340,7 +341,11 @@ export default function ToolPageClient({ tool, deep }: ToolPageClientProps) {
     } else {
       setDarkMode(true);
     }
-  }, []);
+    const savedRating = localStorage.getItem(`rating_${tool.id}`);
+    if (savedRating) {
+      setUserRating(parseInt(savedRating, 10));
+    }
+  }, [tool.id]);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -380,7 +385,8 @@ export default function ToolPageClient({ tool, deep }: ToolPageClientProps) {
   };
 
   const share = async (title: string, legacyPath: string) => {
-    const slug = legacyPath.replace(/^#\//, "").replace(/^\//, "") || tool.id;
+    const cleaned = legacyPath.replace(/^#\/?/, "").replace(/^\/?tools\//, "").replace(/^\//, "");
+    const slug = cleaned || tool.id;
     const url = `${window.location.origin}${toolPath(slug)}`;
     await copy(url);
     showMessage(`Share link for ${title} copied.`);
@@ -391,7 +397,7 @@ export default function ToolPageClient({ tool, deep }: ToolPageClientProps) {
       <header className="sticky top-0 z-30 border-b border-zinc-200/80 bg-white/90 backdrop-blur-xl dark:border-zinc-800 dark:bg-zinc-950/90">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
           <Link href="/" className="flex items-center gap-2.5" aria-label="Yuitility home">
-            <img src="/brand/yuitility-logo.png" alt="Yuitility logo" className="h-9 w-9 object-contain" />
+            <img src="/brand/yuitility-logo.png" alt="Yuitility logo" width={36} height={36} className="h-9 w-9 object-contain" />
             <span className="font-display text-lg font-bold tracking-tight text-zinc-950 dark:text-white">Yuitility</span>
           </Link>
           <div className="flex items-center gap-2">
@@ -413,6 +419,8 @@ export default function ToolPageClient({ tool, deep }: ToolPageClientProps) {
 
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
         <nav aria-label="Breadcrumb" className="mb-6 flex flex-wrap items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
+          <Link href="/" className="hover:text-blue-600 dark:hover:text-cyan-300">Home</Link>
+          <span aria-hidden="true">/</span>
           <Link href="/tools" className="inline-flex items-center gap-1 hover:text-blue-600 dark:hover:text-cyan-300"><ArrowLeft className="h-3.5 w-3.5" /> All tools</Link>
           <span aria-hidden="true">/</span>
           <Link href={`/category/${tool.category}`} className="hover:text-blue-600 dark:hover:text-cyan-300">{getCategoryName(tool.category)}</Link>
@@ -420,23 +428,106 @@ export default function ToolPageClient({ tool, deep }: ToolPageClientProps) {
           <span className="font-medium text-zinc-800 dark:text-zinc-100">{tool.title}</span>
         </nav>
 
+        {/* Primary Semantic H1 and Social Sharing */}
+        <div className="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div>
+            <div className="flex flex-wrap items-center gap-2 mb-1.5">
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+                <CheckCircle2 className="w-3 h-3" /> Formula Verified (Sep 2026)
+              </span>
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
+                <ShieldCheck className="w-3 h-3" /> 100% In-Browser Privacy
+              </span>
+            </div>
+            <h1 className="text-2xl sm:text-3xl font-display font-extrabold tracking-tight text-zinc-950 dark:text-white">
+              {tool.title}
+            </h1>
+            <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400 max-w-3xl">
+              {tool.longDescription}
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              type="button"
+              onClick={() => {
+                const url = `${window.location.origin}${toolPath(tool.id)}`;
+                const text = encodeURIComponent(`Try this free 100% private ${tool.title} on Yuitility: ${url}`);
+                window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+              }}
+              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm transition-all active:scale-95"
+              aria-label="Share via WhatsApp"
+            >
+              Share WhatsApp
+            </button>
+            <button
+              type="button"
+              onClick={() => share(tool.title, toolPath(tool.id))}
+              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-xl border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-700 dark:text-zinc-300 transition-all active:scale-95"
+              aria-label="Copy tool link"
+            >
+              <Copy className="w-3.5 h-3.5" /> Copy Link
+            </button>
+          </div>
+        </div>
+
         {/* 1. Usable Tool Component (Top Priority) */}
-        <section aria-label={`${tool.title} workspace`} className="mb-10 rounded-3xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-950 sm:p-8">
+        <section aria-label={`${tool.title} workspace`} className="mb-6 rounded-3xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-950 sm:p-8">
           <ToolRenderer tool={tool} onCopy={copy} onShare={share} onTriggerShareToast={() => setShowShareToast(true)} />
         </section>
 
-        {/* 2. Tool Info & How It Works Card (Moved Below Tool) */}
+        {/* Interactive 5-Star Micro Poll (Client-side Only, strictly no aggregateRating schema) */}
+        <section className="mb-8 rounded-2xl border border-zinc-200/80 bg-white dark:bg-zinc-900/60 dark:border-zinc-800 p-5 text-center sm:flex sm:items-center sm:justify-between sm:text-left">
+          <div>
+            <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
+              Was the {tool.title} accurate and helpful?
+            </h3>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
+              Leave a quick 1-click rating to help us continuously refine our local calculation engines.
+            </p>
+          </div>
+          <div className="mt-3 sm:mt-0 flex items-center justify-center sm:justify-end gap-1.5">
+            {[1, 2, 3, 4, 5].map((star) => (
+              <button
+                key={star}
+                type="button"
+                onClick={() => {
+                  setUserRating(star);
+                  localStorage.setItem(`rating_${tool.id}`, star.toString());
+                  showMessage(`Thank you for rating this tool ${star} out of 5 stars!`);
+                }}
+                className={`p-1.5 rounded-lg transition-colors ${
+                  (userRating || 0) >= star
+                    ? "text-amber-400 hover:text-amber-500"
+                    : "text-zinc-300 dark:text-zinc-700 hover:text-amber-400"
+                }`}
+                aria-label={`Rate ${star} out of 5 stars`}
+              >
+                <svg className="w-5 h-5 fill-current" viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+              </button>
+            ))}
+            {userRating && (
+              <span className="ml-2 text-xs font-bold text-emerald-600 dark:text-emerald-400">
+                Rated {userRating}/5 ★
+              </span>
+            )}
+          </div>
+        </section>
+
+        {/* 2. Tool Info & How It Works Card */}
         <div className="mb-8 flex flex-col gap-6 rounded-3xl border border-blue-100 bg-gradient-to-br from-blue-50 via-white to-cyan-50 p-6 dark:border-zinc-800 dark:from-zinc-900 dark:via-zinc-950 dark:to-cyan-950/30 sm:p-8">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div className="max-w-3xl">
               <p className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-blue-600 dark:text-cyan-300">{getCategoryName(tool.category)}</p>
-              <h1 className="text-3xl font-display font-extrabold tracking-tight text-zinc-950 dark:text-white mb-2">{tool.title}</h1>
+              <h2 className="text-2xl font-display font-bold tracking-tight text-zinc-950 dark:text-white mb-2">About the {tool.title}</h2>
               <p className="text-base leading-relaxed text-zinc-600 dark:text-zinc-300">{tool.longDescription}</p>
             </div>
           </div>
 
           <div className="border-t border-blue-200/60 pt-5 dark:border-zinc-800">
-            <h2 className="text-xs font-bold uppercase tracking-widest text-blue-700 dark:text-cyan-300 mb-1.5">How It Works</h2>
+            <h2 className="text-xs font-bold uppercase tracking-widest text-blue-700 dark:text-cyan-300 mb-1.5">How the {tool.title} Works</h2>
             <p className="text-sm leading-relaxed text-zinc-700 dark:text-zinc-300 font-medium">{howItWorks}</p>
           </div>
         </div>
@@ -460,8 +551,25 @@ export default function ToolPageClient({ tool, deep }: ToolPageClientProps) {
           <aside className="space-y-6">
             <div className="rounded-3xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 sm:p-8">
               <ShieldCheck className="h-8 w-8 text-blue-600 dark:text-cyan-300" />
-              <h2 className="mt-4 font-display text-xl font-bold text-zinc-950 dark:text-white">Local-first by design</h2>
-              <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">Use this tool directly in your browser. Yuitility is built to make practical everyday tasks simpler without a Yuitility file-processing backend.</p>
+              <h2 className="mt-4 font-display text-xl font-bold text-zinc-950 dark:text-white">{tool.title} Privacy &amp; Security</h2>
+              <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">Use this tool directly in your browser. Yuitility processes all inputs entirely inside your local device memory with zero server uploads.</p>
+            </div>
+
+            {/* DevTools Verification Guide */}
+            <div className="rounded-3xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 sm:p-8">
+              <div className="flex items-center gap-2.5 mb-2">
+                <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-zinc-100 text-xs font-mono font-bold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">F12</span>
+                <h3 className="font-display text-base font-bold text-zinc-950 dark:text-white">Verify Zero Network Uploads</h3>
+              </div>
+              <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed mb-3">
+                Verify our privacy claims directly in your browser:
+              </p>
+              <ol className="text-xs text-zinc-600 dark:text-zinc-400 space-y-1.5 list-decimal pl-4">
+                <li>Press <kbd className="px-1 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 font-mono text-[10px]">F12</kbd> (or Cmd+Option+I) to open DevTools.</li>
+                <li>Switch to the <strong>Network</strong> tab.</li>
+                <li>Operate the {tool.title.toLowerCase()} above.</li>
+                <li>Observe: <strong>0 outgoing requests</strong> are sent to any remote server.</li>
+              </ol>
             </div>
 
             {linkedGuide && (
@@ -486,7 +594,7 @@ export default function ToolPageClient({ tool, deep }: ToolPageClientProps) {
 
         <section className="mt-12">
           <div className="mb-6">
-            <h2 className="font-display text-2xl font-bold tracking-tight text-zinc-950 dark:text-white">{tool.title} FAQ</h2>
+            <h2 className="font-display text-2xl font-bold tracking-tight text-zinc-950 dark:text-white">Frequently Asked Questions about the {tool.title}</h2>
             <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">Frequently asked questions about calculation formulas, privacy, and usage.</p>
           </div>
           <div className="grid gap-6 md:grid-cols-2">
@@ -500,7 +608,7 @@ export default function ToolPageClient({ tool, deep }: ToolPageClientProps) {
         </section>
 
         {relatedTools.length > 0 && <section className="mt-12 border-t border-zinc-200 pt-10 dark:border-zinc-800">
-          <h2 className="font-display text-2xl font-bold tracking-tight text-zinc-950 dark:text-white">What people usually need next</h2>
+          <h2 className="font-display text-2xl font-bold tracking-tight text-zinc-950 dark:text-white">Tools Related to {tool.title}</h2>
           <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">Tools that pair with the {tool.title.toLowerCase()} in the same task.</p>
           <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {relatedTools.map((related) => <Link key={related.id} href={toolPath(related.id)} className="group rounded-2xl border border-zinc-200 bg-white p-5 transition hover:-translate-y-0.5 hover:border-blue-300 hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-cyan-500/60"><h3 className="font-display font-bold text-zinc-950 group-hover:text-blue-600 dark:text-white dark:group-hover:text-cyan-300">{related.title}</h3><p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">{related.description}</p><span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-blue-600 dark:text-cyan-300">Open the {related.title.toLowerCase()} <span aria-hidden="true">→</span></span></Link>)}

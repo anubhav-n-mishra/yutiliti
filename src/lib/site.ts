@@ -3,7 +3,7 @@ import { Tool } from "@/src/types";
 export const SITE_NAME = "Yuitility";
 export const SITE_URL = "https://www.yuitility.app";
 export const SITE_DESCRIPTION =
-  "Free browser tools for PDFs, images, finance calculators and developer workflows. Everything runs locally in your tab — files never leave your device.";
+  "Use 79+ free browser tools for PDFs, images, calculators & code. 100% private - everything runs locally in your tab with zero file uploads. Try it free!";
 
 export const toolPath = (toolId: string) => `/tools/${toolId}`;
 
@@ -41,12 +41,12 @@ export const CATEGORY_META: Record<string, CategoryMeta> = {
     description:
       "EMI, SIP, FD, EPF, tax and net-worth calculators that show the formula and the full breakdown, not just a number. Nothing you type is sent anywhere.",
     intro:
-      "Every calculator here shows its working: the formula used, the intermediate values, and the assumptions baked into the result. Money maths is worth checking, so we make it checkable.",
+      "Every calculator here shows its working: the formula used, the intermediate values, and the assumptions baked into the result. Money maths is worth checking, so we make it checkable. All calculations execute client-side using IEEE 754 floating-point arithmetic with zero server calls.",
     groups: [
       {
         name: "Loans and EMI",
         blurb:
-          "All of these solve the same reducing-balance equation; they differ in what they let you vary. Start with the one that matches your loan type, because the defaults and the extra inputs (down payment, moratorium, processing fee) are what change the answer.",
+          "All of these solve the reducing-balance repayment equation; they differ in their specific parameters. Start with the calculator that matches your loan category for accurate default rates, processing fees, and amortization schedules.",
         toolIds: [
           "emi-calculator",
           "loan-calculator",
@@ -64,7 +64,7 @@ export const CATEGORY_META: Record<string, CategoryMeta> = {
       {
         name: "Investing and returns",
         blurb:
-          "Projection tools for money going in, and measurement tools for money that has already been invested. If cash moved in or out at different times, use IRR rather than CAGR.",
+          "Projection tools for future wealth accumulation and return verification for past investments. Compare SIP vs lump-sum allocations, measure true CAGR across volatile markets, or compute IRR for periodic cash flows.",
         toolIds: [
           "sip-calculator",
           "mutual-fund-return-calculator",
@@ -82,7 +82,7 @@ export const CATEGORY_META: Record<string, CategoryMeta> = {
       {
         name: "Deposits, provident funds and retirement",
         blurb:
-          "Fixed-return instruments and long-horizon planning. The compounding convention matters more here than anywhere else - quarterly versus annual changes the maturity figure.",
+          "Fixed-return instruments and long-horizon retirement planning. We account for statutory compounding rules including quarterly bank compounding, 15-year PPF lock-in schedules, and NPS annuity allocations.",
         toolIds: [
           "fd-calculator",
           "rd-calculator",
@@ -96,7 +96,7 @@ export const CATEGORY_META: Record<string, CategoryMeta> = {
       {
         name: "Salary and tax",
         blurb:
-          "Turning a CTC figure into the number that reaches your account, and working out which exemptions actually bind.",
+          "Deconstruct annual CTC packages into take-home pay, compare old vs new income tax slabs, and determine exact HRA exemptions under Section 10(13A).",
         toolIds: [
           "salary-calculator",
           "income-tax-calculator",
@@ -107,7 +107,7 @@ export const CATEGORY_META: Record<string, CategoryMeta> = {
       {
         name: "Business and pricing",
         blurb:
-          "Unit economics: what you need to sell, what you keep, and what a discount actually costs you.",
+          "Unit economics and commercial calculations: determine break-even sales volume, compare gross profit margins against markups, and calculate tiered sales commissions.",
         toolIds: [
           "break-even-calculator",
           "profit-margin-calculator",
@@ -117,42 +117,124 @@ export const CATEGORY_META: Record<string, CategoryMeta> = {
       },
       {
         name: "Personal balance sheet",
-        blurb: "Where you stand today, before any projection.",
+        blurb:
+          "Track your financial health today before planning future goals: aggregate assets and liabilities for true net worth and calculate your emergency fund runway.",
         toolIds: ["net-worth-calculator", "emergency-fund-calculator"],
       },
     ],
   },
   pdf: {
     name: "PDF Tools",
-    title: "PDF Tools That Never Upload Your File | Yuitility",
+    title: "PDF Tools: Merge, Split & Compress in Browser | Yuitility",
     description:
-      "Merge, split, compress, watermark and edit PDF metadata. Files are read into browser memory and processed on your own CPU — nothing is uploaded to a server.",
+      "Merge, split, compress, watermark and edit PDF metadata. Files are read into browser memory and processed on your own CPU - nothing is uploaded to a server.",
     intro:
-      "Most free PDF sites upload your document to their servers to process it. These tools do not: pdf-lib runs inside your tab, so a bank statement or signed contract never leaves the machine you opened it on.",
+      "Most free PDF web tools upload your sensitive documents to remote third-party servers. Yuitility runs pdf-lib directly inside WebAssembly and Web Workers in your browser tab. Confidential bank statements, tax forms, and signed agreements never touch external storage or servers.",
+    groups: [
+      {
+        name: "Organize and assemble",
+        blurb:
+          "Combine multiple PDF documents, rearrange page order, extract individual chapters, or compile batches of image files into a single unified PDF.",
+        toolIds: ["pdf-merger", "pdf-splitter", "image-to-pdf"],
+      },
+      {
+        name: "Optimize and protect",
+        blurb:
+          "Downsample embedded images to reduce file size for email, apply custom text or visual watermarks, and inspect or sanitize document author metadata.",
+        toolIds: ["pdf-compressor", "pdf-watermark", "pdf-metadata"],
+      },
+    ],
   },
   media: {
     name: "Image & Media",
-    title: "Image Tools: Compress, Resize & Convert | Yuitility",
+    title: "Image Tools: Compress, Resize & Convert in Browser | Yuitility",
     description:
       "Compress, resize, convert and edit images entirely in your browser. No uploads, no watermarks, no account, and no queue behind other people's files.",
     intro:
-      "Image work happens on an HTML5 canvas in your own tab. That means no upload wait, no file-size cap imposed by someone else's server, and no copy of your photo sitting in a stranger's storage bucket.",
+      "Every image operation runs on HTML5 Canvas and WebAssembly inside your browser sandbox. Enjoy instant client-side execution with zero file upload wait times, zero server storage liabilities, and zero compression queues.",
+    groups: [
+      {
+        name: "Compression and conversion",
+        blurb:
+          "Optimize bitmap images, reduce file sizes with fine quality control, resize dimensions with locked aspect ratios, and convert between WebP, PNG, JPEG, and GIF formats.",
+        toolIds: ["image-compressor", "format-converter", "image-resizer"],
+      },
+      {
+        name: "Creative and social utilities",
+        blurb:
+          "Erase backgrounds with in-browser AI segmentation, crop social media graphics for Instagram and LinkedIn, generate 1200x630 OG cards, and compile multi-photo collages.",
+        toolIds: [
+          "background-remover",
+          "social-media-resizer",
+          "og-image-generator",
+          "favicon-generator",
+          "photo-collage-maker",
+          "meme-maker",
+        ],
+      },
+    ],
   },
   developer: {
     name: "Developer & Text Tools",
-    title: "Developer Tools: JSON, Hashing, Test Data | Yuitility",
+    title: "Developer Tools: JSON, Hashing & Test Data | Yuitility",
     description:
       "Format JSON, generate secure passwords and mock datasets, build QR codes and favicons. Safe for real payloads because nothing is transmitted off-device.",
     intro:
-      "Pasting a production payload into a random online formatter is a data-handling incident waiting to happen. These tools parse everything locally, so you can use them on data you are not allowed to upload.",
+      "Pasting confidential production payloads or authentication tokens into random web formatters creates severe compliance vulnerabilities. Yuitility processes developer payloads entirely in client-side memory so your proprietary data never leaks.",
+    groups: [
+      {
+        name: "Data and formatting",
+        blurb:
+          "Format and validate minified JSON payloads with line-numbered syntax alerts, synthesize mock datasets for local databases, compute word counts, and decompress ZIP archives.",
+        toolIds: [
+          "json-formatter",
+          "fake-data-generator",
+          "word-counter",
+          "zip-extractor",
+        ],
+      },
+      {
+        name: "Security and design",
+        blurb:
+          "Generate cryptographically secure passwords measured against Shannon entropy, encode dynamic QR codes, and construct WCAG-compliant accessible color palettes.",
+        toolIds: [
+          "password-generator",
+          "qr-code-generator",
+          "color-palette",
+        ],
+      },
+    ],
   },
   utility: {
     name: "Everyday Utilities",
-    title: "Everyday Utility Tools & Converters | Yuitility",
+    title: "Everyday Utility Tools & Age Calculators | Yuitility",
     description:
       "Unit conversion, word counts, age and date maths, ZIP extraction. Small tools for the jobs that interrupt the job you were actually doing.",
     intro:
-      "These are the small interruptions — how many words is this, how old is that, what is inside this archive. They load fast, do one thing, and do not ask you to sign up first.",
+      "Everyday calculators designed for rapid, friction-free answers without paywalls, email capture, or popups. Calculate chronological age down to the day, verify school admission eligibility, or estimate due dates instantly.",
+    groups: [
+      {
+        name: "Age and milestones",
+        blurb:
+          "Calculate chronological age in years, months, and days, convert human years to canine life stages by breed weight, and verify school age intake cut-offs.",
+        toolIds: [
+          "age-calculator",
+          "age-calculator-in-months",
+          "school-age-eligibility-calculator",
+          "dog-age-calculator",
+        ],
+      },
+      {
+        name: "Dates and astrology",
+        blurb:
+          "Track pregnancy milestones and trimester timelines, or compute Western zodiac signs and astrological positions based on exact birth dates.",
+        toolIds: [
+          "pregnancy-due-date-calculator",
+          "zodiac-age-calculator",
+          "zodiac-sun-moon-calculator",
+        ],
+      },
+    ],
   },
   math: {
     name: "Calculators & Maths",
@@ -160,7 +242,21 @@ export const CATEGORY_META: Record<string, CategoryMeta> = {
     description:
       "Mean, median, modulo and general-purpose calculators that show the steps behind the answer so you can check the working, not just copy it.",
     intro:
-      "A number without its working is not much use for homework or for a spreadsheet you have to defend. These calculators show the intermediate steps.",
+      "A calculation without documented steps cannot be audited. Yuitility math tools render transparent calculation histories, explicit arithmetic formulas, and intermediate mathematical steps directly on-screen.",
+    groups: [
+      {
+        name: "Everyday calculators",
+        blurb:
+          "Perform standard four-function arithmetic with tape memory, or calculate advanced scientific operations including trigonometric functions, logarithms, and powers.",
+        toolIds: ["standard-calculator", "scientific-calculator"],
+      },
+      {
+        name: "Statistics and discrete math",
+        blurb:
+          "Calculate arithmetic means, find data-set medians with sorted arrays, and compute true mathematical modulo with negative operand support.",
+        toolIds: ["mean-calculator", "median-calculator", "mod-calculator"],
+      },
+    ],
   },
   health: {
     name: "Health & Lifestyle",
@@ -168,7 +264,21 @@ export const CATEGORY_META: Record<string, CategoryMeta> = {
     description:
       "BMI, BMR and body-fat estimates using the named published formulas (Mifflin-St Jeor, US Navy), with the equation shown and its limits stated plainly.",
     intro:
-      "These are statistical estimates from published formulas, not medical assessments. Each tool names the equation it uses and says where that equation is known to be unreliable, so you can judge the number rather than trust it blindly.",
+      "Statistical health calculators based on established peer-reviewed physiological equations. We display the exact mathematical formulas used and highlight known clinical limitations so you can interpret results accurately.",
+    groups: [
+      {
+        name: "Body composition",
+        blurb:
+          "Assess body mass index against WHO categories and estimate body fat percentage using the US Navy circumference method with lean mass breakdowns.",
+        toolIds: ["bmi-calculator", "body-fat-calculator"],
+      },
+      {
+        name: "Metabolism and longevity",
+        blurb:
+          "Estimate basal metabolic rate and daily energy expenditure using the Mifflin-St Jeor equation, and explore lifestyle longevity projections.",
+        toolIds: ["bmr-calculator", "death-calculator"],
+      },
+    ],
   },
   conversion: {
     name: "Units & Conversion",
@@ -176,7 +286,15 @@ export const CATEGORY_META: Record<string, CategoryMeta> = {
     description:
       "Convert length, mass, temperature, area, speed and currency. Exact conversion factors, shown alongside the result so you can verify the maths.",
     intro:
-      "Conversion errors are quiet errors — the number looks plausible and is wrong. These converters print the factor they applied so a mistake is visible.",
+      "Unit conversion errors often go unnoticed because results seem plausible. Our converters display the exact multiplication factors and base SI units used, ensuring transparent and verifiable calculations.",
+    groups: [
+      {
+        name: "Measurement and exchange",
+        blurb:
+          "Convert across imperial and metric physical units (length, weight, temperature, area), and check live currency exchange valuations.",
+        toolIds: ["unit-converter", "currency-converter"],
+      },
+    ],
   },
 };
 
@@ -299,13 +417,13 @@ const TOOL_SEO_TITLES: Record<string, string> = {
 
 const TOOL_SEO_DESCRIPTIONS: Record<string, string> = {
   "emi-calculator":
-    "Work out your monthly EMI and see the full amortization schedule — how much of each payment is interest, and how that flips over the life of the loan.",
+    "Work out your monthly EMI and see the full amortization schedule - how much of each payment is interest, and how that flips over the life of the loan.",
   "loan-calculator":
     "See what a loan actually costs: monthly payment, total interest, and the split between principal and interest for every year of the term.",
   "home-loan-emi-calculator":
     "Calculate your home loan EMI and see the year-by-year schedule, including how little principal you repay in the early years of a long tenure.",
   "mortgage-calculator":
-    "Full PITI monthly payment: principal, interest, property tax, insurance and HOA — not just the loan repayment portion most calculators show.",
+    "Full PITI monthly payment: principal, interest, property tax, insurance and HOA - not just the loan repayment portion most calculators show.",
   "car-loan-emi-calculator":
     "Enter on-road price, down payment, rate and tenure to get your monthly car loan EMI plus the total interest a longer tenure actually costs you.",
   "bike-loan-emi-calculator":
@@ -313,7 +431,7 @@ const TOOL_SEO_DESCRIPTIONS: Record<string, string> = {
   "personal-loan-emi-calculator":
     "Personal loan EMI including processing fees, so you compare the real cost of two offers rather than the headline interest rate alone.",
   "education-loan-emi-calculator":
-    "Education loan EMI with a moratorium period — see how interest accrued during your course gets capitalised into the principal before repayment starts.",
+    "Education loan EMI with a moratorium period - see how interest accrued during your course gets capitalised into the principal before repayment starts.",
   "gold-loan-emi-calculator":
     "Calculate gold loan EMI and total interest, with the reducing-balance maths shown so you can check it against your lender's quote.",
   "business-loan-emi-calculator":
@@ -322,7 +440,7 @@ const TOOL_SEO_DESCRIPTIONS: Record<string, string> = {
     "Convert a card purchase to EMI and see the true cost: interest plus processing fee, expressed against the original purchase price.",
 
   "sip-calculator":
-    "Project a SIP year by year and see invested capital separated from returns — the point where growth starts outpacing contributions is usually later than expected.",
+    "Project a SIP year by year and see invested capital separated from returns - the point where growth starts outpacing contributions is usually later than expected.",
   "mutual-fund-return-calculator":
     "Compare a lump sum against a monthly SIP for the same total investment and return rate, and see why the two end up in very different places.",
   "swp-calculator":
@@ -330,7 +448,7 @@ const TOOL_SEO_DESCRIPTIONS: Record<string, string> = {
   "cagr-calculator":
     "Calculate the compound annual growth rate between two values, and see why CAGR smooths away the volatility that actually happened in between.",
   "irr-calculator":
-    "Find the internal rate of return for an uneven series of cash flows, solved numerically — useful where CAGR cannot handle the shape of the cash flows.",
+    "Find the internal rate of return for an uneven series of cash flows, solved numerically - useful where CAGR cannot handle the shape of the cash flows.",
   "roi-calculator":
     "Calculate return on investment as both an absolute profit and a percentage, with the annualised equivalent so you can compare holdings of different lengths.",
   "dividend-calculator":
@@ -345,7 +463,7 @@ const TOOL_SEO_DESCRIPTIONS: Record<string, string> = {
     "Put simple and compound interest side by side on the same principal and rate to see exactly where and when the two curves diverge.",
 
   "fd-calculator":
-    "Fixed deposit maturity with quarterly compounding, the convention most banks actually use — annual compounding will understate your return.",
+    "Fixed deposit maturity with quarterly compounding, the convention most banks actually use - annual compounding will understate your return.",
   "rd-calculator":
     "Recurring deposit maturity that accounts for each instalment earning interest for a different length of time, which is where most RD estimates go wrong.",
   "ppf-calculator":
@@ -355,42 +473,42 @@ const TOOL_SEO_DESCRIPTIONS: Record<string, string> = {
   "nps-calculator":
     "Project an NPS corpus at 60 and see the mandated split: the lump sum you can withdraw and the portion that must buy an annuity.",
   "retirement-calculator":
-    "Work out the corpus you need in future rupees, not today's — the inflation adjustment is what makes most retirement targets look far too small.",
+    "Work out the corpus you need in future rupees, not today's - the inflation adjustment is what makes most retirement targets look far too small.",
   "gratuity-calculator":
     "Calculate gratuity under the Payment of Gratuity Act formula, including how partial years past the five-year threshold are rounded.",
 
   "salary-calculator":
     "Break an annual CTC into basic, HRA, allowances, EPF, professional tax and income tax, to get the number that actually reaches your bank account.",
   "income-tax-calculator":
-    "Estimate income tax with the working shown slab by slab, plus your effective rate — which is always lower than the slab you say you are 'in'.",
+    "Estimate income tax with the working shown slab by slab, plus your effective rate - which is always lower than the slab you say you are 'in'.",
   "hra-calculator":
-    "Apply all three Section 10(13A) limbs and see which one caps your exemption — the binding constraint is rarely the one people assume.",
+    "Apply all three Section 10(13A) limbs and see which one caps your exemption - the binding constraint is rarely the one people assume.",
   "gst-calculator":
     "Add or strip GST at 5, 12, 18 or 28 percent, with the CGST/SGST split, and see why removing 18 percent is not the same as subtracting 18 percent.",
 
   "break-even-calculator":
     "Find the unit volume and revenue where contribution margin covers fixed costs, and see how sensitive that point is to a small price change.",
   "profit-margin-calculator":
-    "Margin and markup from the same cost and price, side by side — the two are routinely confused and a 50 percent markup is not a 50 percent margin.",
+    "Margin and markup from the same cost and price, side by side - the two are routinely confused and a 50 percent markup is not a 50 percent margin.",
   "discount-calculator":
     "Final price and money saved from a percentage discount, including stacked discounts, which do not add the way people expect.",
   "commission-calculator":
     "Commission payable and net proceeds to the seller, at flat or tiered rates, from gross sale value.",
   "currency-converter":
-    "Convert between major currencies for everyday estimates. Rates are indicative — check your bank's rate before an actual transaction.",
+    "Convert between major currencies for everyday estimates. Rates are indicative - check your bank's rate before an actual transaction.",
   "net-worth-calculator":
     "Total assets minus total liabilities, itemised, so you can see which line item is actually moving your net worth year to year.",
   "emergency-fund-calculator":
     "Size an emergency fund against your essential monthly outgoings, and see how many months of runway your current savings already buy.",
 
   "pdf-merger":
-    "Combine PDFs into one document and reorder pages first. The files are read into browser memory and never uploaded, so contracts and statements stay on your machine.",
+    "Combine PDFs into one document and reorder pages first. Files are processed in browser memory and never uploaded, so contracts stay secure on your machine.",
   "pdf-splitter":
     "Pull specific pages or a page range out of a PDF into a new file. Runs entirely in your tab, so the original document is never uploaded anywhere.",
   "pdf-compressor":
     "Reduce PDF file size in your browser. Nothing is uploaded, so there is no size cap set by someone else's server and no copy left behind.",
   "pdf-watermark":
-    "Stamp text or an image watermark onto a PDF with control over opacity, rotation and position — processed locally, so the document never leaves your device.",
+    "Stamp text or an image watermark onto a PDF with control over opacity, rotation and position - processed locally, so the document never leaves your device.",
   "pdf-metadata":
     "View and edit the title, author, subject and keywords embedded in a PDF. Useful before sharing a file that quietly carries your name or software version.",
   "image-to-pdf":
@@ -401,9 +519,9 @@ const TOOL_SEO_DESCRIPTIONS: Record<string, string> = {
   "image-resizer":
     "Resize by exact pixel dimensions or by percentage, with optional aspect-ratio lock, processed on your own device.",
   "format-converter":
-    "Convert between WebP, PNG, JPEG and GIF in your browser. Useful when a site rejects an upload format and you would rather not use a converter that keeps your file.",
+    "Convert between WebP, PNG, JPEG, and GIF in your browser. Fast local conversion with zero file uploads - your media never leaves your device.",
   "background-remover":
-    "Remove an image background and export a transparent PNG. The segmentation model runs locally in your browser — the photo is never uploaded.",
+    "Remove an image background and export a transparent PNG. The segmentation model runs locally in your browser - the photo is never uploaded.",
   "social-media-resizer":
     "Crop and export to the current post, story, banner and thumbnail dimensions for the major platforms, with the safe area shown.",
   "photo-collage-maker":
@@ -413,7 +531,7 @@ const TOOL_SEO_DESCRIPTIONS: Record<string, string> = {
   "og-image-generator":
     "Design a 1200x630 Open Graph card for a post or page and export it as PNG, so link previews stop falling back to your logo.",
   "favicon-generator":
-    "Generate the full favicon set — ICO, the PNG sizes modern browsers request, and the web manifest entries — from a single source image.",
+    "Generate the full favicon set: ICO, PNG sizes modern browsers request, and web manifest entries from a single source image.",
 
   "json-formatter":
     "Format, minify and validate JSON with the failing line and column reported, so a missing comma in a large payload is findable. Nothing is transmitted.",
@@ -426,14 +544,14 @@ const TOOL_SEO_DESCRIPTIONS: Record<string, string> = {
   "color-palette":
     "Build a harmonious palette and check every pair against WCAG AA and AAA contrast thresholds before the colours reach production.",
   "zip-extractor":
-    "Look inside a ZIP archive and pull individual files out of it in your browser — handy on a machine where you cannot install an extractor.",
+    "Look inside a ZIP archive and pull individual files out of it in your browser - handy on a machine where you cannot install an extractor.",
   "word-counter":
     "Word, character, sentence and paragraph counts with reading time and keyword density, updating as you type.",
 
   "age-calculator":
     "Exact age in years, months and days, plus your birth weekday and a live countdown to your next birthday.",
   "age-calculator-in-months":
-    "Total age expressed in months, weeks, days and hours — the format paediatric forms and school registrations usually ask for.",
+    "Total age expressed in months, weeks, days and hours - the format paediatric forms and school registrations usually ask for.",
   "school-age-eligibility-calculator":
     "Check a child's age against a school's cut-off date to see which intake year they fall into.",
   "zodiac-age-calculator":
@@ -452,7 +570,7 @@ const TOOL_SEO_DESCRIPTIONS: Record<string, string> = {
     "Trigonometric, inverse and hyperbolic functions, logarithms, powers, roots, factorials and constants, with DEG/RAD switching and full expression entry.",
 
   "bmi-calculator":
-    "Calculate BMI and its category, with a plain statement of where BMI is misleading — muscle mass, age and body composition are not in the formula.",
+    "Calculate BMI and its category, with a plain statement of where BMI is misleading: muscle mass, age, and body composition are not in the formula.",
   "bmr-calculator":
     "Basal metabolic rate via Mifflin-St Jeor, plus TDEE at each activity multiplier, with the equation shown so you can see what drives the number.",
   "body-fat-calculator":
@@ -481,7 +599,7 @@ export function getToolHeadline(tool: Tool): string {
 export function getToolSeoDescription(tool: Tool): string {
   const custom = TOOL_SEO_DESCRIPTIONS[tool.id];
   if (custom) return custom;
-  return `${tool.description} Runs entirely in your browser — nothing you enter is uploaded.`;
+  return `${tool.description} Runs entirely in your browser - nothing you enter is uploaded.`;
 }
 
 export function getToolSteps(tool: Tool) {

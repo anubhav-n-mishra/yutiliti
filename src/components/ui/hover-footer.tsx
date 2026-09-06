@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useEffect, useState } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { cn } from "@/src/lib/utils";
 import { Mail, ShieldCheck, ExternalLink } from "lucide-react";
@@ -167,6 +168,7 @@ export default function HoverFooter() {
       links: [
         { label: "About Yuitility", href: "/about" },
         { label: "Guides & articles", href: "/blog" },
+        { label: "Contact & Support", href: "/contact" },
         { label: "Privacy Policy", href: "/privacy" },
         { label: "Terms of Service", href: "/terms" },
         { label: "Cookie Policy", href: "/cookies" },
@@ -187,7 +189,7 @@ export default function HoverFooter() {
           {/* Brand section */}
           <div className="flex flex-col space-y-4">
             <div className="flex items-center space-x-2.5">
-              <img src="/brand/yuitility-logo.png" alt="Yuitility Logo" className="w-8 h-8 object-contain" />
+              <img src="/brand/yuitility-logo.png" alt="Yuitility Logo" width={32} height={32} loading="lazy" decoding="async" className="w-8 h-8 object-contain" />
               <span className="text-white text-2xl font-bold font-display tracking-tight">Yuitility</span>
             </div>
             <p className="text-xs text-zinc-400 leading-relaxed">
@@ -213,7 +215,7 @@ export default function HoverFooter() {
               <ul className="space-y-4 text-xs text-zinc-400">
                 {section.links.map((link) => (
                   <li key={link.label} className="overflow-hidden">
-                    <a
+                    <Link
                       href={link.href}
                       className="hover:text-white transition-all duration-300 flex items-center gap-2 group py-1 w-fit"
                     >
@@ -221,7 +223,7 @@ export default function HoverFooter() {
                       <span className="group-hover:translate-x-0.5 transition-transform duration-350 font-medium">
                         {link.label}
                       </span>
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
