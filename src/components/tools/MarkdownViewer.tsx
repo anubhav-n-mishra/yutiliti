@@ -463,7 +463,11 @@ function parseMarkdownToHtml(md: string): string {
         5: 'text-sm sm:text-base font-medium text-zinc-700 dark:text-zinc-300 mt-3 mb-1',
         6: 'text-xs sm:text-sm font-medium text-zinc-600 dark:text-zinc-400 mt-2 mb-1',
       };
-      out.push(`<h${level} class="${classes[level] || ''}">${text}</h${level}>`);
+      if (level === 1) {
+        out.push(`<div role="heading" aria-level="1" class="${classes[1]}">${text}</div>`);
+      } else {
+        out.push(`<h${level} class="${classes[level] || ''}">${text}</h${level}>`);
+      }
       continue;
     }
 
@@ -620,15 +624,20 @@ export default function MarkdownViewer({
     setTimeout(() => setCopied(false), 1800);
   };
 
+  const getSemanticExportHtml = (html: string) => {
+    return html.replace(/<div role="heading" aria-level="1" class="([^"]*)">([\s\S]*?)<\/div>/g, '<h1 class="$1">$2</h1>');
+  };
+
   const handleCopyHtml = () => {
-    navigator.clipboard.writeText(htmlOutput);
+    const exportable = getSemanticExportHtml(htmlOutput);
+    navigator.clipboard.writeText(exportable);
     setCopied(true);
-    if (onCopy) onCopy(htmlOutput);
+    if (onCopy) onCopy(exportable);
     setTimeout(() => setCopied(false), 1800);
   };
 
   const handleDownload = (format: 'md' | 'html') => {
-    const text = format === 'html' ? htmlOutput : markdown;
+    const text = format === 'html' ? getSemanticExportHtml(htmlOutput) : markdown;
     const base = fileName.replace(/\.[^/.]+$/, '') || 'document';
     const blob = new Blob([text], {
       type: format === 'html' ? 'text/html;charset=utf-8' : 'text/markdown;charset=utf-8',
@@ -662,7 +671,7 @@ blockquote { border-left: 4px solid #3b82f6; margin: 12px 0; padding: 8px 16px; 
 </style>
 </head><body>`;
     const footer = `</body></html>`;
-    const sourceHTML = header + htmlOutput + footer;
+    const sourceHTML = header + getSemanticExportHtml(htmlOutput) + footer;
     const blob = new Blob(['\ufeff' + sourceHTML], { type: 'application/msword;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');

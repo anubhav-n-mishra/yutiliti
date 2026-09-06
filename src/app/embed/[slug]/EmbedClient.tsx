@@ -44,9 +44,9 @@ export default function EmbedClient({ tool }: EmbedClientProps) {
       <div className="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800/80 pb-3 mb-4">
         <div className="flex items-center gap-2">
           <img src="/brand/yuitility-logo.png" alt="Yuitility logo" width={22} height={22} className="h-5.5 w-5.5 object-contain" />
-          <span className="font-display font-bold text-sm tracking-tight text-zinc-900 dark:text-white">
+          <h1 className="font-display font-bold text-sm tracking-tight text-zinc-900 dark:text-white m-0 p-0">
             {tool.title}
-          </span>
+          </h1>
         </div>
         <div className="flex items-center gap-2">
           <span className="hidden sm:inline-flex items-center gap-1 text-[11px] font-medium text-emerald-600 dark:text-emerald-400">

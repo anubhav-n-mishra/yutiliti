@@ -151,7 +151,11 @@ function parseMarkdownToHtml(md: string): string {
         5: 'text-sm sm:text-base font-medium text-slate-300 mt-2 mb-1',
         6: 'text-xs sm:text-sm font-medium text-slate-400 mt-2 mb-1',
       };
-      out.push(`<h${level} class="${classes[level] || ''}">${text}</h${level}>`);
+      if (level === 1) {
+        out.push(`<div role="heading" aria-level="1" class="${classes[1]}">${text}</div>`);
+      } else {
+        out.push(`<h${level} class="${classes[level] || ''}">${text}</h${level}>`);
+      }
       continue;
     }
 
@@ -218,15 +222,21 @@ export default function MarkdownToHtml({ onCopy }: MarkdownToHtmlProps) {
 
   const htmlOutput = parseMarkdownToHtml(markdown);
 
+  const getSemanticExportHtml = (html: string) => {
+    return html.replace(/<div role="heading" aria-level="1" class="([^"]*)">([\s\S]*?)<\/div>/g, '<h1 class="$1">$2</h1>');
+  };
+
+  const rawHtmlForExport = getSemanticExportHtml(htmlOutput);
+
   const handleCopyHtml = () => {
-    navigator.clipboard.writeText(htmlOutput);
+    navigator.clipboard.writeText(rawHtmlForExport);
     setCopied(true);
-    if (onCopy) onCopy(htmlOutput);
+    if (onCopy) onCopy(rawHtmlForExport);
     setTimeout(() => setCopied(false), 1800);
   };
 
   const handleDownload = (format: 'html' | 'md') => {
-    const text = format === 'html' ? htmlOutput : markdown;
+    const text = format === 'html' ? rawHtmlForExport : markdown;
     const blob = new Blob([text], { type: format === 'html' ? 'text/html;charset=utf-8' : 'text/markdown;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -398,7 +408,7 @@ export default function MarkdownToHtml({ onCopy }: MarkdownToHtmlProps) {
               />
             ) : (
               <pre className="font-mono text-xs text-slate-300 bg-slate-950 p-4 rounded-xl overflow-x-auto border border-slate-800 h-full">
-                <code>{htmlOutput}</code>
+                <code>{rawHtmlForExport}</code>
               </pre>
             )}
           </div>
