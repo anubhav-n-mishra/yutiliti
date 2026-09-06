@@ -205,6 +205,39 @@ export const TOOLS: Tool[] = [
     cta: "Edit Metadata"
   },
   {
+    id: "pdf-rotator",
+    title: "Rotate PDF Pages",
+    description: "Rotate all or specific pages in a PDF document clockwise or counter-clockwise.",
+    longDescription: "Rotate PDF pages by 90, 180, or 270 degrees instantly in your browser. Rotate all pages, odd/even pages, or custom page ranges with zero server uploads.",
+    category: "pdf",
+    icon: "RotateCw",
+    popular: true,
+    recentlyAdded: true,
+    cta: "Rotate PDF"
+  },
+  {
+    id: "pdf-page-numbers",
+    title: "Add Page Numbers to PDF",
+    description: "Insert custom page numbers, headers, and footers across PDF documents.",
+    longDescription: "Add clean, professional page numbering to any PDF file. Customize position, format, font size, color, and starting page number 100% locally.",
+    category: "pdf",
+    icon: "Hash",
+    popular: true,
+    recentlyAdded: true,
+    cta: "Number Pages"
+  },
+  {
+    id: "pdf-page-remover",
+    title: "Remove PDF Pages",
+    description: "Delete unwanted pages or blank sheets from PDF files and download clean documents.",
+    longDescription: "Remove individual pages or custom page ranges from any PDF document. Fast, interactive, and completely private browser processing with zero file uploads.",
+    category: "pdf",
+    icon: "Trash2",
+    popular: true,
+    recentlyAdded: true,
+    cta: "Remove Pages"
+  },
+  {
     id: "background-remover",
     title: "AI Background Remover",
     description: "Remove image backgrounds in your browser with a local AI model.",

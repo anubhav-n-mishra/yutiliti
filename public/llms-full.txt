@@ -1,7 +1,7 @@
 # Yuitility - Full Knowledge Base & Machine Index for AI Agents and LLMs
 Site: https://www.yuitility.app
 Architecture: 100% Client-Side WebAssembly and Native JavaScript (Zero Server Uploads)
-Total Live Verified Tools: 79
+Total Live Verified Tools: 82
 Canonical Domain: https://www.yuitility.app
 
 Yuitility is a universal web-based utility toolkit offering high-precision financial calculators, client-side PDF document manipulation, Canvas/WASM media processing, and offline developer utilities. All computations occur within the user's browser sandbox using local CPU memory. No user files, parameters, or payloads are transmitted to external servers.
@@ -412,7 +412,7 @@ Yuitility is a universal web-based utility toolkit offering high-precision finan
 - Technical Details: Create stunning photo collages entirely in your browser. Choose from grid layouts, adjust border padding, apply CSS filters, and export high-quality combined images.
 - Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
 
-## Category: PDF (6 Tools)
+## Category: PDF (9 Tools)
 
 ### PDF Merger
 - Canonical URL: https://www.yuitility.app/tools/pdf-merger
@@ -435,13 +435,31 @@ Yuitility is a universal web-based utility toolkit offering high-precision finan
 ### PDF Watermarker
 - Canonical URL: https://www.yuitility.app/tools/pdf-watermark
 - Purpose: Add a custom text watermark to all pages of your PDF.
-- Technical Details: Stamp your documents with a custom watermark (e.g. 'CONFIDENTIAL' or 'DRAFT'). Adjust text, size, opacity, and rotation. Processed entirely locally for maximum privacy.
+- Technical Details: Stamp your documents with a custom watermark (e.g. 'CONFIDENTIAL' or 'DRAFT'). Adjust color with preset and custom color pickers, size, opacity, and rotation. Processed entirely locally for maximum privacy.
 - Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
 
 ### PDF Metadata Editor
 - Canonical URL: https://www.yuitility.app/tools/pdf-metadata
 - Purpose: View and edit hidden PDF metadata like Author, Title, and Subject.
 - Technical Details: Reveal the hidden properties of your PDF files and modify them as needed. Update the document Title, Author, Subject, and Creator fields securely to maintain professional formatting.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Rotate PDF Pages
+- Canonical URL: https://www.yuitility.app/tools/pdf-rotator
+- Purpose: Rotate all or specific pages in a PDF document clockwise or counter-clockwise.
+- Technical Details: Rotate pages by 90, 180, or 270 degrees in browser memory. Rotate all pages, odd/even pages, or custom page ranges with permanent rotation metadata encoding.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Add Page Numbers to PDF
+- Canonical URL: https://www.yuitility.app/tools/pdf-page-numbers
+- Purpose: Insert custom page numbers, headers, and footers across PDF documents.
+- Technical Details: Add clean, professional page numbering to any PDF file. Customize position, format ('Page 1 of N', '1, 2, 3...'), font size, color, and starting page number 100% locally.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Remove PDF Pages
+- Canonical URL: https://www.yuitility.app/tools/pdf-page-remover
+- Purpose: Delete unwanted pages or blank sheets from PDF files and download clean documents.
+- Technical Details: Selectively delete individual pages or custom ranges from any PDF document. Fast, interactive, and completely private browser processing with zero file uploads.
 - Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
 
 ### PDF Compressor

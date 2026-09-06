@@ -34,6 +34,9 @@ export const IMPLEMENTED_TOOL_IDS: ReadonlySet<string> = new Set([
   "image-to-pdf",
   "pdf-watermark",
   "pdf-metadata",
+  "pdf-rotator",
+  "pdf-page-numbers",
+  "pdf-page-remover",
   "background-remover",
   "image-resizer",
   "format-converter",
@@ -186,9 +189,12 @@ export const RELATED_TOOLS: Record<string, string[]> = {
   "pdf-splitter": ["pdf-merger", "pdf-compressor", "image-to-pdf", "pdf-metadata"],
   "pdf-merger": ["pdf-splitter", "pdf-compressor", "image-to-pdf", "pdf-watermark"],
   "pdf-compressor": ["pdf-merger", "pdf-splitter", "image-compressor"],
-  "pdf-watermark": ["pdf-metadata", "pdf-merger", "pdf-splitter"],
+  "pdf-watermark": ["pdf-metadata", "pdf-merger", "pdf-splitter", "pdf-page-numbers"],
   "pdf-metadata": ["pdf-watermark", "pdf-merger", "pdf-splitter"],
   "image-to-pdf": ["pdf-merger", "pdf-compressor", "image-compressor", "format-converter"],
+  "pdf-rotator": ["pdf-splitter", "pdf-merger", "pdf-page-remover", "pdf-page-numbers"],
+  "pdf-page-numbers": ["pdf-watermark", "pdf-merger", "pdf-splitter", "pdf-rotator"],
+  "pdf-page-remover": ["pdf-splitter", "pdf-rotator", "pdf-merger", "pdf-compressor"],
 
   // Image cluster
   "image-compressor": ["image-resizer", "format-converter", "social-media-resizer", "pdf-compressor"],

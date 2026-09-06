@@ -3,7 +3,7 @@ import { Tool } from "@/src/types";
 export const SITE_NAME = "Yuitility";
 export const SITE_URL = "https://www.yuitility.app";
 export const SITE_DESCRIPTION =
-  "Use 79+ free browser tools for PDFs, images, calculators & code. 100% private - everything runs locally in your tab with zero file uploads. Try it free!";
+  "Use 82+ free browser tools for PDFs, images, calculators & code. 100% private - everything runs locally in your tab with zero file uploads. Try it free!";
 
 export const toolPath = (toolId: string) => `/tools/${toolId}`;
 
@@ -134,14 +134,14 @@ export const CATEGORY_META: Record<string, CategoryMeta> = {
       {
         name: "Organize and assemble",
         blurb:
-          "Combine multiple PDF documents, rearrange page order, extract individual chapters, or compile batches of image files into a single unified PDF.",
-        toolIds: ["pdf-merger", "pdf-splitter", "image-to-pdf"],
+          "Combine multiple PDF documents, rearrange page order, extract individual chapters, rotate pages, remove blank sheets, or compile batches of images.",
+        toolIds: ["pdf-merger", "pdf-splitter", "pdf-rotator", "pdf-page-remover", "image-to-pdf"],
       },
       {
         name: "Optimize and protect",
         blurb:
-          "Downsample embedded images to reduce file size for email, apply custom text or visual watermarks, and inspect or sanitize document author metadata.",
-        toolIds: ["pdf-compressor", "pdf-watermark", "pdf-metadata"],
+          "Downsample embedded images to reduce file size, apply custom text watermarks, insert page numbers, and inspect or sanitize document author metadata.",
+        toolIds: ["pdf-compressor", "pdf-watermark", "pdf-page-numbers", "pdf-metadata"],
       },
     ],
   },
@@ -369,6 +369,9 @@ const TOOL_SEO_TITLES: Record<string, string> = {
   "pdf-compressor": "Compress a PDF in Your Browser",
   "pdf-watermark": "Add a Watermark to a PDF Privately",
   "pdf-metadata": "Edit PDF Metadata: Title, Author, Keywords",
+  "pdf-rotator": "Rotate PDF Pages 90, 180 or 270 Degrees",
+  "pdf-page-numbers": "Add Page Numbers and Footers to a PDF",
+  "pdf-page-remover": "Remove or Delete Pages from a PDF",
   "image-to-pdf": "Convert Images to PDF Without Uploading",
 
   // --- Images ----------------------------------------------------------
@@ -511,6 +514,12 @@ const TOOL_SEO_DESCRIPTIONS: Record<string, string> = {
     "Stamp text or an image watermark onto a PDF with control over opacity, rotation and position - processed locally, so the document never leaves your device.",
   "pdf-metadata":
     "View and edit the title, author, subject and keywords embedded in a PDF. Useful before sharing a file that quietly carries your name or software version.",
+  "pdf-rotator":
+    "Rotate all pages or specific page ranges in a PDF document by 90, 180 or 270 degrees. Runs 100% locally in your browser so confidential files never leave your device.",
+  "pdf-page-numbers":
+    "Insert clean page numbers, headers or footers across your PDF with custom format, position and font sizing. Fast client-side processing with zero server uploads.",
+  "pdf-page-remover":
+    "Delete unwanted pages or blank sheets from any PDF file and download a clean document. Processed entirely in browser memory with zero file uploads and complete privacy.",
   "image-to-pdf":
     "Turn JPG, PNG or WebP images into a single PDF, one image per page, entirely in your browser with no upload step.",
 

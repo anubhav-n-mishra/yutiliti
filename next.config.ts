@@ -22,6 +22,11 @@ const nextConfig: NextConfig = {
         destination: "https://www.yuitility.app/:path*",
         statusCode: 301,
       },
+      {
+        source: "/html-sitemap",
+        destination: "/sitemap",
+        permanent: true,
+      },
     ];
   },
   async headers() {

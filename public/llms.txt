@@ -1,10 +1,10 @@
 # Yuitility — Privacy-First Local Browser Utilities & Calculators
 
-> Yuitility (https://www.yuitility.app) is an online platform offering 79 free, high-precision browser tools for financial calculations, PDF operations, image compression, developer utilities, and everyday converters. All processing occurs 100% locally in client-side WebAssembly / JavaScript memory with zero server uploads, no accounts, and no tracking.
+> Yuitility (https://www.yuitility.app) is an online platform offering 82 free, high-precision browser tools for financial calculations, PDF operations, image compression, developer utilities, and everyday converters. All processing occurs 100% locally in client-side WebAssembly / JavaScript memory with zero server uploads, no accounts, and no tracking.
 
 ## Core Platform Attributes
 - Website URL: https://www.yuitility.app
-- Total Live Tools: 79 Verified Working Tools
+- Total Live Tools: 82 Verified Working Tools
 - Privacy Standard: 100% In-Browser Local Execution (Zero Server Data Retention)
 - Account System: No Registration, No Paywalls, Free Forever
 - Speed: Instant client rendering (Zero Network Roundtrips)
@@ -13,7 +13,7 @@
 1. Calculators & Math: Standard Calculator, Scientific Calculator, Mean, Median, Modulo.
 2. Finance & Wealth: EMI Calculator, Loan Calculator, Home/Car/Personal Loan EMI, Salary Take-Home Calculator, SIP Calculator, SWP Calculator, EPF Calculator, FD, RD, PPF, NPS, Income Tax, GST, Gratuity, HRA, Net Worth, Emergency Fund, ROI, CAGR, IRR.
 3. Text & Developer Tools: Password Generator, Fake Data Generator, JSON Formatter, Word Counter, QR Code Generator, Favicon Generator, OG Image Generator.
-4. PDF Tools: PDF Merger, PDF Splitter, PDF Compressor, PDF Watermarker, PDF Metadata Editor (Offline client engine).
+4. PDF Tools: PDF Merger, PDF Splitter, PDF Compressor, PDF Watermarker, PDF Metadata Editor, Rotate PDF Pages, Add Page Numbers to PDF, Remove PDF Pages (100% offline client-side engine).
 5. Image & Media: Image Compressor, Image Resizer, Image to PDF, Format Converter, Social Media Resizer, Background Remover, Meme Maker, Photo Collage Maker.
 6. Health & Lifestyle: BMI Calculator, BMR Calculator, Body Fat Percentage, Pregnancy Due Date, Age Calculator, Dog Age Calculator, Zodiac Age.
 

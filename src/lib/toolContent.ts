@@ -115,6 +115,12 @@ const CUSTOM_HOW_IT_WORKS: Record<string, string> = {
   "pdf-watermark":
     "Upload a PDF document and add custom text or image watermarks. Adjust font size, opacity, rotation, and alignment with 100% browser-side privacy.",
   "pdf-metadata": "Upload a PDF file to view and edit title, author, subject, keywords, and creator metadata fields. Save updated PDF files instantly with no server upload.",
+  "pdf-rotator":
+    "Upload a PDF file and choose your desired rotation angle (90° clockwise, 180°, or 270° counter-clockwise). Select whether to rotate all pages, odd pages, even pages, or a custom page range. The tool rotates pages locally and exports your updated PDF instantly.",
+  "pdf-page-numbers":
+    "Upload a PDF document, select your preferred numbering format (e.g. 'Page 1 of N' or '1, 2, 3...'), choose placement (header or footer), font size, and color. The tool stamps page numbers client-side with zero data uploads.",
+  "pdf-page-remover":
+    "Upload any PDF document, select the specific pages you want to delete by clicking the interactive page badges or entering page ranges (e.g. 2, 4-6). The tool strips the unwanted pages and downloads your cleaned document instantly.",
   "format-converter":
     "Select image files and pick target output formats (WebP, PNG, JPEG, GIF). Client-side canvas encoding converts format types without external server processing.",
   "pdf-compressor":
@@ -702,6 +708,63 @@ const TOOL_FAQS_DB: Record<string, FAQItem[]> = {
     {
       question: "Are my photos sent to a server during PDF creation?",
       answer: "No. PDF assembly runs 100% locally in your browser tab.",
+    },
+  ],
+
+  "pdf-rotator": [
+    {
+      question: "Can I rotate only specific pages in my PDF?",
+      answer: "Yes. You can rotate all pages simultaneously, only odd-numbered pages, only even-numbered pages, or enter custom page ranges (such as 1, 3, 5-7).",
+    },
+    {
+      question: "Does rotating pages degrade text or vector graphics quality?",
+      answer: "No. The PDF rotation operation modifies the internal page viewport angle metadata without re-encoding or compressing images, preserving 100% original quality.",
+    },
+    {
+      question: "Can I save the rotated PDF permanently?",
+      answer: "Yes. When you download the file, the rotation is permanently encoded into the PDF specification, so it displays in the correct orientation in Adobe Acrobat and all viewers.",
+    },
+    {
+      question: "Are my confidential files uploaded to a remote server?",
+      answer: "No. All PDF rotation subroutines execute locally inside your browser tab using WebAssembly. No data leaves your device.",
+    },
+  ],
+
+  "pdf-page-numbers": [
+    {
+      question: "Can I skip numbering the first page (cover sheet)?",
+      answer: "Yes. Check the 'Skip First Page (Cover)' toggle to leave the title or cover page blank and start numbering from the second page onward.",
+    },
+    {
+      question: "What page number formats are supported?",
+      answer: "You can format page numbers as 'Page 1 of N', standard numbers '1, 2, 3...', 'Page 1', or bracketed '- 1 -'.",
+    },
+    {
+      question: "Can I choose where page numbers appear on the document?",
+      answer: "Yes. You can position page numbers in the bottom-center, bottom-right, bottom-left, top-right, or top-center of each page.",
+    },
+    {
+      question: "Does adding page numbers upload my file to external servers?",
+      answer: "No. PDF text rendering runs 100% client-side using pdf-lib in your browser memory. Your documents remain strictly private.",
+    },
+  ],
+
+  "pdf-page-remover": [
+    {
+      question: "Can I delete multiple non-consecutive pages from a PDF?",
+      answer: "Yes. You can click on individual page badges or type comma-separated numbers and ranges (e.g. '2, 4-6, 9') to remove multiple pages at once.",
+    },
+    {
+      question: "Does deleting pages alter or damage my original file?",
+      answer: "No. Your original file remains untouched. The tool creates and downloads a completely new, sanitized PDF document with the selected pages removed.",
+    },
+    {
+      question: "Is there a limit on how many pages I can remove?",
+      answer: "You can delete as many pages as you want, provided at least one page remains in the final document to produce a valid PDF file.",
+    },
+    {
+      question: "Is my document secure while removing pages?",
+      answer: "Yes. All page copying and document creation occurs locally in your browser memory with zero network uploads.",
     },
   ],
 };
