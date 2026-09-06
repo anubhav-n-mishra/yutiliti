@@ -102,9 +102,11 @@ export const metadata: Metadata = {
     "theme-color": "#2563eb",
     "color-scheme": "light dark",
   },
-  // NOTE: no `verification` block. It previously emitted literal placeholder
-  // strings ("google-site-verification-code") as real meta tags. Add the real
-  // token here only once it exists, or verify via DNS/Search Console instead.
+  verification: {
+    other: {
+      "msvalidate.01": "0637265E8689996B664AD2392FF31E7D",
+    },
+  },
 };
 
 const rootGraphSchema = {
