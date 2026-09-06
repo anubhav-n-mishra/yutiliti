@@ -191,14 +191,24 @@ export const CATEGORY_META: Record<string, CategoryMeta> = {
           "fake-data-generator",
           "word-counter",
           "zip-extractor",
+          "markdown-to-html",
+          "diff-checker",
+          "lorem-ipsum-generator",
         ],
       },
       {
-        name: "Security and design",
+        name: "Security, encoding and regex",
         blurb:
-          "Generate cryptographically secure passwords measured against Shannon entropy, encode dynamic QR codes, and construct WCAG-compliant accessible color palettes.",
+          "Generate cryptographically secure passwords and UUIDs, encode Base64 and URLs, hash strings with Web Crypto, test regular expressions, and convert color codes.",
         toolIds: [
           "password-generator",
+          "uuid-v4-generator",
+          "hash-generator-md5-sha",
+          "base64-encoder-decoder",
+          "url-encoder-decoder",
+          "regex-tester",
+          "hex-color-converter",
+          "morse-code-translator",
           "qr-code-generator",
           "color-palette",
         ],
@@ -207,11 +217,11 @@ export const CATEGORY_META: Record<string, CategoryMeta> = {
   },
   utility: {
     name: "Everyday Utilities",
-    title: "Everyday Utility Tools & Age Calculators | Yuitility",
+    title: "Everyday Utility Tools & Construction Estimators | Yuitility",
     description:
-      "Unit conversion, word counts, age and date maths, ZIP extraction. Small tools for the jobs that interrupt the job you were actually doing.",
+      "Unit conversion, construction estimation, age and date maths, ZIP extraction. Practical zero-upload tools for home improvement, planning, and everyday life.",
     intro:
-      "Everyday calculators designed for rapid, friction-free answers without paywalls, email capture, or popups. Calculate chronological age down to the day, verify school admission eligibility, or estimate due dates instantly.",
+      "Everyday calculators designed for rapid, friction-free answers without paywalls, email capture, or popups. Calculate chronological age, plan building materials, or size cooling systems instantly.",
     groups: [
       {
         name: "Age and milestones",
@@ -234,65 +244,137 @@ export const CATEGORY_META: Record<string, CategoryMeta> = {
           "zodiac-sun-moon-calculator",
         ],
       },
+      {
+        name: "Construction and home estimation",
+        blurb:
+          "Calculate flooring boxes, tile counts, wall paint gallons, brick quantities, concrete slabs, mortar mixtures, room square footage, and AC BTU tonnage.",
+        toolIds: [
+          "room-square-footage-calculator",
+          "flooring-calculator",
+          "tile-count-calculator",
+          "paint-volume-calculator",
+          "brick-count-calculator",
+          "concrete-volume-calculator",
+          "cement-mortar-calculator",
+          "ac-btu-calculator",
+        ],
+      },
     ],
   },
   math: {
     name: "Calculators & Maths",
-    title: "Maths & Statistics Calculators | Yuitility",
+    title: "Maths, Algebra & Statistics Calculators | Yuitility",
     description:
-      "Mean, median, modulo and general-purpose calculators that show the steps behind the answer so you can check the working, not just copy it.",
+      "Step-by-step math, algebra, geometry and statistics calculators that show the complete working and formulas behind the answer.",
     intro:
       "A calculation without documented steps cannot be audited. Yuitility math tools render transparent calculation histories, explicit arithmetic formulas, and intermediate mathematical steps directly on-screen.",
     groups: [
       {
-        name: "Everyday calculators",
+        name: "Everyday and academic calculators",
         blurb:
-          "Perform standard four-function arithmetic with tape memory, or calculate advanced scientific operations including trigonometric functions, logarithms, and powers.",
-        toolIds: ["standard-calculator", "scientific-calculator"],
+          "Perform standard and scientific arithmetic, calculate percentages and fractions, compute college GPA, and convert university CGPA to percentages.",
+        toolIds: [
+          "standard-calculator",
+          "scientific-calculator",
+          "percentage-calculator",
+          "cgpa-calculator",
+          "cgpa-to-percentage-calculator",
+          "gpa-calculator",
+          "fraction-to-decimal-converter",
+          "ratio-proportion-calculator",
+        ],
       },
       {
-        name: "Statistics and discrete math",
+        name: "Statistics, dates and probability",
         blurb:
-          "Calculate arithmetic means, find data-set medians with sorted arrays, and compute true mathematical modulo with negative operand support.",
-        toolIds: ["mean-calculator", "median-calculator", "mod-calculator"],
+          "Calculate mean, median, mode frequencies, standard deviations, probability events, permutations, combinations, factorials, and exact date differences.",
+        toolIds: [
+          "mean-calculator",
+          "median-calculator",
+          "mode-frequency-calculator",
+          "standard-deviation-calculator",
+          "probability-calculator",
+          "permutation-combination-calculator",
+          "factorial-calculator",
+          "date-difference-calculator",
+          "mod-calculator",
+        ],
+      },
+      {
+        name: "Algebra and geometry",
+        blurb:
+          "Solve quadratic equations with real and complex roots, perform matrix arithmetic and determinants, and calculate 2D geometric surface areas.",
+        toolIds: [
+          "quadratic-solver",
+          "matrix-calculator",
+          "geometry-area-calculator",
+        ],
       },
     ],
   },
   health: {
     name: "Health & Lifestyle",
-    title: "Health Calculators: BMI, BMR & Body Fat | Yuitility",
+    title: "Health & Fitness Calculators: Calories, Macros & Vitals | Yuitility",
     description:
-      "BMI, BMR and body-fat estimates using the named published formulas (Mifflin-St Jeor, US Navy), with the equation shown and its limits stated plainly.",
+      "BMI, BMR, TDEE, calories, macros, protein, heart rate, and body composition estimates using validated scientific formulas with zero tracking.",
     intro:
       "Statistical health calculators based on established peer-reviewed physiological equations. We display the exact mathematical formulas used and highlight known clinical limitations so you can interpret results accurately.",
     groups: [
       {
-        name: "Body composition",
+        name: "Body composition and weight",
         blurb:
-          "Assess body mass index against WHO categories and estimate body fat percentage using the US Navy circumference method with lean mass breakdowns.",
-        toolIds: ["bmi-calculator", "body-fat-calculator"],
+          "Assess body mass index, estimate lean body mass with Boer/James/Hume formulas, calculate ideal body weight, and measure waist-to-hip cardiovascular ratios.",
+        toolIds: [
+          "bmi-calculator",
+          "body-fat-calculator",
+          "lean-body-mass-calculator",
+          "ideal-body-weight-calculator",
+          "waist-hip-ratio-calculator",
+        ],
       },
       {
-        name: "Metabolism and longevity",
+        name: "Nutrition and energy expenditure",
         blurb:
-          "Estimate basal metabolic rate and daily energy expenditure using the Mifflin-St Jeor equation, and explore lifestyle longevity projections.",
-        toolIds: ["bmr-calculator", "death-calculator"],
+          "Calculate basal metabolic rate (BMR), total daily energy expenditure (TDEE), daily calorie deficits, macronutrient splits, protein targets, and hydration goals.",
+        toolIds: [
+          "bmr-calculator",
+          "tdee-calculator",
+          "daily-calorie-calculator",
+          "macro-ratio-calculator",
+          "protein-intake-calculator",
+          "water-intake-calculator",
+        ],
+      },
+      {
+        name: "Fitness, sleep and longevity",
+        blurb:
+          "Estimate one-rep max strength loads, determine target heart rate zones, calculate running paces, convert steps to calories, plan sleep cycles, and evaluate smoking costs.",
+        toolIds: [
+          "one-rep-max-calculator",
+          "target-heart-rate-calculator",
+          "running-pace-calculator",
+          "step-to-calorie-calculator",
+          "sleep-cycle-calculator",
+          "ovulation-calculator",
+          "smoking-cost-calculator",
+          "death-calculator",
+        ],
       },
     ],
   },
   conversion: {
     name: "Units & Conversion",
-    title: "Unit & Currency Converters | Yuitility",
+    title: "Unit, Time Zone & Currency Converters | Yuitility",
     description:
-      "Convert length, mass, temperature, area, speed and currency. Exact conversion factors, shown alongside the result so you can verify the maths.",
+      "Convert length, mass, temperature, area, world time zones and currency. Exact conversion factors, shown alongside the result so you can verify the maths.",
     intro:
       "Unit conversion errors often go unnoticed because results seem plausible. Our converters display the exact multiplication factors and base SI units used, ensuring transparent and verifiable calculations.",
     groups: [
       {
         name: "Measurement and exchange",
         blurb:
-          "Convert across imperial and metric physical units (length, weight, temperature, area), and check live currency exchange valuations.",
-        toolIds: ["unit-converter", "currency-converter"],
+          "Convert across imperial and metric physical units (length, weight, temperature, area), compare global time zones for meetings, and check live currency valuations.",
+        toolIds: ["unit-converter", "currency-converter", "time-zone-converter"],
       },
     ],
   },
@@ -416,6 +498,65 @@ const TOOL_SEO_TITLES: Record<string, string> = {
   "mean-calculator": "Mean Calculator with Step-by-Step Working",
   "median-calculator": "Median Calculator for Odd and Even Data Sets",
   "mod-calculator": "Modulo Calculator (A mod B) with Negatives",
+
+  // --- Developer additions ---------------------------------------------
+  "uuid-v4-generator": "UUID v4 & GUID Generator: Bulk Random IDs",
+  "base64-encoder-decoder": "Base64 Encoder & Decoder for Text and Files",
+  "url-encoder-decoder": "URL Encoder & Decoder: RFC 3986 Safe Encoding",
+  "lorem-ipsum-generator": "Lorem Ipsum Generator: Dummy Text & Filler",
+  "hash-generator-md5-sha": "MD5 & SHA256 Hash Generator in Browser",
+  "hex-color-converter": "HEX to RGB & HSL Color Code Converter",
+  "morse-code-translator": "Morse Code Translator: Text to Audio & Beeps",
+  "regex-tester": "RegEx Tester and Matcher with Explanations",
+  "markdown-to-html": "Markdown to HTML Converter with Live Preview",
+  "diff-checker": "Text Diff Checker: Compare Two Texts Online",
+
+  // --- Math additions --------------------------------------------------
+  "percentage-calculator": "Percentage Calculator: 4 Common Modes & Steps",
+  "cgpa-calculator": "CGPA Calculator with Semester Credits & Target",
+  "cgpa-to-percentage-calculator": "CGPA to Percentage Converter (CBSE & Engineering)",
+  "gpa-calculator": "GPA Calculator: 4.0 College Grade Scale",
+  "date-difference-calculator": "Date Difference Calculator: Days, Weeks, Months",
+  "mode-frequency-calculator": "Mode & Frequency Calculator with Sorted Table",
+  "standard-deviation-calculator": "Standard Deviation Calculator (Sample & Pop)",
+  "probability-calculator": "Probability Calculator: Single & Compound Events",
+  "permutation-combination-calculator": "Permutations and Combinations (nPr & nCr)",
+  "factorial-calculator": "Factorial Calculator (n! & n!!) with Digits",
+  "matrix-calculator": "Matrix Calculator: Determinant, Inverse, Add",
+  "quadratic-solver": "Quadratic Equation Solver with Step-by-Step",
+  "fraction-to-decimal-converter": "Fraction to Decimal and Mixed Number Converter",
+  "ratio-proportion-calculator": "Ratio & Proportion Calculator: Solve for X",
+  "geometry-area-calculator": "Geometry Area and Perimeter Calculator",
+
+  // --- Health additions ------------------------------------------------
+  "lean-body-mass-calculator": "Lean Body Mass Calculator (Boer & James)",
+  "ideal-body-weight-calculator": "Ideal Body Weight Calculator: Devine & Hamwi",
+  "daily-calorie-calculator": "Daily Calorie Calculator for Deficit & Bulk",
+  "water-intake-calculator": "Daily Water Intake Calculator by Weight",
+  "macro-ratio-calculator": "Macronutrient Ratio Calculator: Carbs & Protein",
+  "protein-intake-calculator": "Daily Protein Intake Calculator by Goal",
+  "tdee-calculator": "TDEE Calculator: Total Daily Energy Expenditure",
+  "one-rep-max-calculator": "One Rep Max (1RM) Calculator: Epley & Brzycki",
+  "ovulation-calculator": "Ovulation & Fertile Window Calculator",
+  "target-heart-rate-calculator": "Target Heart Rate Zone Calculator (Karvonen)",
+  "waist-hip-ratio-calculator": "Waist-to-Hip Ratio Calculator (WHO Standards)",
+  "sleep-cycle-calculator": "Sleep Cycle Calculator: Optimal Bedtimes",
+  "smoking-cost-calculator": "Smoking Cost Calculator: Expense & S&P 500",
+  "running-pace-calculator": "Running Pace & Finish Time Calculator",
+  "step-to-calorie-calculator": "Steps to Calories Burned Calculator",
+
+  // --- Utility additions -----------------------------------------------
+  "room-square-footage-calculator": "Room Square Footage & Material Cost Estimator",
+  "flooring-calculator": "Flooring Calculator: Boxes & Waste Included",
+  "tile-count-calculator": "Tile Count Calculator for Floors and Walls",
+  "paint-volume-calculator": "Paint Volume Calculator: Gallons and Liters",
+  "brick-count-calculator": "Brick Count Calculator for Single & Double Walls",
+  "concrete-volume-calculator": "Concrete Volume Calculator: Yards & Pre-Mix",
+  "cement-mortar-calculator": "Cement Mortar Calculator: Mix Ratios & Sand",
+  "ac-btu-calculator": "Air Conditioner BTU Sizing Calculator",
+
+  // --- Conversion additions --------------------------------------------
+  "time-zone-converter": "World Time Zone Converter & Meeting Planner",
 };
 
 const TOOL_SEO_DESCRIPTIONS: Record<string, string> = {
@@ -593,6 +734,114 @@ const TOOL_SEO_DESCRIPTIONS: Record<string, string> = {
     "Median with the sorted data set displayed, and the two-middle-value average handled explicitly for even-sized sets.",
   "mod-calculator":
     "Modulo (A mod B) including negative operands, where JavaScript's remainder and true mathematical modulo disagree.",
+
+  // --- Developer additions ---------------------------------------------
+  "uuid-v4-generator":
+    "Generate cryptographically random UUID v4 and GUID identifiers in bulk. Choose uppercase, hyphens, or braces with instant zero-upload browser generation.",
+  "base64-encoder-decoder":
+    "Encode text or binary data into Base64 or decode Base64 back to plain UTF-8. Fast client-side conversion ensures your sensitive payloads never touch remote servers.",
+  "url-encoder-decoder":
+    "Encode text into percentage-encoded RFC 3986 format or decode encoded URLs and query parameters safely in your browser tab without transmitting data.",
+  "lorem-ipsum-generator":
+    "Generate placeholder Lorem Ipsum text by paragraphs, sentences, or words with optional HTML tags. Clean, instant dummy copy for typography and web design.",
+  "hash-generator-md5-sha":
+    "Compute cryptographic MD5, SHA-1, SHA-256, and SHA-512 hashes from plain text using browser Web Crypto APIs. Fast, private hashing with zero server calls.",
+  "hex-color-converter":
+    "Convert HEX color codes to RGB, HSL, HSV, and CSS formats with live preview swatches. Check alpha transparency and copy color formulas in one click.",
+  "morse-code-translator":
+    "Translate text into International Morse Code and play realistic audio beeps using Web Audio API, or decode Morse back to English text locally in your browser.",
+  "regex-tester":
+    "Test regular expression patterns against sample text with real-time match highlighting, capture group extraction, and regex syntax error debugging.",
+  "markdown-to-html":
+    "Convert Markdown to clean semantic HTML in real-time with split-pane live preview. Supports headings, tables, code fences, and checklists with instant copy.",
+  "diff-checker":
+    "Compare two text files or code snippets side-by-side or inline to spot line additions and deletions with character-level accuracy. 100% private in-browser diff.",
+
+  // --- Math additions --------------------------------------------------
+  "percentage-calculator":
+    "Calculate percentage increase, decrease, fractional proportions, and sales tax adjustments across four intuitive modes with complete step-by-step arithmetic shown.",
+  "cgpa-calculator":
+    "Compute semester-wise and cumulative CGPA from credits and grade points. Plan future semester requirements with the built-in target CGPA goal simulator.",
+  "cgpa-to-percentage-calculator":
+    "Convert 10-point CGPA to equivalent percentage using CBSE (x9.5), Mumbai University, or linear formulas, complete with honors division classifications.",
+  "gpa-calculator":
+    "Calculate college GPA on a standard 4.0 weighted scale. Add course credits and letter grades to view cumulative grade points, honors standing, and transcript summary.",
+  "date-difference-calculator":
+    "Calculate exact duration between two dates in years, months, days, hours, and business working days, or add/subtract time with complete calendar accuracy.",
+  "mode-frequency-calculator":
+    "Find the statistical mode, calculate frequency distribution tables, and visualize relative percentages for any numeric or categorical data set with zero server lag.",
+  "standard-deviation-calculator":
+    "Calculate sample and population standard deviation, variance, and mean with complete step-by-step deviation tables and standard error of the mean.",
+  "probability-calculator":
+    "Compute single-event odds and compound independent probabilities (union, intersection, and complement) with clear fractional, decimal, and odds representations.",
+  "permutation-combination-calculator":
+    "Calculate permutations (nPr) and combinations (nCr) with or without repetition using high-precision BigInt arithmetic and clear combinatorial explanations.",
+  "factorial-calculator":
+    "Compute single (n!) and double (n!!) factorials for large numbers up to 1000 using BigInt precision, with exact digit counts and trailing zeros breakdown.",
+  "matrix-calculator":
+    "Solve 2x2 and 3x3 matrix addition, subtraction, multiplication, determinants, and matrix inverses with transparent step-by-step cellular arithmetic.",
+  "quadratic-solver":
+    "Solve quadratic equations (ax² + bx + c = 0) with real or complex roots, discriminant analysis, parabola vertex coordinates, and step-by-step formula derivations.",
+  "fraction-to-decimal-converter":
+    "Convert proper, improper, and mixed fractions to decimals and percentages, or convert decimals back to simplified fractions using greatest common divisors.",
+  "ratio-proportion-calculator":
+    "Solve missing terms in proportions (A:B = C:D), simplify ratios to lowest terms, and divide total amounts into proportional shares with instant calculation.",
+  "geometry-area-calculator":
+    "Calculate area and perimeter for circles, rectangles, triangles, trapezoids, ellipses, and regular polygons with exact mathematical geometric formulas.",
+
+  // --- Health additions ------------------------------------------------
+  "lean-body-mass-calculator":
+    "Estimate lean body mass and body fat percentage using peer-reviewed Boer, James, and Hume formulas with visual body composition distribution bars.",
+  "ideal-body-weight-calculator":
+    "Find your clinically ideal body weight using Devine, Robinson, Miller, and Hamwi equations alongside healthy WHO Body Mass Index ranges for your height.",
+  "daily-calorie-calculator":
+    "Calculate daily maintenance calories, cutting deficits, and lean bulking targets based on the Mifflin-St Jeor equation and physical activity multipliers.",
+  "water-intake-calculator":
+    "Determine optimal daily hydration based on body weight, workout duration, and environmental climate, with an hourly 250ml glass checklist schedule.",
+  "macro-ratio-calculator":
+    "Break daily calories into optimal protein, carb, and fat targets in grams across balanced, keto, or bodybuilding splits with per-meal portion estimates.",
+  "protein-intake-calculator":
+    "Calculate daily protein requirements tailored to your fitness goal (fat loss, hypertrophy, or maintenance) with whole-food portion equivalent guides.",
+  "tdee-calculator":
+    "Calculate Total Daily Energy Expenditure by comparing Mifflin-St Jeor, Katch-McArdle, and Harris-Benedict formulas with detailed metabolic component breakdowns.",
+  "one-rep-max-calculator":
+    "Estimate your one-rep max (1RM) from working sets using Epley, Brzycki, and Lombardi formulas, complete with a percentage-based strength training load table.",
+  "ovulation-calculator":
+    "Calculate your most fertile days, estimated ovulation date, and next cycle start from your last menstrual period and average cycle length.",
+  "target-heart-rate-calculator":
+    "Find your target training heart rate zones using the Karvonen formula and resting heart rate for fat burn, aerobic endurance, and anaerobic threshold.",
+  "waist-hip-ratio-calculator":
+    "Evaluate abdominal body fat distribution and cardiovascular risk levels against World Health Organization waist-to-hip ratio guidelines.",
+  "sleep-cycle-calculator":
+    "Plan bedtimes or wake-up times around 90-minute sleep cycles and natural fall-asleep latency to wake up alert and avoid sleep inertia.",
+  "smoking-cost-calculator":
+    "Calculate the true financial and health cost of smoking over time, including opportunity cost if invested at 8% in the S&P 500 and estimated days of life lost.",
+  "running-pace-calculator":
+    "Calculate running pace, estimated finish times, or distances for 5K, 10K, half marathon, and marathon races with metric and imperial split tables.",
+  "step-to-calorie-calculator":
+    "Convert daily steps into calories burned and distance walked based on body weight, height-derived stride length, and walking pace intensity.",
+
+  // --- Utility additions -----------------------------------------------
+  "room-square-footage-calculator":
+    "Calculate total square footage and square meters across multiple rooms with optional price-per-square-foot material cost estimation.",
+  "flooring-calculator":
+    "Estimate hardwood, laminate, or vinyl plank flooring requirements with standard cutting waste factors, box coverage sizes, and total project cost.",
+  "tile-count-calculator":
+    "Calculate the exact number of floor or wall tiles and boxes needed for any room dimensions, factoring in waste percentage and popular tile sizes.",
+  "paint-volume-calculator":
+    "Calculate how many gallons or liters of paint you need based on room dimensions, ceiling height, doors and windows deductions, and coat counts.",
+  "brick-count-calculator":
+    "Estimate bricks and mortar bags for single and double wythe masonry walls, factoring in door and window openings and standard cutting waste.",
+  "concrete-volume-calculator":
+    "Calculate cubic yards and cubic meters of concrete needed for slabs, footings, and cylindrical columns, with 80 lb and 60 lb pre-mix bag conversions.",
+  "cement-mortar-calculator":
+    "Calculate cement bags, sand volume, and mixing water required for brickwork and plastering across standard mix ratios with dry void expansion factors.",
+  "ac-btu-calculator":
+    "Determine the exact air conditioner cooling capacity (BTU/hr and tonnage) needed based on room area, ceiling height, sunlight, and occupant count.",
+
+  // --- Conversion additions --------------------------------------------
+  "time-zone-converter":
+    "Compare current local times across major global cities, view color-coded business hour overlaps, and schedule cross-timezone meetings seamlessly.",
 };
 
 export function getToolSeoTitle(tool: Tool): string {

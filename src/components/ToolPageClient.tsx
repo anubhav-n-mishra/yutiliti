@@ -94,6 +94,60 @@ import BodyFatCalculator from "@/src/components/tools/BodyFatCalculator";
 
 import StandardCalculator from "@/src/components/tools/StandardCalculator";
 import ScientificCalculator from "@/src/components/tools/ScientificCalculator";
+
+import UuidV4Generator from "@/src/components/tools/UuidV4Generator";
+import Base64EncoderDecoder from "@/src/components/tools/Base64EncoderDecoder";
+import UrlEncoderDecoder from "@/src/components/tools/UrlEncoderDecoder";
+import LoremIpsumGenerator from "@/src/components/tools/LoremIpsumGenerator";
+import HashGenerator from "@/src/components/tools/HashGenerator";
+import HexColorConverter from "@/src/components/tools/HexColorConverter";
+import MorseCodeTranslator from "@/src/components/tools/MorseCodeTranslator";
+import RegexTester from "@/src/components/tools/RegexTester";
+import MarkdownToHtml from "@/src/components/tools/MarkdownToHtml";
+import DiffChecker from "@/src/components/tools/DiffChecker";
+
+import PercentageCalculator from "@/src/components/tools/PercentageCalculator";
+import CgpaCalculator from "@/src/components/tools/CgpaCalculator";
+import CgpaToPercentage from "@/src/components/tools/CgpaToPercentage";
+import GpaCalculator from "@/src/components/tools/GpaCalculator";
+import DateDifferenceCalculator from "@/src/components/tools/DateDifferenceCalculator";
+import ModeFrequencyCalculator from "@/src/components/tools/ModeFrequencyCalculator";
+import StandardDeviationCalculator from "@/src/components/tools/StandardDeviationCalculator";
+import ProbabilityCalculator from "@/src/components/tools/ProbabilityCalculator";
+import PermutationCombinationCalculator from "@/src/components/tools/PermutationCombinationCalculator";
+import FactorialCalculator from "@/src/components/tools/FactorialCalculator";
+import MatrixCalculator from "@/src/components/tools/MatrixCalculator";
+import QuadraticSolver from "@/src/components/tools/QuadraticSolver";
+import FractionToDecimal from "@/src/components/tools/FractionToDecimal";
+import RatioProportionCalculator from "@/src/components/tools/RatioProportionCalculator";
+import GeometryAreaCalculator from "@/src/components/tools/GeometryAreaCalculator";
+
+import LeanBodyMassCalculator from "@/src/components/tools/LeanBodyMassCalculator";
+import IdealBodyWeightCalculator from "@/src/components/tools/IdealBodyWeightCalculator";
+import DailyCalorieCalculator from "@/src/components/tools/DailyCalorieCalculator";
+import WaterIntakeCalculator from "@/src/components/tools/WaterIntakeCalculator";
+import MacroRatioCalculator from "@/src/components/tools/MacroRatioCalculator";
+import ProteinIntakeCalculator from "@/src/components/tools/ProteinIntakeCalculator";
+import TdeeCalculator from "@/src/components/tools/TdeeCalculator";
+import OneRepMaxCalculator from "@/src/components/tools/OneRepMaxCalculator";
+import OvulationCalculator from "@/src/components/tools/OvulationCalculator";
+import TargetHeartRateCalculator from "@/src/components/tools/TargetHeartRateCalculator";
+import WaistHipRatioCalculator from "@/src/components/tools/WaistHipRatioCalculator";
+import SleepCycleCalculator from "@/src/components/tools/SleepCycleCalculator";
+import SmokingCostCalculator from "@/src/components/tools/SmokingCostCalculator";
+import RunningPaceCalculator from "@/src/components/tools/RunningPaceCalculator";
+import StepToCalorieCalculator from "@/src/components/tools/StepToCalorieCalculator";
+
+import RoomSquareFootageCalculator from "@/src/components/tools/RoomSquareFootageCalculator";
+import FlooringCalculator from "@/src/components/tools/FlooringCalculator";
+import TileCountCalculator from "@/src/components/tools/TileCountCalculator";
+import PaintVolumeCalculator from "@/src/components/tools/PaintVolumeCalculator";
+import BrickCountCalculator from "@/src/components/tools/BrickCountCalculator";
+import ConcreteVolumeCalculator from "@/src/components/tools/ConcreteVolumeCalculator";
+import CementMortarCalculator from "@/src/components/tools/CementMortarCalculator";
+import AcBtuCalculator from "@/src/components/tools/AcBtuCalculator";
+
+import TimeZoneConverter from "@/src/components/tools/TimeZoneConverter";
 import ShareToast from "./ShareToast";
 
 type ToolPageClientProps = {
@@ -318,6 +372,60 @@ function ToolRenderer({ tool, onCopy, onShare, onTriggerShareToast }: { tool: To
     case "stock-average-calculator": return <StockAverageCalculator />;
     case "bmr-calculator": return <BmrCalculator />;
     case "body-fat-calculator": return <BodyFatCalculator />;
+
+    case "uuid-v4-generator": return <UuidV4Generator {...props} />;
+    case "base64-encoder-decoder": return <Base64EncoderDecoder {...props} />;
+    case "url-encoder-decoder": return <UrlEncoderDecoder {...props} />;
+    case "lorem-ipsum-generator": return <LoremIpsumGenerator {...props} />;
+    case "hash-generator-md5-sha": return <HashGenerator {...props} />;
+    case "hex-color-converter": return <HexColorConverter {...props} />;
+    case "morse-code-translator": return <MorseCodeTranslator {...props} />;
+    case "regex-tester": return <RegexTester {...props} />;
+    case "markdown-to-html": return <MarkdownToHtml {...props} />;
+    case "diff-checker": return <DiffChecker {...props} />;
+
+    case "percentage-calculator": return <PercentageCalculator {...props} />;
+    case "cgpa-calculator": return <CgpaCalculator {...props} />;
+    case "cgpa-to-percentage-calculator": return <CgpaToPercentage {...props} />;
+    case "gpa-calculator": return <GpaCalculator {...props} />;
+    case "date-difference-calculator": return <DateDifferenceCalculator {...props} />;
+    case "mode-frequency-calculator": return <ModeFrequencyCalculator {...props} />;
+    case "standard-deviation-calculator": return <StandardDeviationCalculator {...props} />;
+    case "probability-calculator": return <ProbabilityCalculator {...props} />;
+    case "permutation-combination-calculator": return <PermutationCombinationCalculator {...props} />;
+    case "factorial-calculator": return <FactorialCalculator {...props} />;
+    case "matrix-calculator": return <MatrixCalculator {...props} />;
+    case "quadratic-solver": return <QuadraticSolver {...props} />;
+    case "fraction-to-decimal-converter": return <FractionToDecimal {...props} />;
+    case "ratio-proportion-calculator": return <RatioProportionCalculator {...props} />;
+    case "geometry-area-calculator": return <GeometryAreaCalculator {...props} />;
+
+    case "lean-body-mass-calculator": return <LeanBodyMassCalculator {...props} />;
+    case "ideal-body-weight-calculator": return <IdealBodyWeightCalculator {...props} />;
+    case "daily-calorie-calculator": return <DailyCalorieCalculator {...props} />;
+    case "water-intake-calculator": return <WaterIntakeCalculator {...props} />;
+    case "macro-ratio-calculator": return <MacroRatioCalculator {...props} />;
+    case "protein-intake-calculator": return <ProteinIntakeCalculator {...props} />;
+    case "tdee-calculator": return <TdeeCalculator {...props} />;
+    case "one-rep-max-calculator": return <OneRepMaxCalculator {...props} />;
+    case "ovulation-calculator": return <OvulationCalculator {...props} />;
+    case "target-heart-rate-calculator": return <TargetHeartRateCalculator {...props} />;
+    case "waist-hip-ratio-calculator": return <WaistHipRatioCalculator {...props} />;
+    case "sleep-cycle-calculator": return <SleepCycleCalculator {...props} />;
+    case "smoking-cost-calculator": return <SmokingCostCalculator {...props} />;
+    case "running-pace-calculator": return <RunningPaceCalculator {...props} />;
+    case "step-to-calorie-calculator": return <StepToCalorieCalculator {...props} />;
+
+    case "room-square-footage-calculator": return <RoomSquareFootageCalculator {...props} />;
+    case "flooring-calculator": return <FlooringCalculator {...props} />;
+    case "tile-count-calculator": return <TileCountCalculator {...props} />;
+    case "paint-volume-calculator": return <PaintVolumeCalculator {...props} />;
+    case "brick-count-calculator": return <BrickCountCalculator {...props} />;
+    case "concrete-volume-calculator": return <ConcreteVolumeCalculator {...props} />;
+    case "cement-mortar-calculator": return <CementMortarCalculator {...props} />;
+    case "ac-btu-calculator": return <AcBtuCalculator {...props} />;
+
+    case "time-zone-converter": return <TimeZoneConverter {...props} />;
     default: return <GenericInteractiveTool tool={tool} onCopy={onCopy} onShare={onShare} />;
   }
 }

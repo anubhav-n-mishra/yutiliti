@@ -99,6 +99,65 @@ export const IMPLEMENTED_TOOL_IDS: ReadonlySet<string> = new Set([
   "stock-average-calculator",
   "bmr-calculator",
   "body-fat-calculator",
+
+  // Developer additions (10)
+  "uuid-v4-generator",
+  "base64-encoder-decoder",
+  "url-encoder-decoder",
+  "lorem-ipsum-generator",
+  "hash-generator-md5-sha",
+  "hex-color-converter",
+  "morse-code-translator",
+  "regex-tester",
+  "markdown-to-html",
+  "diff-checker",
+
+  // Math additions (15)
+  "percentage-calculator",
+  "cgpa-calculator",
+  "cgpa-to-percentage-calculator",
+  "gpa-calculator",
+  "date-difference-calculator",
+  "mode-frequency-calculator",
+  "standard-deviation-calculator",
+  "probability-calculator",
+  "permutation-combination-calculator",
+  "factorial-calculator",
+  "matrix-calculator",
+  "quadratic-solver",
+  "fraction-to-decimal-converter",
+  "ratio-proportion-calculator",
+  "geometry-area-calculator",
+
+  // Health additions (15)
+  "lean-body-mass-calculator",
+  "ideal-body-weight-calculator",
+  "daily-calorie-calculator",
+  "water-intake-calculator",
+  "macro-ratio-calculator",
+  "protein-intake-calculator",
+  "tdee-calculator",
+  "one-rep-max-calculator",
+  "ovulation-calculator",
+  "target-heart-rate-calculator",
+  "waist-hip-ratio-calculator",
+  "sleep-cycle-calculator",
+  "smoking-cost-calculator",
+  "running-pace-calculator",
+  "step-to-calorie-calculator",
+
+  // Utility additions (8)
+  "room-square-footage-calculator",
+  "flooring-calculator",
+  "tile-count-calculator",
+  "paint-volume-calculator",
+  "brick-count-calculator",
+  "concrete-volume-calculator",
+  "cement-mortar-calculator",
+  "ac-btu-calculator",
+
+  // Conversion additions (1)
+  "time-zone-converter",
 ]);
 
 export const isToolLive = (id: string): boolean =>
@@ -236,6 +295,65 @@ export const RELATED_TOOLS: Record<string, string[]> = {
   "standard-calculator": ["scientific-calculator", "unit-converter", "discount-calculator"],
   "scientific-calculator": ["standard-calculator", "mod-calculator", "unit-converter"],
   "unit-converter": ["currency-converter", "standard-calculator", "scientific-calculator"],
+
+  // Developer additions
+  "uuid-v4-generator": ["hash-generator-md5-sha", "password-generator", "fake-data-generator"],
+  "base64-encoder-decoder": ["url-encoder-decoder", "hash-generator-md5-sha", "json-formatter"],
+  "url-encoder-decoder": ["base64-encoder-decoder", "qr-code-generator", "json-formatter"],
+  "lorem-ipsum-generator": ["word-counter", "fake-data-generator", "markdown-to-html"],
+  "hash-generator-md5-sha": ["uuid-v4-generator", "base64-encoder-decoder", "password-generator"],
+  "hex-color-converter": ["color-palette", "og-image-generator", "favicon-generator"],
+  "morse-code-translator": ["base64-encoder-decoder", "word-counter"],
+  "regex-tester": ["diff-checker", "word-counter", "json-formatter"],
+  "markdown-to-html": ["diff-checker", "word-counter", "lorem-ipsum-generator"],
+  "diff-checker": ["markdown-to-html", "regex-tester", "word-counter"],
+
+  // Math cluster
+  "percentage-calculator": ["discount-calculator", "cagr-calculator", "ratio-proportion-calculator", "fraction-to-decimal-converter"],
+  "cgpa-calculator": ["cgpa-to-percentage-calculator", "gpa-calculator", "percentage-calculator"],
+  "cgpa-to-percentage-calculator": ["cgpa-calculator", "gpa-calculator", "percentage-calculator"],
+  "gpa-calculator": ["cgpa-calculator", "cgpa-to-percentage-calculator", "percentage-calculator"],
+  "date-difference-calculator": ["age-calculator", "time-zone-converter", "pregnancy-due-date-calculator"],
+  "mode-frequency-calculator": ["mean-calculator", "median-calculator", "standard-deviation-calculator"],
+  "standard-deviation-calculator": ["mean-calculator", "median-calculator", "mode-frequency-calculator"],
+  "probability-calculator": ["permutation-combination-calculator", "factorial-calculator", "percentage-calculator"],
+  "permutation-combination-calculator": ["probability-calculator", "factorial-calculator", "scientific-calculator"],
+  "factorial-calculator": ["permutation-combination-calculator", "probability-calculator", "scientific-calculator"],
+  "matrix-calculator": ["quadratic-solver", "scientific-calculator", "standard-calculator"],
+  "quadratic-solver": ["matrix-calculator", "scientific-calculator", "geometry-area-calculator"],
+  "fraction-to-decimal-converter": ["percentage-calculator", "ratio-proportion-calculator", "unit-converter"],
+  "ratio-proportion-calculator": ["percentage-calculator", "fraction-to-decimal-converter", "unit-converter"],
+  "geometry-area-calculator": ["room-square-footage-calculator", "tile-count-calculator", "flooring-calculator"],
+
+  // Health cluster
+  "lean-body-mass-calculator": ["body-fat-calculator", "ideal-body-weight-calculator", "bmr-calculator", "tdee-calculator"],
+  "ideal-body-weight-calculator": ["bmi-calculator", "lean-body-mass-calculator", "daily-calorie-calculator"],
+  "daily-calorie-calculator": ["tdee-calculator", "bmr-calculator", "macro-ratio-calculator", "protein-intake-calculator"],
+  "tdee-calculator": ["daily-calorie-calculator", "bmr-calculator", "macro-ratio-calculator", "step-to-calorie-calculator"],
+  "water-intake-calculator": ["daily-calorie-calculator", "running-pace-calculator", "step-to-calorie-calculator"],
+  "macro-ratio-calculator": ["daily-calorie-calculator", "protein-intake-calculator", "tdee-calculator"],
+  "protein-intake-calculator": ["macro-ratio-calculator", "daily-calorie-calculator", "one-rep-max-calculator"],
+  "one-rep-max-calculator": ["protein-intake-calculator", "target-heart-rate-calculator", "daily-calorie-calculator"],
+  "ovulation-calculator": ["pregnancy-due-date-calculator", "date-difference-calculator", "sleep-cycle-calculator"],
+  "target-heart-rate-calculator": ["running-pace-calculator", "step-to-calorie-calculator", "tdee-calculator"],
+  "waist-hip-ratio-calculator": ["bmi-calculator", "body-fat-calculator", "lean-body-mass-calculator"],
+  "sleep-cycle-calculator": ["tdee-calculator", "target-heart-rate-calculator", "daily-calorie-calculator"],
+  "smoking-cost-calculator": ["death-calculator", "retirement-calculator", "emergency-fund-calculator", "sip-calculator"],
+  "running-pace-calculator": ["step-to-calorie-calculator", "target-heart-rate-calculator", "unit-converter"],
+  "step-to-calorie-calculator": ["running-pace-calculator", "tdee-calculator", "daily-calorie-calculator"],
+
+  // Utility cluster
+  "room-square-footage-calculator": ["flooring-calculator", "tile-count-calculator", "paint-volume-calculator", "ac-btu-calculator"],
+  "flooring-calculator": ["room-square-footage-calculator", "tile-count-calculator", "paint-volume-calculator"],
+  "tile-count-calculator": ["flooring-calculator", "room-square-footage-calculator", "cement-mortar-calculator"],
+  "paint-volume-calculator": ["room-square-footage-calculator", "flooring-calculator", "ac-btu-calculator"],
+  "brick-count-calculator": ["cement-mortar-calculator", "concrete-volume-calculator", "room-square-footage-calculator"],
+  "concrete-volume-calculator": ["cement-mortar-calculator", "brick-count-calculator", "room-square-footage-calculator"],
+  "cement-mortar-calculator": ["concrete-volume-calculator", "brick-count-calculator", "tile-count-calculator"],
+  "ac-btu-calculator": ["room-square-footage-calculator", "paint-volume-calculator", "flooring-calculator"],
+
+  // Conversion cluster
+  "time-zone-converter": ["date-difference-calculator", "unit-converter", "currency-converter"],
 };
 
 /**

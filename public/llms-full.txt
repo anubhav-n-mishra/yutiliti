@@ -1,12 +1,12 @@
 # Yuitility - Full Knowledge Base & Machine Index for AI Agents and LLMs
 Site: https://www.yuitility.app
 Architecture: 100% Client-Side WebAssembly and Native JavaScript (Zero Server Uploads)
-Total Live Verified Tools: 82
+Total Live Verified Tools: 131
 Canonical Domain: https://www.yuitility.app
 
 Yuitility is a universal web-based utility toolkit offering high-precision financial calculators, client-side PDF document manipulation, Canvas/WASM media processing, and offline developer utilities. All computations occur within the user's browser sandbox using local CPU memory. No user files, parameters, or payloads are transmitted to external servers.
 
-## Category: MATH (5 Tools)
+## Category: MATH (20 Tools)
 
 ### Standard Calculator
 - Canonical URL: https://www.yuitility.app/tools/standard-calculator
@@ -36,6 +36,96 @@ Yuitility is a universal web-based utility toolkit offering high-precision finan
 - Canonical URL: https://www.yuitility.app/tools/mod-calculator
 - Purpose: Calculate remainder (A mod B) or statistical mode frequency distribution.
 - Technical Details: Dual-purpose mathematical tool: perform integer modulo operations (remainder after division) and compute statistical modes (most frequent numbers in a dataset).
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Percentage Calculator
+- Canonical URL: https://www.yuitility.app/tools/percentage-calculator
+- Purpose: Calculate percentage changes, differences, and fractions.
+- Technical Details: Calculate percentage increases, decreases, discounts, and relative proportions.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### CGPA Calculator
+- Canonical URL: https://www.yuitility.app/tools/cgpa-calculator
+- Purpose: Calculate Cumulative Grade Point Average across semesters.
+- Technical Details: Calculate semester CGPA and overall academic grade point average.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### CGPA to Percentage Converter
+- Canonical URL: https://www.yuitility.app/tools/cgpa-to-percentage-calculator
+- Purpose: Convert university CGPA scores to equivalent percentage marks.
+- Technical Details: Convert 10-point and 4-point CGPA scores into equivalent academic percentages.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### GPA Calculator (4.0 Scale)
+- Canonical URL: https://www.yuitility.app/tools/gpa-calculator
+- Purpose: Calculate high school and college GPA with weighted credit hours.
+- Technical Details: Calculate unweighted and weighted GPA based on course grades and credits.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Date Difference Calculator
+- Canonical URL: https://www.yuitility.app/tools/date-difference-calculator
+- Purpose: Calculate exact days, weeks, months between two dates.
+- Technical Details: Calculate total days, business days, and time intervals between any two dates.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Mode & Frequency Calculator
+- Canonical URL: https://www.yuitility.app/tools/mode-frequency-calculator
+- Purpose: Find statistical mode and value frequencies in data sets.
+- Technical Details: Find statistical mode, frequency distribution, and modal values.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Standard Deviation Calculator
+- Canonical URL: https://www.yuitility.app/tools/standard-deviation-calculator
+- Purpose: Calculate population and sample standard deviation and variance.
+- Technical Details: Calculate sample standard deviation, population variance, and mean.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Probability Calculator
+- Canonical URL: https://www.yuitility.app/tools/probability-calculator
+- Purpose: Calculate single event chances, joint probabilities, and odds.
+- Technical Details: Calculate probability of independent, dependent, and mutually exclusive events.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Permutations & Combinations (nPr / nCr)
+- Canonical URL: https://www.yuitility.app/tools/permutation-combination-calculator
+- Purpose: Calculate factorial permutations and combinations.
+- Technical Details: Compute nPr permutations and nCr combinations with or without repetition.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Factorial Calculator (n!)
+- Canonical URL: https://www.yuitility.app/tools/factorial-calculator
+- Purpose: Compute exact factorials for large integer numbers.
+- Technical Details: Calculate exact factorials and Stirling approximations for large positive integers.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Matrix Arithmetic & Determinant Solver
+- Canonical URL: https://www.yuitility.app/tools/matrix-calculator
+- Purpose: Perform matrix addition, multiplication, transpose, and determinant.
+- Technical Details: Compute matrix determinants, inverses, transpose, and matrix multiplication.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Quadratic Formula Equation Solver
+- Canonical URL: https://www.yuitility.app/tools/quadratic-solver
+- Purpose: Solve quadratic equations ax² + bx + c = 0 with step explanation.
+- Technical Details: Find real and complex roots for quadratic polynomial equations.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Fraction to Decimal Converter
+- Canonical URL: https://www.yuitility.app/tools/fraction-to-decimal-converter
+- Purpose: Convert proper, improper, and mixed fractions to decimals.
+- Technical Details: Convert fractions to repeating decimals and simplified mixed numbers.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Ratio & Proportion Calculator
+- Canonical URL: https://www.yuitility.app/tools/ratio-proportion-calculator
+- Purpose: Solve missing proportions a:b = c:d and ratio splits.
+- Technical Details: Calculate ratio proportions and simplify multi-part numerical ratios.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Geometry Area & Perimeter Calculator
+- Canonical URL: https://www.yuitility.app/tools/geometry-area-calculator
+- Purpose: Calculate area and perimeter for circles, triangles, rectangles.
+- Technical Details: Calculate geometric area and perimeter for standard 2D shapes.
 - Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
 
 ## Category: FINANCE (38 Tools)
@@ -268,7 +358,7 @@ Yuitility is a universal web-based utility toolkit offering high-precision finan
 - Technical Details: Calculate weighted average share price across multiple stock purchase trades (dollar-cost averaging).
 - Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
 
-## Category: UTILITY (9 Tools)
+## Category: UTILITY (17 Tools)
 
 ### Age Calculator & Birthday Count
 - Canonical URL: https://www.yuitility.app/tools/age-calculator
@@ -324,7 +414,55 @@ Yuitility is a universal web-based utility toolkit offering high-precision finan
 - Technical Details: Calculate final discounted retail price and total monetary savings from promotional percentage discounts.
 - Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
 
-## Category: DEVELOPER (7 Tools)
+### Wall Paint Volume Calculator
+- Canonical URL: https://www.yuitility.app/tools/paint-volume-calculator
+- Purpose: Estimate paint gallons/liters and coats required for rooms.
+- Technical Details: Calculate wall square footage and required paint volume for interior/exterior rooms.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Cement & Mortar Mix Calculator
+- Canonical URL: https://www.yuitility.app/tools/cement-mortar-calculator
+- Purpose: Estimate cement bags and sand ratio for masonry construction.
+- Technical Details: Calculate cement bags, sand volume, and water ratio for brickwork mortar.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Concrete Volume & Slab Estimator
+- Canonical URL: https://www.yuitility.app/tools/concrete-volume-calculator
+- Purpose: Calculate cubic yards/meters of concrete for slabs and footings.
+- Technical Details: Calculate concrete volume in cubic yards or meters for foundation slabs.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Brick Count & Wall Estimator
+- Canonical URL: https://www.yuitility.app/tools/brick-count-calculator
+- Purpose: Calculate number of bricks needed for walls and masonry work.
+- Technical Details: Calculate total brick count considering wall dimensions and mortar joint thickness.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Floor & Wall Tile Count Calculator
+- Canonical URL: https://www.yuitility.app/tools/tile-count-calculator
+- Purpose: Calculate tile count and grout quantity for bathroom/kitchen floors.
+- Technical Details: Calculate total tiles needed including 10% wastage margin for room dimensions.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Laminate & Hardwood Flooring Calculator
+- Canonical URL: https://www.yuitility.app/tools/flooring-calculator
+- Purpose: Estimate square feet of hardwood or laminate flooring required.
+- Technical Details: Calculate total flooring square footage, box count, and waste allowance.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Room Square Footage Calculator
+- Canonical URL: https://www.yuitility.app/tools/room-square-footage-calculator
+- Purpose: Calculate room area in sq ft, sq meters, and perimeter.
+- Technical Details: Calculate total room square footage and wall perimeter for home planning.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Air Conditioner BTU Cooling Calculator
+- Canonical URL: https://www.yuitility.app/tools/ac-btu-calculator
+- Purpose: Determine required AC tonnage and BTU rating for room dimensions.
+- Technical Details: Calculate BTU cooling capacity required based on room size and sunlight exposure.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+## Category: DEVELOPER (17 Tools)
 
 ### Password Generator
 - Canonical URL: https://www.yuitility.app/tools/password-generator
@@ -366,6 +504,66 @@ Yuitility is a universal web-based utility toolkit offering high-precision finan
 - Canonical URL: https://www.yuitility.app/tools/fake-data-generator
 - Purpose: Generate mock JSON, SQL, or CSV data for software testing.
 - Technical Details: Use industry-standard libraries to generate thousands of rows of realistic mock data including names, emails, phones, and addresses. Export in multiple formats.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Morse Code Encoder & Decoder
+- Canonical URL: https://www.yuitility.app/tools/morse-code-translator
+- Purpose: Translate plain text to Morse code signals and audio simulation.
+- Technical Details: Encode text into Morse code dots/dashes and decode Morse code back to text.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Lorem Ipsum Text Generator
+- Canonical URL: https://www.yuitility.app/tools/lorem-ipsum-generator
+- Purpose: Generate placeholder text, paragraphs, and words for design mockups.
+- Technical Details: Generate customizable Lorem Ipsum text for UI mockups and web layouts.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Base64 Encoder & Decoder
+- Canonical URL: https://www.yuitility.app/tools/base64-encoder-decoder
+- Purpose: Encode text strings and decode Base64 data safely.
+- Technical Details: Encode raw text into Base64 format and decode Base64 back to plain string.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### URL Encoder & Decoder
+- Canonical URL: https://www.yuitility.app/tools/url-encoder-decoder
+- Purpose: Encode text to URI components and decode percent-encoded URLs.
+- Technical Details: Encode special characters into URL-safe percent encoding.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### RegEx Pattern Tester & Matcher
+- Canonical URL: https://www.yuitility.app/tools/regex-tester
+- Purpose: Test regular expressions against target text with regex flags.
+- Technical Details: Test JavaScript regular expression patterns against sample text strings.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### HEX to RGB & HSL Color Converter
+- Canonical URL: https://www.yuitility.app/tools/hex-color-converter
+- Purpose: Convert color codes between HEX, RGB, HSL, and HSV formats.
+- Technical Details: Convert color formats between HEX codes, RGB tuples, and HSL values.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Markdown to HTML Live Converter
+- Canonical URL: https://www.yuitility.app/tools/markdown-to-html
+- Purpose: Convert Markdown syntax into clean HTML code in real time.
+- Technical Details: Convert Markdown headings, lists, links, and code blocks into HTML.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### UUID v4 & GUID Generator
+- Canonical URL: https://www.yuitility.app/tools/uuid-v4-generator
+- Purpose: Generate cryptographically secure random UUID v4 strings in batch.
+- Technical Details: Generate random UUID v4 identifiers for database keys and APIs.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### MD5 & SHA256 Hash Generator
+- Canonical URL: https://www.yuitility.app/tools/hash-generator-md5-sha
+- Purpose: Generate MD5, SHA-1, and SHA-256 cryptographic hashes.
+- Technical Details: Compute MD5 and SHA256 hashes from plain input strings.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Text Diff Checker
+- Canonical URL: https://www.yuitility.app/tools/diff-checker
+- Purpose: Compare two text files or code snippets to find line differences.
+- Technical Details: Compare two text inputs side-by-side to highlight insertions and deletions.
 - Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
 
 ## Category: MEDIA (7 Tools)
@@ -435,7 +633,7 @@ Yuitility is a universal web-based utility toolkit offering high-precision finan
 ### PDF Watermarker
 - Canonical URL: https://www.yuitility.app/tools/pdf-watermark
 - Purpose: Add a custom text watermark to all pages of your PDF.
-- Technical Details: Stamp your documents with a custom watermark (e.g. 'CONFIDENTIAL' or 'DRAFT'). Adjust color with preset and custom color pickers, size, opacity, and rotation. Processed entirely locally for maximum privacy.
+- Technical Details: Stamp your documents with a custom watermark (e.g. 'CONFIDENTIAL' or 'DRAFT'). Adjust text, size, opacity, and rotation. Processed entirely locally for maximum privacy.
 - Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
 
 ### PDF Metadata Editor
@@ -447,19 +645,19 @@ Yuitility is a universal web-based utility toolkit offering high-precision finan
 ### Rotate PDF Pages
 - Canonical URL: https://www.yuitility.app/tools/pdf-rotator
 - Purpose: Rotate all or specific pages in a PDF document clockwise or counter-clockwise.
-- Technical Details: Rotate pages by 90, 180, or 270 degrees in browser memory. Rotate all pages, odd/even pages, or custom page ranges with permanent rotation metadata encoding.
+- Technical Details: Rotate PDF pages by 90, 180, or 270 degrees instantly in your browser. Rotate all pages, odd/even pages, or custom page ranges with zero server uploads.
 - Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
 
 ### Add Page Numbers to PDF
 - Canonical URL: https://www.yuitility.app/tools/pdf-page-numbers
 - Purpose: Insert custom page numbers, headers, and footers across PDF documents.
-- Technical Details: Add clean, professional page numbering to any PDF file. Customize position, format ('Page 1 of N', '1, 2, 3...'), font size, color, and starting page number 100% locally.
+- Technical Details: Add clean, professional page numbering to any PDF file. Customize position, format, font size, color, and starting page number 100% locally.
 - Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
 
 ### Remove PDF Pages
 - Canonical URL: https://www.yuitility.app/tools/pdf-page-remover
 - Purpose: Delete unwanted pages or blank sheets from PDF files and download clean documents.
-- Technical Details: Selectively delete individual pages or custom ranges from any PDF document. Fast, interactive, and completely private browser processing with zero file uploads.
+- Technical Details: Remove individual pages or custom page ranges from any PDF document. Fast, interactive, and completely private browser processing with zero file uploads.
 - Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
 
 ### PDF Compressor
@@ -468,7 +666,7 @@ Yuitility is a universal web-based utility toolkit offering high-precision finan
 - Technical Details: Optimize PDF structures by rebuilding them natively in your browser to shave off unnecessary metadata and unreferenced streams, lowering overall file size.
 - Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
 
-## Category: CONVERSION (2 Tools)
+## Category: CONVERSION (3 Tools)
 
 ### Universal Unit Converter
 - Canonical URL: https://www.yuitility.app/tools/unit-converter
@@ -482,7 +680,13 @@ Yuitility is a universal web-based utility toolkit offering high-precision finan
 - Technical Details: Convert USD, EUR, GBP, INR, AUD, CAD, JPY, AED, and SGD exchange rates instantly in your browser.
 - Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
 
-## Category: HEALTH (5 Tools)
+### Time Zone Converter
+- Canonical URL: https://www.yuitility.app/tools/time-zone-converter
+- Purpose: Convert meeting times across UTC, EST, PST, GMT, and IST.
+- Technical Details: Convert local times across global time zones and UTC offsets.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+## Category: HEALTH (20 Tools)
 
 ### Pregnancy Due Date Calculator
 - Canonical URL: https://www.yuitility.app/tools/pregnancy-due-date-calculator
@@ -512,6 +716,96 @@ Yuitility is a universal web-based utility toolkit offering high-precision finan
 - Canonical URL: https://www.yuitility.app/tools/body-fat-calculator
 - Purpose: Estimate body fat percentage, lean mass, and fat mass using US Navy formulas.
 - Technical Details: Estimate body fat percentage, lean body mass, and fat mass using US Navy waist and neck measurements.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Lean Body Mass Calculator
+- Canonical URL: https://www.yuitility.app/tools/lean-body-mass-calculator
+- Purpose: Calculate lean body mass (LBM) and body fat mass percentage.
+- Technical Details: Calculate lean body mass and fat mass using Boer and James formulas.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Ideal Body Weight Calculator
+- Canonical URL: https://www.yuitility.app/tools/ideal-body-weight-calculator
+- Purpose: Estimate healthy body weight ranges based on height and frame.
+- Technical Details: Estimate ideal body weight range using Devine, Robinson, and Miller equations.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Daily Calorie Intake Calculator
+- Canonical URL: https://www.yuitility.app/tools/daily-calorie-calculator
+- Purpose: Determine maintenance, weight loss, or bulking calorie targets.
+- Technical Details: Calculate daily calorie intake for weight loss, maintenance, or muscle gain.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Daily Water Intake Calculator
+- Canonical URL: https://www.yuitility.app/tools/water-intake-calculator
+- Purpose: Calculate daily hydration and water intake requirements.
+- Technical Details: Calculate recommended daily water intake based on body weight and activity level.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Macronutrient Ratio Calculator
+- Canonical URL: https://www.yuitility.app/tools/macro-ratio-calculator
+- Purpose: Distribute daily calories across protein, carbs, and fats.
+- Technical Details: Calculate exact gram splits for protein, carbohydrates, and healthy fats.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Daily Protein Intake Calculator
+- Canonical URL: https://www.yuitility.app/tools/protein-intake-calculator
+- Purpose: Estimate target daily protein grams for muscle building and fitness.
+- Technical Details: Calculate daily protein requirements based on body weight and training intensity.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### TDEE Calculator
+- Canonical URL: https://www.yuitility.app/tools/tdee-calculator
+- Purpose: Calculate Total Daily Energy Expenditure and baseline metabolism.
+- Technical Details: Calculate TDEE and maintenance calorie requirements.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### One Rep Max (1RM) Calculator
+- Canonical URL: https://www.yuitility.app/tools/one-rep-max-calculator
+- Purpose: Estimate maximum lift capacity for bench, squat, and deadlift.
+- Technical Details: Estimate 1RM strength using Epley and Brzycki powerlifting formulas.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Ovulation & Fertility Calculator
+- Canonical URL: https://www.yuitility.app/tools/ovulation-calculator
+- Purpose: Estimate ovulation dates and peak fertile windows.
+- Technical Details: Calculate ovulation dates and fertility windows based on cycle length.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Target Heart Rate Zone Calculator
+- Canonical URL: https://www.yuitility.app/tools/target-heart-rate-calculator
+- Purpose: Determine cardio training heart rate zones for fat burn and peak endurance.
+- Technical Details: Calculate heart rate training zones using the Karvonen formula.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Waist-to-Hip Ratio Calculator
+- Canonical URL: https://www.yuitility.app/tools/waist-hip-ratio-calculator
+- Purpose: Assess body fat distribution and cardiovascular health risk.
+- Technical Details: Calculate waist-to-hip ratio and evaluate WHO health risk categories.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Sleep Cycle & Bedtime Planner
+- Canonical URL: https://www.yuitility.app/tools/sleep-cycle-calculator
+- Purpose: Find optimal sleep cycles and bedtime wake-up windows.
+- Technical Details: Calculate 90-minute sleep cycle wake-up times to avoid grogginess.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Smoking Lifetime Cost Calculator
+- Canonical URL: https://www.yuitility.app/tools/smoking-cost-calculator
+- Purpose: Calculate total money spent on cigarettes and future savings.
+- Technical Details: Calculate total expenditure and potential compound investment growth from quitting smoking.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Running Pace & Finish Time Calculator
+- Canonical URL: https://www.yuitility.app/tools/running-pace-calculator
+- Purpose: Calculate target running pace per mile or kilometer.
+- Technical Details: Calculate pace, time, and distance for 5K, 10K, half marathon, and full marathon.
+- Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
+
+### Steps to Calories Converter
+- Canonical URL: https://www.yuitility.app/tools/step-to-calorie-calculator
+- Purpose: Convert daily step counts to estimated calorie burn and miles walked.
+- Technical Details: Convert daily step count into distance walked and total energy expended.
 - Privacy Guarantee: Evaluated client-side with zero network latency and zero server-side storage.
 
 ## Machine Reading Guide for SearchGPT, Google AI Overviews, Claude & Perplexity
