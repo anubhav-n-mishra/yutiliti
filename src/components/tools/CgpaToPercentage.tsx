@@ -4,6 +4,8 @@ import { Award, Copy, Check, GraduationCap, School, CheckCircle2, ChevronRight }
 interface CgpaToPercentageProps {
   onCopy?: (text: string) => void;
   onShare?: (title: string, path: string) => void;
+  initialUniversity?: UniversityFormula;
+  initialCgpa?: number | string;
 }
 
 export type UniversityFormula =
@@ -126,9 +128,15 @@ const UNIVERSITIES: UniversityConfig[] = [
   },
 ];
 
-export default function CgpaToPercentage({ onCopy }: CgpaToPercentageProps) {
-  const [cgpa, setCgpa] = useState<string>('8.4');
-  const [formula, setFormula] = useState<UniversityFormula>('cbse');
+export default function CgpaToPercentage({
+  onCopy,
+  initialUniversity,
+  initialCgpa,
+}: CgpaToPercentageProps) {
+  const [cgpa, setCgpa] = useState<string>(
+    initialCgpa !== undefined ? String(initialCgpa) : '8.4'
+  );
+  const [formula, setFormula] = useState<UniversityFormula>(initialUniversity || 'cbse');
   const [customMultiplier, setCustomMultiplier] = useState<string>('9.5');
   const [copied, setCopied] = useState<boolean>(false);
 

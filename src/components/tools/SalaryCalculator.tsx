@@ -4,14 +4,23 @@ import CurrencySelector from '@/src/components/CurrencySelector';
 import { formatCurrency as formatCurr, getCurrency } from '@/src/lib/currency';
 
 interface SalaryCalculatorProps {
-  onCopy: (text: string) => void;
-  onShare: (title: string, path: string) => void;
+  onCopy?: (text: string) => void;
+  onShare?: (title: string, path: string) => void;
+  initialCurrency?: string;
+  initialCtc?: number;
+  initialBasicPercentage?: number;
 }
 
-export default function SalaryCalculator({ onCopy, onShare }: SalaryCalculatorProps) {
-  const [currency, setCurrency] = useState<string>('USD');
-  const [annualCtc, setAnnualCtc] = useState<number>(1200000);
-  const [basicPercentage, setBasicPercentage] = useState<number>(50);
+export default function SalaryCalculator({
+  onCopy,
+  onShare,
+  initialCurrency,
+  initialCtc,
+  initialBasicPercentage,
+}: SalaryCalculatorProps) {
+  const [currency, setCurrency] = useState<string>(initialCurrency || 'USD');
+  const [annualCtc, setAnnualCtc] = useState<number>(initialCtc ?? 1200000);
+  const [basicPercentage, setBasicPercentage] = useState<number>(initialBasicPercentage ?? 50);
   const [annualBonus, setAnnualBonus] = useState<number>(100000);
   const [includePF, setIncludePF] = useState<boolean>(true);
   const [customMonthlyDeductions, setCustomMonthlyDeductions] = useState<number>(0);

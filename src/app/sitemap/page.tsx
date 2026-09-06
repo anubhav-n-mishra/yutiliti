@@ -3,8 +3,9 @@ import Link from "next/link";
 import { LIVE_TOOLS } from "@/src/lib/toolRegistry";
 import { CATEGORIES } from "@/src/types";
 import { BLOG_POSTS } from "@/src/lib/blogs";
+import { getAllToolPresets } from "@/src/lib/toolPresets";
 import { absoluteUrl, SITE_NAME, toolPath } from "@/src/lib/site";
-import { Wrench, BookOpen, Layers, ShieldCheck, ChevronRight, FileText } from "lucide-react";
+import { Wrench, BookOpen, Layers, ShieldCheck, ChevronRight, FileText, Sparkles } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "HTML Sitemap: All Tools, Categories & Guides - Yuitility",
@@ -116,7 +117,40 @@ export default function HtmlSitemapPage() {
           </div>
         </section>
 
-        {/* 3. Blog Guides */}
+        {/* 3. Specialized Calculation Presets (pSEO) */}
+        <section aria-labelledby="heading-presets" className="space-y-6">
+          <div className="flex items-center gap-3 border-b border-zinc-200 dark:border-zinc-800 pb-3">
+            <Sparkles className="w-5 h-5 text-amber-500" />
+            <h2 id="heading-presets" className="text-xl font-display font-semibold text-zinc-900 dark:text-zinc-50">
+              Specialized Institutional & Financial Presets ({getAllToolPresets().length})
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {getAllToolPresets().map((preset) => (
+              <Link
+                key={`${preset.toolId}-${preset.presetSlug}`}
+                href={`/tools/${preset.toolId}/${preset.presetSlug}`}
+                className="p-3.5 rounded-lg border border-zinc-200/80 dark:border-zinc-800/80 bg-white dark:bg-zinc-900/60 hover:bg-zinc-50 dark:hover:bg-zinc-900 hover:border-amber-400/50 transition-colors group flex flex-col justify-between"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border border-amber-200/60 dark:border-amber-800/40">
+                      {preset.badge}
+                    </span>
+                  </div>
+                  <div className="text-sm font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-amber-600 dark:group-hover:text-amber-400">
+                    {preset.h1}
+                  </div>
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 line-clamp-2 leading-relaxed">
+                    {preset.subtitle}
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        {/* 4. Blog Guides */}
         <section aria-labelledby="heading-guides" className="space-y-6">
           <div className="flex items-center gap-3 border-b border-zinc-200 dark:border-zinc-800 pb-3">
             <BookOpen className="w-5 h-5 text-rose-500" />

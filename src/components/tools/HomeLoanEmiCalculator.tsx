@@ -4,8 +4,14 @@ import CurrencySelector from '@/src/components/CurrencySelector';
 import { formatCurrency as formatCurr, getCurrency } from '@/src/lib/currency';
 
 interface HomeLoanEmiCalculatorProps {
-  onCopy: (text: string) => void;
-  onShare: (title: string, path: string) => void;
+  onCopy?: (text: string) => void;
+  onShare?: (title: string, path: string) => void;
+  initialPropertyPrice?: number;
+  initialDownPaymentPercent?: number;
+  initialInterestRate?: number;
+  initialTenureYears?: number;
+  initialCurrency?: string;
+  lenderName?: string;
 }
 
 const BANK_BENCHMARKS = [
@@ -18,12 +24,20 @@ const BANK_BENCHMARKS = [
   { name: 'US 30Y Fixed', rate: 6.85 },
 ];
 
-export default function HomeLoanEmiCalculator({ onCopy, onShare }: HomeLoanEmiCalculatorProps) {
-  const [currency, setCurrency] = useState<string>('USD');
-  const [propertyPrice, setPropertyPrice] = useState<number>(5000000);
-  const [downPaymentPercent, setDownPaymentPercent] = useState<number>(20);
-  const [interestRate, setInterestRate] = useState<number>(8.5);
-  const [tenureYears, setTenureYears] = useState<number>(20);
+export default function HomeLoanEmiCalculator({
+  onCopy,
+  onShare,
+  initialPropertyPrice,
+  initialDownPaymentPercent,
+  initialInterestRate,
+  initialTenureYears,
+  initialCurrency,
+}: HomeLoanEmiCalculatorProps) {
+  const [currency, setCurrency] = useState<string>(initialCurrency || 'USD');
+  const [propertyPrice, setPropertyPrice] = useState<number>(initialPropertyPrice ?? 5000000);
+  const [downPaymentPercent, setDownPaymentPercent] = useState<number>(initialDownPaymentPercent ?? 20);
+  const [interestRate, setInterestRate] = useState<number>(initialInterestRate ?? 8.5);
+  const [tenureYears, setTenureYears] = useState<number>(initialTenureYears ?? 20);
   const [taxSlab, setTaxSlab] = useState<number>(30); // 30% tax bracket
   const [showAmortization, setShowAmortization] = useState<boolean>(true);
 

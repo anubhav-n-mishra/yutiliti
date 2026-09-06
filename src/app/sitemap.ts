@@ -3,6 +3,7 @@ import { CATEGORIES } from "@/src/types";
 import { BLOG_POSTS } from "@/src/lib/blogs";
 import { LIVE_TOOLS, liveToolsInCategory } from "@/src/lib/toolRegistry";
 import { absoluteUrl, toolPath } from "@/src/lib/site";
+import { getAllToolPresets } from "@/src/lib/toolPresets";
 
 /**
  * Only pages we want Google to spend crawl budget on.
@@ -22,6 +23,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const toolUrls = LIVE_TOOLS.map((tool) => ({
     url: absoluteUrl(toolPath(tool.id)),
+    lastModified: baselineRelease,
+  }));
+
+  const presetUrls = getAllToolPresets().map((preset) => ({
+    url: absoluteUrl(`/tools/${preset.toolId}/${preset.presetSlug}`),
     lastModified: baselineRelease,
   }));
 
@@ -46,6 +52,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: absoluteUrl("/sitemap"), lastModified: baselineRelease },
     ...categoryUrls,
     ...toolUrls,
+    ...presetUrls,
     ...blogPostUrls,
   ];
 }

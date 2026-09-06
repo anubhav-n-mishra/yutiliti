@@ -5,8 +5,12 @@ import CurrencySelector from '@/src/components/CurrencySelector';
 import { formatCurrency as formatCurr, getCurrency } from '@/src/lib/currency';
 
 interface SipCalculatorProps {
-  onCopy: (text: string) => void;
-  onShare: (title: string, path: string) => void;
+  onCopy?: (text: string) => void;
+  onShare?: (title: string, path: string) => void;
+  initialCurrency?: string;
+  initialMonthlyInvestment?: number;
+  initialExpectedReturn?: number;
+  initialDuration?: number;
 }
 
 const RETURN_PRESETS = [
@@ -16,11 +20,18 @@ const RETURN_PRESETS = [
   { label: 'Aggressive Small Cap', rate: 18 },
 ];
 
-export default function SipCalculator({ onCopy, onShare }: SipCalculatorProps) {
-  const [currency, setCurrency] = useState<string>('USD');
-  const [monthlyInvestment, setMonthlyInvestment] = useState<number>(10000);
-  const [expectedReturn, setExpectedReturn] = useState<number>(12);
-  const [duration, setDuration] = useState<number>(15);
+export default function SipCalculator({
+  onCopy,
+  onShare,
+  initialCurrency,
+  initialMonthlyInvestment,
+  initialExpectedReturn,
+  initialDuration,
+}: SipCalculatorProps) {
+  const [currency, setCurrency] = useState<string>(initialCurrency || 'USD');
+  const [monthlyInvestment, setMonthlyInvestment] = useState<number>(initialMonthlyInvestment ?? 10000);
+  const [expectedReturn, setExpectedReturn] = useState<number>(initialExpectedReturn ?? 12);
+  const [duration, setDuration] = useState<number>(initialDuration ?? 15);
   const [showBreakdown, setShowBreakdown] = useState<boolean>(true);
 
   // Step-Up SIP State

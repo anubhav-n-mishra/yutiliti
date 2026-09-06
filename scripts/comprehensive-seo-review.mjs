@@ -219,6 +219,27 @@ check(
   "Both machine-readable indexes specify 132 verified tools across all 8 categories."
 );
 
+// 12. Programmatic SEO (pSEO) Presets
+const presetsSrc = read("src/lib/toolPresets.ts");
+const presetTitles = [...presetsSrc.matchAll(/seoTitle:\s*\"([^\"]+)\"/g)].map(m => m[1]);
+const presetDescs = [...presetsSrc.matchAll(/seoDescription:\s*\n?\s*\"([^\"]+)\"/g)].map(m => m[1]);
+const presetSlugs = [...presetsSrc.matchAll(/presetSlug:\s*\"([a-z0-9-]+)\"/g)].map(m => m[1]);
+
+const invalidPresetTitles = presetTitles.filter(t => t.length > 60);
+const invalidPresetDescs = presetDescs.filter(d => d.length < 70 || d.length > 190);
+
+check(
+  "Programmatic SEO Presets Title & Description Lengths",
+  invalidPresetTitles.length === 0 && invalidPresetDescs.length === 0 && presetSlugs.length >= 20,
+  `Validated ${presetSlugs.length} presets: 100% titles <= 60 chars, 100% descriptions 70-190 chars.`
+);
+
+check(
+  "Programmatic SEO Presets Sitemap Integration",
+  sitemapSrc.includes("getAllToolPresets") && sitemapSrc.includes("presetUrls"),
+  `All ${presetSlugs.length} programmatic preset routes are wired directly into sitemap.xml.`
+);
+
 console.log("\n=================================================");
 const totalPass = results.filter(r => r.pass).length;
 console.log(`TOTAL AUDIT CHECKS: ${results.length} | PASSED: ${totalPass} | FAILED: ${results.length - totalPass}`);
