@@ -18,7 +18,7 @@ import { absoluteUrl, toolPath } from "@/src/lib/site";
 export default function sitemap(): MetadataRoute.Sitemap {
   // Calibrated release date instead of dynamically asserting every page was modified
   // at the exact build instant (which causes search engines to ignore lastmod).
-  const baselineRelease = new Date("2026-09-03");
+  const baselineRelease = new Date("2026-09-06");
 
   const toolUrls = LIVE_TOOLS.map((tool) => ({
     url: absoluteUrl(toolPath(tool.id)),
@@ -43,6 +43,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: absoluteUrl("/blog"), lastModified: baselineRelease },
     { url: absoluteUrl("/about"), lastModified: baselineRelease },
     { url: absoluteUrl("/contact"), lastModified: baselineRelease },
+    { url: absoluteUrl("/sitemap"), lastModified: baselineRelease },
     ...categoryUrls,
     ...toolUrls,
     ...blogPostUrls,
