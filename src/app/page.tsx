@@ -360,7 +360,7 @@ export default function Home() {
               <Zap className="w-3.5 h-3.5" /> Zero File Uploads
             </span>
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 border border-purple-200/60 dark:border-purple-800/40">
-              <Sparkles className="w-3.5 h-3.5" /> 131 Free Fast Tools
+              <Sparkles className="w-3.5 h-3.5" /> 132 Free Fast Tools
             </span>
           </div>
 
@@ -371,7 +371,7 @@ export default function Home() {
               className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[var(--accent-primary)] hover:bg-[var(--accent-hover)] text-white font-semibold text-sm shadow-md hover:shadow-lg transition-all active:scale-[0.98]"
             >
               <LayoutGrid className="w-4 h-4" />
-              Explore All 131 Tools
+              Explore All 132 Tools
             </a>
             <button
               type="button"

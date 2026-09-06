@@ -3,7 +3,7 @@ import { Tool } from "@/src/types";
 export const SITE_NAME = "Yuitility";
 export const SITE_URL = "https://www.yuitility.app";
 export const SITE_DESCRIPTION =
-  "Use 131+ free browser tools for PDFs, images, calculators & code. 100% private - everything runs locally in your tab with zero file uploads. Try it free!";
+  "Use 132+ free browser tools for PDFs, images, calculators & code. 100% private - everything runs locally in your tab with zero file uploads. Try it free!";
 
 export const toolPath = (toolId: string) => `/tools/${toolId}`;
 

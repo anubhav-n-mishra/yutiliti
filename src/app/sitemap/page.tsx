@@ -9,14 +9,14 @@ import { Wrench, BookOpen, Layers, ShieldCheck, ChevronRight, FileText } from "l
 export const metadata: Metadata = {
   title: "HTML Sitemap: All Tools, Categories & Guides - Yuitility",
   description:
-    "Complete directory of all 131 free client-side browser tools, financial calculators, converters, category hubs, and technical guides on Yuitility.",
+    "Complete directory of all 132 free client-side browser tools, financial calculators, converters, category hubs, and technical guides on Yuitility.",
   alternates: {
     canonical: absoluteUrl("/sitemap"),
   },
   openGraph: {
     title: "HTML Sitemap: All Tools, Categories & Guides - Yuitility",
     description:
-      "Explore the complete index of 131 private browser utilities, calculators, and guides across Yuitility.",
+      "Explore the complete index of 132 private browser utilities, calculators, and guides across Yuitility.",
     url: absoluteUrl("/sitemap"),
     siteName: SITE_NAME,
     type: "website",
