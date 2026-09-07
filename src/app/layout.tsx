@@ -73,10 +73,10 @@ export const metadata: Metadata = {
     locale: "en_US",
     images: [
       {
-        url: "/brand/yuitility-logo.png",
+        url: "/brand/yuitility-logo-512.png",
         alt: `${SITE_NAME} logo`,
-        width: 1200,
-        height: 630,
+        width: 512,
+        height: 512,
         type: "image/png",
       },
     ],
@@ -87,7 +87,7 @@ export const metadata: Metadata = {
     creator: "@yuitility",
     title: "Free Browser Tools & Calculators (100% Private) | Yuitility",
     description: SITE_DESCRIPTION,
-    images: ["/brand/yuitility-logo.png"],
+    images: ["/brand/yuitility-logo-512.png"],
   },
   robots: {
     index: true,
@@ -122,8 +122,8 @@ const rootGraphSchema = {
       logo: {
         "@type": "ImageObject",
         "@id": `${SITE_URL}/#logo`,
-        url: `${SITE_URL}/brand/yuitility-logo.png`,
-        contentUrl: `${SITE_URL}/brand/yuitility-logo.png`,
+        url: `${SITE_URL}/brand/yuitility-logo-512.png`,
+        contentUrl: `${SITE_URL}/brand/yuitility-logo-512.png`,
         caption: `${SITE_NAME} Logo`,
         width: 512,
         height: 512,

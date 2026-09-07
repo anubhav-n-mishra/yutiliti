@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     title: "All Yuitility Tools, Grouped by What They Do | Yuitility",
     description:
       "Every working Yuitility tool in one list: finance calculators, PDF and image utilities, developer tools and everyday converters. All of them run in your browser.",
-    images: [{ url: absoluteUrl("/brand/yuitility-logo.png"), alt: "All Tools - Yuitility" }],
+    images: [{ url: absoluteUrl("/brand/yuitility-logo-512.png"), alt: "All Tools - Yuitility" }],
   },
   twitter: {
     card: "summary_large_image",
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     title: "All Yuitility Tools, Grouped by What They Do | Yuitility",
     description:
       "Every working Yuitility tool in one list: finance calculators, PDF and image utilities, developer tools and everyday converters. All of them run in your browser.",
-    images: [absoluteUrl("/brand/yuitility-logo.png")],
+    images: [absoluteUrl("/brand/yuitility-logo-512.png")],
   },
 };
 

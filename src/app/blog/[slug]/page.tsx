@@ -144,7 +144,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const title = post.title.length > 45 ? post.title : `${post.title} | ${SITE_NAME}`;
   const canonicalUrl = absoluteUrl(`/blog/${post.slug}`);
-  const ogImageUrl = absoluteUrl("/brand/yuitility-logo.png");
+  const ogImageUrl = absoluteUrl("/brand/yuitility-logo-512.png");
 
   return {
     title,
@@ -161,8 +161,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       images: [
         {
           url: ogImageUrl,
-          width: 1200,
-          height: 630,
+          width: 512,
+          height: 512,
           alt: post.title,
         },
       ],
@@ -217,9 +217,9 @@ export default async function BlogPostPage({ params }: PageProps) {
             image: [
               {
                 "@type": "ImageObject",
-                url: absoluteUrl("/brand/yuitility-logo.png"),
-                width: 1200,
-                height: 630,
+                url: absoluteUrl("/brand/yuitility-logo-512.png"),
+                width: 512,
+                height: 512,
               },
             ],
             datePublished: post.date,
@@ -234,7 +234,7 @@ export default async function BlogPostPage({ params }: PageProps) {
               name: SITE_NAME,
               logo: {
                 "@type": "ImageObject",
-                url: `${SITE_URL}/brand/yuitility-logo.png`,
+                url: `${SITE_URL}/brand/yuitility-logo-512.png`,
               },
             },
             url: `${SITE_URL}/blog/${post.slug}`,

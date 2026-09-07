@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     title: "Engineering Guides & Privacy Insights | Yuitility Journal",
     description: "Explore in-depth articles, tutorials, and guides on scientific calculations, salary breakdowns, in-browser PDF security, and image optimization.",
-    images: [{ url: `${SITE_URL}/brand/yuitility-logo.png`, alt: "Yuitility Journal" }],
+    images: [{ url: `${SITE_URL}/brand/yuitility-logo-512.png`, alt: "Yuitility Journal" }],
   },
   twitter: {
     card: "summary_large_image",
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     creator: "@yuitility",
     title: "Engineering Guides & Privacy Insights | Yuitility Journal",
     description: "Explore in-depth articles, tutorials, and guides on scientific calculations, salary breakdowns, in-browser PDF security, and image optimization.",
-    images: [`${SITE_URL}/brand/yuitility-logo.png`],
+    images: [`${SITE_URL}/brand/yuitility-logo-512.png`],
   },
 };
 

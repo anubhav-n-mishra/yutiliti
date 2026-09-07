@@ -16,9 +16,9 @@ export const metadata: Metadata = {
     description: "Get in touch with the Yuitility engineering and support team. Submit feature requests, bug reports, or general inquiries. Average response time within 24 hours.",
     images: [
       {
-        url: absoluteUrl("/brand/yuitility-logo.png"),
-        width: 1200,
-        height: 630,
+        url: absoluteUrl("/brand/yuitility-logo-512.png"),
+        width: 512,
+        height: 512,
         alt: `${SITE_NAME} Contact & Support`,
       },
     ],
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     creator: "@yuitility",
     title: `Contact Us & Support | ${SITE_NAME}`,
     description: "Get in touch with the Yuitility engineering and support team. Submit feature requests, bug reports, or general inquiries. Average response time within 24 hours.",
-    images: [absoluteUrl("/brand/yuitility-logo.png")],
+    images: [absoluteUrl("/brand/yuitility-logo-512.png")],
   },
 };
 

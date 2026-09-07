@@ -58,13 +58,13 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
       siteName: SITE_NAME,
       title,
       description,
-      images: [{ url: absoluteUrl("/brand/yuitility-logo.png"), alt: `${category.label} - ${SITE_NAME}` }],
+      images: [{ url: absoluteUrl("/brand/yuitility-logo-512.png"), alt: `${category.label} - ${SITE_NAME}` }],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: [absoluteUrl("/brand/yuitility-logo.png")],
+      images: [absoluteUrl("/brand/yuitility-logo-512.png")],
     },
   };
 }

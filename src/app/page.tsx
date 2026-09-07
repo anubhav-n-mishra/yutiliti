@@ -368,7 +368,7 @@ export default function Home() {
           <div className="flex flex-wrap items-center justify-center gap-3 pt-3">
             <a
               href="#tools-directory"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[var(--accent-primary)] hover:bg-[var(--accent-hover)] text-white font-semibold text-sm shadow-md hover:shadow-lg transition-all active:scale-[0.98]"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-md hover:shadow-lg transition-all active:scale-[0.98]"
             >
               <LayoutGrid className="w-4 h-4" />
               Explore All 132 Tools
@@ -428,7 +428,7 @@ export default function Home() {
                             </p>
                             <button
                               onClick={() => { setSearchQuery(''); openContactModal('request'); }}
-                              className="px-4 py-2 bg-[var(--accent-primary)] hover:bg-[var(--accent-hover)] text-white font-bold text-xs rounded-xl shadow-sm transition-all"
+                              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-sm transition-all"
                             >
                               Request &quot;{searchQuery}&quot; (24h Add)
                             </button>
@@ -604,6 +604,7 @@ export default function Home() {
 
                       <Link
                         href={`/tools/${t.id}`}
+                        prefetch={false}
                         onClick={() => rememberVisit(t.id)}
                         className="flex h-full flex-col justify-between p-6 cursor-pointer"
                       >
@@ -643,6 +644,7 @@ export default function Home() {
                   <div key={t.id} className="relative flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 hover:bg-zinc-50 dark:hover:bg-zinc-800/40 group transition-all">
                     <Link
                       href={`/tools/${t.id}`}
+                      prefetch={false}
                       onClick={() => rememberVisit(t.id)}
                       className="flex items-center gap-3.5 flex-1 min-w-0 cursor-pointer after:absolute after:inset-0 after:content-['']"
                     >
@@ -693,6 +695,7 @@ export default function Home() {
                   >
                     <Link
                       href={`/tools/${t.id}`}
+                      prefetch={false}
                       onClick={() => rememberVisit(t.id)}
                       className="flex items-center gap-2.5 min-w-0 cursor-pointer after:absolute after:inset-0 after:content-['']"
                     >
@@ -756,7 +759,7 @@ export default function Home() {
                           document.getElementById("tools-grid")?.scrollIntoView({ behavior: "smooth" });
                         }}
                         className={`w-9 h-9 text-xs font-bold rounded-xl transition-all ${currentPage === pageNum
-                          ? "bg-[var(--accent-primary)] text-white shadow-md"
+                          ? "bg-blue-600 text-white shadow-md"
                           : "bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800"
                           }`}
                       >

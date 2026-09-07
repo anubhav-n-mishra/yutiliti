@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     title: "About Yuitility: Why Nothing You Open Gets Uploaded",
     description: "Learn more about Yuitility. Why every Yuitility tool runs on your own device instead of our servers, what that means for your files, and how you can verify it yourself.",
-    images: [{ url: `${SITE_URL}/brand/yuitility-logo.png`, alt: "About Yuitility" }],
+    images: [{ url: `${SITE_URL}/brand/yuitility-logo-512.png`, alt: "About Yuitility" }],
   },
   twitter: {
     card: "summary_large_image",
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     creator: "@yuitility",
     title: "About Yuitility: Why Nothing You Open Gets Uploaded",
     description: "Learn more about Yuitility. Why every Yuitility tool runs on your own device instead of our servers, what that means for your files, and how you can verify it yourself.",
-    images: [`${SITE_URL}/brand/yuitility-logo.png`],
+    images: [`${SITE_URL}/brand/yuitility-logo-512.png`],
   },
 };
 

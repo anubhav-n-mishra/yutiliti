@@ -50,14 +50,6 @@ export const TextHoverEffect = ({
       className={cn("select-none uppercase cursor-pointer w-full h-full", className)}
     >
       <defs>
-        <style>
-          {`
-            @keyframes footerDash {
-              from { stroke-dashoffset: 1000; }
-              to { stroke-dashoffset: 0; }
-            }
-          `}
-        </style>
         <linearGradient
           id="textGradient"
           gradientUnits="userSpaceOnUse"
@@ -111,11 +103,7 @@ export const TextHoverEffect = ({
         textAnchor="middle"
         dominantBaseline="middle"
         strokeWidth="0.3"
-        className="fill-transparent stroke-[var(--accent-primary)] font-[helvetica] text-6xl sm:text-7xl font-bold opacity-60"
-        style={{
-          strokeDasharray: 1000,
-          animation: "footerDash 4s ease-in-out forwards",
-        }}
+        className="fill-transparent stroke-[var(--accent-primary)] font-[helvetica] text-6xl sm:text-7xl font-bold opacity-30"
       >
         {text}
       </text>
