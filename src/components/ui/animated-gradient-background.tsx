@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import React, { useEffect, useRef } from "react";
 
 interface AnimatedGradientBackgroundProps {
@@ -73,28 +72,16 @@ const AnimatedGradientBackground: React.FC<AnimatedGradientBackgroundProps> = ({
   }, [startingGap, Breathing, gradientColors, gradientStops, animationSpeed, breathingRange, topOffset]);
 
   return (
-    <motion.div
+    <div
       key="animated-gradient-background"
-      initial={{
-        opacity: 0,
-        scale: 1.2,
-      }}
-      animate={{
-        opacity: 1,
-        scale: 1,
-        transition: {
-          duration: 1.5,
-          ease: [0.25, 0.1, 0.25, 1],
-        },
-      }}
-      className={`absolute inset-0 overflow-hidden ${containerClassName}`}
+      className={`absolute inset-0 overflow-hidden transition-all duration-1000 ease-out ${containerClassName}`}
     >
       <div
         ref={containerRef}
         style={containerStyle}
         className="absolute inset-0 transition-transform"
       />
-    </motion.div>
+    </div>
   );
 };
 

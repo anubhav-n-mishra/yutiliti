@@ -1,29 +1,31 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/src/lib/site";
-import { LIVE_TOOLS } from "@/src/lib/toolRegistry";
+import dynamic from "next/dynamic";
 import ServiceWorkerRegister from "@/src/components/ServiceWorkerRegister";
 import CookieBanner from "@/src/components/CookieBanner";
-import AiChatbot from "@/src/components/AiChatbot";
 
-const inter = Inter({
-  subsets: ["latin"],
+const AiChatbot = dynamic(() => import("@/src/components/AiChatbot"));
+
+const inter = localFont({
+  src: "../../public/fonts/Inter-Medium.woff",
   variable: "--font-inter",
   display: "swap",
+  weight: "100 900",
 });
 
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
+const spaceGrotesk = localFont({
+  src: "../../public/fonts/SpaceGrotesk-Bold.woff",
   variable: "--font-display",
   display: "swap",
+  weight: "300 800",
 });
 
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
+const jetbrainsMono = {
   variable: "--font-mono",
-  display: "swap",
-});
+  className: "font-mono",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

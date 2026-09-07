@@ -1,107 +1,22 @@
 const CACHE_NAME = 'yuitility-v4';
 const STATIC_CACHE_NAME = 'yuitility-static-v4';
 
-const ALL_ROUTES = [
+const CORE_APP_SHELL = [
   '/',
   '/manifest.webmanifest',
   '/brand/yuitility-logo.png',
   '/icon.png',
   '/favicon.ico',
-  '/privacy',
-  '/terms',
-  '/cookies',
-  '/tools',
-  '/category/finance',
-  '/category/utility',
-  '/category/developer',
-  '/category/pdf',
-  '/tools/emi-calculator',
-  '/tools/sip-calculator',
-  '/tools/age-calculator',
-  '/tools/password-generator',
-  '/tools/qr-code-generator',
-  '/tools/word-counter',
-  '/tools/image-compressor',
-  '/tools/salary-calculator',
-  '/tools/json-formatter',
-  '/tools/color-palette',
-  '/tools/pdf-merger',
-  '/tools/pdf-splitter',
-  '/tools/image-to-pdf',
-  '/tools/pdf-watermark',
-  '/tools/pdf-metadata',
-  '/tools/background-remover',
-  '/tools/image-resizer',
-  '/tools/format-converter',
-  '/tools/pdf-compressor',
-  '/tools/zip-extractor',
-  '/tools/unit-converter',
-  '/tools/meme-maker',
-  '/tools/favicon-generator',
-  '/tools/og-image-generator',
-  '/tools/social-media-resizer',
-  '/tools/fake-data-generator',
-  '/tools/photo-collage-maker',
-  '/tools/age-calculator-in-months',
-  '/tools/dog-age-calculator',
-  '/tools/pregnancy-due-date-calculator',
-  '/tools/retirement-calculator',
-  '/tools/zodiac-age-calculator',
-  '/tools/school-age-eligibility-calculator',
-  '/tools/median-calculator',
-  '/tools/mean-calculator',
-  '/tools/mod-calculator',
-  '/tools/zodiac-sun-moon-calculator',
-  '/tools/bmi-calculator',
-  '/tools/death-calculator',
-  '/tools/loan-calculator',
-  '/tools/education-loan-emi-calculator',
-  '/tools/personal-loan-emi-calculator',
-  '/tools/bike-loan-emi-calculator',
-  '/tools/car-loan-emi-calculator',
-  '/tools/home-loan-emi-calculator',
-  '/tools/mortgage-calculator',
-  '/tools/interest-calculator',
-  '/tools/fd-calculator',
-  '/tools/rd-calculator',
-  '/tools/compound-interest-calculator',
-  '/tools/simple-interest-calculator',
-  '/tools/ppf-calculator',
-  '/tools/gold-loan-emi-calculator',
-  '/tools/business-loan-emi-calculator',
-  '/tools/swp-calculator',
-  '/tools/epf-calculator',
-  '/tools/nps-calculator',
-  '/tools/gratuity-calculator',
-  '/tools/hra-calculator',
-  '/tools/income-tax-calculator',
-  '/tools/gst-calculator',
-  '/tools/credit-card-emi-calculator',
-  '/tools/net-worth-calculator',
-  '/tools/emergency-fund-calculator',
-  '/tools/roi-calculator',
-  '/tools/cagr-calculator',
-  '/tools/irr-calculator',
-  '/tools/break-even-calculator',
-  '/tools/profit-margin-calculator',
-  '/tools/discount-calculator',
-  '/tools/commission-calculator',
-  '/tools/currency-converter',
-  '/tools/mutual-fund-return-calculator',
-  '/tools/dividend-calculator',
-  '/tools/stock-average-calculator',
-  '/tools/bmr-calculator',
-  '/tools/body-fat-calculator'
 ];
 
-// Install: Precache all main app routes and icons
+// Install: Precache core app shell
 self.addEventListener('install', (event) => {
   self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return Promise.allSettled(
-        ALL_ROUTES.map((url) =>
-          fetch(url)
+        CORE_APP_SHELL.map((url) =>
+          fetch(url, { cache: 'no-cache' })
             .then((res) => {
               if (res.ok) return cache.put(url, res);
             })

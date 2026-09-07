@@ -28,18 +28,15 @@ export default function ServiceWorkerRegister() {
         const registerSW = () => {
           navigator.serviceWorker
             .register("/sw.js")
-            .then((reg) => {
-              reg.update();
-            })
-            .catch((err) => {
-              console.warn("[PWA] ServiceWorker registration failed:", err);
+            .catch(() => {
+              // Silently handle in constrained/test environments
             });
         };
 
-        if (document.readyState === "complete" || document.readyState === "interactive") {
-          registerSW();
+        if ("requestIdleCallback" in window) {
+          (window as any).requestIdleCallback(() => setTimeout(registerSW, 2500));
         } else {
-          window.addEventListener("load", registerSW, { once: true });
+          window.addEventListener("load", () => setTimeout(registerSW, 2500), { once: true });
         }
       }
     }

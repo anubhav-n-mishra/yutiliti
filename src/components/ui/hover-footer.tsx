@@ -2,7 +2,6 @@
 
 import React, { useRef, useEffect, useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { cn } from "@/src/lib/utils";
 import { Mail, ShieldCheck, ExternalLink } from "lucide-react";
 import { LIVE_TOOLS } from "@/src/lib/toolRegistry";
@@ -23,16 +22,20 @@ export const TextHoverEffect = ({
   const [maskPosition, setMaskPosition] = useState({ cx: "50%", cy: "50%" });
 
   useEffect(() => {
-    if (svgRef.current && cursor.x !== null && cursor.y !== null) {
+    if (hovered && svgRef.current && cursor.x !== null && cursor.y !== null) {
       const svgRect = svgRef.current.getBoundingClientRect();
-      const cxPercentage = ((cursor.x - svgRect.left) / svgRect.width) * 100;
-      const cyPercentage = ((cursor.y - svgRect.top) / svgRect.height) * 100;
-      setMaskPosition({
-        cx: `${cxPercentage}%`,
-        cy: `${cyPercentage}%`,
-      });
+      if (svgRect.width > 0 && svgRect.height > 0) {
+        const cxPercentage = ((cursor.x - svgRect.left) / svgRect.width) * 100;
+        const cyPercentage = ((cursor.y - svgRect.top) / svgRect.height) * 100;
+        if (Number.isFinite(cxPercentage) && Number.isFinite(cyPercentage)) {
+          setMaskPosition({
+            cx: `${cxPercentage.toFixed(2)}%`,
+            cy: `${cyPercentage.toFixed(2)}%`,
+          });
+        }
+      }
     }
-  }, [cursor]);
+  }, [cursor, hovered]);
 
   return (
     <svg
@@ -47,12 +50,17 @@ export const TextHoverEffect = ({
       className={cn("select-none uppercase cursor-pointer w-full h-full", className)}
     >
       <defs>
+        <style>
+          {`
+            @keyframes footerDash {
+              from { stroke-dashoffset: 1000; }
+              to { stroke-dashoffset: 0; }
+            }
+          `}
+        </style>
         <linearGradient
           id="textGradient"
           gradientUnits="userSpaceOnUse"
-          cx="50%"
-          cy="50%"
-          r="25%"
         >
           {hovered && (
             <>
@@ -65,17 +73,17 @@ export const TextHoverEffect = ({
           )}
         </linearGradient>
 
-        <motion.radialGradient
+        <radialGradient
           id="revealMask"
           gradientUnits="userSpaceOnUse"
           r="20%"
-          initial={{ cx: "50%", cy: "50%" }}
-          animate={maskPosition}
-          transition={{ duration: duration ?? 0, ease: "easeOut" }}
+          cx={maskPosition.cx}
+          cy={maskPosition.cy}
+          style={{ transition: hovered ? "cx 0.15s ease-out, cy 0.15s ease-out" : "none" }}
         >
           <stop offset="0%" stopColor="white" />
           <stop offset="100%" stopColor="black" />
-        </motion.radialGradient>
+        </radialGradient>
         <mask id="textMask">
           <rect
             x="0"
@@ -97,25 +105,20 @@ export const TextHoverEffect = ({
       >
         {text}
       </text>
-      <motion.text
+      <text
         x="50%"
         y="50%"
         textAnchor="middle"
         dominantBaseline="middle"
         strokeWidth="0.3"
         className="fill-transparent stroke-[var(--accent-primary)] font-[helvetica] text-6xl sm:text-7xl font-bold opacity-60"
-        initial={{ strokeDashoffset: 1000, strokeDasharray: 1000 }}
-        animate={{
-          strokeDashoffset: 0,
+        style={{
           strokeDasharray: 1000,
-        }}
-        transition={{
-          duration: 4,
-          ease: "easeInOut",
+          animation: "footerDash 4s ease-in-out forwards",
         }}
       >
         {text}
-      </motion.text>
+      </text>
       <text
         x="50%"
         y="50%"

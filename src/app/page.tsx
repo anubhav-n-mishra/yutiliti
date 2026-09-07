@@ -788,7 +788,7 @@ export default function Home() {
           <nav aria-label="Browse all tools" className="border-t border-zinc-200 dark:border-zinc-800 pt-8 space-y-4">
             <p className="text-sm text-zinc-600 dark:text-zinc-300">
               Prefer one long list?{' '}
-              <Link href="/tools" className="font-bold text-[var(--accent-primary)] hover:underline">
+              <Link href="/tools" className="font-bold text-[var(--accent-primary)] dark:text-blue-400 hover:underline">
                 See all {TOOLS.length} Yuitility tools on a single page
               </Link>
               .

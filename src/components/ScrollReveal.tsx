@@ -41,12 +41,12 @@ export default function ScrollReveal({ children, className = "", delay = 0 }: Sc
       className={className}
       style={{
         opacity: isVisible ? 1 : 0,
-        transform: isVisible ? "translateY(0) scale(1)" : "translateY(25px) scale(0.99)",
-        filter: isVisible ? "blur(0)" : "blur(3px)",
-        transitionProperty: "opacity, transform, filter",
-        transitionDuration: "850ms",
+        transform: isVisible ? "translateY(0) scale(1)" : "translateY(20px) scale(0.99)",
+        transitionProperty: "opacity, transform",
+        transitionDuration: "700ms",
         transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
         transitionDelay: `${delay}ms`,
+        willChange: isVisible ? "auto" : "opacity, transform",
       }}
     >
       {children}

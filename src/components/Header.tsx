@@ -17,10 +17,12 @@ import {
   Wrench
 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
+import dynamic from 'next/dynamic';
 import PwaInstallButton from './PwaInstallButton';
-import ShareModal from './ShareModal';
-import ContactModal from './ContactModals';
-import SettingsDrawer from './SettingsDrawer';
+
+const ShareModal = dynamic(() => import('./ShareModal'), { ssr: false });
+const ContactModal = dynamic(() => import('./ContactModals'), { ssr: false });
+const SettingsDrawer = dynamic(() => import('./SettingsDrawer'), { ssr: false });
 
 export default function Header() {
   const pathname = usePathname() || '';
@@ -249,28 +251,34 @@ export default function Header() {
         )}
       </header>
 
-      {/* Shared Modals */}
-      <ShareModal
-        isOpen={isShareOpen}
-        onClose={() => setIsShareOpen(false)}
-        title="Yuitility Platform"
-      />
+      {/* Shared Modals - Loaded on demand */}
+      {isShareOpen && (
+        <ShareModal
+          isOpen={isShareOpen}
+          onClose={() => setIsShareOpen(false)}
+          title="Yuitility Platform"
+        />
+      )}
 
-      <SettingsDrawer
-        isOpen={isSettingsOpen}
-        onClose={() => setIsSettingsOpen(false)}
-        darkMode={darkMode}
-        onToggleDarkMode={() => setDarkMode(!darkMode)}
-        onOpenContact={openContactModal}
-        accentColor={accentColor}
-        onChangeAccent={changeAccent}
-      />
+      {isSettingsOpen && (
+        <SettingsDrawer
+          isOpen={isSettingsOpen}
+          onClose={() => setIsSettingsOpen(false)}
+          darkMode={darkMode}
+          onToggleDarkMode={() => setDarkMode(!darkMode)}
+          onOpenContact={openContactModal}
+          accentColor={accentColor}
+          onChangeAccent={changeAccent}
+        />
+      )}
 
-      <ContactModal
-        isOpen={isContactOpen}
-        onClose={() => setIsContactOpen(false)}
-        initialType={contactType}
-      />
+      {isContactOpen && (
+        <ContactModal
+          isOpen={isContactOpen}
+          onClose={() => setIsContactOpen(false)}
+          initialType={contactType}
+        />
+      )}
     </>
   );
 }

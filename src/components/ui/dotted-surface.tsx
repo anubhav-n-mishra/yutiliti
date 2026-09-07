@@ -13,145 +13,126 @@ type DottedSurfaceProps = Omit<React.ComponentProps<"div">, "ref"> & {
 
 export function DottedSurface({
   className,
-  size = 6,
+  size = 5,
   opacity = 0.65,
-  sizeAttenuation = true,
-  vertexColors = true,
   isDark = true,
   ...props
 }: DottedSurfaceProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d", { alpha: true });
+    if (!ctx) return;
+
     let isMounted = true;
     let animationId: number;
-    let handleResize: () => void;
-    let rendererInstance: any;
+    let width = 0;
+    let height = 0;
 
-    import("three").then((THREE) => {
-      if (!isMounted || !containerRef.current) return;
+    const AMOUNTX = 40;
+    const AMOUNTY = 55;
+    const SEPARATION = 140;
 
-      const SEPARATION = 150;
-      const AMOUNTX = 40;
-      const AMOUNTY = 60;
+    const handleResize = () => {
+      if (!canvas) return;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = canvas.parentElement?.clientWidth || window.innerWidth;
+      height = canvas.parentElement?.clientHeight || window.innerHeight;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      ctx.scale(dpr, dpr);
+    };
 
-      const scene = new THREE.Scene();
-      scene.fog = new THREE.Fog(0xffffff, 2000, 10000);
+    handleResize();
+    window.addEventListener("resize", handleResize, { passive: true });
 
-      const camera = new THREE.PerspectiveCamera(
-        60,
-        window.innerWidth / window.innerHeight,
-        1,
-        10000
-      );
-      camera.position.set(0, 355, 1220);
+    let count = 0;
+    const camY = 340;
+    const camZ = 1250;
+    const pitch = -0.27; // camera tilt angle
+    const cosP = Math.cos(pitch);
+    const sinP = Math.sin(pitch);
+    const totalX = AMOUNTX * SEPARATION;
+    const totalZ = AMOUNTY * SEPARATION;
 
-      const renderer = new THREE.WebGLRenderer({
-        alpha: true,
-        antialias: true,
-      });
-      rendererInstance = renderer;
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.setClearColor(scene.fog.color, 0);
+    const render = () => {
+      if (!isMounted) return;
+      animationId = requestAnimationFrame(render);
 
-      containerRef.current.appendChild(renderer.domElement);
+      if (document.hidden || width === 0 || height === 0) return;
 
-      const positions: number[] = [];
-      const colors: number[] = [];
+      ctx.clearRect(0, 0, width, height);
 
-      const geometry = new THREE.BufferGeometry();
+      const centerX = width / 2;
+      const centerY = height * 0.45;
+      const focalLength = Math.max(width, height) * 0.9;
+
+      const baseR = isDark ? 59 : 37;
+      const baseG = isDark ? 130 : 99;
+      const baseB = isDark ? 246 : 235;
 
       for (let ix = 0; ix < AMOUNTX; ix++) {
+        const x = ix * SEPARATION - totalX / 2;
         for (let iy = 0; iy < AMOUNTY; iy++) {
-          const x = ix * SEPARATION - (AMOUNTX * SEPARATION) / 2;
-          const y = 0;
-          const z = iy * SEPARATION - (AMOUNTY * SEPARATION) / 2;
+          const z = iy * SEPARATION - totalZ / 2;
+          const y =
+            Math.sin((ix + count) * 0.3) * 45 +
+            Math.sin((iy + count) * 0.5) * 45;
 
-          positions.push(x, y, z);
-          if (isDark) {
-            colors.push(59 / 255, 130 / 255, 246 / 255);
-          } else {
-            colors.push(37 / 255, 99 / 255, 235 / 255);
+          const dx = x;
+          const dy = y - camY;
+          const dz = z - camZ;
+
+          const yRot = dy * cosP - dz * sinP;
+          const zRot = dy * sinP + dz * cosP;
+
+          if (zRot >= -150) continue;
+
+          const depth = -zRot;
+          const scale = focalLength / depth;
+          const screenX = centerX + dx * scale;
+          const screenY = centerY - yRot * scale;
+
+          if (screenX < -20 || screenX > width + 20 || screenY < -20 || screenY > height + 20) {
+            continue;
           }
+
+          const distFade = Math.max(0, Math.min(1, 1 - (depth - 500) / 2800));
+          const dotAlpha = distFade * opacity;
+          if (dotAlpha <= 0.01) continue;
+
+          const radius = Math.max(0.6, size * scale * 0.65);
+
+          ctx.fillStyle = `rgba(${baseR}, ${baseG}, ${baseB}, ${dotAlpha.toFixed(3)})`;
+          ctx.beginPath();
+          ctx.arc(screenX, screenY, radius, 0, Math.PI * 2);
+          ctx.fill();
         }
       }
 
-      geometry.setAttribute(
-        "position",
-        new THREE.Float32BufferAttribute(positions, 3)
-      );
-      geometry.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
+      count += 0.035;
+    };
 
-      const material = new THREE.PointsMaterial({
-        size,
-        vertexColors,
-        transparent: true,
-        opacity,
-        sizeAttenuation,
-      });
-
-      const points = new THREE.Points(geometry, material);
-      scene.add(points);
-
-      let count = 0;
-
-      const animate = () => {
-        if (!isMounted) return;
-        animationId = requestAnimationFrame(animate);
-
-        const positionAttribute = geometry.attributes.position;
-        const posArray = positionAttribute.array as Float32Array;
-
-        let i = 0;
-        for (let ix = 0; ix < AMOUNTX; ix++) {
-          for (let iy = 0; iy < AMOUNTY; iy++) {
-            const index = i * 3;
-            posArray[index + 1] =
-              Math.sin((ix + count) * 0.3) * 50 +
-              Math.sin((iy + count) * 0.5) * 50;
-            i++;
-          }
-        }
-
-        positionAttribute.needsUpdate = true;
-        renderer.render(scene, camera);
-        count += 0.05;
-      };
-
-      handleResize = () => {
-        if (!containerRef.current) return;
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-      };
-
-      window.addEventListener("resize", handleResize);
-      animate();
-    });
+    animationId = requestAnimationFrame(render);
 
     return () => {
       isMounted = false;
       if (animationId) cancelAnimationFrame(animationId);
-      if (handleResize) window.removeEventListener("resize", handleResize);
-      if (rendererInstance && containerRef.current && rendererInstance.domElement) {
-        try {
-          containerRef.current.removeChild(rendererInstance.domElement);
-          rendererInstance.dispose();
-        } catch {
-          // ignore cleanup errors
-        }
-      }
+      window.removeEventListener("resize", handleResize);
     };
-  }, [size, opacity, sizeAttenuation, vertexColors, isDark]);
+  }, [size, opacity, isDark]);
 
   return (
     <div
-      ref={containerRef}
       className={cn("pointer-events-none absolute inset-0 -z-10 overflow-hidden opacity-60", className)}
       {...props}
-    />
+    >
+      <canvas ref={canvasRef} className="block w-full h-full" />
+    </div>
   );
 }
 
