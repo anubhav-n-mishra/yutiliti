@@ -3,6 +3,11 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
+  "browserslist": [
+    "defaults",
+    "not IE 11",
+    "not dead"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "node --max-old-space-size=8192 ./node_modules/next/dist/bin/next build",

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/src/lib/site";
 import dynamic from "next/dynamic";
@@ -7,25 +6,6 @@ import ServiceWorkerRegister from "@/src/components/ServiceWorkerRegister";
 import CookieBanner from "@/src/components/CookieBanner";
 
 const AiChatbot = dynamic(() => import("@/src/components/AiChatbot"));
-
-const inter = localFont({
-  src: "../../public/fonts/Inter-Medium.woff",
-  variable: "--font-inter",
-  display: "swap",
-  weight: "100 900",
-});
-
-const spaceGrotesk = localFont({
-  src: "../../public/fonts/SpaceGrotesk-Bold.woff",
-  variable: "--font-display",
-  display: "swap",
-  weight: "300 800",
-});
-
-const jetbrainsMono = {
-  variable: "--font-mono",
-  className: "font-mono",
-};
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -173,8 +153,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
+        <link
+          rel="preload"
+          href="/fonts/Inter-Medium.woff"
+          as="font"
+          type="font/woff"
+          crossOrigin="anonymous"
+        />
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -194,7 +181,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={inter.className} suppressHydrationWarning>
+      <body suppressHydrationWarning>
         <ServiceWorkerRegister />
         <CookieBanner />
         <AiChatbot />

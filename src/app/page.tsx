@@ -215,28 +215,17 @@ export default function Home() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Sync Dark Mode state to classList
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
-    window.dispatchEvent(new CustomEvent('theme-change', { detail: darkMode }));
-  }, [darkMode]);
-
+  // Listen to theme changes from Header without circular event dispatching
   useEffect(() => {
     const handleThemeChange = (e: Event) => {
       const customEvent = e as CustomEvent<boolean>;
-      if (customEvent.detail !== darkMode) {
+      if (typeof customEvent.detail === 'boolean') {
         setDarkMode(customEvent.detail);
       }
     };
     window.addEventListener('theme-change', handleThemeChange);
     return () => window.removeEventListener('theme-change', handleThemeChange);
-  }, [darkMode]);
+  }, []);
 
   const openContactModal = (type: 'request' | 'feedback' | 'bug') => {
     setContactType(type);
