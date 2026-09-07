@@ -20,7 +20,7 @@ const nextConfig: NextConfig = {
           },
         ],
         destination: "https://www.yuitility.app/:path*",
-        statusCode: 301,
+        permanent: true,
       },
       {
         source: "/html-sitemap",

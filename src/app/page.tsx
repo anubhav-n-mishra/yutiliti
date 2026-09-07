@@ -376,7 +376,7 @@ export default function Home() {
             <button
               type="button"
               onClick={() => {
-                setSelectedCategory('finance');
+                setActiveCategory('finance');
                 const el = document.getElementById('tools-directory');
                 el?.scrollIntoView({ behavior: 'smooth' });
               }}

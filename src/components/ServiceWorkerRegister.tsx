@@ -33,10 +33,13 @@ export default function ServiceWorkerRegister() {
             });
         };
 
-        if ("requestIdleCallback" in window) {
-          (window as any).requestIdleCallback(() => setTimeout(registerSW, 2500));
-        } else {
-          window.addEventListener("load", () => setTimeout(registerSW, 2500), { once: true });
+        const win = typeof window !== "undefined" ? (window as any) : null;
+        if (win) {
+          if (typeof win.requestIdleCallback === "function") {
+            win.requestIdleCallback(() => setTimeout(registerSW, 2500));
+          } else {
+            win.addEventListener("load", () => setTimeout(registerSW, 2500), { once: true });
+          }
         }
       }
     }
