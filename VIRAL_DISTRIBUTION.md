@@ -24,7 +24,7 @@
 Hey guys, if anyone is filling placement forms (TCS / Infosys / Accenture) or applying for higher studies, don't use the generic 9.5 multiplier for VTU percentage. VTU's official formula is strictly (CGPA - 0.75) * 10 (Circular VTU/BGM/Aca-OS/Cirs/2016-17/10006).
 
 Found this clean, ad-free calculator that has the exact VTU formula pre-configured with instant division classification (Distinction vs 1st Class):
-👉 https://www.yuitility.app/tools/cgpa-to-percentage-calculator/vtu
+- URL: https://www.yuitility.app/tools/cgpa-to-percentage-calculator/vtu
 
 Zero ads, works instantly on mobile, and doesn't ask for any login. Sharing here in case it saves someone from getting their application rejected for wrong percentage.
 ```
@@ -43,7 +43,7 @@ PSA for Anna Univ 2017 & 2021 Regulation students filling placement / competitiv
 Anna University does NOT use the 9.5 factor. As per Regulation 2021 Clause 16.2, the official formula is exactly CGPA * 10.
 
 Here's an ad-free, instant web tool that has the Anna Univ formula and First Class with Distinction criteria pre-loaded:
-👉 https://www.yuitility.app/tools/cgpa-to-percentage-calculator/anna-university
+- URL: https://www.yuitility.app/tools/cgpa-to-percentage-calculator/anna-university
 
 Super fast and no ads. Bookmark it for resume building.
 ```
@@ -62,7 +62,7 @@ For anyone struggling with the weird Mumbai University CGPA conversion formula:
 MU Engineering officially mandates 7.1 * CGPA + 12 (Circular VCD/No. 15), NOT standard percentage multiplication.
 
 Bookmark this clean tool for placement drives:
-👉 https://www.yuitility.app/tools/cgpa-to-percentage-calculator/mumbai-university
+- URL: https://www.yuitility.app/tools/cgpa-to-percentage-calculator/mumbai-university
 
 Calculates exact percentage and division in 1 click without any annoying popup ads.
 ```
@@ -81,7 +81,7 @@ KTU folks applying for placements / PSC / UPSC:
 Official KTU B.Tech Ordinance Clause 12.2 specifies Percentage = (CGPA - 0.5) * 10.
 
 Use this free, private calculator with official circular reference:
-👉 https://www.yuitility.app/tools/cgpa-to-percentage-calculator/ktu
+- URL: https://www.yuitility.app/tools/cgpa-to-percentage-calculator/ktu
 
 Clean UI, 0 ads, 100% private.
 ```

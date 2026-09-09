@@ -4,7 +4,7 @@ Thank you for your interest in contributing to **Yuitility**! We welcome bug fix
 
 ---
 
-## 🏛️ Core Architectural Invariants
+## Core Architectural Invariants
 
 Before writing code, please understand the non-negotiable architectural principles of Yuitility:
 
@@ -12,11 +12,12 @@ Before writing code, please understand the non-negotiable architectural principl
 2. **Zero Server Uploads**: No user data, files, or sensitive information may ever be transmitted to external servers or backend endpoints.
 3. **No Unsolicited Telemetry**: Tools must not track user inputs, keystrokes, or document contents.
 4. **Offline Capability**: Whenever possible, tools should function offline via the Progressive Web App (PWA) cache.
-5. **SEO & Indexation Hygiene**: Every tool route must have complete metadata, FAQ schema, and pass `npm run seo:audit`.
+5. **SEO and Indexation Hygiene**: Every tool route must have complete metadata, FAQ schema, and pass `npm run seo:audit`.
+6. **Zero Emojis in Documentation**: Per project quality standards, documentation files must use clean markdown text and icons, not unicode emojis.
 
 ---
 
-## 🛠️ Development Setup
+## Development Setup
 
 ### Prerequisites
 * **Node.js**: `v20.x` or `v22.x` (LTS recommended).
@@ -51,7 +52,7 @@ Before writing code, please understand the non-negotiable architectural principl
 
 ---
 
-## 🧪 Local Quality Gates
+## Local Quality Gates
 
 Every pull request must pass all automated verification checks. Before committing your code, run:
 
@@ -59,10 +60,10 @@ Every pull request must pass all automated verification checks. Before committin
 # 1. Typecheck (Must pass with 0 errors)
 npm run typecheck
 
-# 2. Syntax & Security Lint
+# 2. Syntax, Security and Formatting Lint
 npm run lint
 
-# 3. Unit Tests & SEO Guardrail Audit
+# 3. Unit Tests and SEO Guardrail Audit
 npm test
 
 # 4. Production Build Verification
@@ -76,7 +77,7 @@ npm run verify
 
 ---
 
-## 🌿 Branching & Commit Conventions
+## Branching and Commit Conventions
 
 ### Branch Naming
 Use clear, descriptive branch names prefixed by category:
@@ -94,7 +95,7 @@ We follow the [Conventional Commits](https://www.conventionalcommits.org/) speci
 
 ---
 
-## ➕ Adding a New Tool
+## Adding a New Tool
 
 To add a new tool to Yuitility:
 1. Review the detailed tutorial in [docs/contributing/adding-a-tool.md](docs/contributing/adding-a-tool.md).
@@ -104,7 +105,7 @@ To add a new tool to Yuitility:
 
 ---
 
-## 📬 Submitting a Pull Request (PR)
+## Submitting a Pull Request (PR)
 
 1. Ensure your branch is rebased onto the latest `master` branch.
 2. Verify all checks pass via `npm run verify`.
@@ -117,6 +118,6 @@ To add a new tool to Yuitility:
 
 ---
 
-## ⚖️ Contributor Terms
+## Contributor Terms
 
 By submitting a Pull Request, you agree that your contribution is provided under the terms of the project's [LICENSE](LICENSE).

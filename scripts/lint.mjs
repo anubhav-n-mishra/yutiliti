@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 
 /**
- * Yuitility Quality & Syntax Linter
- * Performs fast static verification across the repository:
- * - Syntax parsing validation
+ * Yuitility Quality, Syntax & Standards Linter
+ * Performs strict static verification across the repository:
+ * - Syntax parsing validation (JSON, etc.)
+ * - Strict prohibition of emojis in markdown documentation
  * - Forbidden merge conflict markers
- * - Sensitive pattern / secret leak detection
+ * - Sensitive pattern and private key leak detection
  * - Absolute system paths check
  */
 
@@ -17,21 +18,35 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
 
-const SCAN_DIRS = ['src', 'scripts', 'public', 'docs'];
-const IGNORED_DIRS = new Set(['node_modules', '.next', '.git', 'coverage', 'dist', 'build']);
-const SCAN_EXTENSIONS = new Set(['.ts', '.tsx', '.js', '.mjs', '.json', '.md', '.css']);
+const SCAN_DIRS = ['src', 'scripts', 'public', 'docs', '.github'];
+const ROOT_FILES = [
+  'README.md',
+  'CONTRIBUTING.md',
+  'SECURITY.md',
+  'CHANGELOG.md',
+  'CODE_OF_CONDUCT.md',
+  'LICENSE',
+  'package.json',
+  'tsconfig.json',
+  'next.config.ts'
+];
+const IGNORED_DIRS = new Set(['node_modules', '.next', '.git', 'coverage', 'dist', 'build', 'scratch']);
+const SCAN_EXTENSIONS = new Set(['.ts', '.tsx', '.js', '.mjs', '.json', '.md', '.css', '.yml', '.yaml']);
+
+// Standard Unicode emoji ranges
+const EMOJI_REGEX = /[\u{1F300}-\u{1F6FF}\u{1F900}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F1E6}-\u{1F1FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{0231A}\u{0231B}\u{023E9}-\u{023EC}\u{023F0}\u{023F3}]/u;
 
 let errors = 0;
 let warnings = 0;
 let filesScanned = 0;
 
 function logError(file, line, msg) {
-  console.error(`❌ [ERROR] ${path.relative(rootDir, file)}:${line} — ${msg}`);
+  console.error(`[ERROR] ${path.relative(rootDir, file)}:${line} — ${msg}`);
   errors++;
 }
 
 function logWarning(file, line, msg) {
-  console.warn(`⚠️  [WARN] ${path.relative(rootDir, file)}:${line} — ${msg}`);
+  console.warn(`[WARN]  ${path.relative(rootDir, file)}:${line} — ${msg}`);
   warnings++;
 }
 
@@ -50,7 +65,7 @@ function scanFile(filePath) {
     }
   }
 
-  // Skip scanning the linter script itself
+  // Skip scanning the linter script itself for marker patterns
   if (path.resolve(filePath) === path.resolve(__filename)) {
     return;
   }
@@ -58,6 +73,8 @@ function scanFile(filePath) {
   // 2. Line-by-line checks
   const PRIV_MARKER = 'BEGIN ' + 'PRIVATE KEY';
   const RSA_MARKER = 'BEGIN ' + 'RSA PRIVATE KEY';
+  const isDocFile = ext === '.md' || ext === '.yml' || ext === '.yaml';
+
   for (let i = 0; i < lines.length; i++) {
     const lineNum = i + 1;
     const line = lines[i];
@@ -72,6 +89,11 @@ function scanFile(filePath) {
       logError(filePath, lineNum, 'Potential private key detected');
     }
 
+    // Check for emojis in documentation / community files
+    if (isDocFile && EMOJI_REGEX.test(line)) {
+      logError(filePath, lineNum, 'Prohibited emoji detected in documentation file. Use text icons or badges instead.');
+    }
+
     // Check for local file system absolute path leak in client code
     if (filePath.includes(path.sep + 'src' + path.sep)) {
       if (/[A-Za-z]:\\[Uu]sers\\/.test(line) || /\/Users\/[a-zA-Z0-9_-]+\//.test(line)) {
@@ -84,7 +106,7 @@ function scanFile(filePath) {
 function walkDir(dir) {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
   for (const entry of entries) {
-    if (IGNORED_DIRS.has(entry.name) || entry.name.startsWith('.')) continue;
+    if (IGNORED_DIRS.has(entry.name)) continue;
     const fullPath = path.join(dir, entry.name);
     if (entry.isDirectory()) {
       walkDir(fullPath);
@@ -95,7 +117,7 @@ function walkDir(dir) {
 }
 
 console.log('=================================================');
-console.log('       YUITILITY SOURCE CODE & SYNTAX LINT       ');
+console.log('       YUITILITY SOURCE CODE & STANDARDS LINT    ');
 console.log('=================================================\n');
 
 for (const dir of SCAN_DIRS) {
@@ -105,12 +127,19 @@ for (const dir of SCAN_DIRS) {
   }
 }
 
+for (const file of ROOT_FILES) {
+  const fullFile = path.join(rootDir, file);
+  if (fs.existsSync(fullFile)) {
+    scanFile(fullFile);
+  }
+}
+
 console.log(`\nScanned ${filesScanned} files across repository.`);
 
 if (errors > 0) {
-  console.error(`\n❌ Lint failed with ${errors} error(s) and ${warnings} warning(s).`);
+  console.error(`\n[FAIL] Lint failed with ${errors} error(s) and ${warnings} warning(s).`);
   process.exit(1);
 } else {
-  console.log(`\n✓ All lint and syntax checks passed (${warnings} warning(s)).\n`);
+  console.log(`\n[PASS] All quality, syntax, and standards checks passed (${warnings} warning(s)).\n`);
   process.exit(0);
 }

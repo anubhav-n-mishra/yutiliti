@@ -4,14 +4,14 @@
 
 Only the latest release on the primary branch is officially supported with security updates and bug fixes:
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 1.x     | :white_check_mark: |
-| < 1.0   | :x:                |
+| Version | Supported |
+| ------- | --------- |
+| 1.x     | Yes       |
+| < 1.0   | No        |
 
 ---
 
-## 🔒 Security Architecture & Privacy Invariants
+## Security Architecture and Privacy Invariants
 
 Yuitility is fundamentally engineered with a **zero-trust, zero-server-upload** philosophy:
 * **Client-Side Boundary**: File processing (PDF manipulation, image resizing, document viewing, data conversions) takes place inside the browser thread using native Web APIs, Web Workers, and WebAssembly.
@@ -20,7 +20,7 @@ Yuitility is fundamentally engineered with a **zero-trust, zero-server-upload** 
 
 ---
 
-## 🚨 Reporting a Vulnerability
+## Reporting a Vulnerability
 
 We take the security and privacy of our users seriously. If you believe you have discovered a security vulnerability or privacy leak in Yuitility, please report it responsibly.
 
@@ -43,8 +43,8 @@ Please provide sufficient detail to help us understand and reproduce the issue:
 
 ---
 
-## ⏱️ Response Protocol
+## Response Protocol
 
 * **Acknowledgment**: We strive to acknowledge vulnerability reports within **48 hours**.
 * **Assessment**: We will investigate and confirm the severity and scope of the report.
-* **Resolution & Disclosure**: We will prepare and deploy a patch to `master`. Once deployed, we will coordinate public disclosure with appropriate credit to the reporter.
+* **Resolution and Disclosure**: We will prepare and deploy a patch to `master`. Once deployed, we will coordinate public disclosure with appropriate credit to the reporter.

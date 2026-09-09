@@ -4,7 +4,7 @@ This guide explains how to add a new tool to Yuitility while complying with our 
 
 ---
 
-## 📋 Checklist Overview
+## Checklist Overview
 
 To add a tool called `My Awesome Converter`:
 - [ ] 1. Create client-side interactive component in `src/components/tools/MyAwesomeConverter.tsx`.

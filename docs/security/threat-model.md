@@ -1,10 +1,10 @@
-# Yuitility Security Threat Model & Trust Boundaries
+# Yuitility Security Threat Model and Trust Boundaries
 
 This document details the security architecture, threat model, trust boundaries, and mitigations implemented across **Yuitility**.
 
 ---
 
-## 🎯 Assets & Security Objectives
+## Assets and Security Objectives
 
 1. **User Data Confidentiality**: Users often process sensitive material (e.g. tax documents, financial disclosures, personal photographs, API keys, passwords). **Confidentiality objective: Zero leakage to network or storage.**
 2. **Execution Integrity**: Calculations (e.g. home loan amortization, income tax projections, scientific evaluations) must yield mathematically precise, untampered outputs.
@@ -12,7 +12,7 @@ This document details the security architecture, threat model, trust boundaries,
 
 ---
 
-## 🛡️ Trust Boundaries & Attack Surfaces
+## Trust Boundaries and Attack Surfaces
 
 ### 1. In-Browser File Intake
 * **Threat**: A user uploads a malicious PDF, image, or text file designed to exploit buffer overflows or parser vulnerabilities.
@@ -28,7 +28,7 @@ This document details the security architecture, threat model, trust boundaries,
   * URL schemes in hyperlinks and image sources are restricted to safe protocols (`http:`, `https:`, `mailto:`, `data:`). `javascript:` pseudo-protocols are strictly rejected.
   * React JSX handles automatic context-aware escaping for standard component attributes.
 
-### 3. Network & Content Security Policy (CSP) Headers
+### 3. Network and Content Security Policy (CSP) Headers
 * **Threat**: Clickjacking, MIME confusion, or cross-origin leakage.
 * **Mitigations** configured in `next.config.ts`:
   * `X-Content-Type-Options: nosniff` — Enforces strict MIME type checking.
@@ -47,7 +47,7 @@ This document details the security architecture, threat model, trust boundaries,
 
 ---
 
-## 🚫 Explicit Out-of-Scope Risks
+## Explicit Out-of-Scope Risks
 
 Because Yuitility has **no user accounts, no databases, and no server-side ingestion endpoints**:
 * SQL Injection on the backend is impossible (no database exists).
