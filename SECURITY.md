@@ -26,7 +26,7 @@ We take the security and privacy of our users seriously. If you believe you have
 
 ### How to Report
 1. **GitHub Security Advisory (Preferred)**:
-   Please open a private report via [GitHub Security Advisories](https://github.com/anubhav-n-mishra/yutiliti/security/advisories/new).
+   Please open a private report via [GitHub Security Advisories](https://github.com/anubhav-n-mishra/yuitility/security/advisories/new).
 2. **Alternative Method**:
    If private advisories are unavailable, contact the repository maintainer through the contact information listed on GitHub.
 

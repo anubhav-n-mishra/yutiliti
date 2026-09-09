@@ -113,7 +113,7 @@ To add a new tool to Yuitility:
    ```bash
    git push origin feat/your-feature-name
    ```
-4. Open a Pull Request against `master` on `anubhav-n-mishra/yutiliti`.
+4. Open a Pull Request against `master` on `anubhav-n-mishra/yuitility`.
 5. Fill out the provided Pull Request template detailing what was changed and how you tested it.
 
 ---

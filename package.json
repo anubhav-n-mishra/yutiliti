@@ -6,11 +6,11 @@
   "license": "SEE LICENSE IN LICENSE",
   "repository": {
     "type": "git",
-    "url": "https://github.com/anubhav-n-mishra/yutiliti.git"
+    "url": "https://github.com/anubhav-n-mishra/yuitility.git"
   },
   "homepage": "https://www.yuitility.app",
   "bugs": {
-    "url": "https://github.com/anubhav-n-mishra/yutiliti/issues"
+    "url": "https://github.com/anubhav-n-mishra/yuitility/issues"
   },
   "keywords": [
     "utility",

@@ -5,8 +5,8 @@
 **132+ lightning-fast, client-side web utilities engineered for zero latency and absolute privacy.**  
 *Everything runs 100% locally in your browser. No server uploads. No telemetry. No sign-ups.*
 
-[![Yuitility CI](https://github.com/anubhav-n-mishra/yutiliti/actions/workflows/ci.yml/badge.svg)](https://github.com/anubhav-n-mishra/yutiliti/actions/workflows/ci.yml)
-[![CodeQL](https://github.com/anubhav-n-mishra/yutiliti/actions/workflows/codeql.yml/badge.svg)](https://github.com/anubhav-n-mishra/yutiliti/actions/workflows/codeql.yml)
+[![Yuitility CI](https://github.com/anubhav-n-mishra/yuitility/actions/workflows/ci.yml/badge.svg)](https://github.com/anubhav-n-mishra/yuitility/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/anubhav-n-mishra/yuitility/actions/workflows/codeql.yml/badge.svg)](https://github.com/anubhav-n-mishra/yuitility/actions/workflows/codeql.yml)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-16.2-black?logo=next.js)](https://nextjs.org/)
 [![License](https://img.shields.io/badge/License-Source--Available-amber.svg)](LICENSE)
@@ -74,7 +74,7 @@ For full architectural blueprints, see [docs/architecture.md](docs/architecture.
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/anubhav-n-mishra/yutiliti.git
+   git clone https://github.com/anubhav-n-mishra/yuitility.git
    cd yutiliti
    ```
 
