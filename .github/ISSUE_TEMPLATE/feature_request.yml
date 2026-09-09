@@ -1,0 +1,26 @@
+name: ✨ Feature Request
+description: Suggest an enhancement, optimization, or UI improvement to an existing tool.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: input
+    id: feature-title
+    attributes:
+      label: Feature Summary
+      placeholder: "e.g., Add batch export to JSON Formatter"
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Detailed Proposal
+      description: Describe the feature, user workflow, and expected behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Considered Alternatives
+      description: Have you considered any alternative solutions or workarounds?
+    validations:
+      required: false

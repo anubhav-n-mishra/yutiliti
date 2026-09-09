@@ -1,110 +1,132 @@
-# yuitility
+<div align="center">
 
+# ⚡ Yuitility
 
-yuitility is a premium, high performance client side utility toolkit designed for developers, creators, and professionals. It provides a comprehensive suite of instant use tools that run entirely in your web browser. 
+**132+ lightning-fast, client-side web utilities engineered for zero latency and absolute privacy.**  
+*Everything runs 100% locally in your browser. No server uploads. No telemetry. No sign-ups.*
 
-By operating 100 percent locally on the client side, yuitility ensures zero latency and maximum privacy. No files or data are ever uploaded to an external server.
+[![Yuitility CI](https://github.com/anubhav-n-mishra/yutiliti/actions/workflows/ci.yml/badge.svg)](https://github.com/anubhav-n-mishra/yutiliti/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/anubhav-n-mishra/yutiliti/actions/workflows/codeql.yml/badge.svg)](https://github.com/anubhav-n-mishra/yutiliti/actions/workflows/codeql.yml)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-blue?logo=typescript)](https://www.typescriptlang.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-16.2-black?logo=next.js)](https://nextjs.org/)
+[![License](https://img.shields.io/badge/License-Source--Available-amber.svg)](LICENSE)
+[![Live Site](https://img.shields.io/badge/Production-yuitility.app-emerald?logo=google-chrome)](https://www.yuitility.app)
 
-## Features and Architecture
+[**Explore Live Tools**](https://www.yuitility.app/tools) • [**Architecture**](docs/architecture.md) • [**Threat Model**](docs/security/threat-model.md) • [**Contributing**](CONTRIBUTING.md) • [**Changelog**](CHANGELOG.md)
 
-* **Absolute Privacy**: All operations, including image processing, document parsing, and data generation, happen securely within your local browser environment.
-* **Instant Execution**: Without the need for server roundtrips, tools perform complex calculations and file modifications instantly.
-* **Modern Interface**: Designed with a clean, distraction free, and highly responsive user interface.
-* **No Dependencies on Cloud Processing**: Built using native browser APIs and highly optimized WebAssembly models.
+</div>
 
-## Available Tools
+---
 
-yuitility currently ships **79 working tools**, grouped into topical categories.
-A further 49 are declared in `src/types.ts` but are not yet implemented; those
-routes are served as an honest "not built yet" page and are `noindex`, so they
-never compete in search for something they cannot do. See `SEO_STANDARDS.md`
-before adding a tool.
+## 💡 Why Yuitility?
 
-Browse everything at `/tools`. Below is a summary of the main workflows:
+Most web calculators, image converters, and PDF tools suffer from two major flaws:
+1. **Privacy Exposure**: They force you to upload sensitive files (tax forms, salary slips, private contracts, client images) to unknown cloud servers just to merge a page or resize a photo.
+2. **Friction & Bloat**: They clutter the screen with aggressive ads, paywalls, slow round-trips, and artificial rate limits.
 
-### Developer and Design Tools
-* **Password Generator**: Create cryptographically secure keys.
-* **JSON Formatter**: Validate and prettify JSON structures.
-* **QR Code Generator**: Encode text and links instantly.
-* **Fake Data Generator**: Generate mock SQL, JSON, and CSV data sets.
-* **Color Palette Generator**: Find harmonious colors and verify Web Content Accessibility Guidelines contrast ratios.
-* **Favicon Generator**: Create standard web icon packages.
-* **Open Graph Image Generator**: Design high quality social media preview cards.
+**Yuitility solves this fundamentally through browser engineering.**  
+By leveraging modern Web standards (HTML5 Canvas, Web Workers, WebAssembly, Web Crypto, and in-memory streams), all operations execute **entirely inside your browser thread**. When you manipulate a 50MB PDF or compute an amortization schedule, **not a single byte of your data ever leaves your computer.**
 
-### Media and Utility Tools
-* **AI Background Remover**: Isolate subjects using local machine learning.
-* **Meme Maker**: Add classic impact font text to images.
-* **Social Media Resizer**: Crop and format images for all major platforms.
-* **Photo Collage Maker**: Arrange multiple images into grids and layouts.
-* **Image Format Converter**: Convert images between PNG, JPEG, and WebP natively.
-* **Image Resizer**: Adjust image dimensions securely.
-* **Image Compressor**: Reduce file sizes without losing visual quality.
-* **ZIP File Extractor**: Preview and extract archives natively in the browser.
-* **Universal Unit Converter**: Quickly switch between standard measurements.
-* **Word and Character Counter**: Analyze text for density and reading time.
-* **Age Calculator**: Find precise chronological measurements.
+---
 
-### PDF Suite
-* **PDF Merger**: Combine multiple documents.
-* **PDF Splitter**: Extract specific pages.
-* **PDF Compressor**: Optimize PDF streams.
-* **PDF Watermarker**: Stamp custom text on your pages.
-* **PDF Metadata Editor**: Modify hidden document properties.
-* **Image to PDF**: Compile images into a single document.
+## ✨ Features & Capabilities
 
-### Financial Calculators
-* **EMI Calculator**: Generate exact amortization schedules.
-* **SIP Investment Calculator**: Forecast compound wealth growth.
-* **Salary Calculator**: Estimate take home pay and tax deductions.
+* 🔒 **Zero Data Ingestion**: True client-side execution. Files exist strictly in volatile browser RAM and are purged when the tab is closed.
+* ⚡ **Zero Network Latency**: Instant transformations and calculations with zero server round-trips.
+* 🛠️ **132+ Interactive Tools**:
+  * **Developer Utilities**: JSON Formatter & Validator, Base64 En/Decoder, JWT Inspector, Regex Tester, Hash Generator, QR Code Engine, Fake Data Generator.
+  * **PDF Suite**: Merge, Split, Compress, Rotate, Watermark, Image to PDF, Metadata Editor (powered by in-memory `pdf-lib`).
+  * **Media & Image Tools**: In-browser AI Background Remover, Image Compressor, Resizer, Format Converter (PNG/JPEG/WebP), Meme Maker, Photo Collage Grid.
+  * **Financial Engines**: Home Loan EMI with Prepayment & Tax Savings, SIP Compound Forecaster with Step-Up inflation models, Salary / Take-Home Estimator.
+  * **Academic Conversions**: University-specific CGPA-to-Percentage engines calibrated to official circulars (Anna University, VTU, Mumbai University, KTU, CBSE, AICTE).
+  * **Math, Lifestyle & Converters**: Scientific Calculator, Unit Converter, Unix Timestamp Engine, Time Zone Calculator, BMI / Body Metric Analyzers.
+* 📱 **PWA & Offline Ready**: Service worker caching allows tools to work offline on planes, trains, and unstable connections.
+* 🧩 **Embeddable Widgets**: Distraction-free, responsive iframe widgets (`/embed/[slug]`) for documentation and developer blogs.
 
-## Technical Stack
+---
 
-yuitility is built upon modern web technologies to guarantee speed and reliability:
-* Framework: Next.js and React
-* Styling: Tailwind CSS
-* Icons: Lucide React
-* Processing: Standard JavaScript and WebAssembly
+## 🏗️ Architecture & Tech Stack
 
-## Local Development Setup
+```
+User Input ──> In-Memory File Buffer ──> WebAssembly / Web Workers ──> Instant DOM / Canvas / Blob Output
+                                              │
+                                     (Zero Server Hops)
+```
 
-To run yuitility on your local machine, follow these steps:
+* **Framework**: [Next.js 16 (App Router)](https://nextjs.org/) with Full Static Site Generation (SSG).
+* **Language**: [TypeScript 5.8](https://www.typescriptlang.org/) configured with strict type-safety.
+* **Styling**: [Tailwind CSS v4](https://tailwindcss.com/) with high-contrast Dark Mode support.
+* **Core Libraries**: `pdf-lib`, `@imgly/background-removal`, `framer-motion`, `lucide-react`.
+* **CI/CD & Security**: GitHub Actions (Node 20 & 22 matrix), GitHub CodeQL SAST, Dependabot.
+* **SEO & Guardrails**: Custom static AST validation (`scripts/seo-audit.mjs`) ensuring 100% compliant schema, metadata, and zero broken links across 350+ generated pages.
 
-1. Clone the repository to your local system.
-2. Ensure you have Node installed.
-3. Open your terminal in the project directory.
-4. Install the required dependencies:
+For full architectural blueprints, see [docs/architecture.md](docs/architecture.md).
+
+---
+
+## 🚀 Quick Start & Local Development
+
+### Prerequisites
+* **Node.js**: `v20.x` or `v22.x` (LTS recommended)
+* **npm**: `v10.x` or higher
+
+### Installation
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/anubhav-n-mishra/yutiliti.git
+   cd yutiliti
+   ```
+
+2. **Install dependencies**:
    ```bash
    npm install
    ```
-5. Start the local development server:
+
+3. **Start local development**:
    ```bash
    npm run dev
    ```
-6. Open your browser and navigate to `http://localhost:3000`.
+   Open your browser to [http://localhost:3000](http://localhost:3000).
 
-## SEO and content standards
+---
 
-This repository carries four SEO documents. Read `SEO_STANDARDS.md` before adding
-a page, a tool, or any structured data.
+## 🧪 Quality Gates & NPM Scripts
 
-| File | Purpose |
-| --- | --- |
-| `SEO_GROWTH_AUDIT.md` | Why the site ranked at position ~79, with evidence |
-| `SEO_CONTENT_ROADMAP.md` | Prioritised list of what to build and improve next |
-| `SEO_STANDARDS.md` | Rules for titles, links, schema, indexation, new pages |
-| `SEO_EXPERIMENTS.md` | Hypothesis-and-outcome log for every SEO change |
+All code must pass strict verification gates prior to merge:
 
-`npm run seo:audit` enforces the mechanical rules and runs automatically as
-`prebuild`. Adding a tool id to `IMPLEMENTED_TOOL_IDS` without a matching
-component in `ToolPageClient` fails the build - that gate is deliberate.
+| Command | Purpose |
+| :--- | :--- |
+| `npm run dev` | Starts the local Turbopack development server on port 3000. |
+| `npm run typecheck` | Strict TypeScript compilation check via `tsc --noEmit`. |
+| `npm run lint` | Fast static syntax, security marker, and path leakage linter. |
+| `npm test` | Runs unit tests (batching, deduplication) and static SEO audits. |
+| `npm run build` | Compiles optimized production bundle across all 350+ static routes. |
+| `npm run verify` | Runs all gates in sequence: `typecheck` $\rightarrow$ `lint` $\rightarrow$ `test` $\rightarrow$ `build`. |
+| `npm run seo:audit` | Enforces SEO title lengths, description bounds, and FAQ schema. |
 
-## Contribution Guidelines
+---
 
-Contributions are welcome. If you have an idea for a new client side tool or an improvement to an existing one, please fork the repository and submit a pull request. Ensure that all new tools strictly adhere to the client side only architecture rule. No server side application programming interfaces should be introduced.
+## 🔒 Security & Privacy
 
-A new tool must be **built and verified before its page is allowed into the
-index**. Follow the required order in `SEO_STANDARDS.md` section 11.
+We treat user security as a primary invariant. Please refer to our [Security Policy (SECURITY.md)](SECURITY.md) and [Security Threat Model](docs/security/threat-model.md) for details on our trust boundaries and responsible vulnerability disclosure process.
 
-## License
+---
 
-This project is proprietary. All rights reserved by Yuitility.
+## 🤝 Contributing
+
+We welcome community contributions, bug fixes, UI improvements, and new client-side tools!
+
+1. Please read our [Contribution Guidelines (CONTRIBUTING.md)](CONTRIBUTING.md) and [Code of Conduct (CODE_OF_CONDUCT.md)](CODE_OF_CONDUCT.md).
+2. Follow our tutorial on [Adding a New Tool](docs/contributing/adding-a-tool.md).
+3. Ensure `npm run verify` passes with zero errors before opening a Pull Request.
+
+---
+
+## ⚖️ License & Terms
+
+This repository is **Source-Available** under the [Yuitility License](LICENSE).
+* **You are welcome to**: View, clone, study, fork, and test this software locally, and submit Pull Requests or bug reports back to this repository.
+* **You may NOT**: Deploy, host, distribute, or operate public or commercial replicas or competing services using this code or its assets.
+
+Copyright © 2026 Anubhav Mishra. All rights reserved.

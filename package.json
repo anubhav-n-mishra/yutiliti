@@ -1,7 +1,30 @@
 {
   "name": "yuitility",
-  "private": true,
   "version": "1.0.0",
+  "description": "Client-side, privacy-first web utility toolkit featuring 132+ instant-use in-browser tools with zero server data uploads.",
+  "author": "Anubhav Mishra",
+  "license": "SEE LICENSE IN LICENSE",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anubhav-n-mishra/yutiliti.git"
+  },
+  "homepage": "https://www.yuitility.app",
+  "bugs": {
+    "url": "https://github.com/anubhav-n-mishra/yutiliti/issues"
+  },
+  "keywords": [
+    "utility",
+    "developer-tools",
+    "privacy-first",
+    "client-side",
+    "in-browser",
+    "wasm",
+    "nextjs",
+    "react",
+    "calculators",
+    "pdf-tools",
+    "image-tools"
+  ],
   "type": "module",
   "browserslist": [
     "defaults",
@@ -12,11 +35,15 @@
     "dev": "next dev",
     "build": "node --max-old-space-size=8192 ./node_modules/next/dist/bin/next build",
     "start": "next start",
-    "lint": "next lint",
-    "indexnow:sync": "tsx scripts/indexnow-sync.ts",
-    "indexnow:test": "tsx scripts/indexnow.test.ts",
+    "typecheck": "tsc --noEmit",
+    "lint": "node scripts/lint.mjs",
+    "test": "npm run indexnow:test && npm run seo:audit",
+    "test:unit": "tsx scripts/indexnow.test.ts",
+    "verify": "npm run typecheck && npm run lint && npm run test && npm run build",
     "seo:audit": "node scripts/seo-audit.mjs",
-    "prebuild": "node scripts/seo-audit.mjs"
+    "prebuild": "node scripts/seo-audit.mjs",
+    "indexnow:sync": "tsx scripts/indexnow-sync.ts",
+    "indexnow:test": "tsx scripts/indexnow.test.ts"
   },
   "dependencies": {
     "@faker-js/faker": "^10.5.0",

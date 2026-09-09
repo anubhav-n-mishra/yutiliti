@@ -1,4 +1,4 @@
-import { FAQItem } from "./site";
+import { FAQItem } from "../types";
 
 export interface ToolPreset {
   toolId: string;

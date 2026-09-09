@@ -1,12 +1,53 @@
+# Dependencies
 node_modules/
+.pnp
+.pnp.js
+
+# Testing & Coverage
+coverage/
+*.lcov
+
+# Next.js Build Output & Cache
+.next/
+out/
 build/
 dist/
-coverage/
-.DS_Store
+.turbo/
+.vercel/
+
+# TypeScript
+tsconfig.tsbuildinfo
+next-env.d.ts.bak
+
+# Debug Logs
+logs/
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment & Secrets (Never commit live credentials)
 .env*
 !.env.example
-.next
-tsconfig.tsbuildinfo
+
+# IDE & Editor Directories
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Operating System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Maintainer / Scratch Files
+scratch/
 manually-do-it.md
 backlinks.md

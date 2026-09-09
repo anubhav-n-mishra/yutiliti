@@ -1,0 +1,50 @@
+name: 💡 New Tool Request
+description: Propose a new client-side, browser-only tool for Yuitility.
+title: "[Tool Request]: "
+labels: ["enhancement", "tool-request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        We love expanding our suite of privacy-first utilities! Please keep in mind that all tools **must** run 100% locally in the browser with zero server uploads.
+  - type: input
+    id: tool-name
+    attributes:
+      label: Proposed Tool Name
+      placeholder: "e.g., Subtitle (.srt) to Plain Text Converter"
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: Tool Category
+      options:
+        - Developer Tools
+        - PDF Suite
+        - Media & Image Tools
+        - Financial Calculators
+        - Math & Conversion
+        - Health & Lifestyle
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem & Use Case
+      description: What problem does this tool solve, and who will benefit from it?
+    validations:
+      required: true
+  - type: textarea
+    id: client-side-feasibility
+    attributes:
+      label: In-Browser Implementation Strategy
+      description: How will this tool execute entirely on the client side (e.g. native Web APIs, Canvas, WebAssembly, Web Workers)?
+    validations:
+      required: true
+  - type: checkboxes
+    id: willing-to-build
+    attributes:
+      label: Contribution
+      options:
+        - label: I am willing to submit a Pull Request to build this tool myself!

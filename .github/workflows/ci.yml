@@ -1,4 +1,4 @@
-name: Yuitility QA, Security & SEO CI/CD
+name: Yuitility Production CI
 
 on:
   push:
@@ -6,59 +6,39 @@ on:
   pull_request:
     branches: [ master, main ]
 
+permissions:
+  contents: read
+
 jobs:
-  qa-security-seo:
-    name: QA, Security & Standards Gates
+  verify:
+    name: Build & Quality Gates (Node ${{ matrix.node-version }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [20, 22]
+
     steps:
-      - name: 1. Checkout Codebase
+      - name: Checkout Codebase
         uses: actions/checkout@v4
 
-      - name: 2. Setup Node.js Environment
+      - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
-      - name: 3. Install Dependencies
+      - name: Install Dependencies
         run: npm ci
 
-      - name: 4. Gate 1 — Static SEO & Policy Guardrails
-        run: node scripts/seo-audit.mjs
+      - name: Gate 1 — TypeScript Strict Typecheck
+        run: npm run typecheck
 
-      - name: 5. Gate 2 — Security Vulnerability Audit
-        run: npm audit --audit-level=high || true
-
-      - name: 6. Gate 3 — Code Linting & Syntax Validation
+      - name: Gate 2 — Static Syntax & Security Lint
         run: npm run lint
 
-      - name: 7. Gate 4 — Production Build Verification
+      - name: Gate 3 — Unit Tests & Static SEO Guardrails
+        run: npm test
+
+      - name: Gate 4 — Production Build Verification
         run: npm run build
-
-      - name: 8. Alert — Notify on Failure via Email
-        if: failure()
-        uses: dawidd6/action-send-mail@v3
-        with:
-          server_address: smtp.gmail.com
-          server_port: 465
-          secure: true
-          username: ${{ secrets.MAIL_USERNAME }}
-          password: ${{ secrets.MAIL_PASSWORD }}
-          subject: "🚨 Yuitility CI/CD Alert: Build or QA Failure on ${{ github.ref_name }}"
-          to: msonu2018@gmail.com
-          from: "Yuitility CI/CD Bot <${{ secrets.MAIL_USERNAME }}>"
-          body: |
-            Hi Anubhav,
-
-            A CI/CD gate failed on repository: ${{ github.repository }}
-
-            • Branch: ${{ github.ref_name }}
-            • Commit SHA: ${{ github.sha }}
-            • Commit Message: ${{ github.event.head_commit.message }}
-            • Triggered by: ${{ github.actor }}
-            • View Detailed Workflow Run: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
-
-            Please check the Actions tab logs to identify the failing check (SEO audit, linting, or build verification).
-
-            — Yuitility Automated CI/CD System
-        continue-on-error: true

@@ -251,6 +251,14 @@ This document details the system design, algorithmic data flow, and runtime secu
   }
 };
 
+const escapeHtml = (str: string) =>
+  str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+
 function parseMarkdownToHtml(md: string): string {
   if (!md) return '';
 
@@ -269,14 +277,6 @@ function parseMarkdownToHtml(md: string): string {
   let inTable = false;
   let tableHeaders: string[] = [];
   let tableAlignments: Array<'left' | 'center' | 'right'> = [];
-
-  const escapeHtml = (str: string) =>
-    str
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;');
 
   const formatInline = (text: string) => {
     let s = escapeHtml(text);
