@@ -1,4 +1,4 @@
-name: 🐛 Bug Report
+name: Bug Report
 description: Report a broken tool, incorrect calculation, or visual defect.
 title: "[Bug]: "
 labels: ["bug", "triage"]

@@ -4,7 +4,7 @@ Yuitility is engineered from the ground up as a **100% client-side, privacy-firs
 
 ---
 
-## 🏛️ High-Level System Architecture
+## High-Level System Architecture
 
 ```
 +-------------------------------------------------------------------------+
@@ -40,7 +40,7 @@ Yuitility is engineered from the ground up as a **100% client-side, privacy-firs
 
 ---
 
-## 🔑 Core Architectural Pillars
+## Core Architectural Pillars
 
 ### 1. Zero-Server Ingestion (True Client-Side Execution)
 Unlike traditional web utilities that upload user files to cloud storage or server-side microservices, Yuitility processes **everything locally**:
@@ -63,7 +63,7 @@ To maintain high search quality and prevent phantom or broken URLs from indexing
 
 ---
 
-## 📦 Directory Structure
+## Directory Structure
 
 ```
 yutiliti/
@@ -94,7 +94,7 @@ yutiliti/
 
 ---
 
-## ⚡ Performance Optimization
+## Performance Optimization
 
 * **Strict Code Splitting**: Heavy client libraries (e.g. `three.js`, `@imgly/background-removal`, `pdf-lib`) are dynamically imported only when the user opens the specific tool requiring them.
 * **Canvas Batching**: Image rendering and collage generators batch draw operations to prevent frame drops.
