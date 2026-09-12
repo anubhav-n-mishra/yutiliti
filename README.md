@@ -18,7 +18,7 @@
 
 ---
 
-## Why Yuitility?
+## Why Yuitility??
 
 Most web calculators, image converters, and PDF tools suffer from two major flaws:
 1. **Privacy Exposure**: They force you to upload sensitive files (tax forms, salary slips, private contracts, client images) to unknown cloud servers just to merge a page or resize a photo.
