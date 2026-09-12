@@ -37,7 +37,10 @@ export function getIndexingConfig(): IndexingConfig {
     siteUrl,
     host,
     keyLocation,
-    endpoint: "https://yandex.com/indexnow",
+    // api.indexnow.org is the official multi-engine endpoint —
+    // submitting here automatically notifies Bing, Yandex, and other
+    // IndexNow-compatible search engines in a single request.
+    endpoint: "https://api.indexnow.org/IndexNow",
     maxRetries: 3,
     initialRetryDelayMs: 1000,
     maxBatchSize: 10000,

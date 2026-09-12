@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import localFont from "next/font/local";
 import "./globals.css";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/src/lib/site";
 import dynamic from "next/dynamic";
@@ -6,6 +7,20 @@ import ServiceWorkerRegister from "@/src/components/ServiceWorkerRegister";
 import CookieBanner from "@/src/components/CookieBanner";
 
 const AiChatbot = dynamic(() => import("@/src/components/AiChatbot"));
+
+const inter = localFont({
+  src: "../../public/fonts/Inter-Medium.woff",
+  variable: "--font-inter",
+  display: "swap",
+  weight: "100 900",
+});
+
+const spaceGrotesk = localFont({
+  src: "../../public/fonts/SpaceGrotesk-Bold.woff",
+  variable: "--font-display",
+  display: "swap",
+  weight: "300 800",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -52,14 +67,14 @@ export const metadata: Metadata = {
     description: SITE_DESCRIPTION,
     locale: "en_US",
     images: [
-      {
-        url: "/brand/yuitility-logo-512.png",
-        alt: `${SITE_NAME} logo`,
-        width: 512,
-        height: 512,
-        type: "image/png",
-      },
-    ],
+        {
+          url: "/brand/og-home.png",
+          alt: `${SITE_NAME} — Free Browser Tools`,
+          width: 1200,
+          height: 630,
+          type: "image/png",
+        },
+      ],
   },
   twitter: {
     card: "summary_large_image",
@@ -67,7 +82,7 @@ export const metadata: Metadata = {
     creator: "@yuitility",
     title: "Free Browser Tools & Calculators (100% Private) | Yuitility",
     description: SITE_DESCRIPTION,
-    images: ["/brand/yuitility-logo-512.png"],
+    images: ["/brand/og-home.png"],
   },
   robots: {
     index: true,
@@ -108,7 +123,13 @@ const rootGraphSchema = {
         width: 512,
         height: 512,
       },
-      image: { "@id": `${SITE_URL}/#logo` },
+      image: {
+        "@type": "ImageObject",
+        "@id": `${SITE_URL}/#og-image`,
+        url: `${SITE_URL}/brand/og-home.png`,
+        width: 1200,
+        height: 630,
+      },
       description: SITE_DESCRIPTION,
       foundingDate: "2024",
       sameAs: [
@@ -153,15 +174,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`} suppressHydrationWarning>
       <head>
-        <link
-          rel="preload"
-          href="/fonts/Inter-Medium.woff"
-          as="font"
-          type="font/woff"
-          crossOrigin="anonymous"
-        />
         <script
           dangerouslySetInnerHTML={{
             __html: `

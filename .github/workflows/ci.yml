@@ -42,3 +42,41 @@ jobs:
 
       - name: Gate 4 — Production Build Verification
         run: npm run build
+
+  notify-search-engines:
+    name: Notify Search Engines (IndexNow + Sitemap Ping)
+    runs-on: ubuntu-latest
+    # Only run on push to master/main (not PRs) and only after verify passes
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main')
+    needs: verify
+
+    steps:
+      - name: Checkout Codebase
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Submit all URLs to IndexNow (Bing + Yandex + partners)
+        env:
+          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY || '9f3cfc08d1a3442f84c9387d825e44b5' }}
+          SITE_URL: https://www.yuitility.app
+        run: npm run indexnow:sync
+        # Non-fatal: IndexNow failures must never block deployments
+        continue-on-error: true
+
+      - name: Ping Bing Sitemap
+        # Note: Google deprecated their ping endpoint in 2023 — only Bing still supports this.
+        # IndexNow submission above already handles Bing + Yandex + partners.
+        run: |
+          echo "Pinging Bing with sitemap URL..."
+          curl -s -o /dev/null -w "Bing sitemap ping status: %{http_code}\n" \
+            "https://www.bing.com/ping?sitemap=https%3A%2F%2Fwww.yuitility.app%2Fsitemap.xml" \
+            || echo "Bing ping failed (non-fatal)"
+        continue-on-error: true
