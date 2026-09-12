@@ -9,6 +9,8 @@ export default function robots(): MetadataRoute.Robots {
       disallow: [
         "/api/",
         "/private/",
+        // Embed widget pages are noindexed in metadata; disallow saves crawl budget
+        "/embed/",
       ],
     },
     sitemap: `${SITE_URL}/sitemap.xml`,
